@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <script src="{{ asset('js/qrCodeScript.js') }}"></script>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
   <div style="text-align: center;">
         <div id="reader" style="width: 500px;"></div>
         <div id="show" style="display: none;">
