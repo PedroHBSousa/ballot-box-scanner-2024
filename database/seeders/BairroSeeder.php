@@ -36,6 +36,5 @@ class BairroSeeder extends Seeder
             ['nome' => 'toque-toque pequeno', 'regiao' => 'costa sul'],
             ['nome' => 'vila amelia', 'regiao' => 'centro'],
         ]);
-
     }
 }
