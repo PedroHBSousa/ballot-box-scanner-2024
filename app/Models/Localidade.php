@@ -13,11 +13,20 @@ class Localidade extends Model
 
     protected $table = 'localidades';
 
-    protected $fillable = ['id', 'bairro_id', 'nome'];
-    
+    protected $fillable = [
+        'id',
+        'bairro_id',
+        'nome'
+    ];
+
     public function bairro()
     {
         return $this->hasOne(Bairro::class);
+    }
+
+    public function secao()
+    {
+        return $this->hasMany(Secao::class);
     }
 
 }

@@ -5,23 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Bairro extends Model
+class Cargo extends Model
 {
-    use HasFactory;
-
     public $timestamps = true;
 
-    protected $table = 'bairros';
+    protected $table = 'cargos';
 
     protected $fillable = [
         'id',
-        'nome',
-        'regiao'
+        'nome'
     ];
-
-    public function localidade()
-    {
-        return $this->hasMany(Localidade::class);
-    }
-
 }
