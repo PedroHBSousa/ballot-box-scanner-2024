@@ -21,7 +21,7 @@ class Localidade extends Model
 
     public function bairro()
     {
-        return $this->hasOne(Bairro::class);
+        return $this->belongsTo(Bairro::class);
     }
 
     public function secao()
