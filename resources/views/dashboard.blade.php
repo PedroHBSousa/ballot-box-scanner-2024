@@ -5,55 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gráfico da Apuração</title>
+    <!-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> -->
+    @vite('resources/css/app.css')
 </head>
 
 <body>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-
-        }
-
-        body {
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 200px;
-        }
-
-        .chart{
-            padding: 2rem;
-            border: 1px solid #000;
-            border-radius: 1rem;
-            background: #000;
-            box-shadow: 0 0 16px rgba(0,0,0,0.);
-        }
-    </style>
     <div class="container">
 
-        <div class="chart">
-            <canvas id="barchart" width="500" height="500"></canvas>
+        <div class="custom-select">
+            <select>
+                <option value="">Selecione o filtro</option>
+                <option value="">Prefeitos</option>
+                <option value="">Vereadores</option>
+                <option value="">Partidos</option>
+                <option value="">Bairros</option>
+                <option value="">Regiões</option>
+            </select>
         </div>
+        <div class="charts-container">
+            <div class="chart">
+                <canvas id="barchart" width="500" height="500"></canvas>
+            </div>
 
-        <div class="chart">
-            <canvas id="doughnut" width="500" height="500"></canvas>
+            <div class="chart">
+                <canvas id="doughnut" width="500" height="500"></canvas>
+            </div>
         </div>
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
     <script>
         const ctx = document.getElementById('doughnut');
 
@@ -79,9 +60,9 @@
         const ctx2 = document.getElementById('barchart');
 
         new Chart(ctx2, {
-            type: 'barchart',
+            type: 'bar',
             data: {
-                labels: ['Reinaldinho','Professor Gleivison', 'Dr. Juan'],
+                labels: ['Reinaldinho', 'Professor Gleivison', 'Dr. Juan'],
                 datasets: [{
                     label: 'Total de Votos',
                     data: [1, 3, 8],
@@ -97,10 +78,6 @@
             }
         });
     </script>
-   
-
-
-
 </body>
 
 </html>

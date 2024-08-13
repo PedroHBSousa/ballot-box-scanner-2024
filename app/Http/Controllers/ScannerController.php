@@ -12,9 +12,9 @@ class ScannerController extends Controller
         return view('index', );
     }
 
-    public function graficos () {
+    public function dashboard () {
 
-        return view('graficos', );
+        return view('dashboard', );
     }
 }
 
