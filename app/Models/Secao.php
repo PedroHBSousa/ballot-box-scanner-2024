@@ -23,4 +23,9 @@ class Secao extends Model
         return $this->hasOne(Localidade::class);
     }
 
+    public function boletim()
+    {
+        return $this->hasMany(Boletim::class);
+    }
+
 }
