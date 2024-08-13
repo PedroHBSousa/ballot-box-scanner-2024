@@ -1,12 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apura QRCode</title>
+    <title>Apurador de Votos</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/x-icon"/>
+    <link rel="apple-touch-icon" href="{{ asset('favicon.svg') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
+        * {
+            font-family: 'Kanit', sans-serif;
+        }
+        .container {
+        display: flex;
+        flex-direction: column;
+        width: 100%; /* O contêiner ocupa 100% da largura */
+        }
+
         .center-container {
             display: flex;
             justify-content: center;
@@ -17,19 +34,24 @@
             padding: 0;
             margin: 0;
         }
+
         .buttons-container {
             display: flex;
             justify-content: center;
             align-items: center;
             margin-bottom: 20px;
-            gap: 10px; /* Espaço entre os botões */
+            gap: 10px;
+            /* Espaço entre os botões */
         }
+
         .qr-reader {
             width: 500px;
         }
+
         .result-container {
             text-align: center;
         }
+
         .green-button {
             background-color: green;
             color: white;
@@ -43,30 +65,80 @@
             cursor: pointer;
             border-radius: 5px;
         }
+
+
+        label,
+        textarea {
+        display: block;
+        width: 100%; /* Faz com que o label e o textarea ocupem 100% da largura do contêiner */
+        margin: 15px 0; /* Espaçamento vertical entre o label e o textarea */
+        }
+
+        textarea {
+        border-radius: 10px;
+        height: 30px;
+        align-content: center; 
+/* width: 250px; Remova isso se você quiser que o textarea ocupe 100% da largura */
+        }
+        
+        .digitar {
+        display: flex;
+        text-align: center;
+        width: 100%; /* Garante que o contêiner ocupe toda a largura */
+        color: green;
+        }
+        
+        .digitar button {
+            color: green;
+        
+        }
+
+        .digitar button {
+        background-color: green; /* Garante que o botão tenha o fundo verde */
+        color: white; /* Cor do texto do botão */
+        border: none; /* Remove a borda padrão */
+        padding: 10px 20px; /* Espaçamento interno */
+        border-radius: 5px; /* Bordas arredondadas */
+        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+        font-size: 20px;
+        }
+
     </style>
 </head>
+
 <body>
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script> <!-- Biblioteca para leitura de QR Code -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <!-- Biblioteca para leitura de QR Code -->
     <div class="center-container">
         <div class="buttons-container">
-            <button id="start-scan" class="green-button">Escanear QR Codes</button> <!-- Botão para iniciar a leitura dos QR Codes -->
-            <button id="clear-data" class="green-button">Limpar QR Codes Armazenados</button> <!-- Botão para limpar os QR Codes armazenados -->
+            <button id="start-scan" class="green-button">Escanear QR Codes</button>
+            <!-- Botão para iniciar a leitura dos QR Codes -->
+            <button id="clear-data" class="green-button">Limpar QR Codes Armazenados</button>
+            <!-- Botão para limpar os QR Codes armazenados -->
         </div>
         <div id="reader" class="qr-reader"></div> <!-- Contêiner para o leitor de QR Code -->
         <div id="show" style="display: none;">
             <h4>Resultado Escaneado</h4>
-            <pre id="result" style="color: blue;"></pre> <!-- Exibição do resultado escaneado em JSON -->
+            <pre id="result" style="color: blue;"></pre> <!-- Exibição do resultado escaneado -->
         </div>
-        <p id="progress">0/7 QR Codes Escaneados</p> <!-- Exibição do progresso de QR Codes escaneados -->
+        <p id="progress">0 QR Codes Escaneados</p> <!-- Exibição do progresso de QR Codes escaneados -->
         <div id="scanned-list" style="text-align: left; margin: 20px;">
             <h4>QR Codes Escaneados:</h4>
             <ul id="qr-list"></ul> <!-- Lista de QR Codes escaneados -->
         </div>
+        <p>OU</p>
+        <div id="writer" class="digitar">
+                <div class="container">
+                <label for="codigo"> Digite o código do candidato abaixo</label>
+                <textarea name="código-pref" placeholder="Digite o código do candidato" minlength="10" maxlength="20" id="codigo-candidato"></textarea>
+                <button type="submit">Enviar</button> 
+        </div>
+            
+
+        </div>
     </div>
     <script>
-        const totalQrCodes = ''; // Número de QR Codes necessários
-
-        document.getElementById('start-scan').addEventListener('click', function() {
+        document.getElementById('start-scan').addEventListener('click', function () {
             const html5QrCode = new Html5Qrcode("reader");
             html5QrCode.start(
                 { facingMode: "environment" },
@@ -75,8 +147,6 @@
                     qrbox: { width: 250, height: 250 }
                 },
                 qrCodeMessage => {
-                    document.getElementById('show').style.display = 'block';
-                    document.getElementById('result').textContent = formatToJson(qrCodeMessage);
                     storeQrCodeData(qrCodeMessage); // Armazena o QR Code escaneado
                 },
                 errorMessage => {
@@ -87,7 +157,7 @@
             });
         });
 
-        document.getElementById('clear-data').addEventListener('click', function() {
+        document.getElementById('clear-data').addEventListener('click', function () {
             clearScannedData(); // Limpa os dados dos QR Codes escaneados
         });
 
@@ -111,12 +181,12 @@
 
             scannedData.forEach((data, index) => {
                 const li = document.createElement('li');
-                li.textContent = `QR Code ${index + 1}: ${formatToJson(data)}`;
+                li.textContent = `QR Code ${index + 1}: ${data}`;
                 qrList.appendChild(li);
             });
 
             const scannedQrCodes = scannedData.length;
-            document.getElementById('progress').textContent = `${scannedQrCodes}/${totalQrCodes} QR Codes scanned`;
+            document.getElementById('progress').textContent = `${scannedQrCodes} QR Codes Escaneados`;
 
             if (scannedQrCodes === totalQrCodes) {
                 sendDataToServer(); // Envia os dados para o servidor se todos os QR Codes foram escaneados
@@ -126,22 +196,19 @@
         function clearScannedData() {
             localStorage.removeItem('scannedData');
             updateScannedList(); // Atualiza a lista e o progresso após limpar
-            document.getElementById('show').style.display = 'none';
-            document.getElementById('result').textContent = '';
         }
 
         function sendDataToServer() {
             let scannedData = JSON.parse(localStorage.getItem('scannedData')) || [];
 
-            if (scannedData.length === totalQrCodes) {
-                fetch('/api/save-qrcodes', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({ qrcodes: scannedData })
-                })
+            fetch('/api/save-qrcodes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ qrcodes: scannedData })
+            })
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success:', data);
@@ -152,23 +219,12 @@
                 .catch((error) => {
                     console.error('Error:', error);
                 });
-            } else {
-                alert('Nem todos os QR Codes foram escaneados.');
-            }
-        }
-
-        function formatToJson(data) {
-            try {
-                // Tenta converter os dados para JSON
-                return JSON.stringify(JSON.parse(data), null, 2);
-            } catch (e) {
-                // Caso não seja possível, apenas retorna os dados como estão
-                return data;
-            }
         }
 
         // Atualiza a lista ao carregar a página
         updateScannedList();
     </script>
+
 </body>
+
 </html>
