@@ -11,4 +11,11 @@ class ScannerController extends Controller
     {
         return view('index', );
     }
+
+    public function graficos () {
+
+        return view('graficos', );
+    }
 }
+
+
