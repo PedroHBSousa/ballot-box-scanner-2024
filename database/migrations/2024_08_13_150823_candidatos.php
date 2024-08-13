@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('secoes', function (Blueprint $table){
+        Schema::create('candidatos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('localidade_id');
-            $table->foreign('localidade_id')->references('id')->on('localidades');
+            $table->varchar('nome');
+            $table->foreing('cargo_id')->references('id')->on('cargos');
         });
     }
 
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('secoes');
+        Schema::dropIfExists('candidatos');
     }
 };
