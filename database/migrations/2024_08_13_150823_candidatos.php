@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('candidatos', function (Blueprint $table) {
             $table->id();
-            $table->varchar('nome');
-            $table->foreing('cargo_id')->references('id')->on('cargos');
+            $table->string('nome');
+            $table->unsignedBigInteger('cargo_id');
+            $table->foreign('cargo_id')->references('id')->on('cargos');
         });
     }
 

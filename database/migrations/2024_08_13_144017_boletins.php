@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('boletins', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('secao_id');
             $table->foreign('secao_id')->references('id')->on('secoes');
-            $table->int('aptos');
-            $table->varchar('assinatura_digital');
+            $table->integer('aptos');
+            $table->string('assinatura_digital');
         });
     }
 
