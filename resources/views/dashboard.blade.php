@@ -65,7 +65,7 @@
                 labels: ['Reinaldinho', 'Professor Gleivison', 'Dr. Juan'],
                 datasets: [{
                     label: 'Total de Votos',
-                    data: [1, 3, 8],
+                    data: [10, 3, 5],
                     borderWidth: 1
                 }]
             },
