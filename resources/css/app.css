@@ -45,12 +45,10 @@
 }
 
 .chart {
-  
-    
+    max-width: 360px;
     padding: 2rem;
     border: 1px solid #000;
     border-radius: 1rem;
-    
     box-shadow: 0 0 16px rgba(0, 0, 0, 0.);
 }
 .charts-container {
