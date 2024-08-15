@@ -7,10 +7,18 @@
     <title>Gráfico da Apuração</title>
     <!-- <link rel="stylesheet" href="{{ asset('css/app.css') }}"> -->
     @vite('resources/css/app.css')
+    
 </head>
+<header>
+    <img src="{{ Vite::asset('resources/img/Reinaldinho.png') }}" >
+    <h1>Apuração Eleitoral</h1>
+    <img src="{{ Vite::asset('resources/img/Reis.png') }}">
+    
+</header>
 
 <body>
     <div class="container">
+    
 
         <div class="custom-select">
             <select>
@@ -24,11 +32,11 @@
         </div>
         <div class="charts-container">
             <div class="chart">
-                <canvas id="barchart" width="500" height="500"></canvas>
+                <canvas id="barchart" width="400" height="400"></canvas>
             </div>
 
             <div class="chart">
-                <canvas id="doughnut" width="500" height="500"></canvas>
+                <canvas id="doughnut" width="400" height="400"></canvas>
             </div>
         </div>
 
@@ -65,7 +73,7 @@
                 labels: ['Reinaldinho', 'Professor Gleivison', 'Dr. Juan'],
                 datasets: [{
                     label: 'Total de Votos',
-                    data: [10, 3, 5],
+                    data: [1, 3, 8],
                     borderWidth: 1
                 }]
             },
