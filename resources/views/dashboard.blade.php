@@ -18,8 +18,6 @@
 
 <body>
     <div class="container">
-    
-
         <div class="custom-select">
             <select>
                 <option value="">Selecione o filtro</option>

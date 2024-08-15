@@ -16,6 +16,10 @@ class ScannerController extends Controller
 
         return view('dashboard', );
     }
+    public function store (Request $request) 
+    {
+       dd($request->all());
+    }
 }
 
 

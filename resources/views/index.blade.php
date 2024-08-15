@@ -14,96 +14,7 @@
         href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <style>
-        * {
-            font-family: 'Kanit', sans-serif;
-        }
-        .container {
-        display: flex;
-        flex-direction: column;
-        width: 100%; /* O contêiner ocupa 100% da largura */
-        }
-
-        .center-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            width: 100%;
-            flex-direction: column;
-            padding: 0;
-            margin: 0;
-        }
-
-        .buttons-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 10px;
-            /* Espaço entre os botões */
-        }
-
-        .qr-reader {
-            width: 500px;
-        }
-
-        .result-container {
-            text-align: center;
-        }
-
-        .green-button {
-            background-color: green;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-
-        label,
-        textarea {
-        display: block;
-        width: 100%; /* Faz com que o label e o textarea ocupem 100% da largura do contêiner */
-        margin: 15px 0; /* Espaçamento vertical entre o label e o textarea */
-        }
-
-        textarea {
-        border-radius: 10px;
-        height: 30px;
-        align-content: center; 
-/* width: 250px; Remova isso se você quiser que o textarea ocupe 100% da largura */
-        }
-        
-        .digitar {
-        display: flex;
-        text-align: center;
-        width: 100%; /* Garante que o contêiner ocupe toda a largura */
-        color: green;
-        }
-        
-        .digitar button {
-            color: green;
-        
-        }
-
-        .digitar button {
-        background-color: green; /* Garante que o botão tenha o fundo verde */
-        color: white; /* Cor do texto do botão */
-        border: none; /* Remove a borda padrão */
-        padding: 10px 20px; /* Espaçamento interno */
-        border-radius: 5px; /* Bordas arredondadas */
-        cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
-        font-size: 20px;
-        }
-
-    </style>
+    @vite('resources/css/index.css')
 </head>
 
 <body>
@@ -133,8 +44,6 @@
                 <textarea name="código-pref" placeholder="Digite o código do candidato" minlength="10" maxlength="20" id="codigo-candidato"></textarea>
                 <button type="submit">Enviar</button> 
         </div>
-            
-
         </div>
     </div>
     <script>
