@@ -6,6 +6,13 @@ display: flex;
 flex-direction: column;
 width: 100%; /* O contêiner ocupa 100% da largura */
 }
+.container label {
+    font-size: 25px;
+}
+
+.center-container p{
+    font-size: 20px;
+}
 
 .center-container {
     display: flex;
@@ -36,7 +43,8 @@ width: 100%; /* O contêiner ocupa 100% da largura */
 }
 
 .green-button {
-    background-color: green;
+    background: rgb(255,218,0);
+    background: linear-gradient(90deg, rgba(255,218,0,1) 22%, rgba(0,129,255,0.989233193277311) 78%);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -68,20 +76,24 @@ align-content: center;
 display: flex;
 text-align: center;
 width: 100%; /* Garante que o contêiner ocupe toda a largura */
-color: green;
+color: rgba(0,129,255,0.989233193277311);
 }
 
 .digitar button {
-    color: green;
+    background: rgb(255,218,0);
+    background: linear-gradient(90deg, rgba(255,218,0,1) 22%, rgba(0,129,255,0.989233193277311) 78%);
 
 }
 
 .digitar button {
-background-color: green; /* Garante que o botão tenha o fundo verde */
 color: white; /* Cor do texto do botão */
 border: none; /* Remove a borda padrão */
 padding: 10px 20px; /* Espaçamento interno */
 border-radius: 5px; /* Bordas arredondadas */
 cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
 font-size: 20px;
+}
+
+.codigo {
+    font-size: 30px;
 }
