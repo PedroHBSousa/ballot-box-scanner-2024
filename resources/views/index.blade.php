@@ -32,15 +32,14 @@
             <h4>QR Codes Escaneados: <?php echo "0/0" ?> </h4>
             <ul id="qr-list"></ul>
         </div>
-
-        <form method="post" action="{{ route('store') }}">
-            @csrf
-            <input type="hidden" id="qrcode-value" name="qrcode_value">
-            <div id="writer" class="digitar">
-                    <button type="submit">Enviar</button>
-            </div>
-        </form>
-
+        <p>OU</p>
+        <div id="writer" class="digitar">
+                <div class="container">
+                <label for="codigo"> Digite o código do candidato abaixo</label>
+                <textarea name="código-pref" placeholder="Digite o código do candidato" minlength="10" maxlength="20" id="codigo-candidato"></textarea>
+                <button type="submit">Enviar</button>
+        </div>
+        </div>
     </div>
     <script>
         var html5QrcodeScanner = new Html5QrcodeScanner(
