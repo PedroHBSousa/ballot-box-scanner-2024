@@ -29,17 +29,18 @@
         <div id="reader" class="qr-reader"></div>
 
         <div id="scanned-list" style="text-align: left; margin: 20px;">
-            <h4>QR Codes Escaneados: <?php echo "0/0" ?> </h4>
+            <h4>QR Codes Escaneados: <?php echo '0/0'; ?> </h4>
             <ul id="qr-list"></ul>
         </div>
-        <p>OU</p>
-        <div id="writer" class="digitar">
-                <div class="container">
-                <label for="codigo"> Digite o código do candidato abaixo</label>
-                <textarea name="código-pref" placeholder="Digite o código do candidato" minlength="10" maxlength="20" id="codigo-candidato"></textarea>
+
+        <form method="post" action="{{ route('store') }}">
+            @csrf
+            <input type="hidden" id="qrcode-value" name="qrcode_value">
+            <div id="writer" class="digitar">
                 <button type="submit">Enviar</button>
-        </div>
-        </div>
+            </div>
+        </form>
+    </div>
     </div>
     <script>
         var html5QrcodeScanner = new Html5QrcodeScanner(
