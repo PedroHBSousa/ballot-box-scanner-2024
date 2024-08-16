@@ -13,6 +13,11 @@ class Cargo extends Model
 
     protected $fillable = [
         'id',
-        'nome'
+        'nome',
     ];
+
+    public function candidato()
+    {
+        return $this->hasMany(Candidato::class);
+    }
 }

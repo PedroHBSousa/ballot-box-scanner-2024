@@ -7,5 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Candidato extends Model
 {
+    protected $table = 'candidatos';
+
+    protected $fillable = [
+        'id', 
+        'nome',
+        'cargo_id'
+    ];
+
+    public function cargo()
+    {
+        return $this->belongsTo(Cargo::class);
+    }
+
     use HasFactory;
 }

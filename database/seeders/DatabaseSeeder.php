@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             BairroSeeder::class,
             LocalidadeSeeder::class,
-            CargoSeeder::class
+            CargoSeeder::class,
+            CandidatoSeeder::class,
         ]);
     }
 }
