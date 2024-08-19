@@ -41,10 +41,10 @@
             </div>
         @endif
 
-        <div id="scanned-list" style="text-align: left; margin: 20px;">
+        {{-- <div id="scanned-list" style="text-align: left; margin: 20px;">
             <h4>QR CODE ESCANEADOS: <?php echo '0/0'; ?> </h4>
             <ul id="qr-list"></ul>
-        </div>
+        </div> --}}
 
         <form method="post" action="{{ route('store') }}">
             @csrf
@@ -53,6 +53,21 @@
                 <button type="submit">ENVIAR</button>
             </div>
         </form>
+        <div id="message">
+            @if (session('status'))
+                <p>{{ session('status') }}</p>
+            @endif
+        </div>
+        <div id="filteredData">
+            @if (session('data'))
+                <h2>Dados Filtrados:</h2>
+                <ul>
+                    @foreach (session('data') as $key => $value)
+                        <li><strong>{{ $key }}:</strong> {{ $value }}</li>
+                    @endforeach
+                </ul>
+            @endif
+        </div>
     </div>
     </div>
     <script>
