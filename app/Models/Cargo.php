@@ -20,4 +20,9 @@ class Cargo extends Model
     {
         return $this->hasMany(Candidato::class);
     }
+
+    public function votos()
+    {
+        return $this->hasMany(Voto::class);
+    }
 }

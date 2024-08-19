@@ -23,4 +23,9 @@ class Boletim extends Model
         return $this->hasOne(Secao::class);
     }
 
+    public function votos()
+    {
+        return $this->hasMany(Voto::class);
+    }
+
 }

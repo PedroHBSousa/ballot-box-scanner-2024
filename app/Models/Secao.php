@@ -28,4 +28,9 @@ class Secao extends Model
         return $this->hasMany(Boletim::class);
     }
 
+    public function votos()
+    {
+        return $this->hasMany(Voto::class);
+    }
+
 }

@@ -20,5 +20,10 @@ class Candidato extends Model
         return $this->belongsTo(Cargo::class);
     }
 
+    public function votos()
+    {
+        return $this->hasMay(Voto::class);
+    }
+
     use HasFactory;
 }
