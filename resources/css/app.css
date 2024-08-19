@@ -2,20 +2,20 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Kanit', sans-serif;
-  }
-  
-  body {
-    place-items: center;
-    align-items: center;
-    justify-content: center;
-    
-    
-  }
-
-  header {
-    background: rgb(255,218,0);
-    background: linear-gradient(90deg, rgba(255,218,0,1) 22%, rgba(0,129,255,0.989233193277311) 78%);
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+header {
+    background: linear-gradient(
+        -45deg,
+        rgba(0, 129, 255, 0.989233193277311) 10%,
+        rgba(255, 218, 0, 1) 40%,
+        rgba(0, 129, 255, 0.989233193277311) 60%,
+        rgba(255, 218, 0, 1) 90%
+    );
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     width: 100%;
     height: 125px;
     justify-content: center;
@@ -23,48 +23,82 @@
     display: flex;
     overflow: hidden;
     position: relative;
-    z-index: 1;
-  }
-  header h1{
-    color: #000000;
-    font-size: 20px;
-    
-  }
+}
 
-  header img {
-    width: 150px;
-    max-width: 100%;
-    height: auto;
-    padding-top: 100px;
-  }
-  .container {
+header h1 {
+    color: #2c2c2c;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 800;
+}
+.container-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    position: relative;
+    top: 50px;
+}
+#reinaldinho {
+    width: 180px;
+    position: absolute;
+}
+#reis {
+    width: 160px;
+    position: absolute;
+    left: 150px;
+}
+#felipe {
+    width: 250px;
+    position: absolute;
+    top: -110px;
+    left: -50px;
+}
+body {
+    /* margin: 0;
+    width: 100%;
+    height: 100vh; */
+    min-height: 100vh;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    font-weight: 300;
 }
-
 .chart {
     max-width: 360px;
     padding: 2rem;
     border: 1px solid #000;
     border-radius: 1rem;
-    box-shadow: 0 0 16px rgba(0, 0, 0, 0.);
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0);
 }
 .charts-container {
-  
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
-
 .custom-select {
     min-width: 350px;
     position: relative;
     margin-bottom: 2rem;
     margin-top: 2rem;
-  }
-  .custom-select select {
+}
+.custom-select select {
     appearance: none;
     width: 100%;
     font-size: 1.15rem;
@@ -74,26 +108,39 @@
     border-radius: 0.25rem;
     color: #000;
     cursor: pointer;
-  }
-  .custom-select::before,
-  .custom-select::after {
+}
+.custom-select::before,
+.custom-select::after {
     --size: 0.3rem;
     content: "";
     position: absolute;
     right: 1rem;
     pointer-events: none;
-  }
-  .custom-select::before {
+}
+.custom-select::before {
     border-left: var(--size) solid transparent;
     border-right: var(--size) solid transparent;
     border-bottom: var(--size) solid black;
     top: 40%;
-  }
-  .custom-select::after {
+}
+.custom-select::after {
     border-left: var(--size) solid transparent;
     border-right: var(--size) solid transparent;
     border-top: var(--size) solid black;
     top: 55%;
-  }
-
-
+}
+@media (min-width: 320px) and (max-width: 480px) {
+    #reis {
+        left: 120px;
+    }
+    #felipe {
+        left: -80px;
+    }
+    #reinaldinho {
+        left: 30px;
+    }
+    header h1 {
+        font-size: 18px;
+        text-align: center;
+    }
+}

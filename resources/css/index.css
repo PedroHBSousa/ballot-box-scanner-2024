@@ -1,16 +1,93 @@
 * {
-    font-family: 'Kanit', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    font-weight: 800;
+    font-style: normal;
 }
+header {
+    background: linear-gradient(
+        -45deg,
+        rgba(0, 129, 255, 0.989233193277311) 10%,
+        rgba(255, 218, 0, 1) 40%,
+        rgba(0, 129, 255, 0.989233193277311) 60%,
+        rgba(255, 218, 0, 1) 90%
+    );
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    width: 100%;
+    height: 125px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+}
+
+header h1 {
+    color: #2c2c2c;
+    font-size: 20px;
+    text-align: center;
+}
+
+header img {
+    /* max-width: 100%;
+    height: auto;
+    padding-top: 100px; */
+}
+.container-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    position: relative;
+    top: 50px;
+}
+#reinaldinho {
+    width: 180px;
+    position: absolute;
+}
+#reis {
+    width: 160px;
+    position: absolute;
+    left: 150px;
+}
+#felipe {
+    width: 250px;
+    position: absolute;
+    top: -110px;
+    left: -50px;
+}
+body {
+    /* margin: 0;
+    width: 100%;
+    height: 100vh; */
+    min-height: 100vh;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 .container {
-display: flex;
-flex-direction: column;
-width: 100%; /* O contêiner ocupa 100% da largura */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 .container label {
     font-size: 25px;
 }
 
-.center-container p{
+.center-container p {
     font-size: 20px;
 }
 
@@ -31,11 +108,14 @@ width: 100%; /* O contêiner ocupa 100% da largura */
     align-items: center;
     margin-bottom: 20px;
     gap: 10px;
-    /* Espaço entre os botões */
 }
 
 .qr-reader {
-    width: 500px;
+    width: 100%; /* O scanner ocupa 100% da largura disponível */
+    max-width: 400px; /* Limita o tamanho máximo do scanner */
+    margin: 0 auto; /* Centraliza o scanner */
+    overflow: hidden; /* Esconde qualquer parte do scanner que ultrapasse o container */
+    position: relative; /* Garante que o scanner fique dentro do container */
 }
 
 .result-container {
@@ -43,9 +123,13 @@ width: 100%; /* O contêiner ocupa 100% da largura */
 }
 
 .green-button {
-    background: rgb(255,218,0);
-    background: linear-gradient(90deg, rgba(255,218,0,1) 22%, rgba(0,129,255,0.989233193277311) 78%);
-    color: white;
+    background: rgb(255, 218, 0);
+    background: linear-gradient(
+        90deg,
+        rgba(255, 218, 0, 1) 22%,
+        rgba(0, 129, 255, 0.989233193277311) 78%
+    );
+    color: #2c2c2c;
     border: none;
     padding: 10px 20px;
     text-align: center;
@@ -55,45 +139,66 @@ width: 100%; /* O contêiner ocupa 100% da largura */
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 5px;
+    font-weight: 600;
 }
-
 
 label,
 textarea {
-display: block;
-width: 100%; /* Faz com que o label e o textarea ocupem 100% da largura do contêiner */
-margin: 15px 0; /* Espaçamento vertical entre o label e o textarea */
+    display: block;
+    width: 100%;
+    margin: 15px 0;
 }
 
 textarea {
-border-radius: 10px;
-height: 30px;
-align-content: center; 
-/* width: 250px; Remova isso se você quiser que o textarea ocupe 100% da largura */
+    border-radius: 10px;
+    height: 30px;
+    align-content: center;
 }
 
 .digitar {
-display: flex;
-text-align: center;
-width: 100%; /* Garante que o contêiner ocupe toda a largura */
-color: rgba(0,129,255,0.989233193277311);
+    display: flex;
+    text-align: center;
+    width: 100%;
+    color: rgba(0, 129, 255, 0.989233193277311);
 }
 
 .digitar button {
-    background: rgb(255,218,0);
-    background: linear-gradient(90deg, rgba(255,218,0,1) 22%, rgba(0,129,255,0.989233193277311) 78%);
-
+    background: rgb(255, 218, 0);
+    background: linear-gradient(
+        90deg,
+        rgba(255, 218, 0, 1) 22%,
+        rgba(0, 129, 255, 0.989233193277311) 78%
+    );
 }
 
 .digitar button {
-color: white; /* Cor do texto do botão */
-border: none; /* Remove a borda padrão */
-padding: 10px 20px; /* Espaçamento interno */
-border-radius: 5px; /* Bordas arredondadas */
-cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
-font-size: 20px;
+    color: #2c2c2c;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
 }
 
 .codigo {
     font-size: 30px;
+}
+
+/* RESPONSIVIDADE MOBILE */
+
+@media (min-width: 320px) and (max-width: 480px) {
+    #reis {
+        left: 120px;
+    }
+    #felipe {
+        left: -80px;
+    }
+    #reinaldinho {
+        left: 30px;
+    }
+    header h1 {
+        font-size: 18px;
+        text-align: center;
+    }
 }
