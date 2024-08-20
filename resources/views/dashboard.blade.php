@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gráfico da Apuração</title>
+    <link rel="icon" href="{{ asset('graphicon.svg') }}" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="{{ asset('graphicon.svg') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -27,11 +29,11 @@
         <div class="custom-select">
             <select>
                 <option value="">Selecione o filtro</option>
-                <option value="">Prefeitos</option>
-                <option value="">Vereadores</option>
-                <option value="">Partidos</option>
-                <option value="">Bairros</option>
-                <option value="">Regiões</option>
+                <option value="prefeitos">Prefeitos</option>
+                <option value="vereadores">Vereadores</option>
+                <option value="partidos">Partidos</option>
+                <option value="bairros">Bairros</option>
+                <option value="regioes">Regiões</option>
             </select>
         </div>
         <div class="charts-container">
@@ -39,57 +41,55 @@
                 <canvas id="barchart" width="400" height="400"></canvas>
             </div>
 
-            <div class="chart">
-                <canvas id="doughnut" width="400" height="400"></canvas>
-            </div>
         </div>
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const ctx = document.getElementById('doughnut');
-
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Reinaldinho', 'Professor Gleivison', 'Dr. Juan'],
-                datasets: [{
-                    label: 'Total de Votos',
-                    data: [20, 3, 8],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+    
+    
+<script>    
 
         const ctx2 = document.getElementById('barchart');
 
         new Chart(ctx2, {
             type: 'bar',
-            data: {
-                labels: ['Reinaldinho', 'Professor Gleivison', 'Dr. Juan'],
-                datasets: [{
-                    label: 'Total de Votos',
-                    data: [2504, 500, 412],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+                data: {
+                    labels: ['Reinaldinho', 'Prof. Gleivison', 'Dr. Juan', 'Vinícius', 'Dr.Nil'],
+                    datasets: [{
+                        data: [2504, 1550, 1812, 522, 1],
+                        borderWidth: 1,
+                        backgroundColor: [
+                            'rgba(30,144,255)', // Cor para Reinaldinho
+                            'rgba(0,100,0)', // Cor para Professor Gleivison
+                            'rgba(255,0,0)',    // Cor para Dr. Juan
+                            'rgba(128,0,128)',  // Cor para Vinícius
+                            'rgba(255,69,0)'  // Cor para Dr. Nil
+                        ],
+                        borderColor: [
+                            'rgba(30,144,255)', 
+                            'rgba(0,100,0)',
+                            'rgba(255,0,0)',
+                            'rgba(128,0,128)',
+                            'rgba(255,69,0)'
+                        ]
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false // Desativa a legenda
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMin: 0   // Sugere que o valor mínimo no eixo Y seja 0
+                        }
                     }
                 }
-            }
-        });
-    </script>
+            });
+</script>
 </body>
 
 </html>
