@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Secao;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
             LocalidadeSeeder::class,
             CargoSeeder::class,
             CandidatoSeeder::class,
+            SecaoSeeder::class,
         ]);
     }
 }

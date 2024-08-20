@@ -6,6 +6,7 @@ class BoletimEleitoralService
 {
     protected $qrCodesLidos = [];
     protected $totalQrCodes = 0;
+    protected $dadosBoletim = [];
 
     public function __construct($qrCodeValue, $qrCodesLidos)
     {
@@ -30,7 +31,9 @@ class BoletimEleitoralService
 
                 // Adiciona o QR code lido ao array
                 $this->qrCodesLidos[] = $posicaoAtual;
-                break;
+            }
+            if (in_array($item[0], ['SECA', 'APTO', 'COMP', 'FALT', 'ASSI'])) {
+                $this->dadosBoletim[$item[0]] = $item[1];
             }
         }
     }
@@ -47,5 +50,10 @@ class BoletimEleitoralService
     public function getQrCodesLidos()
     {
         return $this->qrCodesLidos;
+    }
+
+    public function getDadosBoletim()
+    {
+        return $this->dadosBoletim;
     }
 }

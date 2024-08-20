@@ -31,6 +31,22 @@
 
         <div id="reader" class="qr-reader"></div>
 
+        <div id="message">
+            @if (session('status'))
+                <p style="color: blue;">{{ session('status') }}</p>
+            @endif
+            @if (session('error'))
+                <p style="color: red;">{{ session('error') }}</p>
+            @endif
+        </div>
+
+        <div class="container-button">
+        <form action="{{ route('qrcodes.clear') }}" method="POST">
+            @csrf
+            <div id="writer" class="digitar">
+                <button type="submit">Limpar QR Codes</button>
+            </div>
+        </form>
         <form method="post" action="{{ route('store') }}">
             @csrf
             <input type="hidden" id="qrcode-value" name="qrcode_value">
@@ -38,25 +54,7 @@
                 <button type="submit">ENVIAR</button>
             </div>
         </form>
-        <!-- Botão para limpar os QR codes -->
-        <form action="{{ route('qrcodes.clear') }}" method="POST">
-            @csrf
-            <div id="writer" class="digitar">
-                <button type="submit">Limpar QR Codes</button>
-            </div>
-        </form>
-
-        <div id="message">
-            @if (session('status'))
-                <p>{{ session('status') }}</p>
-            @endif
-            @if (session('error'))
-                <p style="color: red;">{{ session('error') }}</p>
-            @endif
         </div>
-
-
-
 
         <div id="filteredData">
             @if (session('data'))

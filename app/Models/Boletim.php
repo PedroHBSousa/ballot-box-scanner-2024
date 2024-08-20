@@ -14,11 +14,13 @@ class Boletim extends Model
     protected $fillable = [
         'id',
         'secao_id',
-        'aptos',
-        'assinatura_digital'
+        'apto',
+        'comp',
+        'falt',
+        'assinatura_digital',
     ];
 
-    public function secao() 
+    public function secao()
     {
         return $this->hasOne(Secao::class);
     }

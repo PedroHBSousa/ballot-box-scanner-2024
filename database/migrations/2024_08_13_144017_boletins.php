@@ -15,8 +15,11 @@ return new class extends Migration
             $table->increments('id');
             $table->unsignedBigInteger('secao_id');
             $table->foreign('secao_id')->references('id')->on('secoes');
-            $table->integer('aptos');
+            $table->integer('apto');
+            $table->integer('comp');
+            $table->integer('falt');
             $table->string('assinatura_digital');
+            $table->timestamps();
         });
     }
 

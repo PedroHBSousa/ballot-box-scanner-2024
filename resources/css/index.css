@@ -116,6 +116,7 @@ body {
     margin: 0 auto; /* Centraliza o scanner */
     overflow: hidden; /* Esconde qualquer parte do scanner que ultrapasse o container */
     position: relative; /* Garante que o scanner fique dentro do container */
+    margin-top: 50px;
 }
 
 .result-container {
@@ -141,6 +142,12 @@ body {
     border-radius: 5px;
     font-weight: 600;
 }
+.container-button{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    gap: 10px;
+}
 
 label,
 textarea {
@@ -155,13 +162,6 @@ textarea {
     align-content: center;
 }
 
-.digitar {
-    display: flex;
-    text-align: center;
-    width: 100%;
-    color: rgba(0, 129, 255, 0.989233193277311);
-}
-
 .digitar button {
     background: rgb(255, 218, 0);
     background: linear-gradient(
@@ -169,16 +169,14 @@ textarea {
         rgba(255, 218, 0, 1) 22%,
         rgba(0, 129, 255, 0.989233193277311) 78%
     );
-}
-
-.digitar button {
     color: #2c2c2c;
     border: none;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 20px;
     font-weight: 600;
+
 }
 
 .codigo {
