@@ -16,7 +16,7 @@ class Cargo extends Model
         'nome',
     ];
 
-    public function candidato()
+    public function candidatos()
     {
         return $this->hasMany(Candidato::class);
     }

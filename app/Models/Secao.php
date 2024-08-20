@@ -20,10 +20,10 @@ class Secao extends Model
 
     public function localidade()
     {
-        return $this->hasOne(Localidade::class);
+        return $this->belongsTo(Localidade::class);
     }
 
-    public function boletim()
+    public function boletins()
     {
         return $this->hasMany(Boletim::class);
     }

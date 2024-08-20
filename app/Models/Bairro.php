@@ -19,7 +19,7 @@ class Bairro extends Model
         'regiao'
     ];
 
-    public function localidade()
+    public function localidades()
     {
         return $this->hasMany(Localidade::class);
     }

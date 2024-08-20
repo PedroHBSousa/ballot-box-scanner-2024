@@ -24,9 +24,8 @@ class Localidade extends Model
         return $this->belongsTo(Bairro::class);
     }
 
-    public function secao()
+    public function secoes()
     {
         return $this->hasMany(Secao::class);
     }
-
 }
