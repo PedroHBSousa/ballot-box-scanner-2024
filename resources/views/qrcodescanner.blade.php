@@ -29,22 +29,7 @@
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <div class="center-container">
 
-        <div class="buttons-container">
-            <button id="clear-data" class="green-button">LIMPAR QR CODES ARMAZENADOS</button>
-        </div>
-
         <div id="reader" class="qr-reader"></div>
-
-        @if (session('error'))
-            <div>
-                {{ session('error') }}
-            </div>
-        @endif
-
-        {{-- <div id="scanned-list" style="text-align: left; margin: 20px;">
-            <h4>QR CODE ESCANEADOS: <?php echo '0/0'; ?> </h4>
-            <ul id="qr-list"></ul>
-        </div> --}}
 
         <form method="post" action="{{ route('store') }}">
             @csrf
@@ -53,11 +38,26 @@
                 <button type="submit">ENVIAR</button>
             </div>
         </form>
+        <!-- Botão para limpar os QR codes -->
+        <form action="{{ route('qrcodes.clear') }}" method="POST">
+            @csrf
+            <div id="writer" class="digitar">
+                <button type="submit">Limpar QR Codes</button>
+            </div>
+        </form>
+
         <div id="message">
             @if (session('status'))
                 <p>{{ session('status') }}</p>
             @endif
+            @if (session('error'))
+                <p style="color: red;">{{ session('error') }}</p>
+            @endif
         </div>
+
+
+
+
         <div id="filteredData">
             @if (session('data'))
                 <h2>Dados Filtrados:</h2>
