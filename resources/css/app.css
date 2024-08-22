@@ -81,7 +81,9 @@ body {
     font-weight: 300;
 }
 .chart {
-    max-width: 360px;
+   
+    width: 700px;
+    height: 700px;
     padding: 2rem;
     border: 1px solid #000;
     border-radius: 1rem;
@@ -140,7 +142,13 @@ body {
         left: 30px;
     }
     header h1 {
-        font-size: 18px;
+        font-size: 20px;
         text-align: center;
+        
+    }
+
+    .chart{
+        height: 400px;
+        width: 400px;
     }
 }
