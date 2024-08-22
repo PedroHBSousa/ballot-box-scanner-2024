@@ -30,12 +30,12 @@ header h1 {
     font-size: 20px;
     text-align: center;
 }
-
+/* 
 header img {
-    /* max-width: 100%;
+    max-width: 100%;
     height: auto;
-    padding-top: 100px; */
-}
+    padding-top: 100px; 
+} */
 .container-image {
     display: flex;
     justify-content: center;

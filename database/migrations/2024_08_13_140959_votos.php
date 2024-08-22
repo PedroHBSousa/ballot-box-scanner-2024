@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('nominal');
             $table->string('nulo');
             $table->string('branco');
+            $table->timestamps();
 
             //
 
