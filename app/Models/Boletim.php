@@ -12,7 +12,6 @@ class Boletim extends Model
     protected $table = 'boletins';
 
     protected $fillable = [
-        'id',
         'secao_id',
         'apto',
         'comp',
