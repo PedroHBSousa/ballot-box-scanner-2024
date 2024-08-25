@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('votos', function (Blueprint $table){
+        Schema::create('votos', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedBigInteger('cargo_id');
             $table->unsignedBigInteger('boletim_id');
-            $table->unsignedBigInteger('candidato_id');
+            $table->unsignedBigInteger('candidato_id')->nullable();
             $table->unsignedBigInteger('secao_id');
             $table->string('nominal');
             $table->string('nulo');
@@ -36,6 +36,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+
         Schema::dropIfExists('votos');
     }
 };
