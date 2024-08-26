@@ -30,11 +30,11 @@ header h1 {
     font-size: 20px;
     text-align: center;
 }
-/* 
+/*
 header img {
     max-width: 100%;
     height: auto;
-    padding-top: 100px; 
+    padding-top: 100px;
 } */
 .container-image {
     display: flex;
@@ -142,7 +142,7 @@ body {
     border-radius: 5px;
     font-weight: 600;
 }
-.container-button{
+.container-button {
     display: flex;
     justify-content: space-between;
     margin-top: 25px;
@@ -176,13 +176,27 @@ textarea {
     cursor: pointer;
     font-size: 20px;
     font-weight: 600;
-
 }
 
 .codigo {
     font-size: 30px;
 }
 
+#success-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+#success-message i {
+    margin-right: 5px;
+    font-size: 20px;
+}
+.material-symbols-outlined {
+    font-size: 50px;
+}
 /* RESPONSIVIDADE MOBILE */
 
 @media (min-width: 320px) and (max-width: 480px) {

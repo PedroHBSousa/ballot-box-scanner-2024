@@ -87,7 +87,7 @@ class ScannerController extends Controller
                             ]));
                         }
 
-                        $request->session()->flash('success', 'Boletim e votos criados com sucesso.');
+                        $request->session()->flash('success', 'Boletim e votos adicionados com sucesso.');
                     }
                 }
 
