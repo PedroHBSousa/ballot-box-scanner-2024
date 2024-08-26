@@ -13,6 +13,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite('resources/css/index.css')
 </head>
@@ -28,8 +30,22 @@
 <body>
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <div class="center-container">
+        <div>
+            <h2>INSTRUÇÕES</h2>
+            <h3>- Realize o escaneamento dos QR Codes na ordem crescente e sequencial.</h3>
+            <h3>- Se um QR Code for lido incorretamente ou se houver problemas durante o
+                escaneamento, clique no botão "Limpar QR Codes" para apagar todos os QR Codes lidos.</h3>
+            <h3>- Envio dos Dados: Após cada escaneamento, não se esqueça de clicar no botão "ENVIAR" para registrar as
+                informações.</h3>
+        </div>
 
         <div id="reader" class="qr-reader"></div>
+        <div id="success-message" style="display: none; color: green;">
+            <span class="material-symbols-outlined">
+                qr_code_scanner
+            </span>
+            <i class="fa fa-check-circle">Escaneado com sucesso! Clique em "Enviar".</i>
+        </div>
 
         <div id="message">
             @if (session('status'))
@@ -38,22 +54,25 @@
             @if (session('error'))
                 <p style="color: red;">{{ session('error') }}</p>
             @endif
+            @if (session('success'))
+                <p style="color: green;">{{ session('success') }}</p>
+            @endif
         </div>
 
         <div class="container-button">
-        <form action="{{ route('qrcodes.clear') }}" method="POST">
-            @csrf
-            <div id="writer" class="digitar">
-                <button type="submit">Limpar QR Codes</button>
-            </div>
-        </form>
-        <form method="post" action="{{ route('store') }}">
-            @csrf
-            <input type="hidden" id="qrcode-value" name="qrcode_value">
-            <div id="writer" class="digitar">
-                <button type="submit">ENVIAR</button>
-            </div>
-        </form>
+            <form action="{{ route('qrcodes.clear') }}" method="POST">
+                @csrf
+                <div id="writer" class="digitar">
+                    <button type="submit">Limpar QR Codes</button>
+                </div>
+            </form>
+            <form method="post" action="{{ route('store') }}">
+                @csrf
+                <input type="hidden" id="qrcode-value" name="qrcode_value">
+                <div id="writer" class="digitar">
+                    <button type="submit">ENVIAR</button>
+                </div>
+            </form>
         </div>
 
         <div id="filteredData">
@@ -78,6 +97,15 @@
         function onScanSuccess(decodedText, decodedResult) {
             document.getElementById('qrcode-value').value = decodedText;
             html5QrcodeScanner.clear();
+
+            // Exibir a mensagem de sucesso
+            var successMessage = document.getElementById('success-message');
+            successMessage.style.display = 'flex';
+
+            // // Opcional: Ocultar a mensagem após alguns segundos
+            // setTimeout(function() {
+            //     successMessage.style.display = 'none';
+            // }, 3000);
         }
 
         html5QrcodeScanner.render(onScanSuccess);

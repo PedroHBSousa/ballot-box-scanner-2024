@@ -10,7 +10,7 @@ class Candidato extends Model
     protected $table = 'candidatos';
 
     protected $fillable = [
-        'id', 
+        'id',
         'nome',
         'cargo_id'
     ];
@@ -22,7 +22,7 @@ class Candidato extends Model
 
     public function votos()
     {
-        return $this->hasMay(Voto::class);
+        return $this->hasMany(Voto::class);
     }
 
     use HasFactory;
