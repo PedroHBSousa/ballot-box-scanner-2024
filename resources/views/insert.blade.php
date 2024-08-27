@@ -36,43 +36,56 @@
             </div>
 
             <div>
-                @if(request('search'))
-                    @if($secoes->isEmpty())
-                        <p>Nenhuma seção encontrada.</p>
-                    @else
-                        <ul>
-                            @foreach($secoes as $secao)
-                                <li>ID da seção: {{ $secao->id }} - Localidade: {{ $secao->localidade->nome }}</li>
-                            @endforeach
-                        </ul>
-                    @endif
+                @if(request('search') && !$secoes->isEmpty())
+                    <h2>Dados da Seção Selecionada</h2>
+                    @foreach($secoes as $secao)
+                        <div>
+                            <h3>Seção ID: {{ $secao->id }} | {{ $secao->localidade->nome }}</h3>
+
+                            <form action="{{ route('insert.data')}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="secao_id" value="{{ $secao->id }}">
+
+                                <label for="candidato_numero">Número do candidato:</label>
+                                <input type="number" id="candidato_numero" name="candidato_numero" required>
+
+                                <label for="numero_votos">Votos:</label>
+                                <input type="number" id="num_votos" name="num_votos" required>
+                                
+
+                                <button type="submit">Enviar</button>
+                            </form>
+                        </div>
+                    @endforeach
+                @else
+                    <p>Nenhuma seção encontrada.</p>
                 @endif
             </div>
         </div>
 
         <div>
-            <!-- 
+                <!-- 
 
-        <h2>Boletim:</h2>
+            <h2>Boletim:</h2>
 
-        <form action="{{ route('insert.data') }}" method="POST">
-            @csrf
-    
-            <label>Seção: </label>
-            <input type="number" name="secao_id" id="secao_id" placeholder="Seção do boletim" required><br><br>
-            <label>Aptos: </label>
-            <input type="number" name="apto" id="apto" placeholder="Aptos presentes" required><br><br>
-            <label>Assinatura digital: </label>
-            <input type="text" name="assinatura_digital" id="assinatura_digital" placeholder="Assinatura do boletim" required><br><br>
-            <label>N° de pessoas que compareceram: </label>
-            <input type="number" name="comp" id="comp" required><br><br>
-            <label>N° de pessoas que faltaram: </label>
-            <input type="number" name="falt" id="falt" required><br><br>
-            
-            
-            <button type="submit">Enviar</button>
+            <form action="{{ route('insert.data') }}" method="POST">
+                @csrf
+        
+                <label>Seção: </label>
+                <input type="number" name="secao_id" id="secao_id" placeholder="Seção do boletim" required><br><br>
+                <label>Aptos: </label>
+                <input type="number" name="apto" id="apto" placeholder="Aptos presentes" required><br><br>
+                <label>Assinatura digital: </label>
+                <input type="text" name="assinatura_digital" id="assinatura_digital" placeholder="Assinatura do boletim" required><br><br>
+                <label>N° de pessoas que compareceram: </label>
+                <input type="number" name="comp" id="comp" required><br><br>
+                <label>N° de pessoas que faltaram: </label>
+                <input type="number" name="falt" id="falt" required><br><br>
+                
+                
+                <button type="submit">Enviar</button>
 
-        </form> -->
+            </form> -->
         </div>
 
         @if (session('success'))
