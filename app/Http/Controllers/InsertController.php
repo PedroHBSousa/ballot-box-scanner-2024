@@ -3,13 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Boletim;
+use App\Models\Secao;
 use Illuminate\Http\Request;
 
 class InsertController extends Controller
 {
     public function insert()
     {
-        return view('insert');
+        $search = request('search');
+
+        if($search) {
+            $secoes = Secao::with('localidade')->where('id', $search)->get();
+        } else {
+            $secoes = collect();
+        }
+
+        return view('insert', ['secoes' => $secoes]);
     }
 
     public function insertdata(Request $request)
