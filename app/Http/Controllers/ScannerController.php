@@ -93,6 +93,7 @@ class ScannerController extends Controller
 
                 // Limpar sessão após o processo
                 $request->session()->forget('qrCodesLidos');
+                $request->session()->forget('dadosBoletim');
             } else {
                 $request->session()->flash('status', "Você leu {$status['qr_codes_lidos']} de {$status['qr_codes_totais']} QR Codes. Faltam {$status['qr_codes_restantes']}.");
             }

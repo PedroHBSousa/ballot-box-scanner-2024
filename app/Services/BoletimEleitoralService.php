@@ -13,7 +13,9 @@ class BoletimEleitoralService
     public function __construct($qrCodeValue, $qrCodesLidos)
     {
         $this->qrCodesLidos = $qrCodesLidos;  // Inicializa com os QR codes lidos da sessão
+        $this->dadosBoletim = session()->get('dadosBoletim', []); // Carrega os dados do boletim da sessão se existirem
         $this->processarQRCode($qrCodeValue);
+
     }
 
     protected function processarQRCode($qrCodeValue)
@@ -41,6 +43,8 @@ class BoletimEleitoralService
                 $this->dadosBoletim[$item[0]] = $item[1];
             }
         }
+          // Persistir os dados do boletim na sessão
+          session()->put('dadosBoletim', $this->dadosBoletim);
         $this->extrairVotos($qrCodeValue);
     }
     // começa aqui

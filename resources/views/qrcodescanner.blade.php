@@ -40,12 +40,6 @@
         </div>
 
         <div id="reader" class="qr-reader"></div>
-        <div id="success-message" style="display: none; color: green;">
-            <span class="material-symbols-outlined">
-                qr_code_scanner
-            </span>
-            <i class="fa fa-check-circle">Escaneado com sucesso! Clique em "Enviar".</i>
-        </div>
 
         <div id="message">
             @if (session('status'))
@@ -66,12 +60,9 @@
                     <button type="submit">Limpar QR Codes</button>
                 </div>
             </form>
-            <form method="post" action="{{ route('store') }}">
+            <form method="post" action="{{ route('store') }}" id="qrcode-form">
                 @csrf
                 <input type="hidden" id="qrcode-value" name="qrcode_value">
-                <div id="writer" class="digitar">
-                    <button type="submit">ENVIAR</button>
-                </div>
             </form>
         </div>
 
@@ -98,14 +89,14 @@
             document.getElementById('qrcode-value').value = decodedText;
             html5QrcodeScanner.clear();
 
-            // Exibir a mensagem de sucesso
-            var successMessage = document.getElementById('success-message');
-            successMessage.style.display = 'flex';
+            // Submeter o formulário automaticamente
+            document.getElementById('qrcode-form').submit();
 
             // // Opcional: Ocultar a mensagem após alguns segundos
             // setTimeout(function() {
             //     successMessage.style.display = 'none';
             // }, 3000);
+            document.getElementById('qrcode-form').submit();
         }
 
         html5QrcodeScanner.render(onScanSuccess);
