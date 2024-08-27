@@ -1,37 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Inserir</title>
+    <link rel="icon" href="{{ asset('inserticon.svg') }}" type="image/x-icon" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap"
+        rel="stylesheet">
+    @vite('resources/css/insert.css')
 </head>
+
 <body>
-    <h1>Insira os dados abaixo.</h1>
-    
-    <div id="secao">
-        <form action="{{ route('insert') }}" method="GET">
-            <label for="search">Buscar Seção:</label>
-            <input type="number" id="search" name="search" placeholder="Digite o ID da seção">
-            <button type="submit">Buscar</button>
-        </form>
-    </div>
+    <header>
+        <h1>SÃO SEBASTIÃO</h1>
+        <div class="container-image">
 
-    <div>
-        @if(request('search'))
-            @if($secoes->isEmpty())
-                <p>Nenhuma seção encontrada.</p>
-            @else
-                <ul>
-                    @foreach($secoes as $secao)
-                        <li>ID da seção: {{ $secao->id }} - Localidade: {{ $secao->localidade->nome }}</li>
-                    @endforeach
-                </ul>
-            @endif
-        @endif
-    </div>
+            <img id="felipe" src="{{ Vite::asset('resources/img/Felipe.png') }}">
+            <img id="reis" src="{{ Vite::asset('resources/img/Reis.png') }}">
+            <img id="reinaldinho" src="{{ Vite::asset('resources/img/Reinaldinho.png') }}">
+        </div>
+    </header>
+    <div class="container">
+        <div class="busca">
+            <h1>Insira os dados abaixo</h1>
 
-    <div>
-        <!-- 
+            <div id="secao">
+                <form action="{{ route('insert') }}" method="GET">
+                    <label for="search">Buscar Seção:</label>
+                    <input type="number" id="search" name="search" placeholder="Digite o ID da seção">
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+
+            <div>
+                @if(request('search'))
+                    @if($secoes->isEmpty())
+                        <p>Nenhuma seção encontrada.</p>
+                    @else
+                        <ul>
+                            @foreach($secoes as $secao)
+                                <li>ID da seção: {{ $secao->id }} - Localidade: {{ $secao->localidade->nome }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                @endif
+            </div>
+        </div>
+
+        <div>
+            <!-- 
 
         <h2>Boletim:</h2>
 
@@ -53,18 +73,25 @@
             <button type="submit">Enviar</button>
 
         </form> -->
+        </div>
+
+        @if (session('success'))
+            <span style="color: #082;">
+                {{ session('success') }}
+            </span>
+        @endif
+
+        @if (session('error'))
+            <span style="color: #f00;">
+                {{ session('error') }}
+            </span>
+        @endif
+
     </div>
-
-    @if (session('success'))
-    <span style="color: #082;">
-        {{ session('success') }}
-    </span>
-    @endif
-
-    @if (session('error'))
-    <span style="color: #f00;">
-        {{ session('error') }}
-    </span>
-    @endif
 </body>
+<footer>
+    <h1>Juntos é possível!</h1>
+
+</footer>
+
 </html>
