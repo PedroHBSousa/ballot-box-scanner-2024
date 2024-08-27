@@ -44,6 +44,20 @@ header img {
     position: relative;
     top: 50px;
 }
+
+.instructions h2{
+    display: flex;
+    padding: 10px 0 0 10px;
+    color: rgba(0, 129, 255, 0.989233193277311);
+    
+}
+.instructions h4{
+    padding: 0 10px 3px 10px;
+
+}
+.instructions span{
+    color:rgba(255, 0, 0, 0.815);
+}
 #reinaldinho {
     width: 180px;
     position: absolute;
