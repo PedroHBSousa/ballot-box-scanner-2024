@@ -14,15 +14,12 @@ class BoletimEleitoralService
     {
         $this->qrCodesLidos = $qrCodesLidos;  // Inicializa com os QR codes lidos da sessão
         $this->dadosBoletim = session()->get('dadosBoletim', []); // Carrega os dados do boletim da sessão se existirem
+        $this->votos = session()->get('votos', []); // Carrega os votos acumulados da sessão se existirem
         $this->processarQRCode($qrCodeValue);
-
     }
 
     protected function processarQRCode($qrCodeValue)
     {
-        // Redefinir votos para cada novo QR Code processado
-        $this->votos = [];
-
         // Buscar a chave 'QRBU' no array
         foreach ($qrCodeValue as $item) {
             if ($item[0] === 'QRBU') {
@@ -43,74 +40,78 @@ class BoletimEleitoralService
                 $this->dadosBoletim[$item[0]] = $item[1];
             }
         }
-          // Persistir os dados do boletim na sessão
-          session()->put('dadosBoletim', $this->dadosBoletim);
+        // Persistir os dados do boletim na sessão
+        session()->put('dadosBoletim', $this->dadosBoletim);
         $this->extrairVotos($qrCodeValue);
     }
-    // começa aqui
+    // começa aquiaaaaaaaaaaaaaAAAAA AAAAA
     protected function extrairVotos($qrCodeValue)
     {
         $cargoAtual = null;
         $boletim_id = $this->dadosBoletim['boletim_id'] ?? null;
         $secao_id = $this->dadosBoletim['SECA'] ?? null;
+        $processandoVotosCargo13 = false;
+        $processandoVotosCargo11 = false;
 
         foreach ($qrCodeValue as $item) {
             if ($item[0] === 'CARG') {
                 $cargoAtual = (int)$item[1];
+                $processandoVotosCargo13 = ($cargoAtual === 13);
+                $processandoVotosCargo11 = ($cargoAtual === 11);
             }
 
-            if ($cargoAtual === 13 || $cargoAtual === 11) {
-                if ($item[0] === 'BRAN' || $item[0] === 'NULO') {
-                    $this->processarVotosBrancosNulos($cargoAtual, $item[0] === 'BRAN' ? 'branco' : 'nulo', (int)$item[1], $boletim_id, $secao_id);
-                }
+            if ($cargoAtual === 13 && $processandoVotosCargo13) {
+                $this->processarVotosCargo13($boletim_id, $secao_id, $item);
+            }
+
+            if ($cargoAtual === 11 && $processandoVotosCargo11) {
+                $this->processarVotosCargo11($boletim_id, $secao_id, $item);
             }
         }
-        // Processa os votos dos candidatos após verificar os votos brancos e nulos
-        if ($cargoAtual === 13 || $cargoAtual === 11) {
-            $this->processarVotosCandidatos($cargoAtual, $boletim_id, $secao_id, $qrCodeValue);
-        }
+
+        // Persistir os votos acumulados na sessão
+        session()->put('votos', $this->votos);
+        // dd($this->votos);
     }
 
-    protected function processarVotosCandidatos($cargo_id, $boletim_id, $secao_id, $qrCodeData)
+    protected function processarVotosCargo13($boletim_id, $secao_id, $item)
     {
-        $processandoVotos = false;
-        $tipoProcessamento = null;
+        static $processandoVotos = false;
 
-        foreach ($qrCodeData as $item) {
-            if ($item[0] === 'CARG') {
-                if ($item[1] == 13 || $item[1] == 11) {
-                    $tipoProcessamento = (int)$item[1];
-                }
-            }
+        if ($item[0] === 'PART') {
+            $processandoVotos = true;
+        } elseif ($item[0] === 'LEGP' || $item[0] === 'APTA') {
+            $processandoVotos = false;
+        }
 
-            if ($tipoProcessamento === 13) {
-                if ($item[0] === 'PART') {
-                    $processandoVotos = true;
-                } elseif ($item[0] === 'LEGP') {
-                    $processandoVotos = false;
-                } elseif ($item[0] === 'APTA') {
-                    $tipoProcessamento = null;
-                }
+        if ($processandoVotos && is_numeric($item[0]) && isset($item[1])) {
+            $this->salvarVoto(13, $boletim_id, $secao_id, $item[0], $item[1]);
+        }
 
-                if ($processandoVotos && is_numeric($item[0]) && isset($item[1])) {
-                    $this->salvarVoto($cargo_id, $boletim_id, $secao_id, $item[0], $item[1]);
-                }
-            }
-
-            if ($tipoProcessamento === 11) {
-                if ($item[0] === 'VERC') {
-                    $processandoVotos = true;
-                } elseif ($item[0] === 'APTA') {
-                    $processandoVotos = false;
-                    $tipoProcessamento = null;
-                }
-
-                if ($processandoVotos && is_numeric($item[0]) && isset($item[1])) {
-                    $this->salvarVoto($cargo_id, $boletim_id, $secao_id, $item[0], $item[1]);
-                }
-            }
+        if ($item[0] === 'BRAN' || $item[0] === 'NULO') {
+            $this->processarVotosBrancosNulos(13, $item[0] === 'BRAN' ? 'branco' : 'nulo', (int)$item[1], $boletim_id, $secao_id);
         }
     }
+
+    protected function processarVotosCargo11($boletim_id, $secao_id, $item)
+    {
+        static $processandoVotos = false;
+
+        if ($item[0] === 'VERC') {
+            $processandoVotos = true;
+        } elseif ($item[0] === 'APTA') {
+            $processandoVotos = false;
+        }
+
+        if ($processandoVotos && is_numeric($item[0]) && isset($item[1])) {
+            $this->salvarVoto(11, $boletim_id, $secao_id, $item[0], $item[1]);
+        }
+
+        if ($item[0] === 'BRAN' || $item[0] === 'NULO') {
+            $this->processarVotosBrancosNulos(11, $item[0] === 'BRAN' ? 'branco' : 'nulo', (int)$item[1], $boletim_id, $secao_id);
+        }
+    }
+
 
     protected function salvarVoto($cargo_id, $boletim_id, $secao_id, $candidato_id, $quantidade)
     {

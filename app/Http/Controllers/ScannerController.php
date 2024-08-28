@@ -71,6 +71,7 @@ class ScannerController extends Controller
                     if (!$secaoExistente) {
                         $request->session()->flash('error', 'A seção escaneada não existe no sistema.');
                     } else {
+
                         // Criar novo boletim
                         $boletim = Boletim::create([
                             'secao_id' => $dadosBoletim['SECA'],
@@ -79,7 +80,7 @@ class ScannerController extends Controller
                             'falt' => $dadosBoletim['FALT'],
                             'assinatura_digital' => $dadosBoletim['ASSI'],
                         ]);
-
+                        // dd($votos);
                         foreach ($votos as $voto) {
                             Voto::create(array_merge($voto, [
                                 'boletim_id' => $boletim->id,
