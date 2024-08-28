@@ -32,11 +32,9 @@
     <div class="center-container">
         <div class="instructions">
             <h2>INSTRUÇÕES</h2>
-            <h4>- Realize o escaneamento dos QR Codes na ordem crescente e sequencial.</h4>
-            <h4>- Se um QR Code for lido <span>incorretamente</span> ou se houver problemas durante o
-                escaneamento, clique no botão "Limpar QR Codes" para apagar todos os QR Codes lidos.</h4>
-            <h4>- Envio dos Dados: Após cada escaneamento, não se esqueça de clicar no botão "ENVIAR" para registrar as
-                informações.</h4>
+            <h4>REALIZE O ESCANEAMENTO EM ORDEM CRESCENTE E SEQUENCIAL. SE ESTIVER TENDO <span>PROBLEMAS</span> COM O
+                ESCANEAMENTO, CLIQUE NO BOTÃO "LIMPAR QR CODES" PARA
+                REINICIAR.</h4>
         </div>
 
         <div id="reader" class="qr-reader"></div>
@@ -92,7 +90,7 @@
         var html5QrcodeScanner = new Html5QrcodeScanner(
             "reader", {
                 fps: 10,
-                qrbox: 250
+                qrbox: 280
             });
 
         function onScanSuccess(decodedText, decodedResult) {

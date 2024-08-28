@@ -25,6 +25,16 @@ class BoletimEleitoralService
         $qrCodeArray = $this->parseQRCodeConteudo($qrCodeValue);
 
         foreach ($qrCodeArray as $item) {
+            if ($item[0] === 'ZONA') {
+                if ($item[1] != '132') {
+                    throw new \Exception("ZONA ELEITORAL INVÁLIDA");
+                }
+            }
+            if ($item[0] === 'MUNI') {
+                if ($item[1] != '71153') {
+                    throw new \Exception("MUNICÍPIO INVÁLIDO");
+                }
+            }
             if ($item[0] === 'QRBU') {
                 $this->totalQrCodes = (int)$item[2];
                 $posicaoAtual = (int)$item[1];

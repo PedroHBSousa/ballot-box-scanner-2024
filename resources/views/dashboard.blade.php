@@ -28,7 +28,7 @@
     <div class="container">
         <div class="custom-select">
             <select id="filter-select">
-                <option value="prefeitos" selected>Prefeitos</option>
+                <option value="prefeitos" selected>Prefeito</option>
                 <option value="vereadores">Vereadores</option>
                 <option value="partidos">Partidos</option>
                 <option value="bairros">Bairros</option>
@@ -43,7 +43,7 @@
             </div>
 
             <div class="chart">
-            <h2>Vereadores</h2>
+                <h2>Vereadores</h2>
                 <canvas id="barchart-vereadores" width="400" height="400"></canvas>
             </div>
         </div>
@@ -63,17 +63,17 @@
                     data: [], // Dados dinâmicos
                     borderWidth: 1,
                     backgroundColor: [
-                        'rgba(30,144,255)',
+                        'rgba(128,0,128)',
                         'rgba(0,100,0)',
                         'rgba(255,0,0)',
-                        'rgba(128,0,128)',
+                        'rgba(30,144,255)',
                         'rgba(255,69,0)'
                     ],
                     borderColor: [
-                        'rgba(30,144,255)',
+                        'rgba(128,0,128)',
                         'rgba(0,100,0)',
                         'rgba(255,0,0)',
-                        'rgba(128,0,128)',
+                        'rgba(30,144,255)',
                         'rgba(255,69,0)'
                     ]
                 }]
@@ -133,9 +133,9 @@
             }
         });
 
-    document.getElementById('filter-select').addEventListener('change', function () {
-        const selectedFilter = this.value;
-        console.log('Filtro selecionado:', selectedFilter);
+        document.getElementById('filter-select').addEventListener('change', function() {
+            const selectedFilter = this.value;
+            console.log('Filtro selecionado:', selectedFilter);
 
             if (selectedFilter) {
                 axios.get(`/data/${selectedFilter}`)
@@ -149,9 +149,9 @@
             }
         });
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const filterSelect = document.getElementById('filter-select');
-        filterSelect.dispatchEvent(new Event('change')); // Simula o evento change
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterSelect = document.getElementById('filter-select');
+            filterSelect.dispatchEvent(new Event('change')); // Simula o evento change
         });
 
         function updateChart(filter, data) {
@@ -180,4 +180,5 @@
     <h1>Juntos é possível!</h1>
 
 </footer>
+
 </html>

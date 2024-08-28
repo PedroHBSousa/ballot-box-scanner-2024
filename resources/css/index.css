@@ -44,19 +44,27 @@ header img {
     position: relative;
     top: 50px;
 }
-
-.instructions h2{
-    display: flex;
+.instructions {
+    margin-top: 20px;
+    width: 400px;
+    max-width: 360px;
+}
+.instructions h2 {
+    text-align: center;
     padding: 10px 0 0 10px;
     color: rgba(0, 129, 255, 0.989233193277311);
-
+    font-weight: 800;
+    font-size: 20px;
+    margin-bottom: 10px;
 }
-.instructions h4{
+.instructions h4 {
+    text-align: justify;
     padding: 0 10px 3px 10px;
-
+    font-weight: 600;
+    font-size: 15px;
 }
-.instructions span{
-    color:rgba(255, 0, 0, 0.815);
+.instructions span {
+    color: rgba(255, 0, 0, 0.815);
 }
 #reinaldinho {
     width: 180px;
@@ -130,7 +138,7 @@ body {
     margin: 0 auto; /* Centraliza o scanner */
     overflow: hidden; /* Esconde qualquer parte do scanner que ultrapasse o container */
     position: relative; /* Garante que o scanner fique dentro do container */
-    margin-top: 50px;
+    margin-top: 25px;
 }
 
 .result-container {
@@ -201,7 +209,6 @@ textarea {
     align-items: center;
     margin-top: 15px;
     gap: 5px;
-
 }
 
 #success-message {
@@ -243,5 +250,4 @@ textarea {
         flex-direction: column;
         text-align: center;
     }
-
 }
