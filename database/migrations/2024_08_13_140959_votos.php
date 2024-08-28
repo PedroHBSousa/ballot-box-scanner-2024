@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('votos', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('cargo_id');
-            $table->unsignedBigInteger('boletim_id');
+            $table->unsignedBigInteger('cargo_id')->nullable();
+            $table->unsignedBigInteger('boletim_id')->nullable();
             $table->unsignedBigInteger('candidato_id')->nullable();
             $table->unsignedBigInteger('secao_id');
             $table->string('nominal');

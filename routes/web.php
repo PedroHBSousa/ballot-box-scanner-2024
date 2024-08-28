@@ -3,7 +3,7 @@
 use App\Http\Controllers\InsertController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScannerController;
-use App\Http\Controllers\ChartController;
+use App\Http\Controllers\DataController;
 
 Route::get('/qrcodescanner', [ScannerController::class, 'qrcodescanner'])->name('qrcodescanner');
 Route::post('/qrcodescanner/clear', [ScannerController::class, 'clearQRCodes'])->name('qrcodes.clear');
@@ -14,4 +14,4 @@ Route::post('/store', [ScannerController::class, 'store'])->name('store');
 Route::get('/insert', [InsertController::class, 'insert'])->name('insert');
 Route::post('/insert/data', [InsertController::class, 'insertdata'])->name('insert.data');
 
-Route::get ('/api/chart-data/{filter}', [ChartController::class , 'getChartData']);
+Route::get ('/data/{filter}', [DataController::class , 'getData'])->name('getData');

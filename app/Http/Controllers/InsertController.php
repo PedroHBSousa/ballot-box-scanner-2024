@@ -43,6 +43,11 @@ class InsertController extends Controller
                 $votos[] = [
                     'secao_id' => $secaoId,
                     'candidato_id' => $candidatoNumero,
+                    'nominal' => 'sim',
+                    'branco' => 'nao',
+                    'nulo' => 'nao',
+                    'created_at' => now(),
+                    'updated_at' => now()
                 ];
             }
 
@@ -52,7 +57,7 @@ class InsertController extends Controller
             return redirect()->route('insert')->with('success', 'Voto registrado com sucesso!');
         } catch (\Exception $e) {
             // Em caso de erro, redirecionar com uma mensagem de erro genérica
-            return redirect()->route('insert')->with('error', 'Ocorreu um erro. Por favor, tente novamente.'. $e->getMessage());
+            return redirect()->route('insert')->with('error', 'Ocorreu um erro. Tente novamente.'); 
         }
     }
 }
