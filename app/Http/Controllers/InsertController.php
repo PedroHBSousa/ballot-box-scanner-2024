@@ -3,35 +3,56 @@
 namespace App\Http\Controllers;
 
 use App\Models\Boletim;
+use App\Models\Secao;
+use App\Models\Voto;
 use Illuminate\Http\Request;
 
 class InsertController extends Controller
 {
     public function insert()
     {
-        return view('insert');
+        $search = request('search');
+
+        if($search) {
+            $secoes = Secao::with('localidade')->where('id', $search)->get();
+        } else {
+            $secoes = collect();
+        }
+
+        return view('insert', ['secoes' => $secoes]);
     }
 
     public function insertdata(Request $request)
     {
         // Validação (opcional, mas recomendado)
         $validated = $request->validate([
-            'secao_id' => 'required|numeric',
-            'apto' => 'required|numeric',
-            'assinatura_digital' => 'required|string',
-            'comp' => 'required|numeric',
-            'falt' => 'required|numeric'
+            'secao_id' => 'required|exists:secoes,id',
+            'candidato_numero' => 'required|integer',
+            'num_votos' => 'required|integer|min:1',
         ]);
 
-        // Criar um novo Boletim
         try {
-            // Criar um novo Boletim
-            Boletim::create($validated);
-            // Redirecionar com sucesso
-            return redirect()->route('insert')->with('success', 'Inserido com sucesso');
+            // Capturar os dados validados
+            $secaoId = $validated['secao_id'];
+            $candidatoNumero = $validated['candidato_numero'];
+            $numeroVotos = $validated['num_votos'];
+
+            // Inserir o número de registros especificado na tabela `votos`
+            $votos = [];
+            for ($i = 0; $i < $numeroVotos; $i++) {
+                $votos[] = [
+                    'secao_id' => $secaoId,
+                    'candidato_id' => $candidatoNumero,
+                ];
+            }
+
+            // Inserir todos os registros de uma vez
+            Voto::insert($votos);
+
+            return redirect()->route('insert')->with('success', 'Voto registrado com sucesso!');
         } catch (\Exception $e) {
-            // Redirecionar com erro
-            return redirect()->route('insert')->with('error', 'Ocorreu um erro ao inserir os dados.');
+            // Em caso de erro, redirecionar com uma mensagem de erro genérica
+            return redirect()->route('insert')->with('error', 'Ocorreu um erro. Por favor, tente novamente.'. $e->getMessage());
         }
     }
 }

@@ -30,13 +30,13 @@
 <body>
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <div class="center-container">
-        <div>
+        <div class="instructions">
             <h2>INSTRUÇÕES</h2>
-            <h3>- Realize o escaneamento dos QR Codes na ordem crescente e sequencial.</h3>
-            <h3>- Se um QR Code for lido incorretamente ou se houver problemas durante o
-                escaneamento, clique no botão "Limpar QR Codes" para apagar todos os QR Codes lidos.</h3>
-            <h3>- Envio dos Dados: Após cada escaneamento, não se esqueça de clicar no botão "ENVIAR" para registrar as
-                informações.</h3>
+            <h4>- Realize o escaneamento dos QR Codes na ordem crescente e sequencial.</h4>
+            <h4>- Se um QR Code for lido <span>incorretamente</span> ou se houver problemas durante o
+                escaneamento, clique no botão "Limpar QR Codes" para apagar todos os QR Codes lidos.</h4>
+            <h4>- Envio dos Dados: Após cada escaneamento, não se esqueça de clicar no botão "ENVIAR" para registrar as
+                informações.</h4>
         </div>
 
         <div id="reader" class="qr-reader"></div>
@@ -63,6 +63,9 @@
             <form method="post" action="{{ route('store') }}" id="qrcode-form">
                 @csrf
                 <input type="hidden" id="qrcode-value" name="qrcode_value">
+                <div id="writer" class="digitar">
+                    <button type="submit">Enviar</button>
+                </div>
             </form>
         </div>
 

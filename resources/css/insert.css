@@ -56,12 +56,59 @@ header h1 {
     top: -110px;
     left: -50px;
 }
-body {
-    /* margin: 0;
+
+footer {
+    background: linear-gradient(
+        -45deg,
+        rgba(0, 129, 255, 0.989233193277311) 10%,
+        rgba(255, 218, 0, 1) 40%,
+        rgba(0, 129, 255, 0.989233193277311) 60%,
+        rgba(255, 218, 0, 1) 90%
+    );
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     width: 100%;
-    height: 100vh; */
-    min-height: 100vh;
+    height: 125px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    padding: 10px 0;
 }
+
+
+.busca {
+    padding: 50px 0 0 0;
+    justify-items: center;
+    flex: 1;
+    
+
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    display: flex;
+    flex: 1; /* Faz com que o container ocupe o espaço restante */
+    padding: 20px;
+    align-items: center;
+    flex-direction: column-reverse;
+}
+
+
+    
+
 
 @keyframes gradientBG {
     0% {
@@ -74,65 +121,6 @@ body {
         background-position: 0% 50%;
     }
 }
-
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-weight: 300;
-}
-.chart {
-   
-    width: 700px;
-    height: 700px;
-    padding: 2rem;
-    border: 1px solid #000;
-    border-radius: 1rem;
-    box-shadow: 0 0 16px rgba(0, 0, 0, 0);
-}
-.charts-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-.custom-select {
-    min-width: 350px;
-    position: relative;
-    margin-bottom: 2rem;
-    margin-top: 2rem;
-}
-.custom-select select {
-    appearance: none;
-    width: 100%;
-    font-size: 1.15rem;
-    padding: 0.675em 6em 0.675em 1em;
-    background-color: #fff;
-    border: 1px solid #000;
-    border-radius: 0.25rem;
-    color: #000;
-    cursor: pointer;
-}
-.custom-select::before,
-.custom-select::after {
-    --size: 0.3rem;
-    content: "";
-    position: absolute;
-    right: 1rem;
-    pointer-events: none;
-}
-.custom-select::before {
-    border-left: var(--size) solid transparent;
-    border-right: var(--size) solid transparent;
-    border-bottom: var(--size) solid black;
-    top: 40%;
-}
-.custom-select::after {
-    border-left: var(--size) solid transparent;
-    border-right: var(--size) solid transparent;
-    border-top: var(--size) solid black;
-    top: 55%;
-}
 @media (min-width: 320px) and (max-width: 480px) {
     #reis {
         left: 120px;
@@ -144,13 +132,7 @@ body {
         left: 30px;
     }
     header h1 {
-        font-size: 20px;
+        font-size: 18px;
         text-align: center;
-        
-    }
-
-    .chart{
-        height: 400px;
-        width: 400px;
     }
 }

@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             CargoSeeder::class,
             CandidatoSeeder::class,
             SecaoSeeder::class,
+            
         ]);
     }
 }
