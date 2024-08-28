@@ -38,11 +38,7 @@ class ScannerController extends Controller
         }
 
         // Processamento do valor do QRCode
-        $qrCodeValue = $request->input('qrcode_value');
-        $qrCodeArray = explode(" ", $qrCodeValue);
-        $qrCodeData = array_map(function ($item) {
-            return explode(":", $item);
-        }, $qrCodeArray);
+        $qrCodeData = $request->input('qrcode_value');
 
         try {
             // Recuperar QR codes lidos da sessão
@@ -95,6 +91,8 @@ class ScannerController extends Controller
                 // Limpar sessão após o processo
                 $request->session()->forget('qrCodesLidos');
                 $request->session()->forget('dadosBoletim');
+                $request->session()->forget('conteudoCompleto');
+                $request->session()->forget('votos');
             } else {
                 $request->session()->flash('status', "Você leu {$status['qr_codes_lidos']} de {$status['qr_codes_totais']} QR Codes. Faltam {$status['qr_codes_restantes']}.");
             }

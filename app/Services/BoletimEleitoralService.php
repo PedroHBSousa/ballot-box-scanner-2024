@@ -8,7 +8,6 @@ class BoletimEleitoralService
     protected $totalQrCodes = 0;
     protected $dadosBoletim = [];
     protected $conteudoCompleto = ""; // String que acumula todos os QR Codes
-
     protected $votos = [];
 
 
@@ -16,14 +15,16 @@ class BoletimEleitoralService
     {
         $this->qrCodesLidos = $qrCodesLidos;  // Inicializa com os QR codes lidos da sessão
         $this->dadosBoletim = session()->get('dadosBoletim', []); // Carrega os dados do boletim da sessão se existirem
+        $this->conteudoCompleto = session()->get('conteudoCompleto', ""); // Carrega o conteúdo acumulado dos QR Codes da sessão
         $this->votos = session()->get('votos', []); // Carrega os votos acumulados da sessão se existirem
-        $this->processarQRCode($qrCodeValue);
+        $this->validarEArmazenarQRCode($qrCodeValue);
     }
 
-    protected function processarQRCode($qrCodeValue)
+    protected function validarEArmazenarQRCode($qrCodeValue)
     {
-        // Buscar a chave 'QRBU' no array
-        foreach ($qrCodeValue as $item) {
+        $qrCodeArray = $this->parseQRCodeConteudo($qrCodeValue);
+
+        foreach ($qrCodeArray as $item) {
             if ($item[0] === 'QRBU') {
                 $this->totalQrCodes = (int)$item[2];
                 $posicaoAtual = (int)$item[1];
@@ -43,24 +44,28 @@ class BoletimEleitoralService
             }
             $this->conteudoCompleto .= implode(':', $item) . " ";
         }
+
         // Persistir os dados do boletim na sessão
         session()->put('dadosBoletim', $this->dadosBoletim);
+        session()->put('qrCodesLidos', $this->qrCodesLidos);
+        session()->put('conteudoCompleto', $this->conteudoCompleto);
+
         // Se todos os QR Codes foram lidos, extrair os votos
         if (count($this->qrCodesLidos) === $this->totalQrCodes) {
             $this->extrairVotos($this->conteudoCompleto);
         }
     }
-    // começa aquiaaaaaaaaaaaaaAAAAA AAAAA
+
     protected function extrairVotos($conteudoCompleto)
     {
-        $qrCodeValue = $this->parseQRCodeConteudo($conteudoCompleto);
+        $qrCodeArray = $this->parseQRCodeConteudo($conteudoCompleto);
         $cargoAtual = null;
         $boletim_id = $this->dadosBoletim['boletim_id'] ?? null;
         $secao_id = $this->dadosBoletim['SECA'] ?? null;
         $processandoVotosCargo13 = false;
         $processandoVotosCargo11 = false;
 
-        foreach ($qrCodeValue as $item) {
+        foreach ($qrCodeArray as $item) {
             if ($item[0] === 'CARG') {
                 $cargoAtual = (int)$item[1];
                 $processandoVotosCargo13 = ($cargoAtual === 13);
@@ -78,19 +83,18 @@ class BoletimEleitoralService
 
         // Persistir os votos acumulados na sessão
         session()->put('votos', $this->votos);
-        // dd($this->votos);
     }
-    // Função para parsear a string completa de volta em um array de QR codes
+
     protected function parseQRCodeConteudo($conteudoCompleto)
     {
         $items = explode(" ", trim($conteudoCompleto));
-        $qrCodeValue = [];
+        $qrCodeArray = [];
 
         foreach ($items as $item) {
-            $qrCodeValue[] = explode(":", $item);
+            $qrCodeArray[] = explode(":", $item);
         }
 
-        return $qrCodeValue;
+        return $qrCodeArray;
     }
 
     protected function processarVotosCargo13($boletim_id, $secao_id, $item)

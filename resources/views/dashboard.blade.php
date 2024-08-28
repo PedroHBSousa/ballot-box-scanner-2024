@@ -37,12 +37,12 @@
             </select>
         </div>
         <div class="charts-container">
-            
+
             <div class="chart">
                 <h2>Prefeitos</h2>
                 <canvas id="barchart-prefeitos" width="400" height="400"></canvas>
             </div>
-            
+
             <div class="chart">
             <h2>Vereadores</h2>
                 <canvas id="barchart-vereadores" width="400" height="400"></canvas>
@@ -139,7 +139,7 @@
         console.log('Filtro selecionado:', selectedFilter);
 
             if (selectedFilter) {
-                axios.get(`/api/chart-data/${selectedFilter}`)
+                axios.get(`/data/${selectedFilter}`)
                     .then(response => {
                         const data = response.data;
                         updateChart(selectedFilter, data);
