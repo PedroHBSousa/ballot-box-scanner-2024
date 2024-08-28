@@ -37,18 +37,26 @@
             </select>
         </div>
         <div class="charts-container">
+            
             <div class="chart">
-                <canvas id="barchart" width="400" height="400"></canvas>
+                <h2>Prefeitos</h2>
+                <canvas id="barchart-prefeitos" width="400" height="400"></canvas>
+            </div>
+            
+            <div class="chart">
+            <h2>Vereadores</h2>
+                <canvas id="barchart-vereadores" width="400" height="400"></canvas>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    
+
     <script>
-        const ctx2 = document.getElementById('barchart');
-        let chartInstance = new Chart(ctx2, {
+        // Gráfico para prefeitos
+        const ctxPrefeitos = document.getElementById('barchart-prefeitos');
+        let chartInstancePrefeitos = new Chart(ctxPrefeitos, {
             type: 'bar',
             data: {
                 labels: [], // Labels dinâmicos
@@ -56,14 +64,54 @@
                     data: [], // Dados dinâmicos
                     borderWidth: 1,
                     backgroundColor: [
-                        'rgba(30,144,255)', 
-                        'rgba(0,100,0)', 
-                        'rgba(255,0,0)',    
-                        'rgba(128,0,128)',  
-                        'rgba(255,69,0)'  
+                        'rgba(30,144,255)',
+                        'rgba(0,100,0)',
+                        'rgba(255,0,0)',
+                        'rgba(128,0,128)',
+                        'rgba(255,69,0)'
                     ],
                     borderColor: [
-                        'rgba(30,144,255)', 
+                        'rgba(30,144,255)',
+                        'rgba(0,100,0)',
+                        'rgba(255,0,0)',
+                        'rgba(128,0,128)',
+                        'rgba(255,69,0)'
+                    ]
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        suggestedMin: 0
+                    }
+                }
+            }
+        });
+
+        // Gráfico para vereadores
+        const ctxVereadores = document.getElementById('barchart-vereadores');
+        let chartInstanceVereadores = new Chart(ctxVereadores, {
+            type: 'bar',
+            data: {
+                labels: [], // Labels dinâmicos
+                datasets: [{
+                    data: [], // Dados dinâmicos
+                    borderWidth: 1,
+                    backgroundColor: [
+                        'rgba(30,144,255)',
+                        'rgba(0,100,0)',
+                        'rgba(255,0,0)',
+                        'rgba(128,0,128)',
+                        'rgba(255,69,0)'
+                    ],
+                    borderColor: [
+                        'rgba(30,144,255)',
                         'rgba(0,100,0)',
                         'rgba(255,0,0)',
                         'rgba(128,0,128)',
@@ -93,7 +141,7 @@
                 axios.get(`/api/chart-data/${selectedFilter}`)
                     .then(response => {
                         const data = response.data;
-                        updateChart(data);
+                        updateChart(selectedFilter, data);
                     })
                     .catch(error => {
                         console.error('Erro ao buscar dados do gráfico:', error);
@@ -101,25 +149,30 @@
             }
         });
 
-        function updateChart(data) {
-            chartInstance.data.labels = data.map(item => item.nome);
-            chartInstance.data.datasets[0].data = data.map(item => item.total);
-            chartInstance.update();
+        function updateChart(filter, data) {
+            if (filter === 'prefeitos') {
+                updateChartInstance(chartInstancePrefeitos, data);
+            } else if (filter === 'vereadores') {
+                updateChartInstance(chartInstanceVereadores, data);
+            }
+            // Adicionar lógica para outros filtros se necessário
         }
 
-        function updateChart(data) {
-    if (data.length === 0) {
-        console.log('Nenhum dado encontrado para este filtro.');
-        // Opcional: mostrar uma mensagem ou limpar o gráfico
-        chartInstance.data.labels = [];
-        chartInstance.data.datasets[0].data = [];
-    } else {
-        chartInstance.data.labels = data.map(item => item.nome);
-        chartInstance.data.datasets[0].data = data.map(item => item.total);
-    }
-    chartInstance.update();
-}
+        function updateChartInstance(chartInstance, data) {
+            if (data.length === 0) {
+                console.log('Nenhum dado encontrado para este filtro.');
+                chartInstance.data.labels = [];
+                chartInstance.data.datasets[0].data = [];
+            } else {
+                chartInstance.data.labels = data.map(item => item.nome);
+                chartInstance.data.datasets[0].data = data.map(item => item.total);
+            }
+            chartInstance.update();
+        }
     </script>
 </body>
+<footer>
+    <h1>Juntos é possível!</h1>
 
+</footer>
 </html>
