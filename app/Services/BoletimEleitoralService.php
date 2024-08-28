@@ -7,8 +7,9 @@ class BoletimEleitoralService
     protected $qrCodesLidos = [];
     protected $totalQrCodes = 0;
     protected $dadosBoletim = [];
+    protected $conteudoCompleto = ""; // String que acumula todos os QR Codes
+
     protected $votos = [];
-    protected $dadosQrCodes = []; // Nova propriedade para armazenar os dados dos QR codes lidos
 
 
     public function __construct($qrCodeValue, $qrCodesLidos)
@@ -16,7 +17,6 @@ class BoletimEleitoralService
         $this->qrCodesLidos = $qrCodesLidos;  // Inicializa com os QR codes lidos da sessão
         $this->dadosBoletim = session()->get('dadosBoletim', []); // Carrega os dados do boletim da sessão se existirem
         $this->votos = session()->get('votos', []); // Carrega os votos acumulados da sessão se existirem
-        $this->dadosQrCodes = session()->get('dadosQrCodes', []); // Carrega os dados dos QR codes da sessão se existirem
         $this->processarQRCode($qrCodeValue);
     }
 
@@ -38,53 +38,59 @@ class BoletimEleitoralService
                 // Adiciona o QR code lido ao array
                 $this->qrCodesLidos[] = $posicaoAtual;
             }
-
             if (in_array($item[0], ['SECA', 'APTO', 'COMP', 'FALT', 'ASSI'])) {
                 $this->dadosBoletim[$item[0]] = $item[1];
             }
+            $this->conteudoCompleto .= implode(':', $item) . " ";
         }
-
-        // Armazena os dados do QR code atual
-        $this->dadosQrCodes[] = $qrCodeValue;
-
-        // Persistir os dados na sessão
+        // Persistir os dados do boletim na sessão
         session()->put('dadosBoletim', $this->dadosBoletim);
-        session()->put('dadosQrCodes', $this->dadosQrCodes);
-
-        // Verifica se todos os QR codes foram lidos
+        // Se todos os QR Codes foram lidos, extrair os votos
         if (count($this->qrCodesLidos) === $this->totalQrCodes) {
-            $this->extrairVotos();
+            $this->extrairVotos($this->conteudoCompleto);
         }
     }
-
-    protected function extrairVotos()
+    // começa aquiaaaaaaaaaaaaaAAAAA AAAAA
+    protected function extrairVotos($conteudoCompleto)
     {
-        foreach ($this->dadosQrCodes as $qrCodeValue) {
-            $cargoAtual = null;
-            $boletim_id = $this->dadosBoletim['boletim_id'] ?? null;
-            $secao_id = $this->dadosBoletim['SECA'] ?? null;
-            $processandoVotosCargo13 = false;
-            $processandoVotosCargo11 = false;
+        $qrCodeValue = $this->parseQRCodeConteudo($conteudoCompleto);
+        $cargoAtual = null;
+        $boletim_id = $this->dadosBoletim['boletim_id'] ?? null;
+        $secao_id = $this->dadosBoletim['SECA'] ?? null;
+        $processandoVotosCargo13 = false;
+        $processandoVotosCargo11 = false;
 
-            foreach ($qrCodeValue as $item) {
-                if ($item[0] === 'CARG') {
-                    $cargoAtual = (int)$item[1];
-                    $processandoVotosCargo13 = ($cargoAtual === 13);
-                    $processandoVotosCargo11 = ($cargoAtual === 11);
-                }
+        foreach ($qrCodeValue as $item) {
+            if ($item[0] === 'CARG') {
+                $cargoAtual = (int)$item[1];
+                $processandoVotosCargo13 = ($cargoAtual === 13);
+                $processandoVotosCargo11 = ($cargoAtual === 11);
+            }
 
-                if ($cargoAtual === 13 && $processandoVotosCargo13) {
-                    $this->processarVotosCargo13($boletim_id, $secao_id, $item);
-                }
+            if ($cargoAtual === 13 && $processandoVotosCargo13) {
+                $this->processarVotosCargo13($boletim_id, $secao_id, $item);
+            }
 
-                if ($cargoAtual === 11 && $processandoVotosCargo11) {
-                    $this->processarVotosCargo11($boletim_id, $secao_id, $item);
-                }
+            if ($cargoAtual === 11 && $processandoVotosCargo11) {
+                $this->processarVotosCargo11($boletim_id, $secao_id, $item);
             }
         }
 
         // Persistir os votos acumulados na sessão
         session()->put('votos', $this->votos);
+        // dd($this->votos);
+    }
+    // Função para parsear a string completa de volta em um array de QR codes
+    protected function parseQRCodeConteudo($conteudoCompleto)
+    {
+        $items = explode(" ", trim($conteudoCompleto));
+        $qrCodeValue = [];
+
+        foreach ($items as $item) {
+            $qrCodeValue[] = explode(":", $item);
+        }
+
+        return $qrCodeValue;
     }
 
     protected function processarVotosCargo13($boletim_id, $secao_id, $item)
