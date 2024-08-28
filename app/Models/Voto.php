@@ -12,14 +12,14 @@ class Voto extends Model
     protected $table = 'votos';
 
     protected $fillable = [
-        // 'id',
-        // 'cargo_id',
-        // 'boletim_id',
+        'id',
+        'cargo_id',
+        'boletim_id',
         'candidato_id',
         'secao_id',
-        // 'nominal',
-        // 'nulo',
-        // 'branco'
+        'nominal',
+        'nulo',
+        'branco'
     ];
 
     public function cargo()
@@ -41,5 +41,4 @@ class Voto extends Model
     {
         return $this->belongsTo(Secao::class);
     }
-
 }

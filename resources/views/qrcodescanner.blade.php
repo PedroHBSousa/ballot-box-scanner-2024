@@ -41,6 +41,11 @@
 
         <div id="reader" class="qr-reader"></div>
 
+        <form method="post" action="{{ route('store') }}" id="qrcode-form">
+            @csrf
+            <input type="hidden" id="qrcode-value" name="qrcode_value">
+        </form>
+
         <div id="message">
             @if (session('status'))
                 <p style="color: blue;">{{ session('status') }}</p>
@@ -58,13 +63,6 @@
                 @csrf
                 <div id="writer" class="digitar">
                     <button type="submit">Limpar QR Codes</button>
-                </div>
-            </form>
-            <form method="post" action="{{ route('store') }}" id="qrcode-form">
-                @csrf
-                <input type="hidden" id="qrcode-value" name="qrcode_value">
-                <div id="writer" class="digitar">
-                    <button type="submit">Enviar</button>
                 </div>
             </form>
         </div>
