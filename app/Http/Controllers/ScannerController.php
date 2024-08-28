@@ -33,7 +33,7 @@ class ScannerController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $request->session()->flash('error', 'O QRCode não foi escaneado.');
+            $request->session()->flash('error', 'QR Code não foi lido.');
             return redirect()->route('qrcodescanner');
         }
 
@@ -59,13 +59,13 @@ class ScannerController extends Controller
                 $boletimExistente = Boletim::where('assinatura_digital', $dadosBoletim['ASSI'])->first();
 
                 if ($boletimExistente) {
-                    $request->session()->flash('error', 'Os QR codes lidos são referentes a um boletim existente no sistema.');
+                    $request->session()->flash('error', 'BOLETIM EXISTENTE');
                 } else {
                     // Verificar se a seção existe
                     $secaoExistente = Secao::find($dadosBoletim['SECA']);
 
                     if (!$secaoExistente) {
-                        $request->session()->flash('error', 'A seção escaneada não existe no sistema.');
+                        $request->session()->flash('error', 'A seção lida não pertence ao município desejado.');
                     } else {
 
                         // Criar novo boletim
@@ -84,7 +84,7 @@ class ScannerController extends Controller
                             ]));
                         }
 
-                        $request->session()->flash('success', 'Boletim e votos adicionados com sucesso.');
+                        $request->session()->flash('success', 'BOLETIM SALVO COM SUCESSO');
                     }
                 }
 
@@ -94,14 +94,14 @@ class ScannerController extends Controller
                 $request->session()->forget('conteudoCompleto');
                 $request->session()->forget('votos');
             } else {
-                $request->session()->flash('status', "Você leu {$status['qr_codes_lidos']} de {$status['qr_codes_totais']} QR Codes. Faltam {$status['qr_codes_restantes']}.");
+                $request->session()->flash('status', "ESCANEADO {$status['qr_codes_lidos']} DE {$status['qr_codes_totais']} QR CODES. FALTAM {$status['qr_codes_restantes']}.");
             }
         } catch (QueryException $e) {
             // Captura erros relacionados ao banco de dados
             if ($e->getCode() == "23000") { // Código de violação de integridade
-                $request->session()->flash('error', 'Erro ao salvar o boletim: dados inválidos ou inconsistentes.' . $e->getMessage());
+                $request->session()->flash('error', 'ERRO AO SALVAR NO BANCO' . $e->getMessage());
             } else {
-                $request->session()->flash('error', 'Ocorreu um erro ao processar sua solicitação. Tente novamente mais tarde.');
+                $request->session()->flash('error', 'OCORREU UM ERRO AO PROCESSAR SUA SOLICITAÇÃO.');
             }
         } catch (\Exception $e) {
             // Captura quaisquer outros erros
@@ -116,7 +116,7 @@ class ScannerController extends Controller
         $request->session()->forget('qrCodesLidos');
 
         // Definir uma mensagem de sucesso
-        $request->session()->flash('status', 'Os QR Codes foram limpos com sucesso.');
+        $request->session()->flash('status', 'QR CODES LIMPOS COM SUCESSO');
 
         // Redirecionar de volta para a página de escaneamento ou outra página desejada
         return redirect()->route('qrcodescanner');

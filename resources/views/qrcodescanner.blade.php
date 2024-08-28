@@ -48,13 +48,22 @@
 
         <div id="message">
             @if (session('status'))
-                <p style="color: blue;">{{ session('status') }}</p>
+                <span style="color:#255290" class="material-symbols-outlined">
+                    autorenew
+                </span>
+                <p style="color:#255290">{{ session('status') }}</p>
             @endif
             @if (session('error'))
-                <p style="color: red;">{{ session('error') }}</p>
+                <span style="color:#BB271A "class="material-symbols-outlined">
+                    error
+                </span>
+                <p style="color:#BB271A">{{ session('error') }}</p>
             @endif
             @if (session('success'))
-                <p style="color: green;">{{ session('success') }}</p>
+                <span style="color:#48752C" class="material-symbols-outlined">
+                    check_circle
+                </span>
+                <p style="color:#48752C">{{ session('success') }}</p>
             @endif
         </div>
 

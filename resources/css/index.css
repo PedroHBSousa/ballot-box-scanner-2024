@@ -49,7 +49,7 @@ header img {
     display: flex;
     padding: 10px 0 0 10px;
     color: rgba(0, 129, 255, 0.989233193277311);
-    
+
 }
 .instructions h4{
     padding: 0 10px 3px 10px;
@@ -195,11 +195,20 @@ textarea {
 .codigo {
     font-size: 30px;
 }
+#message {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 15px;
+    gap: 5px;
+
+}
 
 #success-message {
     display: flex;
     flex-direction: column;
     align-items: center;
+
     margin-top: 10px;
     font-size: 16px;
 }
@@ -208,9 +217,12 @@ textarea {
     margin-right: 5px;
     font-size: 20px;
 }
+
 .material-symbols-outlined {
-    font-size: 50px;
+    font-size: 30px;
+    font-weight: 500;
 }
+
 /* RESPONSIVIDADE MOBILE */
 
 @media (min-width: 320px) and (max-width: 480px) {
@@ -227,4 +239,9 @@ textarea {
         font-size: 18px;
         text-align: center;
     }
+    #message {
+        flex-direction: column;
+        text-align: center;
+    }
+
 }
