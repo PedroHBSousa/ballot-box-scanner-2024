@@ -40,19 +40,20 @@
                     <h2>Dados da Seção Selecionada</h2>
                     @foreach($secoes as $secao)
                         <div>
-                            <h3>Seção ID: {{ $secao->id }} | {{ $secao->localidade->nome }}</h3>
+                            <h3>Seção ID: {{ $secao->id }} | {{ $secao->localidade->nome }}</h3> <br>
 
                             <form action="{{ route('insert.data')}}" method="POST">
                                 @csrf
                                 <input type="hidden" name="secao_id" value="{{ $secao->id }}">
 
-                                <label for="candidato_numero">Número do candidato:</label>
-                                <input type="number" id="candidato_numero" name="candidato_numero" required>
-
-                                <label for="numero_votos">Votos:</label>
-                                <input type="number" id="num_votos" name="num_votos" required>
+                                <h3>Digite os votos para cada candidato:</h3>
+                                @foreach ($candidatos as $candidato)
+                                    <div>
+                                        <label for="candidato_{{ $candidato->id }}">{{ $candidato->nome }}</label>
+                                        <input type="number" name="votos[{{ $candidato->id }}]" id="candidato_{{ $candidato->id }}" min="0" placeholder="Digite os votos" required>
+                                    </div>
+                                @endforeach
                                 
-
                                 <button type="submit">Enviar</button>
                             </form>
                         </div>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Boletim;
+use App\Models\Candidato;
 use App\Models\Secao;
 use App\Models\Voto;
 use Illuminate\Http\Request;
@@ -19,7 +19,12 @@ class InsertController extends Controller
             $secoes = collect();
         }
 
-        return view('insert', ['secoes' => $secoes]);
+        // Consulta para obter candidatos
+        $candidatos = Candidato::where('cargo_id', 11)
+        ->select('id', 'nome')
+        ->get();
+
+        return view('insert', ['secoes' => $secoes, 'candidatos' => $candidatos]);
     }
 
     public function insertdata(Request $request)
@@ -27,32 +32,35 @@ class InsertController extends Controller
         // Validação (opcional, mas recomendado)
         $validated = $request->validate([
             'secao_id' => 'required|exists:secoes,id',
-            'candidato_numero' => 'required|integer',
-            'num_votos' => 'required|integer|min:1',
+            'votos' => 'required|array',
+            'votos.*' => 'required|integer|min:0',
         ]);
 
         try {
             // Capturar os dados validados
             $secaoId = $validated['secao_id'];
-            $candidatoNumero = $validated['candidato_numero'];
-            $numeroVotos = $validated['num_votos'];
+            $votos = $validated['votos'];
 
             // Inserir o número de registros especificado na tabela `votos`
-            $votos = [];
-            for ($i = 0; $i < $numeroVotos; $i++) {
-                $votos[] = [
-                    'secao_id' => $secaoId,
-                    'candidato_id' => $candidatoNumero,
-                    'nominal' => 'sim',
-                    'branco' => 'nao',
-                    'nulo' => 'nao',
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ];
+            $votosData = [];
+            foreach ($votos as $candidatoId => $quantidade) {
+                if ($quantidade > 0) { // Verificar se a quantidade é maior que zero
+                    for ($i = 0; $i < $quantidade; $i++) {
+                        $votosData[] = [
+                            'secao_id' => $secaoId,
+                            'candidato_id' => $candidatoId,
+                            'nominal' => 'sim',
+                            'branco' => 'nao',
+                            'nulo' => 'nao',
+                            'created_at' => now(),
+                            'updated_at' => now()
+                    ];
+                }
             }
+        }
 
             // Inserir todos os registros de uma vez
-            Voto::insert($votos);
+            Voto::insert($votosData);
 
             return redirect()->route('insert')->with('success', 'Voto registrado com sucesso!');
         } catch (\Exception $e) {

@@ -28,8 +28,7 @@
     <div class="container">
         <div class="custom-select">
             <select id="filter-select">
-                <option value="">Selecione o filtro</option>
-                <option value="prefeitos">Prefeitos</option>
+                <option value="prefeitos" selected>Prefeitos</option>
                 <option value="vereadores">Vereadores</option>
                 <option value="partidos">Partidos</option>
                 <option value="bairros">Bairros</option>
@@ -148,6 +147,11 @@
                         console.error('Erro ao buscar dados do gráfico:', error);
                     });
             }
+        });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterSelect = document.getElementById('filter-select');
+        filterSelect.dispatchEvent(new Event('change')); // Simula o evento change
         });
 
         function updateChart(filter, data) {
