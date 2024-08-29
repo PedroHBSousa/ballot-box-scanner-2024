@@ -25,10 +25,11 @@
         </div>
     </header>
 
-    <div class="container">
+    <<div class="container">
         <div class="custom-select">
             <select id="filter-select">
-                <option value="prefeitos" selected>Prefeito</option>
+                <option value="">Selecione o filtro</option>
+                <option value="prefeitos">Prefeitos</option>
                 <option value="vereadores">Vereadores</option>
                 <option value="partidos">Partidos</option>
                 <option value="bairros">Bairros</option>
@@ -36,145 +37,129 @@
             </select>
         </div>
         <div class="charts-container">
-
             <div class="chart">
-                <h2>Prefeitos</h2>
-                <canvas id="barchart-prefeitos" width="400" height="400"></canvas>
+                <canvas id="piechart-prefeitos" width="400" height="400"></canvas>
             </div>
-
             <div class="chart">
-                <h2>Vereadores</h2>
                 <canvas id="barchart-vereadores" width="400" height="400"></canvas>
             </div>
         </div>
-    </div>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script>
-        // Gráfico para prefeitos
-        const ctxPrefeitos = document.getElementById('barchart-prefeitos');
-        let chartInstancePrefeitos = new Chart(ctxPrefeitos, {
-            type: 'bar',
-            data: {
-                labels: [], // Labels dinâmicos
-                datasets: [{
-                    data: [], // Dados dinâmicos
-                    borderWidth: 1,
-                    backgroundColor: [
-                        'rgba(128,0,128)',
-                        'rgba(0,100,0)',
-                        'rgba(255,0,0)',
-                        'rgba(30,144,255)',
-                        'rgba(255,69,0)'
-                    ],
-                    borderColor: [
-                        'rgba(128,0,128)',
-                        'rgba(0,100,0)',
-                        'rgba(255,0,0)',
-                        'rgba(30,144,255)',
-                        'rgba(255,69,0)'
-                    ]
-                }]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: false
-                    }
+        <script>
+            // Gráfico de pizza para prefeitos
+            const ctxPrefeitos = document.getElementById('piechart-prefeitos');
+            let chartInstancePrefeitos = new Chart(ctxPrefeitos, {
+                type: 'pie',
+                data: {
+                    labels: ['Reinaldinho', 'Dr. Juan', 'Prof.Gleivison', 'Vinicius', 'Dr. nil'], // Labels dinâmicos
+                    datasets: [{
+                        data: [1000, 300, 440, 400, 1], // Dados dinâmicos
+                        backgroundColor: [
+                            'rgba(30,144,255)',
+                            'rgba(255,0,0)',
+                            'rgba(252, 186, 3)',
+                            'rgba(7, 217, 0)',
+                            'rgba(255,69,0)'
+                        ],
+                        borderColor: [
+                            'rgba(30,144,255)',
+                            'rgba(255,0,0)',
+                            'rgba(252, 186, 3)',
+                            'rgba(7, 217, 0)',
+                            'rgba(255,69,0)'
+                        ],
+                        borderWidth: 1
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        suggestedMin: 0
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true // Exibe a legenda para o gráfico de pizza
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        // Gráfico para vereadores
-        const ctxVereadores = document.getElementById('barchart-vereadores');
-        let chartInstanceVereadores = new Chart(ctxVereadores, {
-            type: 'bar',
-            data: {
-                labels: [], // Labels dinâmicos
-                datasets: [{
-                    data: [], // Dados dinâmicos
-                    borderWidth: 1,
-                    backgroundColor: [
-                        'rgba(30,144,255)',
-                        'rgba(0,100,0)',
-                        'rgba(255,0,0)',
-                        'rgba(128,0,128)',
-                        'rgba(255,69,0)'
-                    ],
-                    borderColor: [
-                        'rgba(30,144,255)',
-                        'rgba(0,100,0)',
-                        'rgba(255,0,0)',
-                        'rgba(128,0,128)',
-                        'rgba(255,69,0)'
-                    ]
-                }]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: false
-                    }
+            // Gráfico de barras para vereadores
+            const ctxVereadores = document.getElementById('barchart-vereadores');
+            let chartInstanceVereadores = new Chart(ctxVereadores, {
+                type: 'bar',
+                data: {
+                    labels: ['Reinaldinho', 'Dr. Juan', 'Prof.Gleivison', 'Vinicius', 'Dr. nil'], // Labels dinâmicos
+                    datasets: [{
+                        data: [1000, 300, 440, 400, 1], // Dados dinâmicos
+                        borderWidth: 1,
+                        backgroundColor: [
+                            'rgba(30,144,255)',
+                            'rgba(255,0,0)',
+                            'rgba(252, 186, 3)',
+                            'rgba(7, 217, 0)',
+                            'rgba(255,69,0)'
+                        ],
+                        borderColor: [
+                            'rgba(30,144,255)',
+                            'rgba(255,0,0)',
+                            'rgba(252, 186, 3)',
+                            'rgba(7, 217, 0)',
+                            'rgba(255,69,0)'
+                        ]
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        suggestedMin: 0
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMin: 0
+                        }
                     }
                 }
+            });
+
+            document.getElementById('filter-select').addEventListener('change', function () {
+                const selectedFilter = this.value;
+
+                if (selectedFilter) {
+                    axios.get(`/api/chart-data/${selectedFilter}`)
+                        .then(response => {
+                            const data = response.data;
+                            updateChart(selectedFilter, data);
+                        })
+                        .catch(error => {
+                            console.error('Erro ao buscar dados do gráfico:', error);
+                        });
+                }
+            });
+
+            function updateChart(filter, data) {
+                if (filter === 'prefeitos') {
+                    updateChartInstance(chartInstancePrefeitos, data);
+                } else if (filter === 'vereadores') {
+                    updateChartInstance(chartInstanceVereadores, data);
+                }
+                // Adicionar lógica para outros filtros se necessário
             }
-        });
 
-        document.getElementById('filter-select').addEventListener('change', function() {
-            const selectedFilter = this.value;
-            console.log('Filtro selecionado:', selectedFilter);
-
-            if (selectedFilter) {
-                axios.get(`/data/${selectedFilter}`)
-                    .then(response => {
-                        const data = response.data;
-                        updateChart(selectedFilter, data);
-                    })
-                    .catch(error => {
-                        console.error('Erro ao buscar dados do gráfico:', error);
-                    });
+            function updateChartInstance(chartInstance, data) {
+                if (data.length === 0) {
+                    console.log('Nenhum dado encontrado para este filtro.');
+                    chartInstance.data.labels = [];
+                    chartInstance.data.datasets[0].data = [];
+                } else {
+                    chartInstance.data.labels = data.map(item => item.nome);
+                    chartInstance.data.datasets[0].data = data.map(item => item.total);
+                }
+                chartInstance.update();
             }
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterSelect = document.getElementById('filter-select');
-            filterSelect.dispatchEvent(new Event('change')); // Simula o evento change
-        });
-
-        function updateChart(filter, data) {
-            if (filter === 'prefeitos') {
-                updateChartInstance(chartInstancePrefeitos, data);
-            } else if (filter === 'vereadores') {
-                updateChartInstance(chartInstanceVereadores, data);
-            }
-            // Adicionar lógica para outros filtros se necessário
-        }
-
-        function updateChartInstance(chartInstance, data) {
-            if (data.length === 0) {
-                console.log('Nenhum dado encontrado para este filtro.');
-                chartInstance.data.labels = [];
-                chartInstance.data.datasets[0].data = [];
-            } else {
-                chartInstance.data.labels = data.map(item => item.nome);
-                chartInstance.data.datasets[0].data = data.map(item => item.total);
-            }
-            chartInstance.update();
-        }
-    </script>
+        </script>
 </body>
 <footer>
     <h1>Juntos é possível!</h1>
