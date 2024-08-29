@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('votos', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedBigInteger('cargo_id')->nullable();
-            $table->unsignedBigInteger('boletim_id')->nullable();
-            $table->unsignedBigInteger('candidato_id')->nullable();
-            $table->unsignedBigInteger('secao_id');
+            $table->id();
+            $table->foreignId('cargo_id')->references('id')->on('cargos');
+            $table->foreignId('boletim_id')->references('id')->on('boletins');
+            $table->foreignId('candidato_id')->references('id')->on('candidatos');
+            $table->foreignId('secao_id')->references('id')->on('secoes');
             $table->string('nominal');
             $table->string('nulo');
             $table->string('branco');
@@ -24,10 +24,10 @@ return new class extends Migration
 
             //
 
-            $table->foreign('cargo_id')->references('id')->on('cargos');
-            $table->foreign('boletim_id')->references('id')->on('boletins');
-            $table->foreign('candidato_id')->references('id')->on('candidatos');
-            $table->foreign('secao_id')->references('id')->on('secoes');
+            // $table->foreign('cargo_id')->references('id')->on('cargos');
+            // $table->foreign('boletim_id')->references('id')->on('boletins');
+            // $table->foreign('candidato_id')->references('id')->on('candidatos');
+            // $table->foreign('secao_id')->references('id')->on('secoes');
         });
     }
 
@@ -36,7 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-
         Schema::dropIfExists('votos');
     }
 };

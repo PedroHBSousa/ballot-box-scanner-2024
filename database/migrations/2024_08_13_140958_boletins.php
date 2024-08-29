@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('boletins', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedBigInteger('secao_id');
-            $table->foreign('secao_id')->references('id')->on('secoes');
+            $table->id();
+            $table->foreignId('secao_id')->references('id')->on('secoes');
+            // $table->foreign('secao_id')->references('id')->on('secoes');
             $table->integer('apto');
             $table->integer('comp');
             $table->integer('falt');
@@ -28,8 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('boletins');
-        Schema::enableForeignKeyConstraints();
     }
 };

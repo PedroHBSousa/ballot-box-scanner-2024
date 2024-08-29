@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('localidades', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedBigInteger('bairro_id');
-            $table->foreign('bairro_id')->references('id')->on('bairros');
+            $table->id();
+            $table->foreignId('bairro_id')->references('id')->on('bairros');
+            // $table->foreign('bairro_id')->references('id')->on('bairros');
             $table->string('nome');
         });
     }
@@ -24,6 +24,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+
         Schema::dropIfExists('localidades');
     }
 };

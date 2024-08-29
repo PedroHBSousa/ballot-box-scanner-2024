@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('candidatos', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('nome');
-            $table->unsignedBigInteger('cargo_id');
-            $table->foreign('cargo_id')->references('id')->on('cargos');
+            $table->foreignId('cargo_id')->references('id')->on('cargos');
+            // $table->foreign('cargo_id')->references('id')->on('cargos');
         });
     }
 
@@ -24,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('candidatos');
-        Schema::enableForeignKeyConstraints();
     }
 };
