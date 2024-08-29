@@ -21,13 +21,6 @@ return new class extends Migration
             $table->string('nulo');
             $table->string('branco');
             $table->timestamps();
-
-            //
-
-            // $table->foreign('cargo_id')->references('id')->on('cargos');
-            // $table->foreign('boletim_id')->references('id')->on('boletins');
-            // $table->foreign('candidato_id')->references('id')->on('candidatos');
-            // $table->foreign('secao_id')->references('id')->on('secoes');
         });
     }
 

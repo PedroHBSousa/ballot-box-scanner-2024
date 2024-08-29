@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('boletins', function (Blueprint $table) {
             $table->id();
             $table->foreignId('secao_id')->references('id')->on('secoes');
-            // $table->foreign('secao_id')->references('id')->on('secoes');
             $table->integer('apto');
             $table->integer('comp');
             $table->integer('falt');

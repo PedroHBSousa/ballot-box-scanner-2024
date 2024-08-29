@@ -27,6 +27,7 @@ class InsertController extends Controller
             $secoes = Secao::where('id', $search)->with('localidade')->get();
         }
 
+
         // Recupera todos os candidatos para o formulário de votos
         $candidatos = Candidato::where('cargo_id', 11)->get();
 
@@ -48,8 +49,10 @@ class InsertController extends Controller
             'votos_nulo' => 'required|integer|min:0',
         ]);
 
+
         if ($validator->fails()) {
-            return redirect()->route('insert')->withErrors($validator)->withInput();
+            $request->session()->flash('error', 'Dados digitados incorretamente.');
+            return redirect()->route('insert');
         }
 
         try {
@@ -127,6 +130,13 @@ class InsertController extends Controller
             Voto::insert($votosData);
 
             //Sucesso
+            $request->session()->forget('votosData');
+            $request->session()->forget('dadosBoletim');
+            $request->session()->forget('votosBranco');
+            $request->session()->forget('votosNulo');
+            $request->session()->forget('boletimExistente');
+            $request->session()->forget('boletim');
+
             return redirect()->route('insert')->with('success', 'Boletim e votos inseridos com sucesso.');
         } catch (QueryException $e) {
             //Erros no banco de dados

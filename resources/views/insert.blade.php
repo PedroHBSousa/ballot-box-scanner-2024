@@ -35,20 +35,33 @@
                 </form>
             </div>
 
+            @if (session('success'))
+                <span style="color: #082;">
+                    {{ session('success') }}
+                </span>
+            @endif
+
+            @if (session('error'))
+                <span style="color: #f00;">
+                    {{ session('error') }}
+                </span>
+            @endif
+
             <div>
-                @if(request('search') && !$secoes->isEmpty())
+                @if (request('search') && !$secoes->isEmpty())
                     <h2>Dados da Seção Selecionada</h2>
-                    @foreach($secoes as $secao)
+                    @foreach ($secoes as $secao)
                         <div>
                             <h3>Seção ID: {{ $secao->id }} | {{ $secao->localidade->nome }}</h3> <br>
 
-                            <form action="{{ route('insert.data')}}" method="POST">
+                            <form action="{{ route('insert.data') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="secao_id" value="{{ $secao->id }}">
 
                                 <!-- Dados do Boletim -->
                                 <label>Aptos: </label>
-                                <input type="number" name="apto" id="apto" placeholder="Aptos presentes" required><br><br>
+                                <input type="number" name="apto" id="apto" placeholder="Aptos presentes"
+                                    required><br><br>
                                 <label>N° de pessoas que compareceram: </label>
                                 <input type="number" name="comp" id="comp" required><br><br>
                                 <label>N° de pessoas que faltaram: </label>
@@ -59,9 +72,12 @@
                                 @foreach ($candidatos as $candidato)
                                     <div>
                                         <label for="candidato_{{ $candidato->id }}">{{ $candidato->nome }}</label>
-                                        <input type="number" name="votos[{{ $candidato->id }}][nominal]" id="candidato_{{ $candidato->id }}_nominal" min="0" placeholder="Votos">
-                                        <input type="hidden" name="votos[{{ $candidato->id }}][candidato_id]" value="{{ $candidato->id }}">
-                                        
+                                        <input type="number" name="votos[{{ $candidato->id }}][quantidade]"
+                                            id="candidato_{{ $candidato->id }}_quantidade" min="0"
+                                            placeholder="Votos">
+                                        <input type="hidden" name="votos[{{ $candidato->id }}][candidato_id]"
+                                            value="{{ $candidato->id }}">
+
                                     </div>
                                 @endforeach
 
@@ -69,11 +85,14 @@
                                 <br>
                                 <div>
                                     <label for="votos_branco">Total de votos em branco:</label>
-                                    <input type="number" id="votos_branco" name="votos_branco" min="0" placeholder="Votos em branco"><br>
+                                    <input type="number" id="votos_branco" name="votos_branco" min="0"
+                                        placeholder="Votos em branco"><br>
                                     <label for="votos_nulo">Total de votos nulos:</label>
-                                    <input type="number" id="votos_nulo" name="votos_nulo" min="0" placeholder="Votos nulos"><br><br>
+                                    <input type="number" id="votos_nulo" name="votos_nulo" min="0"
+                                        placeholder="Votos nulos"><br><br>
                                 </div>
-                                
+
+
                                 <button type="submit">Enviar</button>
                             </form>
                         </div>
@@ -83,19 +102,6 @@
                 @endif
             </div>
         </div>
-
-        @if (session('success'))
-            <span style="color: #082;">
-                {{ session('success') }}
-            </span>
-        @endif
-
-        @if (session('error'))
-            <span style="color: #f00;">
-                {{ session('error') }}
-            </span>
-        @endif
-
     </div>
 </body>
 <footer>
