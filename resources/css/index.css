@@ -232,7 +232,7 @@ textarea {
 
 /* RESPONSIVIDADE MOBILE */
 
-@media (min-width: 320px) and (max-width: 480px) {
+@media (min-width: 320px) and (max-width: 350px) {
     #reis {
         left: 120px;
     }
@@ -250,4 +250,5 @@ textarea {
         flex-direction: column;
         text-align: center;
     }
+    
 }
