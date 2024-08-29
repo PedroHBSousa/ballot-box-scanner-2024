@@ -55,9 +55,9 @@
             let chartInstancePrefeitos = new Chart(ctxPrefeitos, {
                 type: 'pie',
                 data: {
-                    labels: ['Reinaldinho', 'Dr. Juan', 'Prof.Gleivison', 'Vinicius', 'Dr. nil'], // Labels dinâmicos
+                    labels: [], // Labels dinâmicos
                     datasets: [{
-                        data: [1000, 300, 440, 400, 1], // Dados dinâmicos
+                        data: [], // Dados dinâmicos
                         backgroundColor: [
                             'rgba(30,144,255)',
                             'rgba(255,0,0)',
@@ -89,9 +89,9 @@
             let chartInstanceVereadores = new Chart(ctxVereadores, {
                 type: 'bar',
                 data: {
-                    labels: ['Reinaldinho', 'Dr. Juan', 'Prof.Gleivison', 'Vinicius', 'Dr. nil'], // Labels dinâmicos
+                    labels: [], // Labels dinâmicos
                     datasets: [{
-                        data: [1000, 300, 440, 400, 1], // Dados dinâmicos
+                        data: [], // Dados dinâmicos
                         borderWidth: 1,
                         backgroundColor: [
                             'rgba(30,144,255)',
@@ -128,7 +128,7 @@
                 const selectedFilter = this.value;
 
                 if (selectedFilter) {
-                    axios.get(`/api/chart-data/${selectedFilter}`)
+                    axios.get(`/data/${selectedFilter}`)
                         .then(response => {
                             const data = response.data;
                             updateChart(selectedFilter, data);

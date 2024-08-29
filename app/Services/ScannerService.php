@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class BoletimEleitoralService
+class ScannerService
 {
     protected $qrCodesLidos = [];
     protected $totalQrCodes = 0;

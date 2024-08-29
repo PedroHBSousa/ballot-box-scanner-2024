@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Boletim;
 use Illuminate\Support\Facades\Validator;
-use App\Services\BoletimEleitoralService;
+use App\Services\ScannerService;
 use Illuminate\Database\QueryException;
 use App\Models\Secao;
 use App\Models\Voto;
@@ -45,7 +45,7 @@ class ScannerController extends Controller
             $qrCodesLidos = $request->session()->get('qrCodesLidos', []);
 
             // Instanciar o serviço de Boletim Eleitoral
-            $qrCodeService = new BoletimEleitoralService($qrCodeData, $qrCodesLidos);
+            $qrCodeService = new ScannerService($qrCodeData, $qrCodesLidos);
             $status = $qrCodeService->getStatus();
 
             // Atualizar os QR codes lidos na sessão
