@@ -85,9 +85,9 @@ body {
 .chart {
    
     width: 700px;
-    height: 700px;
+    height: 720px;
     padding: 2rem;
-    border: 1px solid #000;
+    border: 1px solid #aaa9a9;
     border-radius: 1rem;
     box-shadow: 0 0 16px rgba(0, 0, 0, 0);
     
@@ -98,6 +98,7 @@ body {
     gap: 2rem;
     flex-wrap: wrap; /* Isso permitirá que os gráficos se ajustem ao tamanho da tela */
     padding-bottom: 50px;
+    justify-content:center;
 }
 .custom-select {
     min-width: 350px;
@@ -157,7 +158,7 @@ footer {
     text-align: center;
     padding: 10px 0;
 }
-@media (min-width: 320px) and (max-width: 480px) {
+@media (min-width: 320px) and (max-width: 415px) {
     #reis {
         left: 120px;
     }
@@ -167,19 +168,33 @@ footer {
     #reinaldinho {
         left: 30px;
     }
+   
+    .verea {
+        margin: 0;
+    }
+    
     header h1 {
         font-size: 20px;
         text-align: center;
         
     }
 
+    .chart h2{
+        font-size: 15px; 
+        text-align: center;
+        
+        
+    }
     .chart{
-        height: 400px;
-        width: 400px;
+        max-width: 350px;
+        height: 360px;
     }
     
 
-    .charts-container{
+    .charts-container {
+        display: flex;
         justify-content: center;
+        flex-wrap: wrap; /* Isso permitirá que os gráficos se ajustem ao tamanho da tela */
+        
     }
 }
