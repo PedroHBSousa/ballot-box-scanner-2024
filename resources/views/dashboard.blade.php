@@ -25,11 +25,11 @@
         </div>
     </header>
 
-    <<div class="container">
+    <div class="container">
         <div class="custom-select">
             <select id="filter-select">
                 <option value="">Selecione o filtro</option>
-                <option value="prefeitos">Prefeitos</option>
+                <option value="prefeitos">Prefeito</option>
                 <option value="vereadores">Vereadores</option>
                 <option value="partidos">Partidos</option>
                 <option value="bairros">Bairros</option>
@@ -37,17 +37,24 @@
             </select>
         </div>
         <div class="charts-container">
+
             <div class="chart">
+                <div class="pref">
+                    <h2>Prefeito</h2>
+                </div>
                 <canvas id="piechart-prefeitos" width="400" height="400"></canvas>
             </div>
             <div class="chart">
+                <div class="verea">
+                    <h2>Vereadores</h2>
+                </div>
                 <canvas id="barchart-vereadores" width="400" height="400"></canvas>
             </div>
         </div>
-        </div>
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
         <script>
             // Gráfico de pizza para prefeitos
@@ -124,8 +131,8 @@
                 }
             });
 
-            document.getElementById('filter-select').addEventListener('change', function () {
-                const selectedFilter = this.value;
+        document.getElementById('filter-select').addEventListener('change', function () {
+            const selectedFilter = this.value;
 
                 if (selectedFilter) {
                     axios.get(`/data/${selectedFilter}`)
@@ -139,27 +146,27 @@
                 }
             });
 
-            function updateChart(filter, data) {
-                if (filter === 'prefeitos') {
-                    updateChartInstance(chartInstancePrefeitos, data);
-                } else if (filter === 'vereadores') {
-                    updateChartInstance(chartInstanceVereadores, data);
-                }
-                // Adicionar lógica para outros filtros se necessário
+        function updateChart(filter, data) {
+            if (filter === 'prefeitos') {
+                updateChartInstance(chartInstancePrefeitos, data);
+            } else if (filter === 'vereadores') {
+                updateChartInstance(chartInstanceVereadores, data);
             }
+            // Adicionar lógica para outros filtros se necessário
+        }
 
-            function updateChartInstance(chartInstance, data) {
-                if (data.length === 0) {
-                    console.log('Nenhum dado encontrado para este filtro.');
-                    chartInstance.data.labels = [];
-                    chartInstance.data.datasets[0].data = [];
-                } else {
-                    chartInstance.data.labels = data.map(item => item.nome);
-                    chartInstance.data.datasets[0].data = data.map(item => item.total);
-                }
-                chartInstance.update();
+        function updateChartInstance(chartInstance, data) {
+            if (data.length === 0) {
+                console.log('Nenhum dado encontrado para este filtro.');
+                chartInstance.data.labels = [];
+                chartInstance.data.datasets[0].data = [];
+            } else {
+                chartInstance.data.labels = data.map(item => item.nome);
+                chartInstance.data.datasets[0].data = data.map(item => item.total);
             }
-        </script>
+            chartInstance.update();
+        }
+    </script>
 </body>
 <footer>
     <h1>Juntos é possível!</h1>
