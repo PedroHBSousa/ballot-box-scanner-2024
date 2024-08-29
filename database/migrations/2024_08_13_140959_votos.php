@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('cargo_id')->references('id')->on('cargos');
             $table->foreignId('boletim_id')->references('id')->on('boletins');
             $table->foreignId('candidato_id')->nullable()->constrained('candidatos');
-
             $table->foreignId('secao_id')->references('id')->on('secoes');
             $table->string('nominal');
             $table->string('nulo');
