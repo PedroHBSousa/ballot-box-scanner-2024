@@ -28,12 +28,17 @@
     <div class="container">
         <div class="custom-select">
             <select id="filter-select">
-                <option value="">Selecione o filtro</option>
-                <option value="prefeitos">Prefeito</option>
+                <option value="">Filtro</option>
+                <option value="prefeitos" hidden>Prefeito</option>
                 <option value="vereadores">Vereadores</option>
-                <option value="partidos">Partidos</option>
+                <option value="escolas">Escolas</option>
                 <option value="bairros">Bairros</option>
                 <option value="regioes">Regiões</option>
+            </select>
+        </div>
+        <div id="subfilter-container" style="display: none;">
+            <select id="subfilter-select">
+                <option value="">Selecione um bairro</option>
             </select>
         </div>
         <div class="charts-container">
@@ -49,6 +54,12 @@
                     <h2>Vereadores</h2>
                 </div>
                 <canvas id="barchart-vereadores" width="400" height="400"></canvas>
+            </div>
+            <div class="chart">
+                <div class="bairros">
+                    <h2>Bairros</h2>
+                </div>
+                <canvas id="barchart-bairros" width="400" height="400"></canvas>
             </div>
         </div>
     </div>
@@ -131,6 +142,63 @@
                 }
             });
 
+            // Gráfico de barras para bairros
+            const ctxBairros = document.getElementById('barchart-bairros');
+            let chartInstanceBairros = new Chart(ctxBairros, {
+                type: 'bar',
+                data: {
+                    labels: [], // Labels dinâmicos
+                    datasets: [{
+                        data: [], // Dados dinâmicos
+                        borderWidth: 1,
+                        backgroundColor: [
+                            'rgba(75, 192, 192)',
+                            'rgba(153, 102, 255)',
+                            'rgba(255, 159, 64)',
+                            'rgba(54, 162, 235)',
+                            'rgba(255, 99, 132)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192)',
+                            'rgba(153, 102, 255)',
+                            'rgba(255, 159, 64)',
+                            'rgba(54, 162, 235)',
+                            'rgba(255, 99, 132)'
+                        ]
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMin: 0
+                        }
+                    }
+                }
+            });
+        
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Carregar o gráfico de prefeitos automaticamente ao carregar a página
+            axios.get('/data/prefeitos')
+                .then(response => {
+                    const data = response.data;
+                    updateChartInstance(chartInstancePrefeitos, data);
+            })
+            .catch(error => {
+                console.error('Erro ao buscar dados do gráfico de prefeitos:', error);
+            });
+
+            // Configuração para esconder o gráfico de vereadores e bairros inicialmente
+            document.getElementById('barchart-vereadores').parentElement.style.display = 'none';
+            document.getElementById('barchart-bairros').parentElement.style.display = 'none';
+        });
+
         document.getElementById('filter-select').addEventListener('change', function () {
             const selectedFilter = this.value;
 
@@ -147,14 +215,26 @@
             });
 
         function updateChart(filter, data) {
+
+            // Sempre atualizar o gráfico de prefeitos com os dados corretos
             if (filter === 'prefeitos') {
                 updateChartInstance(chartInstancePrefeitos, data);
-            } else if (filter === 'vereadores') {
+            }
+
+            // Logica para alternar entre os gráficos de vereadores e bairros
+            if (filter === 'vereadores') {
+                document.getElementById('barchart-vereadores').parentElement.style.display = 'block';
+                document.getElementById('barchart-bairros').parentElement.style.display = 'none';
                 updateChartInstance(chartInstanceVereadores, data);
+            } else if (filter === 'bairros') {
+                document.getElementById('barchart-vereadores').parentElement.style.display = 'none';
+                document.getElementById('barchart-bairros').parentElement.style.display = 'block';
+                updateChartInstance(chartInstanceBairros, data);
             }
             // Adicionar lógica para outros filtros se necessário
         }
 
+        // Atualiza o gráfico fornecido com os dados recebidos.
         function updateChartInstance(chartInstance, data) {
             if (data.length === 0) {
                 console.log('Nenhum dado encontrado para este filtro.');
@@ -166,6 +246,11 @@
             }
             chartInstance.update();
         }
+
+        window.onload = function() {
+            document.getElementById('barchart-vereadores').parentElement.style.display = 'block';
+            document.getElementById('barchart-bairros').parentElement.style.display = 'none';
+        };
     </script>
 </body>
 <footer>

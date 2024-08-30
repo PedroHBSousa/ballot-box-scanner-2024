@@ -32,44 +32,27 @@
                 <form method="GET" action="{{ route('getSecao') }}">
                     @csrf
                     <label for="search">Buscar Seção:</label>
+<<<<<<< HEAD
                     <input type="number" id="search" name="search" placeholder="Digite o ID da seção: ">
                     <button type="submit" name="action" value="buscar_secao">Buscar</button>
+=======
+                    <input type="number" id="search" name="search" placeholder="Digite o ID da seção">
+                    <button type="submit">Buscar</button>
+>>>>>>> e6699a0944d07007b27e3298c0e153fdd21ddd9c
                 </form>
             </div>
 
-            @if (session('success'))
-                <span style="color: #082;">
-                    {{ session('success') }}
-                </span>
-            @endif
-
-            @if (session('error'))
-                <span style="color: #f00;">
-                    {{ session('error') }}
-                </span>
-            @endif
-
             <div>
-                @if (request('search') && !$secoes->isEmpty())
+                @if(request('search') && !$secoes->isEmpty())
                     <h2>Dados da Seção Selecionada</h2>
-                    @foreach ($secoes as $secao)
+                    @foreach($secoes as $secao)
                         <div>
                             <h3>Seção ID: {{ $secao->id }} | {{ $secao->localidade->nome }}</h3> <br>
 
-                            <form action="{{ route('insert.data') }}" method="POST">
+                            <form action="{{ route('insert.data')}}" method="POST">
                                 @csrf
                                 <input type="hidden" name="secao_id" value="{{ $secao->id }}">
 
-                                <!-- Dados do Boletim -->
-                                <label>Aptos: </label>
-                                <input type="number" name="apto" id="apto" placeholder="Aptos presentes"
-                                    required><br><br>
-                                <label>N° de pessoas que compareceram: </label>
-                                <input type="number" name="comp" id="comp" required><br><br>
-                                <label>N° de pessoas que faltaram: </label>
-                                <input type="number" name="falt" id="falt" required><br><br>
-
-                                <!-- Inserção de votos para os candidatos -->
                                 <h3>Digite os votos para cada candidato:</h3>
                                 @foreach ($candidatos as $candidato)
                                     <div>
@@ -126,6 +109,44 @@
                 @endif
             </div>
         </div>
+
+        <div>
+                <!--
+
+            <h2>Boletim:</h2>
+
+            <form action="{{ route('insert.data') }}" method="POST">
+                @csrf
+
+                <label>Seção: </label>
+                <input type="number" name="secao_id" id="secao_id" placeholder="Seção do boletim" required><br><br>
+                <label>Aptos: </label>
+                <input type="number" name="apto" id="apto" placeholder="Aptos presentes" required><br><br>
+                <label>Assinatura digital: </label>
+                <input type="text" name="assinatura_digital" id="assinatura_digital" placeholder="Assinatura do boletim" required><br><br>
+                <label>N° de pessoas que compareceram: </label>
+                <input type="number" name="comp" id="comp" required><br><br>
+                <label>N° de pessoas que faltaram: </label>
+                <input type="number" name="falt" id="falt" required><br><br>
+
+
+                <button type="submit">Enviar</button>
+
+            </form> -->
+        </div>
+
+        @if (session('success'))
+            <span style="color: #082;">
+                {{ session('success') }}
+            </span>
+        @endif
+
+        @if (session('error'))
+            <span style="color: #f00;">
+                {{ session('error') }}
+            </span>
+        @endif
+
     </div>
 </body>
 <footer>
