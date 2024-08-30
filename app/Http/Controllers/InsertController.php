@@ -16,23 +16,45 @@ class InsertController extends Controller
 {
     public function insert(Request $request)
     {
+        return view('insert');
+    }
+
+    public function getSecao(Request $request)
+    {
+
         // Inicializa $secoes como uma coleção vazia
         $secoes = collect();
+        $action = $request->input('action');
 
-        // Recupera o ID da seção a partir do parâmetro de busca, se houver
-        $search = $request->input('search');
-
-        if ($search) {
-            // Se o parâmetro de busca for fornecido, busca a seção correspondente
+        switch($action) {
+            case 'buscar_secao':
+            $search = $request->input('search');
             $secoes = Secao::where('id', $search)->with('localidade')->get();
+            $candidatos = Candidato::where('cargo_id', 11)->get();
+            return view('insert', compact('secoes', 'candidatos'));
+
+            case 'buscar_vereador':
+
+                $vereadores = Candidato::where('cargo_id', 13)->get();
+                $vereador = Candidato::where('cargo_id', 13)->find($request->vereador_search);
+                return view('insert', compact('secoes', 'candidatos', 'vereador'));
+
         }
 
+        // return view('insert');
 
-        // Recupera todos os candidatos para o formulário de votos
-        $candidatos = Candidato::where('cargo_id', 11)->get();
+            // if ($search) {
+            //     // Se o parâmetro de busca for fornecido, busca a seção correspondente
+            //     $secoes = Secao::where('id', $search)->with('localidade')->get();
+            //     $vereadores = Candidato::where('cargo_id', 13)->get();
+            // }
 
-        // Retorna a view com as variáveis $secoes e $candidatos
-        return view('insert', compact('secoes', 'candidatos'));
+           // Recupera todos os candidatos para o formulário de votos
+
+
+           // Retorna a view com as variáveis $secoes e $candidatos
+            // return view('insert', compact('secoes', 'candidatos', 'vereadores'));
+
     }
 
     public function insertdata(Request $request)
@@ -146,7 +168,15 @@ class InsertController extends Controller
             // Outros tipos de erros
             Log::error('Erro geral: ' . $e->getMessage());
             return redirect()->route('insert')->with('error', 'Ocorreu um erro: ' . $e->getMessage());
-
+        }
+    }
+    public function getVereador(Request $id)
+    {
+        $candidato = Candidato::where('cargo_id', 13)->find($id); // Assumindo que o cargo_id para vereador é 13
+        if ($candidato) {
+            return response()->json(['success' => true, 'candidato' => $candidato]);
+        } else {
+            return response()->json(['success' => false]);
         }
     }
 }

@@ -13,6 +13,7 @@
     @vite('resources/css/insert.css')
 </head>
 
+
 <body>
     <header>
         <h1>SÃO SEBASTIÃO</h1>
@@ -28,10 +29,11 @@
             <h1>Insira os dados abaixo</h1>
 
             <div id="secao">
-                <form action="{{ route('insert') }}" method="GET">
+                <form method="GET" action="{{ route('getSecao') }}">
+                    @csrf
                     <label for="search">Buscar Seção:</label>
                     <input type="number" id="search" name="search" placeholder="Digite o ID da seção: ">
-                    <button type="submit">Buscar</button>
+                    <button type="submit" name="action" value="buscar_secao">Buscar</button>
                 </form>
             </div>
 
@@ -77,7 +79,6 @@
                                             placeholder="Votos">
                                         <input type="hidden" name="votos[{{ $candidato->id }}][candidato_id]"
                                             value="{{ $candidato->id }}">
-
                                     </div>
                                 @endforeach
 
@@ -92,8 +93,31 @@
                                         placeholder="Votos nulos"><br><br>
                                 </div>
 
+                                <!-- Seção para buscar e adicionar candidato para vereador -->
+                                <h3>Adicionar votos para Vereador:</h3>
+                                <div id="vereadors">
+                                    <div>
+                                        <label for="vereador_search">Buscar Candidato:</label>
+                                        <input type="number" id="vereador_search" name="vereador_search"
+                                            placeholder="Digite o ID do candidato: ">
+                                        <button type="submit" name="action" value="buscar_vereador">Adicionar</button>
+                                    </div>
+                                    <div id="vereador_resultado">
+                                        @if (isset($vereador))
+                                            <div>
+                                                <label>{{ $vereador->nome }}</label>
+                                                <input type="number" name="votos[{{ $vereador->id }}][quantidade]"
+                                                    min="0" placeholder="Votos">
+                                                <input type="hidden" name="votos[{{ $vereador->id }}][candidato_id]"
+                                                    value="{{ $vereador->id }}">
+                                            </div>
+                                            @elseif(request('action') === 'buscar_vereador')
+                                            <p>Candidato não encontrado!</p>
+                                        @endif
+                                    </div>
+                                </div>
 
-                                <button type="submit">Enviar</button>
+                                <button type="submit" name="action" value="inserir_votos" >Enviar</button>
                             </form>
                         </div>
                     @endforeach
