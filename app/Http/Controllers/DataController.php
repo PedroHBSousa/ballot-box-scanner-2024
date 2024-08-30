@@ -2,26 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bairro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DataController extends Controller
 {
-    public function getData($filter)
+    public function getData($filter, Request $request)
     {
         try {
             // Exemplo de lógica para retornar dados com base no filtro
             $data = [];
+           
+            if ($filter === 'bairros') {
+                // Obtém todos os bairros
+                $data = Bairro::all();
+                return response()->json([
+                    'success' => true,
+                    'bairros' => $data,
+                ]);
+            }
+
 
             switch ($filter) {
                 case 'prefeitos':
                     $data = DB::table('votos')
                         ->select('candidatos.nome', DB::raw('count(*) as total'))
                         ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
-                        ->where('candidatos.cargo_id', 11) // Cargo para prefeitos.
+                        ->where('candidatos.cargo_id', 11) // Cargo para prefeitos
                         ->groupBy('candidatos.nome')
                         ->get();
-
                     break;
 
                 case 'vereadores':
@@ -34,6 +44,12 @@ class DataController extends Controller
                         ->limit(10)
                         ->get();
                     break;
+
+                case 'bairros':
+                    // Inserir a logica para os bairros
+                    break;
+
+
 
                 default:
                     // Retorna erro se o filtro não for reconhecido
