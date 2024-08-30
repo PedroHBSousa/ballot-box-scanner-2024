@@ -66,20 +66,20 @@
                     datasets: [{
                         data: [], // Dados dinâmicos
                         backgroundColor: [
-                            'rgba(30,144,255)',
+                            'rgba(7, 217, 0)',
                             'rgba(255,0,0)',
                             'rgba(252, 186, 3)',
-                            'rgba(7, 217, 0)',
+                            'rgba(30,144,255)',
                             'rgba(255,69,0)'
                         ],
                         borderColor: [
-                            'rgba(30,144,255)',
-                            'rgba(255,0,0)',
-                            'rgba(252, 186, 3)',
-                            'rgba(7, 217, 0)',
-                            'rgba(255,69,0)'
+                            '#FFF',
+                            '#FFF',
+                            '#FFF',
+                            '#FFF',
+                            '#FFF',
                         ],
-                        borderWidth: 1
+                        borderWidth: 2
                     }]
                 },
                 options: {
