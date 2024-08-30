@@ -21,7 +21,18 @@ class DataController extends Controller
                         ->where('candidatos.cargo_id', 11) // Cargo para prefeitos.
                         ->groupBy('candidatos.nome')
                         ->get();
-                    
+
+                    break;
+
+                case 'vereadores':
+                    $data = DB::table('votos')
+                        ->select('candidatos.nome', DB::raw('count(*) as total'))
+                        ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
+                        ->where('candidatos.cargo_id', 13) // Cargo para vereadores.
+                        ->groupBy('candidatos.nome')
+                        ->orderBy('total', 'desc')
+                        ->limit(10)
+                        ->get();
                     break;
 
                 default:
@@ -30,13 +41,10 @@ class DataController extends Controller
             }
 
             return response()->json($data);
-
         } catch (\Exception $e) {
             // Registra o erro no log e retorna uma resposta de erro
             // \log::error('Erro ao buscar dados do gráfico: ' . $e->getMessage());
             return response()->json(['error' => 'Erro ao buscar dados do gráfico'], 500);
         }
-    
-
     }
 }

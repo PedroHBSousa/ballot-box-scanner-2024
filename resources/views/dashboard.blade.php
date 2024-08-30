@@ -28,10 +28,10 @@
     <div class="container">
         <div class="custom-select">
             <select id="filter-select">
-                <option value="">Selecione o filtro</option>
+                <option value="">Filtro</option>
                 <option value="prefeitos">Prefeito</option>
                 <option value="vereadores">Vereadores</option>
-                <option value="partidos">Partidos</option>
+                <option value="escolas">Escolas</option>
                 <option value="bairros">Bairros</option>
                 <option value="regioes">Regiões</option>
             </select>
