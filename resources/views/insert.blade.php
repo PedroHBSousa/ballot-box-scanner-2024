@@ -30,69 +30,30 @@
             <div id="secao">
                 <form action="{{ route('insert') }}" method="GET">
                     <label for="search">Buscar Seção:</label>
-                    <input type="number" id="search" name="search" placeholder="Digite o ID da seção: ">
+                    <input type="number" id="search" name="search" placeholder="Digite o ID da seção">
                     <button type="submit">Buscar</button>
                 </form>
             </div>
 
-            @if (session('success'))
-                <span style="color: #082;">
-                    {{ session('success') }}
-                </span>
-            @endif
-
-            @if (session('error'))
-                <span style="color: #f00;">
-                    {{ session('error') }}
-                </span>
-            @endif
-
             <div>
-                @if (request('search') && !$secoes->isEmpty())
+                @if(request('search') && !$secoes->isEmpty())
                     <h2>Dados da Seção Selecionada</h2>
-                    @foreach ($secoes as $secao)
+                    @foreach($secoes as $secao)
                         <div>
                             <h3>Seção ID: {{ $secao->id }} | {{ $secao->localidade->nome }}</h3> <br>
 
-                            <form action="{{ route('insert.data') }}" method="POST">
+                            <form action="{{ route('insert.data')}}" method="POST">
                                 @csrf
                                 <input type="hidden" name="secao_id" value="{{ $secao->id }}">
 
-                                <!-- Dados do Boletim -->
-                                <label>Aptos: </label>
-                                <input type="number" name="apto" id="apto" placeholder="Aptos presentes"
-                                    required><br><br>
-                                <label>N° de pessoas que compareceram: </label>
-                                <input type="number" name="comp" id="comp" required><br><br>
-                                <label>N° de pessoas que faltaram: </label>
-                                <input type="number" name="falt" id="falt" required><br><br>
-
-                                <!-- Inserção de votos para os candidatos -->
                                 <h3>Digite os votos para cada candidato:</h3>
                                 @foreach ($candidatos as $candidato)
                                     <div>
                                         <label for="candidato_{{ $candidato->id }}">{{ $candidato->nome }}</label>
-                                        <input type="number" name="votos[{{ $candidato->id }}][quantidade]"
-                                            id="candidato_{{ $candidato->id }}_quantidade" min="0"
-                                            placeholder="Votos">
-                                        <input type="hidden" name="votos[{{ $candidato->id }}][candidato_id]"
-                                            value="{{ $candidato->id }}">
-
+                                        <input type="number" name="votos[{{ $candidato->id }}]" id="candidato_{{ $candidato->id }}" min="0" placeholder="Digite os votos" required>
                                     </div>
                                 @endforeach
-
-                                <!-- Campos para votos em branco e nulos -->
-                                <br>
-                                <div>
-                                    <label for="votos_branco">Total de votos em branco:</label>
-                                    <input type="number" id="votos_branco" name="votos_branco" min="0"
-                                        placeholder="Votos em branco"><br>
-                                    <label for="votos_nulo">Total de votos nulos:</label>
-                                    <input type="number" id="votos_nulo" name="votos_nulo" min="0"
-                                        placeholder="Votos nulos"><br><br>
-                                </div>
-
-
+                                
                                 <button type="submit">Enviar</button>
                             </form>
                         </div>
@@ -102,6 +63,44 @@
                 @endif
             </div>
         </div>
+
+        <div>
+                <!-- 
+
+            <h2>Boletim:</h2>
+
+            <form action="{{ route('insert.data') }}" method="POST">
+                @csrf
+        
+                <label>Seção: </label>
+                <input type="number" name="secao_id" id="secao_id" placeholder="Seção do boletim" required><br><br>
+                <label>Aptos: </label>
+                <input type="number" name="apto" id="apto" placeholder="Aptos presentes" required><br><br>
+                <label>Assinatura digital: </label>
+                <input type="text" name="assinatura_digital" id="assinatura_digital" placeholder="Assinatura do boletim" required><br><br>
+                <label>N° de pessoas que compareceram: </label>
+                <input type="number" name="comp" id="comp" required><br><br>
+                <label>N° de pessoas que faltaram: </label>
+                <input type="number" name="falt" id="falt" required><br><br>
+                
+                
+                <button type="submit">Enviar</button>
+
+            </form> -->
+        </div>
+
+        @if (session('success'))
+            <span style="color: #082;">
+                {{ session('success') }}
+            </span>
+        @endif
+
+        @if (session('error'))
+            <span style="color: #f00;">
+                {{ session('error') }}
+            </span>
+        @endif
+
     </div>
 </body>
 <footer>
