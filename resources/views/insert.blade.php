@@ -32,13 +32,8 @@
                 <form method="GET" action="{{ route('getSecao') }}">
                     @csrf
                     <label for="search">Buscar Seção:</label>
-<<<<<<< HEAD
                     <input type="number" id="search" name="search" placeholder="Digite o ID da seção: ">
                     <button type="submit" name="action" value="buscar_secao">Buscar</button>
-=======
-                    <input type="number" id="search" name="search" placeholder="Digite o ID da seção">
-                    <button type="submit">Buscar</button>
->>>>>>> e6699a0944d07007b27e3298c0e153fdd21ddd9c
                 </form>
             </div>
 
