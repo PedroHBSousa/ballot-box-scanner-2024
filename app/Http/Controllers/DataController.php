@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bairro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DataController extends Controller
 {
@@ -13,7 +14,7 @@ class DataController extends Controller
         try {
             // Exemplo de lógica para retornar dados com base no filtro
             $data = [];
-           
+
             if ($filter === 'bairros') {
                 // Obtém todos os bairros
                 $data = Bairro::all();
@@ -46,10 +47,8 @@ class DataController extends Controller
                     break;
 
                 case 'bairros':
-                    // Inserir a logica para os bairros
+                    // $data = Bairro::select('id', 'nome')->get(); // Obtém todos os bairros
                     break;
-
-
 
                 default:
                     // Retorna erro se o filtro não for reconhecido
@@ -61,6 +60,18 @@ class DataController extends Controller
             // Registra o erro no log e retorna uma resposta de erro
             // \log::error('Erro ao buscar dados do gráfico: ' . $e->getMessage());
             return response()->json(['error' => 'Erro ao buscar dados do gráfico'], 500);
+        }
+    }
+
+    public function getBairros()
+    {
+        try {
+            // Obtém todos os bairros e seleciona apenas 'id' e 'nome'
+            $bairros = Bairro::select('nome')->get();
+            return response()->json($bairros);
+        } catch (\Exception $e) {
+            Log::error('Erro ao buscar bairros: ' . $e->getMessage());
+            return response()->json(['error' => 'Erro ao buscar bairros'], 500);
         }
     }
 }

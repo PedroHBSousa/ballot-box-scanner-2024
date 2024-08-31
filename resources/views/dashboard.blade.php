@@ -38,7 +38,7 @@
         </div>
         <div id="subfilter-container" style="display: none;">
             <select id="subfilter-select">
-                <option value="">Selecione um bairro</option>
+                <option value="sub">Selecione um bairro</option>
             </select>
         </div>
         <div class="charts-container">
@@ -67,152 +67,174 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-        <script>
-            // Gráfico de pizza para prefeitos
-            const ctxPrefeitos = document.getElementById('piechart-prefeitos');
-            let chartInstancePrefeitos = new Chart(ctxPrefeitos, {
-                type: 'pie',
-                data: {
-                    labels: [], // Labels dinâmicos
-                    datasets: [{
-                        data: [], // Dados dinâmicos
-                        backgroundColor: [
-                            'rgba(7, 217, 0)',
-                            'rgba(255,0,0)',
-                            'rgba(252, 186, 3)',
-                            'rgba(30,144,255)',
-                            'rgba(255,69,0)'
-                        ],
-                        borderColor: [
-                            '#FFF',
-                            '#FFF',
-                            '#FFF',
-                            '#FFF',
-                            '#FFF',
-                        ],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            display: true // Exibe a legenda para o gráfico de pizza
-                        }
+    <script>
+        // Gráfico de pizza para prefeitos
+        const ctxPrefeitos = document.getElementById('piechart-prefeitos');
+        let chartInstancePrefeitos = new Chart(ctxPrefeitos, {
+            type: 'pie',
+            data: {
+                labels: [], // Labels dinâmicos
+                datasets: [{
+                    data: [], // Dados dinâmicos
+                    backgroundColor: [
+                        'rgba(7, 217, 0)',
+                        'rgba(255,0,0)',
+                        'rgba(252, 186, 3)',
+                        'rgba(30,144,255)',
+                        'rgba(255,69,0)'
+                    ],
+                    borderColor: [
+                        '#FFF',
+                        '#FFF',
+                        '#FFF',
+                        '#FFF',
+                        '#FFF',
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true // Exibe a legenda para o gráfico de pizza
                     }
                 }
-            });
+            }
+        });
 
-            // Gráfico de barras para vereadores
-            const ctxVereadores = document.getElementById('barchart-vereadores');
-            let chartInstanceVereadores = new Chart(ctxVereadores, {
-                type: 'bar',
-                data: {
-                    labels: [], // Labels dinâmicos
-                    datasets: [{
-                        data: [], // Dados dinâmicos
-                        borderWidth: 1,
-                        backgroundColor: [
-                            'rgba(30,144,255)',
-                            'rgba(255,0,0)',
-                            'rgba(252, 186, 3)',
-                            'rgba(7, 217, 0)',
-                            'rgba(255,69,0)'
-                        ],
-                        borderColor: [
-                            'rgba(30,144,255)',
-                            'rgba(255,0,0)',
-                            'rgba(252, 186, 3)',
-                            'rgba(7, 217, 0)',
-                            'rgba(255,69,0)'
-                        ]
-                    }]
+        // Gráfico de barras para vereadores
+        const ctxVereadores = document.getElementById('barchart-vereadores');
+        let chartInstanceVereadores = new Chart(ctxVereadores, {
+            type: 'bar',
+            data: {
+                labels: [], // Labels dinâmicos
+                datasets: [{
+                    data: [], // Dados dinâmicos
+                    borderWidth: 1,
+                    backgroundColor: [
+                        'rgba(30,144,255)',
+                        'rgba(255,0,0)',
+                        'rgba(252, 186, 3)',
+                        'rgba(7, 217, 0)',
+                        'rgba(255,69,0)'
+                    ],
+                    borderColor: [
+                        'rgba(30,144,255)',
+                        'rgba(255,0,0)',
+                        'rgba(252, 186, 3)',
+                        'rgba(7, 217, 0)',
+                        'rgba(255,69,0)'
+                    ]
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
                 },
-                options: {
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            suggestedMin: 0
-                        }
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        suggestedMin: 0
                     }
                 }
-            });
+            }
+        });
 
-            // Gráfico de barras para bairros
-            const ctxBairros = document.getElementById('barchart-bairros');
-            let chartInstanceBairros = new Chart(ctxBairros, {
-                type: 'bar',
-                data: {
-                    labels: [], // Labels dinâmicos
-                    datasets: [{
-                        data: [], // Dados dinâmicos
-                        borderWidth: 1,
-                        backgroundColor: [
-                            'rgba(75, 192, 192)',
-                            'rgba(153, 102, 255)',
-                            'rgba(255, 159, 64)',
-                            'rgba(54, 162, 235)',
-                            'rgba(255, 99, 132)'
-                        ],
-                        borderColor: [
-                            'rgba(75, 192, 192)',
-                            'rgba(153, 102, 255)',
-                            'rgba(255, 159, 64)',
-                            'rgba(54, 162, 235)',
-                            'rgba(255, 99, 132)'
-                        ]
-                    }]
+        // Gráfico de barras para bairros
+        const ctxBairros = document.getElementById('barchart-bairros');
+        let chartInstanceBairros = new Chart(ctxBairros, {
+            type: 'bar',
+            data: {
+                labels: [], // Labels dinâmicos
+                datasets: [{
+                    data: [], // Dados dinâmicos
+                    borderWidth: 1,
+                    backgroundColor: [
+                        'rgba(75, 192, 192)',
+                        'rgba(153, 102, 255)',
+                        'rgba(255, 159, 64)',
+                        'rgba(54, 162, 235)',
+                        'rgba(255, 99, 132)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192)',
+                        'rgba(153, 102, 255)',
+                        'rgba(255, 159, 64)',
+                        'rgba(54, 162, 235)',
+                        'rgba(255, 99, 132)'
+                    ]
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
                 },
-                options: {
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            suggestedMin: 0
-                        }
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        suggestedMin: 0
                     }
                 }
-            });
-        
+            }
+        });
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Carregar o gráfico de prefeitos automaticamente ao carregar a página
             axios.get('/data/prefeitos')
                 .then(response => {
                     const data = response.data;
                     updateChartInstance(chartInstancePrefeitos, data);
-            })
-            .catch(error => {
-                console.error('Erro ao buscar dados do gráfico de prefeitos:', error);
-            });
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar dados do gráfico de prefeitos:', error);
+                });
 
             // Configuração para esconder o gráfico de vereadores e bairros inicialmente
-            document.getElementById('barchart-vereadores').parentElement.style.display = 'none';
             document.getElementById('barchart-bairros').parentElement.style.display = 'none';
         });
 
-        document.getElementById('filter-select').addEventListener('change', function () {
+        document.getElementById('filter-select').addEventListener('change', function() {
             const selectedFilter = this.value;
 
-                if (selectedFilter) {
-                    axios.get(`/data/${selectedFilter}`)
-                        .then(response => {
-                            const data = response.data;
-                            updateChart(selectedFilter, data);
-                        })
-                        .catch(error => {
-                            console.error('Erro ao buscar dados do gráfico:', error);
-                        });
-                }
-            });
+            if (selectedFilter) {
+                axios.get(`/data/${selectedFilter}`)
+                    .then(response => {
+                        console.log('Dados recebidos:', response.data);
+                        const data = response.data;
+                        updateChart(selectedFilter, data);
+
+                        // Se o filtro selecionado for "bairros", mostrar o subfiltro
+                        if (selectedFilter === 'bairros') {
+                            axios.get('/get-bairros') // Fazendo GET para buscar os bairros
+                                .then(response => {
+                                    const subfilterSelect = document.getElementById('subfilter-select');
+                                    subfilterSelect.innerHTML = '<option value="">Selecione um bairro</option>';
+
+                                    response.data.forEach(bairro => {
+                                        const option = document.createElement('option');
+                                        option.textContent = bairro.nome;
+                                        subfilterSelect.appendChild(option);
+                                    });
+
+                                    document.getElementById('subfilter-container').style.display = 'block';
+                                })
+                                .catch(error => {
+                                    console.error('Erro ao buscar bairros:', error);
+                                });
+                        } else {
+                            document.getElementById('subfilter-container').style.display = 'none';
+                        }
+
+                    })
+                    // .catch(error => {
+                    //     console.error('Erro ao buscar dados do gráfico:', error);
+                    // });
+            }
+        });
 
         function updateChart(filter, data) {
 
@@ -220,7 +242,6 @@
             if (filter === 'prefeitos') {
                 updateChartInstance(chartInstancePrefeitos, data);
             }
-
             // Logica para alternar entre os gráficos de vereadores e bairros
             if (filter === 'vereadores') {
                 document.getElementById('barchart-vereadores').parentElement.style.display = 'block';
@@ -235,15 +256,20 @@
         }
 
         // Atualiza o gráfico fornecido com os dados recebidos.
-        function updateChartInstance(chartInstance, data) {
-            if (data.length === 0) {
+        function updateChartInstance(chartInstance, data, filter) {
+            if (filter === 'bairros') {
+                data = data.bairros.map(bairro => bairro.nome); // Acesse o array de bairros
+            }
+
+            if (!Array.isArray(data) || data.length === 0) {
                 console.log('Nenhum dado encontrado para este filtro.');
                 chartInstance.data.labels = [];
                 chartInstance.data.datasets[0].data = [];
             } else {
                 chartInstance.data.labels = data.map(item => item.nome);
-                chartInstance.data.datasets[0].data = data.map(item => item.total);
+                chartInstance.data.datasets[0].data = data.map(item => item.total || 0);
             }
+
             chartInstance.update();
         }
 
