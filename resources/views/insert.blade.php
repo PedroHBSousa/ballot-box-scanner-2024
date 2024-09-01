@@ -51,7 +51,8 @@
                     </div>
                     <div class="form-group">
                         <label>N° de pessoas que compareceram</label>
-                        <input type="number" name="comp" id="comp" placeholder="Número de pessoas que votaram">
+                        <input type="number" name="comp" id="comp" placeholder="Número de pessoas que votaram"
+                            required>
                     </div>
                     <div class="form-group">
                         <label>N° de pessoas que faltaram</label>
@@ -64,7 +65,8 @@
                         <div class="form-group">
                             <label class="names" for="candidato_{{ $candidato->id }}">{{ $candidato->nome }}</label>
                             <input type="number" name="votos[{{ $candidato->id }}][quantidade]"
-                                id="candidato_{{ $candidato->id }}_quantidade" min="0" placeholder="Votos">
+                                id="candidato_{{ $candidato->id }}_quantidade" min="0" placeholder="Votos"
+                                required>
                             <input type="hidden" name="votos[{{ $candidato->id }}][candidato_id]"
                                 value="{{ $candidato->id }}">
                         </div>
@@ -72,14 +74,14 @@
 
                     <!-- Campos para votos em branco e nulos -->
                     <div class="form-group">
-                        <label for="votos_branco">Total de votos branco</label>
-                        <input type="number" id="votos_branco" name="votos_branco" min="0"
-                            placeholder="Votos branco para prefeito"><br>
+                        <label for="votos_branco_prefeito">Total de votos branco</label>
+                        <input type="number" id="votos_branco_prefeito" name="votos_branco_prefeito" min="0"
+                            placeholder="Votos branco para prefeito" required>
                     </div>
                     <div class="form-group">
-                        <label for="votos_nulo">Total de votos nulo</label>
-                        <input type="number" id="votos_nulo" name="votos_nulo" min="0"
-                            placeholder="Votos nulos para prefeito"><br><br>
+                        <label for="votos_nulo_prefeito">Total de votos nulo</label>
+                        <input type="number" id="votos_nulo_prefeito" name="votos_nulo_prefeito" min="0"
+                            placeholder="Votos nulos para prefeito" required>
                     </div>
 
                     <!-- Seção para buscar e adicionar candidato para vereador -->
@@ -99,14 +101,14 @@
 
                     <!-- Campos para votos em branco e nulos -->
                     <div class="form-group">
-                        <label for="votos_branco">Total de votos branco:</label>
-                        <input type="number" id="votos_branco" name="votos_branco" min="0"
-                            placeholder="Votos branco para vereador"><br>
+                        <label for="votos_branco_vereador">Total de votos branco:</label>
+                        <input type="number" id="votos_branco_vereador" name="votos_branco_vereador" min="0"
+                            placeholder="Votos branco para vereador" required>
                     </div>
                     <div class="form-group">
-                        <label for="votos_nulo">Total de votos nulo:</label>
-                        <input type="number" id="votos_nulo" name="votos_nulo" min="0"
-                            placeholder="Votos nulos para vereador"><br><br>
+                        <label for="votos_nulo_vereador">Total de votos nulo:</label>
+                        <input type="number" id="votos_nulo_vereador" name="votos_nulo_vereador" min="0"
+                            placeholder="Votos nulos para vereador" required>
                     </div>
 
                     <button class="form-submit-btn" type="submit" name="action"

@@ -47,7 +47,7 @@
         <div id="message">
             @if (session('status'))
                 <span style="color:#255290" class="material-symbols-outlined">
-                    autorenew
+                    scan_delete
                 </span>
                 <p style="color:#255290">{{ session('status') }}</p>
             @endif
