@@ -21,44 +21,29 @@ class InsertController extends Controller
 
     public function getSecao(Request $request)
     {
-
-        // Inicializa $secoes como uma coleção vazia
         $secoes = collect();
         $action = $request->input('action');
+        $search = $request->input('search');
+        $secao = Secao::where('id', $search)->with('localidade')->get()->first();
+        $candidatos = Candidato::where('cargo_id', 11)->get();
+        return view('insert', compact('secao', 'candidatos'));
+    }
 
-        switch($action) {
-            case 'buscar_secao':
-            $search = $request->input('search');
-            $secoes = Secao::where('id', $search)->with('localidade')->get();
-            $candidatos = Candidato::where('cargo_id', 11)->get();
-            return view('insert', compact('secoes', 'candidatos'));
+    public function getVereador($vereadorId)
+    {
 
-            case 'buscar_vereador':
-
-                $vereadores = Candidato::where('cargo_id', 13)->get();
-                $vereador = Candidato::where('cargo_id', 13)->find($request->vereador_search);
-                return view('insert', compact('secoes', 'candidatos', 'vereador'));
-
+        $candidato = Candidato::where('cargo_id', 13)->where('id', $vereadorId)->first();
+        // $candidato = Candidato::where('cargo_id', 13)->find($id);
+        if ($candidato) {
+            return response()->json(['success' => true, 'candidato' => $candidato]);
+        } else {
+            return response()->json(['success' => false]);
         }
-
-        // return view('insert');
-
-            // if ($search) {
-            //     // Se o parâmetro de busca for fornecido, busca a seção correspondente
-            //     $secoes = Secao::where('id', $search)->with('localidade')->get();
-            //     $vereadores = Candidato::where('cargo_id', 13)->get();
-            // }
-
-           // Recupera todos os candidatos para o formulário de votos
-
-
-           // Retorna a view com as variáveis $secoes e $candidatos
-            // return view('insert', compact('secoes', 'candidatos', 'vereadores'));
-
     }
 
     public function insertdata(Request $request)
     {
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'secao_id' => 'required|exists:secoes,id',
             'apto' => 'required|integer|min:0',
@@ -82,10 +67,9 @@ class InsertController extends Controller
             $votos = $request->input('votos');
             $votosBranco = $request->input('votos_branco');
             $votosNulo = $request->input('votos_nulo');
-
             $boletimExistente = Boletim::where('secao_id', $dadosBoletim['secao_id'])->first();
 
-            if ($boletimExistente) {
+            if ($boletimExistente) { // Verifica se já existe um boletim para a seção (necessário avaliar)
                 return redirect()->route('insert')->with('error', 'Boletim já exite para essa seção.');
             }
 
@@ -168,15 +152,6 @@ class InsertController extends Controller
             // Outros tipos de erros
             Log::error('Erro geral: ' . $e->getMessage());
             return redirect()->route('insert')->with('error', 'Ocorreu um erro: ' . $e->getMessage());
-        }
-    }
-    public function getVereador(Request $id)
-    {
-        $candidato = Candidato::where('cargo_id', 13)->find($id); // Assumindo que o cargo_id para vereador é 13
-        if ($candidato) {
-            return response()->json(['success' => true, 'candidato' => $candidato]);
-        } else {
-            return response()->json(['success' => false]);
         }
     }
 }

@@ -15,9 +15,10 @@ Route::post('/store', [ScannerController::class, 'store'])->name('store');
 
 Route::get('/enter-manually', [InsertController::class, 'insert'])->name('insert');
 Route::get('/enter-manually/search', [InsertController::class, 'getSecao'])->name('getSecao');
+Route::get('/enter-manually/{vereadorId}', [InsertController::class, 'getVereador'])->name('getVereador');
 Route::post('/enter-manually/data', [InsertController::class, 'insertdata'])->name('insert.data');
 
 
 Route::get('/data/{filter}', [DataController::class, 'getData'])->name('getData');
 
-Route::get('/buscar-vereador/{id}', [InsertController::class, 'getVereador'])->name('getVereador');
+// Route::get('/buscar-vereador/{id}', [InsertController::class, 'getVereador'])->name('getVereador');
