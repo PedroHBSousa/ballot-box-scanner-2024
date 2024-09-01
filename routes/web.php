@@ -20,5 +20,7 @@ Route::post('/enter-manually/data', [InsertController::class, 'insertdata'])->na
 
 
 Route::get('/data/{filter}', [DataController::class, 'getData'])->name('getData');
+Route::get('/get-bairros', [DataController::class, 'getBairros'])->name('getBairros');
+Route::get('/data/bairros/{id}', [DataController::class, 'getDadosBairro'])->name('getDadosBairro');
 
 // Route::get('/buscar-vereador/{id}', [InsertController::class, 'getVereador'])->name('getVereador');
