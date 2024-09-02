@@ -13,6 +13,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap"
         rel="stylesheet">
     @vite('resources/css/app.css')
+
 </head>
 
 <body>
@@ -287,7 +288,97 @@
             }
         });
 
-        // Inicialização dos gráficos ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carregar o gráfico de prefeitos automaticamente ao carregar a página
+            axios.get('/data/prefeitos')
+                .then(response => {
+                    const data = response.data;
+                    updateChartInstance(chartInstancePrefeitos, data);
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar dados do gráfico de prefeitos:', error);
+                });
+
+            // Configuração para esconder o gráfico de vereadores e bairros inicialmente
+            document.getElementById('barchart-bairros').parentElement.style.display = 'none';
+        });
+
+        document.getElementById('filter-select').addEventListener('change', function() {
+            const selectedFilter = this.value;
+
+            if (selectedFilter) {
+                axios.get(`/data/${selectedFilter}`)
+                    .then(response => {
+                        console.log('Dados recebidos:', response.data);
+                        const data = response.data;
+                        updateChart(selectedFilter, data);
+
+                        // Se o filtro selecionado for "bairros", mostrar o subfiltro
+                        if (selectedFilter === 'bairros') {
+                            axios.get('/get-bairros') // Fazendo GET para buscar os bairros
+                                .then(response => {
+                                    const subfilterSelect = document.getElementById('subfilter-select');
+                                    subfilterSelect.innerHTML = '<option value="">Selecione um bairro</option>';
+
+                                    response.data.forEach(bairro => {
+                                        const option = document.createElement('option');
+                                        option.textContent = bairro.nome;
+                                        subfilterSelect.appendChild(option);
+                                    });
+
+                                    document.getElementById('subfilter-container').style.display = 'block';
+                                })
+                                .catch(error => {
+                                    console.error('Erro ao buscar bairros:', error);
+                                });
+                        } else {
+                            document.getElementById('subfilter-container').style.display = 'none';
+                        }
+
+                    })
+                    // .catch(error => {
+                    //     console.error('Erro ao buscar dados do gráfico:', error);
+                    // });
+            }
+        });
+
+        function updateChart(filter, data) {
+
+            // Sempre atualizar o gráfico de prefeitos com os dados corretos
+            if (filter === 'prefeitos') {
+                updateChartInstance(chartInstancePrefeitos, data);
+            }
+            // Logica para alternar entre os gráficos de vereadores e bairros
+            if (filter === 'vereadores') {
+                document.getElementById('barchart-vereadores').parentElement.style.display = 'block';
+                document.getElementById('barchart-bairros').parentElement.style.display = 'none';
+                updateChartInstance(chartInstanceVereadores, data);
+            } else if (filter === 'bairros') {
+                document.getElementById('barchart-vereadores').parentElement.style.display = 'none';
+                document.getElementById('barchart-bairros').parentElement.style.display = 'block';
+                updateChartInstance(chartInstanceBairros, data);
+            }
+            // Adicionar lógica para outros filtros se necessário
+        }
+
+        // Atualiza o gráfico fornecido com os dados recebidos.
+        function updateChartInstance(chartInstance, data, filter) {
+            if (filter === 'bairros') {
+                data = data.bairros.map(bairro => bairro.nome); // Acesse o array de bairros
+            }
+
+            if (!Array.isArray(data) || data.length === 0) {
+                console.log('Nenhum dado encontrado para este filtro.');
+                chartInstance.data.labels = [];
+                chartInstance.data.datasets[0].data = [];
+            } else {
+                chartInstance.data.labels = data.map(item => item.nome);
+                chartInstance.data.datasets[0].data = data.map(item => item.total || 0);
+            }
+
+            chartInstance.update();
+        }
+
         window.onload = function() {
             document.getElementById('barchart-vereadores').parentElement.style.display = 'block';
             document.getElementById('barchart-bairros').parentElement.style.display = 'none';

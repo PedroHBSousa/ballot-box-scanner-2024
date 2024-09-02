@@ -21,44 +21,38 @@ class InsertController extends Controller
 
     public function getSecao(Request $request)
     {
-
-        // Inicializa $secoes como uma coleção vazia
         $secoes = collect();
         $action = $request->input('action');
+        $search = $request->input('search');
+        $secao = Secao::where('id', $search)->with('localidade')->get()->first();
+        $candidatos = Candidato::where('cargo_id', 11)->get();
+        return view('insert', compact('secao', 'candidatos'));
+    }
 
-        switch($action) {
-            case 'buscar_secao':
-            $search = $request->input('search');
-            $secoes = Secao::where('id', $search)->with('localidade')->get();
-            $candidatos = Candidato::where('cargo_id', 11)->get();
-            return view('insert', compact('secoes', 'candidatos'));
-
-            case 'buscar_vereador':
-
-                $vereadores = Candidato::where('cargo_id', 13)->get();
-                $vereador = Candidato::where('cargo_id', 13)->find($request->vereador_search);
-                return view('insert', compact('secoes', 'candidatos', 'vereador'));
-
+    public function getVereador($vereadorId)
+    {
+        $candidato = Candidato::where('cargo_id', 13)->where('id', $vereadorId)->first();
+        // $candidato = Candidato::where('cargo_id', 13)->find($id);
+        if ($candidato) {
+            return response()->json(['success' => true, 'candidato' => $candidato]);
+        } else {
+            return response()->json(['success' => false]);
         }
+    }
 
-        // return view('insert');
-
-            // if ($search) {
-            //     // Se o parâmetro de busca for fornecido, busca a seção correspondente
-            //     $secoes = Secao::where('id', $search)->with('localidade')->get();
-            //     $vereadores = Candidato::where('cargo_id', 13)->get();
-            // }
-
-           // Recupera todos os candidatos para o formulário de votos
-
-
-           // Retorna a view com as variáveis $secoes e $candidatos
-            // return view('insert', compact('secoes', 'candidatos', 'vereadores'));
-
+    private function getCargoIdForCandidato($candidatoId)
+    {
+        if (strlen($candidatoId) == 2) {
+            return 11; // Prefeito
+        } elseif (strlen($candidatoId) > 2) {
+            return 13; // Vereador
+        }
+        return null; // Caso o candidatoId não corresponda a nenhum cargo
     }
 
     public function insertdata(Request $request)
     {
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'secao_id' => 'required|exists:secoes,id',
             'apto' => 'required|integer|min:0',
@@ -66,11 +60,12 @@ class InsertController extends Controller
             'falt' => 'required|integer|min:0',
             'votos' => 'required|array',
             'votos.*.candidato_id' => 'required|exists:candidatos,id',
-            'votos.*.quantidade' => 'required|integer|min:0', // Validação para a quantidade de votos
-            'votos_branco' => 'required|integer|min:0',
-            'votos_nulo' => 'required|integer|min:0',
+            'votos.*.quantidade' => 'required|integer|min:0',
+            'votos_branco_prefeito' => 'required|integer|min:0',
+            'votos_nulo_prefeito' => 'required|integer|min:0',
+            'votos_branco_vereador' => 'required|integer|min:0',
+            'votos_nulo_vereador' => 'required|integer|min:0',
         ]);
-
 
         if ($validator->fails()) {
             $request->session()->flash('error', 'Dados digitados incorretamente.');
@@ -80,37 +75,40 @@ class InsertController extends Controller
         try {
             $dadosBoletim = $request->only(['secao_id', 'apto', 'comp', 'falt']);
             $votos = $request->input('votos');
-            $votosBranco = $request->input('votos_branco');
-            $votosNulo = $request->input('votos_nulo');
-
+            $votosBrancoPrefeito = $request->input('votos_branco_prefeito');
+            $votosNuloPrefeito = $request->input('votos_nulo_prefeito');
+            $votosBrancoVereador = $request->input('votos_branco_vereador');
+            $votosNuloVereador = $request->input('votos_nulo_vereador');
             $boletimExistente = Boletim::where('secao_id', $dadosBoletim['secao_id'])->first();
 
             if ($boletimExistente) {
                 return redirect()->route('insert')->with('error', 'Boletim já exite para essa seção.');
             }
 
-            // Criar novo boletim
             $boletim = Boletim::create([
                 'secao_id' => $dadosBoletim['secao_id'],
                 'apto' => $dadosBoletim['apto'],
                 'comp' => $dadosBoletim['comp'],
                 'falt' => $dadosBoletim['falt'],
-                'assinatura_digital' => 'manual-' . time(), // Definindo uma assinatura para inserção manual
+                'assinatura_digital' => 'manual-' . time(),
             ]);
 
-            // Inserir votos nominais
             $votosData = [];
+
+            // Inserir votos nominais com distinção de cargos
             foreach ($votos as $voto) {
                 $candidatoId = $voto['candidato_id'];
                 $quantidade = $voto['quantidade'];
 
                 if ($quantidade > 0) {
+                    $cargoId = $this->getCargoIdForCandidato($candidatoId); // Função para determinar o cargo correto
+
                     for ($i = 0; $i < $quantidade; $i++) {
                         $votosData[] = [
                             'boletim_id' => $boletim->id,
                             'secao_id' => $dadosBoletim['secao_id'],
                             'candidato_id' => $candidatoId,
-                            'cargo_id' => 11,
+                            'cargo_id' => $cargoId,
                             'nominal' => 'sim',
                             'branco' => 'nao',
                             'nulo' => 'nao',
@@ -121,11 +119,12 @@ class InsertController extends Controller
                 }
             }
 
-            for ($i = 0; $i < $votosBranco; $i++) {
+            // Inserir votos em branco e nulos para prefeito
+            for ($i = 0; $i < $votosBrancoPrefeito; $i++) {
                 $votosData[] = [
                     'boletim_id' => $boletim->id,
                     'secao_id' => $dadosBoletim['secao_id'],
-                    'candidato_id' => null, // Voto em branco não tem candidato
+                    'candidato_id' => null,
                     'cargo_id' => 11,
                     'nominal' => 'nao',
                     'branco' => 'sim',
@@ -135,12 +134,41 @@ class InsertController extends Controller
                 ];
             }
 
-            for ($i = 0; $i < $votosNulo; $i++) {
+            for ($i = 0; $i < $votosNuloPrefeito; $i++) {
                 $votosData[] = [
                     'boletim_id' => $boletim->id,
                     'secao_id' => $dadosBoletim['secao_id'],
-                    'candidato_id' => null, // Voto nulo não tem candidato
+                    'candidato_id' => null,
                     'cargo_id' => 11,
+                    'nominal' => 'nao',
+                    'branco' => 'nao',
+                    'nulo' => 'sim',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            // Inserir votos em branco e nulos para vereador
+            for ($i = 0; $i < $votosBrancoVereador; $i++) {
+                $votosData[] = [
+                    'boletim_id' => $boletim->id,
+                    'secao_id' => $dadosBoletim['secao_id'],
+                    'candidato_id' => null,
+                    'cargo_id' => 13,
+                    'nominal' => 'nao',
+                    'branco' => 'sim',
+                    'nulo' => 'nao',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            for ($i = 0; $i < $votosNuloVereador; $i++) {
+                $votosData[] = [
+                    'boletim_id' => $boletim->id,
+                    'secao_id' => $dadosBoletim['secao_id'],
+                    'candidato_id' => null,
+                    'cargo_id' => 13,
                     'nominal' => 'nao',
                     'branco' => 'nao',
                     'nulo' => 'sim',
@@ -151,15 +179,15 @@ class InsertController extends Controller
 
             Voto::insert($votosData);
 
-            //Sucesso
             $request->session()->forget('votosData');
             $request->session()->forget('dadosBoletim');
-            $request->session()->forget('votosBranco');
-            $request->session()->forget('votosNulo');
-            $request->session()->forget('boletimExistente');
-            $request->session()->forget('boletim');
+            $request->session()->forget('votosBrancoPrefeito');
+            $request->session()->forget('votosNuloPrefeito');
+            $request->session()->forget('votosBrancoVereador');
+            $request->session()->forget('votosNuloVereador');
+            $request->session()->flash('success', 'Boletim e votos registrados com sucesso.');
 
-            return redirect()->route('insert')->with('success', 'Boletim e votos inseridos com sucesso.');
+            return redirect()->route('insert');
         } catch (QueryException $e) {
             //Erros no banco de dados
             Log::error('Erro ao inserir boletim: ' . $e->getMessage());
@@ -168,15 +196,6 @@ class InsertController extends Controller
             // Outros tipos de erros
             Log::error('Erro geral: ' . $e->getMessage());
             return redirect()->route('insert')->with('error', 'Ocorreu um erro: ' . $e->getMessage());
-        }
-    }
-    public function getVereador(Request $id)
-    {
-        $candidato = Candidato::where('cargo_id', 13)->find($id); // Assumindo que o cargo_id para vereador é 13
-        if ($candidato) {
-            return response()->json(['success' => true, 'candidato' => $candidato]);
-        } else {
-            return response()->json(['success' => false]);
         }
     }
 }

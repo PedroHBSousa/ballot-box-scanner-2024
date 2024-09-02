@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apurador de Votos</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/x-icon" />
     <link rel="apple-touch-icon" href="{{ asset('favicon.svg') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,6 +14,7 @@
         rel="stylesheet">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <script src="{{ asset('js/html5-qrcode.min.js') }}"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite('resources/css/index.css')
 </head>
@@ -28,7 +28,6 @@
 </header>
 
 <body>
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <div class="center-container">
         <div class="instructions">
             <h2>INSTRUÇÕES</h2>
@@ -47,7 +46,7 @@
         <div id="message">
             @if (session('status'))
                 <span style="color:#255290" class="material-symbols-outlined">
-                    autorenew
+                    scan_delete
                 </span>
                 <p style="color:#255290">{{ session('status') }}</p>
             @endif
@@ -85,31 +84,21 @@
             @endif
         </div>
     </div>
-    </div>
     <script>
         var html5QrcodeScanner = new Html5QrcodeScanner(
             "reader", {
-                fps: 10,
-                qrbox: 280
+                fps: 5,
+                qrbox: 285
             });
 
         function onScanSuccess(decodedText, decodedResult) {
             document.getElementById('qrcode-value').value = decodedText;
             html5QrcodeScanner.clear();
-
-            // Submeter o formulário automaticamente
-            document.getElementById('qrcode-form').submit();
-
-            // // Opcional: Ocultar a mensagem após alguns segundos
-            // setTimeout(function() {
-            //     successMessage.style.display = 'none';
-            // }, 3000);
             document.getElementById('qrcode-form').submit();
         }
 
         html5QrcodeScanner.render(onScanSuccess);
     </script>
-
 </body>
 
 </html>
