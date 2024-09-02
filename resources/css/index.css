@@ -141,6 +141,32 @@ body {
     margin-bottom: 25px;
     margin-top: 15px;
 }
+#reader {
+    border: 0 !important;
+}
+
+#html5-qrcode-anchor-scan-type-change {
+    display: none;
+}
+#reader__dashboard_section_csr button {
+    text-decoration: none !important;
+    border-radius: 5px;
+    margin-top: 1rem;
+    color: #fff;
+    background-color: #1989fa;
+    border: 1px solid #1989fa;
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    height: 2.5rem;
+    width: 88% !important;
+    line-height: 2.5rem;
+    text-align: center;
+    cursor: pointer;
+    align-items: center;
+    -webkit-appearance: none;
+    -webkit-box-pack: center;
+}
 
 .result-container {
     text-align: center;
