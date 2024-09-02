@@ -47,7 +47,19 @@ class DataController extends Controller
                     break;
 
                 case 'bairros':
-                    // $data = Bairro::select('id', 'nome')->get(); // Obtém todos os bairros
+                    $bairroId = $request->query('bairro');
+                    if ($bairroId) {
+                        $data = DB::table('votos')
+                            ->select('candidatos.nome', DB::raw('count(*) as total'))
+                            ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
+                            ->join('secoes', 'votos.secao_id', '=', 'secoes.id')
+                            ->join('localidades', 'secoes.localidade_id', '=', 'localidades.id')
+                            ->join('bairros', 'localidades.bairro_id', '=', 'bairros.id')
+                            ->where('bairros.id', $bairroId)
+                            ->where('candidatos.cargo_id', 11) // Cargo para prefeitos
+                            ->groupBy('candidatos.nome')
+                            ->get();
+                    }
                     break;
 
                 default:
@@ -65,8 +77,9 @@ class DataController extends Controller
 
     public function getBairros()
     {
+
         try {
-            // Obtém todos os bairros e seleciona apenas 'id' e 'nome'
+            // Obtém todos os bairros e seleciona apenas o 'nome'
             $bairros = Bairro::select('nome')->get();
             return response()->json($bairros);
         } catch (\Exception $e) {
