@@ -167,9 +167,7 @@
             const selectedBairroId = this.value; // Captura o bairro_id do dropdown
 
             if (selectedBairroId) {
-                axios.get(`/data/bairros`, {
-                    params: { bairro: selectedBairroId }
-                })
+                axios.get(`/data/bairros/${selectedBairroId}`)
                     .then(response => {
                         // Atualiza o gráfico com os votos dos prefeitos no bairro selecionado
                         updateChartInstance(chartInstanceBairros, response.data);

@@ -46,22 +46,6 @@ class DataController extends Controller
                         ->get();
                     break;
 
-                case 'bairros':
-                    $bairroId = $request->query('bairro');
-                    if ($bairroId) {
-                        $data = DB::table('votos')
-                            ->select('candidatos.nome', DB::raw('count(*) as total'))
-                            ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
-                            ->join('secoes', 'votos.secao_id', '=', 'secoes.id')
-                            ->join('localidades', 'secoes.localidade_id', '=', 'localidades.id')
-                            ->join('bairros', 'localidades.bairro_id', '=', 'bairros.id')
-                            ->where('bairros.id', $bairroId)
-                            ->where('candidatos.cargo_id', 11) // Cargo para prefeitos
-                            ->groupBy('candidatos.nome')
-                            ->get();
-                    }
-                    break;
-
                 default:
                     // Retorna erro se o filtro não for reconhecido
                     return response()->json(['error' => 'Filtro inválido'], 400);
@@ -75,12 +59,38 @@ class DataController extends Controller
         }
     }
 
+    public function getDadosBairro($bairro_id)
+    {
+        try {
+            // Verifica se o bairro_id foi fornecido
+            if (!$bairro_id) {
+                return response()->json(['error' => 'Bairro ID não fornecido'], 400);
+            }
+
+            $data = DB::table('votos')
+                ->select('candidatos.nome', DB::raw('count(*) as total'))
+                ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
+                ->join('secoes', 'votos.secao_id', '=', 'secoes.id')
+                ->join('localidades', 'secoes.localidade_id', '=', 'localidades.id')
+                ->join('bairros', 'localidades.bairro_id', '=', 'bairros.id')
+                ->where('bairros.id', $bairro_id)
+                ->where('candidatos.cargo_id', 11) // Cargo para prefeitos
+                ->groupBy('candidatos.nome')
+                ->get();
+
+            return response()->json($data);
+        } catch (\Exception $e) {
+            Log::error('Erro ao buscar dados do bairro: ' . $e->getMessage());
+            return response()->json(['error' => 'Erro ao buscar dados do bairro'], 500);
+        }
+    }
+
     public function getBairros()
     {
 
         try {
             // Obtém todos os bairros e seleciona apenas o 'nome'
-            $bairros = Bairro::select('nome')->get();
+            $bairros = Bairro::select('id', 'nome')->get();
             return response()->json($bairros);
         } catch (\Exception $e) {
             Log::error('Erro ao buscar bairros: ' . $e->getMessage());
