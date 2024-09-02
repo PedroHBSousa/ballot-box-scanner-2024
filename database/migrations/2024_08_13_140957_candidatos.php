@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome');
             $table->foreignId('cargo_id')->references('id')->on('cargos');
-            // $table->foreign('cargo_id')->references('id')->on('cargos');
+            // $table->foreignId('partido_id')->references('id')->on('partidos');
         });
     }
 
