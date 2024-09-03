@@ -85,19 +85,37 @@
         </div>
     </div>
     <script>
-        var html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader", {
-                fps: 5,
-                qrbox: 285
-            });
-
+        // Função que será chamada ao encontrar um QR Code
         function onScanSuccess(decodedText, decodedResult) {
             document.getElementById('qrcode-value').value = decodedText;
             html5QrcodeScanner.clear();
             document.getElementById('qrcode-form').submit();
         }
 
-        html5QrcodeScanner.render(onScanSuccess);
+        // Instancia o scanner sem iniciar
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", {
+                fps: 5,
+                qrbox: 285
+            },
+            false // Não inicia automaticamente
+        );
+
+        // Obtém as câmeras disponíveis e seleciona a traseira ou a primeira disponível
+        Html5Qrcode.getCameras().then(devices => {
+            if (devices && devices.length) {
+                const backCamera = devices.find(device =>
+                    device.label.toLowerCase().includes('back')
+                );
+
+                const cameraId = backCamera ? backCamera.id : devices[0].id;
+
+                // Renderiza o scanner com a câmera selecionada
+                html5QrcodeScanner.render(onScanSuccess, cameraId);
+            }
+        }).catch(err => {
+            console.error(`Erro ao obter dispositivos de câmera: ${err}`);
+        });
     </script>
 </body>
 
