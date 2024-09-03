@@ -16,7 +16,9 @@ class Localidade extends Model
     protected $fillable = [
         'id',
         'bairro_id',
-        'nome'
+        'nome',
+        'secoes',
+        'eleitores',
     ];
 
     public function bairro()

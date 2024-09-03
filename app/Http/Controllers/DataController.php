@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bairro;
+use App\Models\Localidade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -97,4 +98,42 @@ class DataController extends Controller
             return response()->json(['error' => 'Erro ao buscar bairros'], 500);
         }
     }
+
+    public function getDadosEscola($localidade_id)
+    {
+        try {
+            // Verifica se o escola_id foi fornecido
+            if (!$localidade_id) {
+                return response()->json(['error' => 'Escola ID não fornecido'], 400);
+            }
+
+            $data = DB::table('votos')
+                ->select('candidatos.nome', DB::raw('count(*) as total'))
+                ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
+                ->join('secoes', 'votos.secao_id', '=', 'secoes.id')
+                ->join('localidades', 'secoes.localidade_id', '=', 'localidades.id')
+                ->where('localidades.id', $localidade_id)
+                ->where('candidatos.cargo_id', 11) // Cargo para prefeitos
+                ->groupBy('candidatos.nome')
+                ->get();
+
+            return response()->json($data);
+        } catch (\Exception $e) {
+            Log::error('Erro ao buscar dados da escola: ' . $e->getMessage());
+            return response()->json(['error' => 'Erro ao buscar dados da escola'], 500);
+        }
+    }
+
+    public function getLocalidades()
+    {
+        try {
+            $localidades = Localidade::select('id', 'nome')->get();
+            return response()->json($localidades);
+            
+        } catch (\Exception $e) {
+            Log::error('Erro ao buscar localidades: ' . $e->getMessage());
+            return response()->json(['error' => 'Erro ao buscar localidades'], 500);
+        }
+    }
+
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('secoes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('localidade_id')->references('id')->on('localidades');
-            // $table->foreign('localidade_id')->references('id')->on('localidades');
+            $table->integer('aptos');
         });
     }
 

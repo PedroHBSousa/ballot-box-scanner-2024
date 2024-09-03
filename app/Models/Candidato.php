@@ -12,7 +12,8 @@ class Candidato extends Model
     protected $fillable = [
         'id',
         'nome',
-        'cargo_id'
+        'cargo_id',
+        'partido_id',
     ];
 
     public function cargo()

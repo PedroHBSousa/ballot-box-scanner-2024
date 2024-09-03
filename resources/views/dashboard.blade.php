@@ -41,7 +41,10 @@
         </div>
         <div id="subfilter-container" style="display: none;">
             <select id="subfilter-select">
-                <option value="sub">Selecione um bairro</option>
+                <option value="">Selecione um bairro</option>
+            </select>
+            <select id="school-filter-select" style="display: none;">
+                <option value="">Selecione uma escola</option>
             </select>
         </div>
         <div class="charts-container">
@@ -62,6 +65,12 @@
                     <h2>Bairros</h2>
                 </div>
                 <canvas id="barchart-bairros" width="400" height="400"></canvas>
+            </div>
+            <div class="chart">
+                <div class="escolas">
+                    <h2>Escolas</h2>
+                </div>
+                <canvas id="barchart-escolas" width="400" height="400"></canvas>
             </div>
         </div>
     </div>
@@ -86,19 +95,31 @@
 
         // Função para atualizar o gráfico com base no filtro selecionado
         function updateChart(filter, data) {
+            // Função auxiliar para mostrar ou esconder gráficos
+            function toggleChartVisibility(chartId, shouldShow) {
+                const chartElement = document.getElementById(chartId);
+                if (chartElement && chartElement.parentElement) {
+                    chartElement.parentElement.style.display = shouldShow ? 'block' : 'none';
+                } else {
+                    console.error(`Elemento com ID ${chartId} não encontrado.`);
+                }
+            }
+
             if (filter === 'prefeitos') {
                 updateChartInstance(chartInstancePrefeitos, data);
+                // Esconde os outros gráficos
+                toggleChartVisibility('barchart-vereadores', false);
+                toggleChartVisibility('barchart-bairros', false);
+                toggleChartVisibility('barchart-escolas', false);
             } else if (filter === 'vereadores') {
-                document.getElementById('barchart-vereadores').parentElement.style.display = 'block';
-                document.getElementById('barchart-bairros').parentElement.style.display = 'none';
                 updateChartInstance(chartInstanceVereadores, data);
+                toggleChartVisibility('barchart-vereadores', true);
+                toggleChartVisibility('barchart-bairros', false);
+                toggleChartVisibility('barchart-escolas', false);
             } else if (filter === 'bairros') {
-                document.getElementById('barchart-vereadores').parentElement.style.display = 'none';
-                document.getElementById('barchart-bairros').parentElement.style.display = 'block';
                 updateChartInstance(chartInstanceBairros, data);
             }
         }
-
         // Carregar o gráfico de prefeitos automaticamente ao carregar a página
         document.addEventListener('DOMContentLoaded', function () {
             axios.get('/data/prefeitos')
@@ -112,6 +133,7 @@
 
             // Esconder o gráfico de bairros inicialmente
             document.getElementById('barchart-bairros').parentElement.style.display = 'none';
+            document.getElementById('barchart-escolas').parentElement.style.display = 'none';
         });
 
         document.getElementById('filter-select').addEventListener('change', function () {
@@ -144,7 +166,7 @@
                                         if (selectedBairroId) {
                                             axios.get(`/data/bairros/${selectedBairroId}`)
                                                 .then(response => {
-                                                    updateChartInstance(chartInstancePrefeitos, response.data);
+                                                    updateChartInstance(chartInstanceBairros, response.data);
                                                 })
                                                 .catch(error => {
                                                     console.error('Erro ao buscar votos para o bairro:', error);
@@ -165,7 +187,7 @@
             }
         });
 
-        document.getElementById('subfilter-select').addEventListener('change', function () {
+        document.getElementById('subfilter-select').addEventListener('change', function() {
             const selectedBairroId = this.value; // Captura o bairro_id do dropdown
 
             if (selectedBairroId) {
@@ -264,14 +286,19 @@
                     label: 'Votos',
                     data: [],
                     backgroundColor: [
-                        'rgba(7, 217, 0)',
-                        'rgba(255,0,0)',
-                        'rgba(252, 186, 3)',
-                        'rgba(30,144,255)',
-                        'rgba(255,69,0)'
+                        'rgba(75, 192, 192)',
+                        'rgba(153, 102, 255)',
+                        'rgba(255, 159, 64)',
+                        'rgba(54, 162, 235)',
+                        'rgba(255, 99, 132)'
                     ],
-                    borderColor: ['#FFF', '#FFF', '#FFF', '#FFF', '#FFF'],
-                    borderWidth: 2
+                    borderColor: [
+                        'rgba(75, 192, 192)',
+                        'rgba(153, 102, 255)',
+                        'rgba(255, 159, 64)',
+                        'rgba(54, 162, 235)',
+                        'rgba(255, 99, 132)'
+                    ]
                 }]
             },
             options: {
@@ -287,6 +314,11 @@
                 }
             }
         });
+
+        window.onload = function() {
+            document.getElementById('barchart-vereadores').parentElement.style.display = 'block';
+            document.getElementById('barchart-bairros').parentElement.style.display = 'none';
+        };
     </script>
 </body>
 
