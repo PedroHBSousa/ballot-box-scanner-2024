@@ -30,6 +30,8 @@ header h1 {
     font-size: 20px;
     text-align: center;
     font-weight: 800;
+    margin: 0;
+    padding: 0;
 }
 .container-image {
     display: flex;
@@ -55,6 +57,23 @@ header h1 {
     position: absolute;
     top: -110px;
     left: -50px;
+}
+
+#logo-ssb {
+    left: 100px;
+    width: 250px;
+    position: absolute;
+}
+
+#peixe-ssb {
+    left: 20px;
+    width: 75px;
+    position: absolute;
+}
+
+#subfilter-select {
+    padding:0.675em 6em 0.675em 1em;
+    font-size: 15px;
 }
 body {
     /* margin: 0;
@@ -90,7 +109,7 @@ body {
     border: 1px solid #aaa9a9;
     border-radius: 1rem;
     box-shadow: 0 0 16px rgba(0, 0, 0, 0);
-    
+    margin-top: 15px;
 }
 .charts-container {
     display: flex;

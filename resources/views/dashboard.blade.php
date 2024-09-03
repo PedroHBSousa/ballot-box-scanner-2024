@@ -19,6 +19,8 @@
 <body>
     <header>
         <h1>APURAÇÃO ELEITORAL</h1>
+        <br><br><br>
+        <h3>2024</h3>
         <div class="container-image">
             <img id="felipe" src="{{ Vite::asset('resources/img/Felipe.png') }}">
             <img id="reis" src="{{ Vite::asset('resources/img/Reis.png') }}">
@@ -43,7 +45,6 @@
             </select>
         </div>
         <div class="charts-container">
-
             <div class="chart">
                 <div class="pref">
                     <h2>Prefeito</h2>
@@ -66,6 +67,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script>
@@ -96,9 +98,9 @@
                 updateChartInstance(chartInstanceBairros, data);
             }
         }
-        // Carregar o gráfico de prefeitos automaticamente ao carregar a página
-        document.addEventListener('DOMContentLoaded', function() {
 
+        // Carregar o gráfico de prefeitos automaticamente ao carregar a página
+        document.addEventListener('DOMContentLoaded', function () {
             axios.get('/data/prefeitos')
                 .then(response => {
                     const data = response.data;
@@ -112,7 +114,7 @@
             document.getElementById('barchart-bairros').parentElement.style.display = 'none';
         });
 
-        document.getElementById('filter-select').addEventListener('change', function() {
+        document.getElementById('filter-select').addEventListener('change', function () {
             const selectedFilter = this.value;
 
             if (selectedFilter) {
@@ -136,7 +138,7 @@
 
                                     document.getElementById('subfilter-container').style.display = 'block';
 
-                                    subfilterSelect.addEventListener('change', function() {
+                                    subfilterSelect.addEventListener('change', function () {
                                         const selectedBairroId = subfilterSelect.value;
 
                                         if (selectedBairroId) {
@@ -163,7 +165,7 @@
             }
         });
 
-        document.getElementById('subfilter-select').addEventListener('change', function() {
+        document.getElementById('subfilter-select').addEventListener('change', function () {
             const selectedBairroId = this.value; // Captura o bairro_id do dropdown
 
             if (selectedBairroId) {
@@ -203,6 +205,18 @@
                 plugins: {
                     legend: {
                         display: true
+                    },
+                    datalabels: {
+                        color: '#fff',
+                        formatter: (value, context) => {
+                            const totalVotes = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                            const percentage = ((value / totalVotes) * 100).toFixed(1);
+                            return `${value} (${percentage}%)`;
+                        },
+                        font: {
+                            weight: 'bold',
+                            size: 14
+                        }
                     }
                 }
             }
@@ -214,34 +228,28 @@
             data: {
                 labels: [],
                 datasets: [{
+                    label: 'Votos',
                     data: [],
-                    borderWidth: 1,
                     backgroundColor: [
-                        'rgba(30,144,255)',
+                        'rgba(7, 217, 0)',
                         'rgba(255,0,0)',
                         'rgba(252, 186, 3)',
-                        'rgba(7, 217, 0)',
+                        'rgba(30,144,255)',
                         'rgba(255,69,0)'
                     ],
-                    borderColor: [
-                        'rgba(30,144,255)',
-                        'rgba(255,0,0)',
-                        'rgba(252, 186, 3)',
-                        'rgba(7, 217, 0)',
-                        'rgba(255,69,0)'
-                    ]
+                    borderColor: ['#FFF', '#FFF', '#FFF', '#FFF', '#FFF'],
+                    borderWidth: 2
                 }]
             },
             options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
                 plugins: {
                     legend: {
                         display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        suggestedMin: 0
                     }
                 }
             }
@@ -253,49 +261,33 @@
             data: {
                 labels: [],
                 datasets: [{
+                    label: 'Votos',
                     data: [],
-                    borderWidth: 1,
                     backgroundColor: [
-                        'rgba(75, 192, 192)',
-                        'rgba(153, 102, 255)',
-                        'rgba(255, 159, 64)',
-                        'rgba(54, 162, 235)',
-                        'rgba(255, 99, 132)'
+                        'rgba(7, 217, 0)',
+                        'rgba(255,0,0)',
+                        'rgba(252, 186, 3)',
+                        'rgba(30,144,255)',
+                        'rgba(255,69,0)'
                     ],
-                    borderColor: [
-                        'rgba(75, 192, 192)',
-                        'rgba(153, 102, 255)',
-                        'rgba(255, 159, 64)',
-                        'rgba(54, 162, 235)',
-                        'rgba(255, 99, 132)'
-                    ]
+                    borderColor: ['#FFF', '#FFF', '#FFF', '#FFF', '#FFF'],
+                    borderWidth: 2
                 }]
             },
             options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
                 plugins: {
                     legend: {
                         display: false
                     }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        suggestedMin: 0
-                    }
                 }
             }
         });
-
-        window.onload = function() {
-            document.getElementById('barchart-vereadores').parentElement.style.display = 'block';
-            document.getElementById('barchart-bairros').parentElement.style.display = 'none';
-        };
     </script>
-
 </body>
-<footer>
-    <h1>Juntos é possível!</h1>
-
-</footer>
 
 </html>
