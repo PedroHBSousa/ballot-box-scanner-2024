@@ -24,11 +24,6 @@
     <header>
         <h1>APURAÇÃO ELEITORAL</h1>
         <p>2024</p>
-        
-    
-            
-        
-        
         <div class="container-image">
             <img id="felipe" src="{{ Vite::asset('resources/img/Felipe.png') }}">
             <img id="reis" src="{{ Vite::asset('resources/img/Reis.png') }}">
@@ -44,6 +39,7 @@
                 <option value="vereadores">Vereadores</option>
                 <option value="escolas">Escolas</option>
                 <option value="bairros">Bairros</option>
+                <option value="partidos">Partidos</option>
                 <option value="regioes">Regiões</option>
             </select>
         </div>
@@ -79,6 +75,12 @@
                     <h2>Escolas</h2>
                 </div>
                 <canvas id="barchart-escolas" width="400" height="400"></canvas>
+            </div>
+            <div class="chart">
+                <div class="partidos">
+                    <h2>Partidos</h2>
+                </div>
+                <canvas id="barchart-partidos" width="400" height="400"></canvas>
             </div>
         </div>
     </div>
