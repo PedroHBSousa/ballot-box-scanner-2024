@@ -27,9 +27,11 @@ header {
 
 header h1 {
     color: #2c2c2c;
-    font-size: 20px;
+    font-size: 24px;
     text-align: center;
 }
+
+
 /*
 header img {
     max-width: 100%;
@@ -80,6 +82,7 @@ header img {
     position: absolute;
     top: -110px;
     left: -50px;
+    
 }
 body {
     /* margin: 0;
