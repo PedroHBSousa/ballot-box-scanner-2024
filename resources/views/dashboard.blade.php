@@ -42,6 +42,7 @@
                 <option value="vereadores">Vereadores</option>
                 <option value="escolas">Escolas</option>
                 <option value="bairros">Bairros</option>
+                <option value="partidos">Partidos</option>
                 <option value="regioes">Regiões</option>
             </select>
         </div>
@@ -77,6 +78,12 @@
                     <h2>Escolas</h2>
                 </div>
                 <canvas id="barchart-escolas" width="400" height="400"></canvas>
+            </div>
+            <div class="chart">
+                <div class="partidos">
+                    <h2>Partidos</h2>
+                </div>
+                <canvas id="barchart-partidos" width="400" height="400"></canvas>
             </div>
         </div>
     </div>

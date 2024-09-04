@@ -23,6 +23,9 @@ function initializeCharts() {
 
     const ctxBairros = document.getElementById('barchart-bairros').getContext('2d');
     window.chartInstanceBairros = new Chart(ctxBairros, createBarChartConfig('Bairros'));
+    const ctxPartidos = document.getElementById('barchart-partidos').getContext('2d');
+    window.chartInstancePartidos = new Chart(ctxPartidos, createBarChartConfig('Partidos'));
+
 }
 
 
@@ -137,6 +140,7 @@ function loadInitialData() {
 
     document.getElementById('barchart-bairros').parentElement.style.display = 'none';
     document.getElementById('barchart-escolas').parentElement.style.display = 'none';
+    document.getElementById('barchart-partidos').parentElement.style.display = 'none';
 }
 
 function handleFilterChange(event) {
@@ -206,7 +210,7 @@ function updateChartInstance(chartInstance, data) {
         chartInstance.data.labels = [];
         chartInstance.data.datasets[0].data = [];
     } else {
-        chartInstance.data.labels = data.map(item => item.nome);
+        chartInstance.data.labels = data.map(item => item.partido || 'Indefinido');
         chartInstance.data.datasets[0].data = data.map(item => item.total || 0);
     }
     chartInstance.update();
@@ -227,13 +231,25 @@ function updateChart(filter, data) {
         toggleChartVisibility('barchart-vereadores', false);
         toggleChartVisibility('barchart-bairros', false);
         toggleChartVisibility('barchart-escolas', false);
+        toggleChartVisibility('barchart-partidos', false);
     } else if (filter === 'vereadores') {
         updateChartInstance(window.chartInstanceVereadores, data);
         toggleChartVisibility('barchart-vereadores', true);
         toggleChartVisibility('barchart-bairros', false);
         toggleChartVisibility('barchart-escolas', false);
+        toggleChartVisibility('barchart-partidos', false);
     } else if (filter === 'bairros') {
         updateChartInstance(window.chartInstanceBairros, data);
+        toggleChartVisibility('barchart-vereadores', false);
+        toggleChartVisibility('barchart-bairros', true);
+        toggleChartVisibility('barchart-escolas', false);
+        toggleChartVisibility('barchart-partidos', false);
+    } else if (filter === 'partidos') {
+        updateChartInstance(window.chartInstancePartidos, data);
+        toggleChartVisibility('barchart-vereadores', false);
+        toggleChartVisibility('barchart-bairros', false);
+        toggleChartVisibility('barchart-escolas', false);
+        toggleChartVisibility('barchart-partidos', true);
         toggleChartVisibility('barchart-vereadores', false);
         toggleChartVisibility('barchart-bairros', true);
         toggleChartVisibility('barchart-escolas', false);

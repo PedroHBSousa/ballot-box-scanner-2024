@@ -47,6 +47,16 @@ class DataController extends Controller
                         ->get();
                     break;
 
+                case 'partidos':
+                    $data = DB::table('votos')
+                        ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
+                        ->select('candidatos.partido', DB::raw('COUNT(votos.id) as total'))
+                        ->groupBy('candidatos.partido')
+                        ->orderBy('total', 'desc')
+                        ->limit(15)
+                        ->get();
+                    break;
+
                 default:
                     // Retorna erro se o filtro não for reconhecido
                     return response()->json(['error' => 'Filtro inválido'], 400);
@@ -129,11 +139,9 @@ class DataController extends Controller
         try {
             $localidades = Localidade::select('id', 'nome')->get();
             return response()->json($localidades);
-            
         } catch (\Exception $e) {
             Log::error('Erro ao buscar localidades: ' . $e->getMessage());
             return response()->json(['error' => 'Erro ao buscar localidades'], 500);
         }
     }
-
 }
