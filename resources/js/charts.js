@@ -1,4 +1,5 @@
 
+
 document.addEventListener('DOMContentLoaded', function () {
     // Inicializa os gráficos
     initializeCharts();
@@ -24,9 +25,10 @@ function initializeCharts() {
     const ctxPartidos = document.getElementById('barchart-partidos').getContext('2d');
     window.chartInstancePartidos = new Chart(ctxPartidos, createBarChartConfig('Partidos'));
 
-}
+    const ctxEscolas = document.getElementById('barchart-escolas').getContext('2d');
+    window.chartInstanceEscolas = new Chart(ctxEscolas, createBarChartConfig('Escolas'));
 
-Chart.register(ChartDataLabels);
+}
 
 // Configuração do gráfico de pizza
 function createPieChartConfig() {
@@ -45,17 +47,17 @@ function createPieChartConfig() {
                 ],
                 borderColor: ['#FFF', '#FFF', '#FFF', '#FFF', '#FFF'],
                 borderWidth: 2,
-            
+
             }]
         },
-        
+
         options: {
-            plugins:  {
+            plugins: {
                 legend: {
                     display: true
                 },
                 datalabels: {
-                    display:true,
+                    display: true,
                     color: '#fff',
                     formatter: (value, context) => {
                         const totalVotes = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
@@ -66,7 +68,7 @@ function createPieChartConfig() {
                         weight: 'bold',
                         size: 14
                     },
-                    
+
                 }
             }
         }
@@ -142,9 +144,13 @@ function handleFilterChange(event) {
 
                 if (selectedFilter === 'bairros') {
                     loadBairrosSubfilters();
+                } else if (selectedFilter === 'escolas') {
+                    loadEscolasSubfilters();
                 } else {
                     document.getElementById('subfilter-container').style.display = 'none';
+                    document.getElementById('school-filter-container').style.display = 'none';
                 }
+
             })
             .catch(error => {
                 console.error('Erro ao buscar dados do filtro selecionado:', error);
@@ -190,14 +196,59 @@ function handleSubfilterChange(event) {
     }
 }
 
-function updateChartInstance(chartInstance, data) {
+function loadEscolasSubfilters() {
+    axios.get('/get-localidades') // Assumindo que 'localidades' refere-se às escolas
+        .then(response => {
+            const subfilterSelect = document.getElementById('subfilter-select');
+            subfilterSelect.innerHTML = '<option value="">Selecione uma escola</option>';
+
+            response.data.forEach(localidade => {
+                const option = document.createElement('option');
+                option.value = localidade.id;
+                option.textContent = localidade.nome;
+                subfilterSelect.appendChild(option);
+            });
+
+            document.getElementById('school-filter-container').style.display = 'block';
+
+            subfilterSelect.addEventListener('change', handleEscolaSubfilterChange);
+        })
+        .catch(error => {
+            console.error('Erro ao buscar escolas:', error);
+        });
+}
+
+function handleEscolaSubfilterChange(event) {
+    const selectedLocalidadeId = event.target.value;
+
+    if (selectedLocalidadeId) {
+        axios.get(`/data/escolas/${selectedLocalidadeId}`)
+            .then(response => {
+                updateChartInstance(window.chartInstanceEscolas, response.data);
+            })
+            .catch(error => {
+                console.error('Erro ao buscar votos para a escola:', error);
+            });
+    } else {
+        console.error('Nenhuma escola selecionada.');
+    }
+}
+
+function updateChartInstance(chartInstance, data, filter) {
     if (!Array.isArray(data) || data.length === 0) {
         console.log('Nenhum dado encontrado para este filtro.');
         chartInstance.data.labels = [];
         chartInstance.data.datasets[0].data = [];
     } else {
-        chartInstance.data.labels = data.map(item => item.partido || 'Indefinido');
-        chartInstance.data.datasets[0].data = data.map(item => item.total || 0);
+        if (filter === 'partidos') {
+            // Para partidos, usa a propriedade 'partido'
+            chartInstance.data.labels = data.map(item => item.partido || 'Indefinido');
+            chartInstance.data.datasets[0].data = data.map(item => item.total || 0);
+        } else {
+            // Para prefeitos e vereadores, usa a propriedade 'nome'
+            chartInstance.data.labels = data.map(item => item.nome || 'Indefinido');
+            chartInstance.data.datasets[0].data = data.map(item => item.total || 0);
+        }
     }
     chartInstance.update();
 }
@@ -213,28 +264,34 @@ function updateChart(filter, data) {
     }
 
     if (filter === 'prefeitos') {
-        updateChartInstance(window.chartInstancePrefeitos, data);
+        updateChartInstance(window.chartInstancePrefeitos, data, filter);
         toggleChartVisibility('barchart-vereadores', false);
         toggleChartVisibility('barchart-bairros', false);
         toggleChartVisibility('barchart-escolas', false);
         toggleChartVisibility('barchart-partidos', false);
     } else if (filter === 'vereadores') {
-        updateChartInstance(window.chartInstanceVereadores, data);
+        updateChartInstance(window.chartInstanceVereadores, data, filter);
         toggleChartVisibility('barchart-vereadores', true);
         toggleChartVisibility('barchart-bairros', false);
         toggleChartVisibility('barchart-escolas', false);
         toggleChartVisibility('barchart-partidos', false);
     } else if (filter === 'bairros') {
-        updateChartInstance(window.chartInstanceBairros, data);
+        updateChartInstance(window.chartInstanceBairros, data, filter);
         toggleChartVisibility('barchart-vereadores', false);
         toggleChartVisibility('barchart-bairros', true);
         toggleChartVisibility('barchart-escolas', false);
         toggleChartVisibility('barchart-partidos', false);
     } else if (filter === 'partidos') {
-        updateChartInstance(window.chartInstancePartidos, data);
+        updateChartInstance(window.chartInstancePartidos, data, filter);
         toggleChartVisibility('barchart-vereadores', false);
         toggleChartVisibility('barchart-bairros', false);
         toggleChartVisibility('barchart-escolas', false);
         toggleChartVisibility('barchart-partidos', true);
+    } else if (filter === 'escolas') {
+        updateChartInstance(window.chartInstanceEscolas, data, filter);
+        toggleChartVisibility('barchart-vereadores', false);
+        toggleChartVisibility('barchart-bairros', false);
+        toggleChartVisibility('barchart-escolas', true);
+        toggleChartVisibility('barchart-partidos', false);
     }
 }

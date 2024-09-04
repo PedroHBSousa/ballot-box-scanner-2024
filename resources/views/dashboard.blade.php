@@ -47,7 +47,9 @@
             <select id="subfilter-select">
                 <option value="">Selecione um bairro</option>
             </select>
-            <select id="school-filter-select" style="display: none;">
+        </div>
+        <div id="school-filter-container" style="display: none;">
+            <select id="subfilter-select">
                 <option value="">Selecione uma escola</option>
             </select>
         </div>
