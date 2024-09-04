@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScannerController;
 use App\Http\Controllers\DataController;
 
-//teste
 Route::get('/qrcodescanner', [ScannerController::class, 'qrcodescanner'])->name('qrcodescanner');
 Route::post('/qrcodescanner/clear', [ScannerController::class, 'clearQRCodes'])->name('qrcodes.clear');
 
@@ -17,11 +16,9 @@ Route::get('/enter-manually/search', [InsertController::class, 'getSecao'])->nam
 Route::get('/enter-manually/{vereadorId}', [InsertController::class, 'getVereador'])->name('getVereador');
 Route::post('/enter-manually/data', [InsertController::class, 'insertdata'])->name('insert.data');
 
-
 Route::get('/data/{filter}', [DataController::class, 'getData'])->name('getData');
 Route::get('/get-bairros', [DataController::class, 'getBairros'])->name('getBairros');
 Route::get('/data/bairros/{bairro_id}', [DataController::class, 'getDadosBairro'])->name('getDadosBairro');
 Route::get('/get-localidades', [DataController::class, 'getLocalidades'])->name('getLocalidades');
 Route::get('/data/localidades/{localidade_id}', [DataController::class, 'getDadosEscola'])->name('getDadosEscola');
 
-// Route::get('/buscar-vereador/{id}', [InsertController::class, 'getVereador'])->name('getVereador');

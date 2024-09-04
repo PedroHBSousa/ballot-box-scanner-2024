@@ -17,7 +17,6 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ mix('resources/js/charts.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
-
 </head>
 
 <body>
@@ -40,7 +39,7 @@
                 <option value="">Filtro</option>
                 <option value="prefeitos" hidden>Prefeito</option>
                 <option value="vereadores">Vereadores</option>
-                <option value="escolas">Escolas</option>
+                <option value="localidades">Escolas</option>
                 <option value="bairros">Bairros</option>
                 <option value="partidos">Partidos</option>
                 <option value="regioes">Regiões</option>

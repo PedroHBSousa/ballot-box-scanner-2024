@@ -19,7 +19,7 @@
     @vite('resources/css/index.css')
 </head>
 <header>
-    <h1>APURAÇÃO ELEITORAL</h1>
+    <h1>APURAÇÃO ELEITORAL<span>2024</span></h1>
     <div class="container-image">
         <img id="felipe" src="{{ Vite::asset('resources/img/Felipe.png') }}">
         <img id="reis" src="{{ Vite::asset('resources/img/Reis.png') }}">
