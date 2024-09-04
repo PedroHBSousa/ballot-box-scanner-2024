@@ -21,15 +21,18 @@
 </head>
 
 <body>
-    <header>
+<header>
+    <div class="text-container">
         <h1>APURAÇÃO ELEITORAL</h1>
         <p>2024</p>
-        <div class="container-image">
-            <img id="felipe" src="{{ Vite::asset('resources/img/Felipe.png') }}">
-            <img id="reis" src="{{ Vite::asset('resources/img/Reis.png') }}">
-            <img id="reinaldinho" src="{{ Vite::asset('resources/img/Reinaldinho.png') }}">
-        </div>
-    </header>
+    </div>
+
+    <div class="container-image">
+        <img id="felipe" src="{{ Vite::asset('resources/img/Felipe.png') }}">
+        <img id="reis" src="{{ Vite::asset('resources/img/Reis.png') }}">
+        <img id="reinaldinho" src="{{ Vite::asset('resources/img/Reinaldinho.png') }}">
+    </div>
+</header>
 
     <div class="container">
         <div class="custom-select">

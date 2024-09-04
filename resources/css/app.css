@@ -29,11 +29,15 @@ header h1 {
     color: #2c2c2c;
     font-size: 20px;
     text-align: center;
-    font-weight: 800;
+    font-weight: 900;
     margin: 0;
     padding: 0;
 }
 
+header p {
+    font-size: 20px;
+    
+}
 
 .container-image {
     display: flex;
@@ -198,6 +202,11 @@ footer {
         font-size: 20px;
         text-align: center;
         
+    }
+
+    header p {
+        font-size: 20px;
+        padding-left: 40px;
     }
 
     .chart h2{
