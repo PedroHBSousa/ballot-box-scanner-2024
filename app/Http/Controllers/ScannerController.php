@@ -114,6 +114,9 @@ class ScannerController extends Controller
     {
         // Limpar os QR codes armazenados na sessão
         $request->session()->forget('qrCodesLidos');
+        $request->session()->forget('dadosBoletim');
+        $request->session()->forget('conteudoCompleto');
+        $request->session()->forget('votos');
 
         // Definir uma mensagem de sucesso
         $request->session()->flash('status', 'QR CODES LIMPOS COM SUCESSO');
