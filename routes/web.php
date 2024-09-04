@@ -4,7 +4,6 @@ use App\Http\Controllers\InsertController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScannerController;
 use App\Http\Controllers\DataController;
-use App\Models\Candidato;
 
 //teste
 Route::get('/qrcodescanner', [ScannerController::class, 'qrcodescanner'])->name('qrcodescanner');
@@ -23,6 +22,6 @@ Route::get('/data/{filter}', [DataController::class, 'getData'])->name('getData'
 Route::get('/get-bairros', [DataController::class, 'getBairros'])->name('getBairros');
 Route::get('/data/bairros/{bairro_id}', [DataController::class, 'getDadosBairro'])->name('getDadosBairro');
 Route::get('/get-localidades', [DataController::class, 'getLocalidades'])->name('getLocalidades');
-Route::get('/data/escolas/{localidade_id}', [DataController::class, 'getDadosEscola'])->name('getDadosEscola');
+Route::get('/data/localidades/{localidade_id}', [DataController::class, 'getDadosEscola'])->name('getDadosEscola');
 
 // Route::get('/buscar-vereador/{id}', [InsertController::class, 'getVereador'])->name('getVereador');

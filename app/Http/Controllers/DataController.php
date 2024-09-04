@@ -113,8 +113,8 @@ class DataController extends Controller
     {
         try {
             // Verifica se o escola_id foi fornecido
-            if (!$localidade_id) {
-                return response()->json(['error' => 'Escola ID não fornecido'], 400);
+            if (!is_numeric($localidade_id) || !$localidade_id) {
+                return response()->json(['error' => 'Localidade ID inválido'], 400);
             }
 
             $data = DB::table('votos')

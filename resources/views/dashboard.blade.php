@@ -47,12 +47,12 @@
             </select>
         </div>
         <div id="subfilter-container" style="display: none;">
-            <select id="subfilter-select">
+            <select id="bairro-subfilter-select">
                 <option value="">Selecione um bairro</option>
             </select>
         </div>
         <div id="school-filter-container" style="display: none;">
-            <select id="subfilter-select">
+            <select id="escola-subfilter-select">
                 <option value="">Selecione uma escola</option>
             </select>
         </div>

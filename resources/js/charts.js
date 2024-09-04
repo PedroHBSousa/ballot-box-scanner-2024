@@ -65,7 +65,7 @@ function createPieChartConfig() {
                     },
                     font: {
                         weight: 'bold',
-                        size: 20
+                        size: 14
                     },
                     anchor: 'center',  // Coloca o texto no centro da fatia
                     align: 'center',   // Alinha o texto no centro
@@ -115,7 +115,7 @@ function createBarChartConfig(label) {
                     },
                     font: {
                         weight: 'bold',
-                        size: 14
+                        size: 12
                     },
                     anchor: 'end',  // Posiciona o texto no final da barra
                     align: 'start', // Alinha o texto dentro da barra
@@ -171,7 +171,7 @@ function handleFilterChange(event) {
 function loadBairrosSubfilters() {
     axios.get('/get-bairros')
         .then(response => {
-            const subfilterSelect = document.getElementById('subfilter-select');
+            const subfilterSelect = document.getElementById('bairro-subfilter-select');
             subfilterSelect.innerHTML = '<option value="">Selecione um bairro</option>';
 
             response.data.forEach(bairro => {
@@ -207,9 +207,9 @@ function handleSubfilterChange(event) {
 }
 
 function loadEscolasSubfilters() {
-    axios.get('/get-localidades') // Assumindo que 'localidades' refere-se às escolas
+    axios.get('/get-localidades')
         .then(response => {
-            const subfilterSelect = document.getElementById('subfilter-select');
+            const subfilterSelect = document.getElementById('escola-subfilter-select');
             subfilterSelect.innerHTML = '<option value="">Selecione uma escola</option>';
 
             response.data.forEach(localidade => {
@@ -230,9 +230,10 @@ function loadEscolasSubfilters() {
 
 function handleEscolaSubfilterChange(event) {
     const selectedLocalidadeId = event.target.value;
+    console.log('Selected Localidade ID:', selectedLocalidadeId);
 
     if (selectedLocalidadeId) {
-        axios.get(`/data/escolas/${selectedLocalidadeId}`)
+        axios.get(`/data/localidades/${selectedLocalidadeId}`)
             .then(response => {
                 updateChartInstance(window.chartInstanceEscolas, response.data);
             })
