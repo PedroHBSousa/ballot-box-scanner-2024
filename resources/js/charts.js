@@ -1,4 +1,5 @@
 
+
 document.addEventListener('DOMContentLoaded', function () {
     // Inicializa os gráficos
     initializeCharts();
@@ -10,7 +11,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('filter-select').addEventListener('change', handleFilterChange);
 });
 
+
 function initializeCharts() {
+    Chart.register(ChartDataLabels);
     // Inicializa os gráficos
     const ctxPrefeitos = document.getElementById('piechart-prefeitos').getContext('2d');
     window.chartInstancePrefeitos = new Chart(ctxPrefeitos, createPieChartConfig());
@@ -20,10 +23,9 @@ function initializeCharts() {
 
     const ctxBairros = document.getElementById('barchart-bairros').getContext('2d');
     window.chartInstanceBairros = new Chart(ctxBairros, createBarChartConfig('Bairros'));
-
 }
 
-Chart.register(ChartDataLabels);
+
 
 // Configuração do gráfico de pizza
 function createPieChartConfig() {
@@ -38,22 +40,19 @@ function createPieChartConfig() {
                     'rgba(255,0,0)',
                     'rgba(252, 186, 3)',
                     'rgba(30,144,255)',
-                    'rgba(255,69,0)'
+                    'rgba(242, 0, 255)'
                 ],
                 borderColor: ['#FFF', '#FFF', '#FFF', '#FFF', '#FFF'],
                 borderWidth: 2,
-            
             }]
         },
-        
         options: {
-            plugins:  {
+            plugins: {
                 legend: {
                     display: true
                 },
                 datalabels: {
-                    display:true,
-                    color: '#fff',
+                    color: '#000',  // A cor branca pode ser mais visível dentro das fatias
                     formatter: (value, context) => {
                         const totalVotes = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
                         const percentage = ((value / totalVotes) * 100).toFixed(1);
@@ -61,30 +60,34 @@ function createPieChartConfig() {
                     },
                     font: {
                         weight: 'bold',
-                        size: 14
+                        size: 20
                     },
-                    
+                    anchor: 'center',  // Coloca o texto no centro da fatia
+                    align: 'center',   // Alinha o texto no centro
+                    clip: false,       // Permite que o texto seja exibido fora dos limites da fatia se necessário
+                    padding: 0,        // Remove o padding para evitar o recuo
                 }
             }
         }
     };
 }
 
+
 // Configuração do gráfico de barras
 function createBarChartConfig(label) {
     return {
         type: 'bar',
         data: {
-            labels: [],
+            labels: [],  // Certifique-se de adicionar as labels necessárias
             datasets: [{
-                label: 'Votos',
+                label: label,  // Defina o label se necessário
                 data: [],
                 backgroundColor: [
                     'rgba(7, 217, 0)',
                     'rgba(255,0,0)',
                     'rgba(252, 186, 3)',
                     'rgba(30,144,255)',
-                    'rgba(255,69,0)'
+                    'rgba(242, 0, 255)'
                 ],
                 borderColor: ['#FFF', '#FFF', '#FFF', '#FFF', '#FFF'],
                 borderWidth: 2
@@ -97,22 +100,31 @@ function createBarChartConfig(label) {
                 }
             },
             plugins: {
+                legend: {
+                    display: false
+                },
                 datalabels: {
-                    color: '#fff',
-                    anchor: 'end',
-                    align: 'top',
-                    formatter: (value) => value,  // Exibe o número de votos diretamente
+                    color: '#000',  // Branco para contraste com as barras
+                    formatter: (value, context) => {
+                        const totalVotes = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                        const percentage = ((value / totalVotes) * 100).toFixed(1);
+                        return `${value} (${percentage}%)`;
+                    },
                     font: {
                         weight: 'bold',
                         size: 14
                     },
-                    display: true
+                    anchor: 'end',  // Posiciona o texto no final da barra
+                    align: 'start', // Alinha o texto dentro da barra
+                    clip: false,    // Permite que o texto ultrapasse a borda da barra
+                    padding: 0      // Remove o padding para centralizar o texto dentro da barra
                 }
             }
         }
     };
 }
 
+// Funções para carregar e atualizar gráficos (sem alteração)
 function loadInitialData() {
     axios.get('/data/prefeitos')
         .then(response => {
@@ -187,6 +199,8 @@ function handleSubfilterChange(event) {
 }
 
 function updateChartInstance(chartInstance, data) {
+    console.log(data); //Isso irá verificar os dados no console
+
     if (!Array.isArray(data) || data.length === 0) {
         console.log('Nenhum dado encontrado para este filtro.');
         chartInstance.data.labels = [];
@@ -220,5 +234,8 @@ function updateChart(filter, data) {
         toggleChartVisibility('barchart-escolas', false);
     } else if (filter === 'bairros') {
         updateChartInstance(window.chartInstanceBairros, data);
+        toggleChartVisibility('barchart-vereadores', false);
+        toggleChartVisibility('barchart-bairros', true);
+        toggleChartVisibility('barchart-escolas', false);
     }
 }
