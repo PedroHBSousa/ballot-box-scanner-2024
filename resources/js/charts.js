@@ -1,6 +1,4 @@
 
-
-
 document.addEventListener('DOMContentLoaded', function () {
     // Inicializa os gráficos
     initializeCharts();
@@ -11,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Adiciona evento para o seletor de filtro
     document.getElementById('filter-select').addEventListener('change', handleFilterChange);
 });
-
 
 function initializeCharts() {
     Chart.register(ChartDataLabels);
@@ -24,6 +21,7 @@ function initializeCharts() {
 
     const ctxBairros = document.getElementById('barchart-bairros').getContext('2d');
     window.chartInstanceBairros = new Chart(ctxBairros, createBarChartConfig('Bairros'));
+
     const ctxPartidos = document.getElementById('barchart-partidos').getContext('2d');
     window.chartInstancePartidos = new Chart(ctxPartidos, createBarChartConfig('Partidos'));
 
@@ -31,8 +29,6 @@ function initializeCharts() {
     window.chartInstanceEscolas = new Chart(ctxEscolas, createBarChartConfig('Escolas'));
 
 }
-
-
 
 // Configuração do gráfico de pizza
 function createPieChartConfig() {
@@ -57,7 +53,6 @@ function createPieChartConfig() {
 
         options: {
             plugins: {
-            plugins: {
                 legend: {
                     display: true
                 },
@@ -75,13 +70,12 @@ function createPieChartConfig() {
                     anchor: 'center',  // Coloca o texto no centro da fatia
                     align: 'center',   // Alinha o texto no centro
                     clip: false,       // Permite que o texto seja exibido fora dos limites da fatia se necessário
-                    padding: 0,        // Remove o padding para evitar o recuo
+                    padding: 0        // Remove o padding para evitar o recuo
                 }
             }
         }
-    };
+    }
 }
-
 
 // Configuração do gráfico de barras
 function createBarChartConfig(label) {
@@ -90,7 +84,6 @@ function createBarChartConfig(label) {
         data: {
             labels: [],  // Certifique-se de adicionar as labels necessárias
             datasets: [{
-                label: label,  // Defina o label se necessário
                 data: [],
                 backgroundColor: [
                     'rgba(7, 217, 0)',
@@ -312,8 +305,5 @@ function updateChart(filter, data) {
         toggleChartVisibility('barchart-bairros', false);
         toggleChartVisibility('barchart-escolas', true);
         toggleChartVisibility('barchart-partidos', false);
-        toggleChartVisibility('barchart-vereadores', false);
-        toggleChartVisibility('barchart-bairros', true);
-        toggleChartVisibility('barchart-escolas', false);
     }
 }
