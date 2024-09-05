@@ -16,22 +16,23 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ mix('resources/js/charts.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js">
+    </script>
 </head>
 
 <body>
-<header>
-    <div class="text-container">
-        <h1>APURAÇÃO ELEITORAL</h1>
-        <p>2024</p>
-    </div>
+    <header>
+        <div class="text-container">
+            <h1>APURAÇÃO ELEITORAL</h1>
+            <p>2024</p>
+        </div>
 
-    <div class="container-image">
-        <img id="felipe" src="{{ Vite::asset('resources/img/Felipe.png') }}">
-        <img id="reis" src="{{ Vite::asset('resources/img/Reis.png') }}">
-        <img id="reinaldinho" src="{{ Vite::asset('resources/img/Reinaldinho.png') }}">
-    </div>
-</header>
+        <div class="container-image">
+            <img id="felipe" src="{{ Vite::asset('resources/img/Felipe.png') }}">
+            <img id="reis" src="{{ Vite::asset('resources/img/Reis.png') }}">
+            <img id="reinaldinho" src="{{ Vite::asset('resources/img/Reinaldinho.png') }}">
+        </div>
+    </header>
 
     <div class="container">
         <div class="custom-select">
@@ -51,7 +52,7 @@
             </select>
         </div>
         <div id="school-filter-container" style="display: none;">
-            <select id="escola-subfilter-select">
+            <select class="escola-subfilter-select" id="escola-subfilter-select">
                 <option value="">Selecione uma escola</option>
             </select>
         </div>

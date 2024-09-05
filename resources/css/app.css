@@ -36,7 +36,6 @@ header h1 {
 
 header p {
     font-size: 20px;
-    
 }
 
 .container-image {
@@ -47,7 +46,6 @@ header p {
     position: relative;
     top: 50px;
 }
-
 
 #reinaldinho {
     width: 180px;
@@ -78,7 +76,7 @@ header p {
 }
 
 #subfilter-select {
-    padding:0.675em 6em 0.675em 1em;
+    padding: 0.675em 6em 0.675em 1em;
     font-size: 15px;
 }
 body {
@@ -99,7 +97,51 @@ body {
         background-position: 0% 50%;
     }
 }
+#school-filter-container {
+    width: 100%;
+    max-width: 350px;
+    position: relative;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    cursor: pointer;
+}
 
+#escola-subfilter-select {
+    appearance: none;
+    width: 100%;
+    max-width: 350px;
+    font-size: 1.15rem;
+    padding: 0.675em 6em 0.675em 1em;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 0.25rem;
+    color: #000;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#school-filter-container::before,
+#school-filter-container::after {
+    --size: 0.3rem;
+    content: "";
+    position: absolute;
+    right: 1rem;
+    pointer-events: none;
+}
+#school-filter-container::before {
+    border-left: var(--size) solid transparent;
+    border-right: var(--size) solid transparent;
+    border-bottom: var(--size) solid black;
+    top: 40%;
+}
+#school-filter-container::after {
+    border-left: var(--size) solid transparent;
+    border-right: var(--size) solid transparent;
+    border-top: var(--size) solid black;
+    top: 55%;
+}
 .container {
     display: flex;
     flex-direction: column;
@@ -108,7 +150,6 @@ body {
     font-weight: 300;
 }
 .chart {
-   
     width: 700px;
     height: 720px;
     padding: 2rem;
@@ -123,12 +164,11 @@ body {
     gap: 2rem;
     flex-wrap: wrap; /* Isso permitirá que os gráficos se ajustem ao tamanho da tela */
     padding-bottom: 50px;
-    justify-content:center;
+    justify-content: center;
 }
 .custom-select {
     min-width: 350px;
     position: relative;
-    margin-bottom: 2rem;
     margin-top: 2rem;
 }
 .custom-select select {
@@ -193,15 +233,14 @@ footer {
     #reinaldinho {
         left: 30px;
     }
-   
+
     .verea {
         margin: 0;
     }
-    
+
     header h1 {
         font-size: 20px;
         text-align: center;
-        
     }
 
     header p {
@@ -209,22 +248,18 @@ footer {
         padding-left: 40px;
     }
 
-    .chart h2{
-        font-size: 15px; 
+    .chart h2 {
+        font-size: 15px;
         text-align: center;
-        
-        
     }
-    .chart{
+    .chart {
         max-width: 350px;
         height: 360px;
     }
-    
 
     .charts-container {
         display: flex;
         justify-content: center;
         flex-wrap: wrap; /* Isso permitirá que os gráficos se ajustem ao tamanho da tela */
-        
     }
 }

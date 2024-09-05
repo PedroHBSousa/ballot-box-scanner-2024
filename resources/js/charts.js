@@ -193,33 +193,31 @@ function loadInitialData() {
 function handleFilterChange(event) {
     const selectedFilter = event.target.value;
     console.log("Filtro selecionado:", selectedFilter);
-    if (selectedFilter === "localidades") {
-        loadEscolasSubfilters();
-    } else {
-        if (selectedFilter) {
-            axios
-                .get(`/data/${selectedFilter}`)
-                .then((response) => {
-                    console.log("Dados recebidos:", response.data);
-                    updateChart(selectedFilter, response.data);
-                    if (selectedFilter === "bairros") {
-                        loadBairrosSubfilters();
-                    } else {
-                        document.getElementById(
-                            "subfilter-container"
-                        ).style.display = "none";
-                        document.getElementById(
-                            "school-filter-container"
-                        ).style.display = "none";
-                    }
-                })
-                .catch((error) => {
-                    console.error(
-                        "Erro ao buscar dados do filtro selecionado:",
-                        error
-                    );
-                });
-        }
+    if (selectedFilter) {
+        axios
+            .get(`/data/${selectedFilter}`)
+            .then((response) => {
+                console.log("Dados recebidos:", response.data);
+                updateChart(selectedFilter, response.data);
+                if (selectedFilter === "bairros") {
+                    loadBairrosSubfilters();
+                } else if (selectedFilter === "localidades") {
+                    loadEscolasSubfilters();
+                } else {
+                    document.getElementById(
+                        "subfilter-container"
+                    ).style.display = "none";
+                    document.getElementById(
+                        "school-filter-container"
+                    ).style.display = "none";
+                }
+            })
+            .catch((error) => {
+                console.error(
+                    "Erro ao buscar dados do filtro selecionado:",
+                    error
+                );
+            });
     }
 }
 
@@ -243,28 +241,55 @@ function loadBairrosSubfilters() {
             document.getElementById("subfilter-container").style.display =
                 "block";
 
-            subfilterSelect.addEventListener("change", handleSubfilterChange);
+            subfilterSelect.addEventListener("change", handleFilterChange);
         })
         .catch((error) => {
             console.error("Erro ao buscar bairros:", error);
         });
 }
 
-function handleSubfilterChange(event) {
-    const selectedBairroId = event.target.value;
+function handleFilterChange(event) {
+    const selectedFilter = event.target.value;
+    console.log("Filtro selecionado:", selectedFilter);
 
-    if (selectedBairroId) {
+    // Oculta todos os subfiltros antes de exibir o subfiltro selecionado
+    hideAllSubfilters();
+
+    if (selectedFilter) {
         axios
-            .get(`/data/bairros/${selectedBairroId}`)
+            .get(`/data/${selectedFilter}`)
             .then((response) => {
-                updateChartInstance(window.chartInstanceBairros, response.data);
+                console.log("Dados recebidos:", response.data);
+                updateChart(selectedFilter, response.data);
+
+                // Exibe o subfiltro correspondente, se houver
+                if (selectedFilter === "bairros") {
+                    loadBairrosSubfilters();
+                } else if (selectedFilter === "localidades") {
+                    loadEscolasSubfilters();
+                } else {
+                    // Caso o filtro não tenha subfiltro, escondemos todos os subfiltros
+                    document.getElementById(
+                        "subfilter-container"
+                    ).style.display = "none";
+                    document.getElementById(
+                        "school-filter-container"
+                    ).style.display = "none";
+                }
             })
             .catch((error) => {
-                console.error("Erro ao buscar votos para o bairro:", error);
+                console.error(
+                    "Erro ao buscar dados do filtro selecionado:",
+                    error
+                );
             });
-    } else {
-        console.error("Nenhum bairro selecionado.");
     }
+}
+
+function hideAllSubfilters() {
+    // Oculta os containers dos subfiltros
+    document.getElementById("subfilter-container").style.display = "none";
+    document.getElementById("school-filter-container").style.display = "none";
 }
 
 function loadEscolasSubfilters() {

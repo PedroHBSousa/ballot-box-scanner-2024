@@ -24,6 +24,14 @@ class DataController extends Controller
                     'bairros' => $data,
                 ]);
             }
+            if ($filter === 'localidades') {
+                // Obtém todos os bairros
+                $data = Localidade::all();
+                return response()->json([
+                    'success' => true,
+                    'escolas' => $data,
+                ]);
+            }
 
 
             switch ($filter) {
@@ -98,7 +106,6 @@ class DataController extends Controller
 
     public function getBairros()
     {
-
         try {
             // Obtém todos os bairros e seleciona apenas o 'nome'
             $bairros = Bairro::select('id', 'nome')->get();
