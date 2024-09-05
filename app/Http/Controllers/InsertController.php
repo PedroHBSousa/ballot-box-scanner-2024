@@ -82,7 +82,7 @@ class InsertController extends Controller
             $boletimExistente = Boletim::where('secao_id', $dadosBoletim['secao_id'])->first();
 
             if ($boletimExistente) {
-                return redirect()->route('insert')->with('error', 'Boletim já exite para essa seção.');
+                return redirect()->route('insert')->with('error', 'Boletim já cadastrado para a seção informada.');
             }
 
             $boletim = Boletim::create([

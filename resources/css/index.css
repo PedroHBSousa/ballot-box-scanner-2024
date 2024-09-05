@@ -151,6 +151,13 @@ h1 span {
     border: 0 !important;
 }
 
+
+#reader__dashboard_section_csr{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+}
 #html5-qrcode-button-camera-permission {
     text-decoration: none !important;
     border-radius: 5px;
