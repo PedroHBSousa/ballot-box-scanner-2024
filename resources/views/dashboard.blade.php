@@ -15,7 +15,7 @@
     @vite('resources/css/app.css')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="{{ mix('resources/js/charts.js') }}"></script>
+    <script src="{{ asset('js/charts.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js">
     </script>
 </head>
