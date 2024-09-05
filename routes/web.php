@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InsertController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScannerController;
@@ -21,4 +22,7 @@ Route::get('/get-bairros', [DataController::class, 'getBairros'])->name('getBair
 Route::get('/data/bairros/{bairro_id}', [DataController::class, 'getDadosBairro'])->name('getDadosBairro');
 Route::get('/get-localidades', [DataController::class, 'getLocalidades'])->name('getLocalidades');
 Route::get('/data/localidades/{localidade_id}', [DataController::class, 'getDadosEscola'])->name('getDadosEscola');
+
+Route::get('/dashboard', [DashboardController::class, 'dashboard']);
+
 
