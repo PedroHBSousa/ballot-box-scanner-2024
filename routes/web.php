@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AreaChartController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InsertController;
 use Illuminate\Support\Facades\Route;
@@ -25,4 +26,4 @@ Route::get('/data/localidades/{localidade_id}', [DataController::class, 'getDado
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard']);
 
-
+Route::get('/area-chart', [AreaChartController::class, 'areaChart']);
