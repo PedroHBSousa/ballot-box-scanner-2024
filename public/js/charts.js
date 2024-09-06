@@ -190,37 +190,6 @@ function loadInitialData() {
         "none";
 }
 
-function handleFilterChange(event) {
-    const selectedFilter = event.target.value;
-    console.log("Filtro selecionado:", selectedFilter);
-    if (selectedFilter) {
-        axios
-            .get(`/data/${selectedFilter}`)
-            .then((response) => {
-                console.log("Dados recebidos:", response.data);
-                updateChart(selectedFilter, response.data);
-                if (selectedFilter === "bairros") {
-                    loadBairrosSubfilters();
-                } else if (selectedFilter === "localidades") {
-                    loadEscolasSubfilters();
-                } else {
-                    document.getElementById(
-                        "subfilter-container"
-                    ).style.display = "none";
-                    document.getElementById(
-                        "school-filter-container"
-                    ).style.display = "none";
-                }
-            })
-            .catch((error) => {
-                console.error(
-                    "Erro ao buscar dados do filtro selecionado:",
-                    error
-                );
-            });
-    }
-}
-
 function loadBairrosSubfilters() {
     axios
         .get("/get-bairros")
@@ -241,7 +210,10 @@ function loadBairrosSubfilters() {
             document.getElementById("subfilter-container").style.display =
                 "block";
 
-            subfilterSelect.addEventListener("change", handleFilterChange);
+            subfilterSelect.addEventListener(
+                "change",
+                handleBairroSubfilterChange
+            );
         })
         .catch((error) => {
             console.error("Erro ao buscar bairros:", error);
@@ -322,6 +294,23 @@ function loadEscolasSubfilters() {
         });
 }
 
+function handleBairroSubfilterChange(event) {
+    const selectedLocalidadeId = event.target.value;
+    console.log("Selected Localidade ID:", selectedLocalidadeId);
+
+    if (selectedLocalidadeId) {
+        axios
+            .get(`/data/bairros/${selectedLocalidadeId}`)
+            .then((response) => {
+                updateChartInstance(window.chartInstanceBairros, response.data);
+            })
+            .catch((error) => {
+                console.error("Erro ao buscar votos para a escola:", error);
+            });
+    } else {
+        console.error("Nenhuma escola selecionada.");
+    }
+}
 function handleEscolaSubfilterChange(event) {
     const selectedLocalidadeId = event.target.value;
     console.log("Selected Localidade ID:", selectedLocalidadeId);
