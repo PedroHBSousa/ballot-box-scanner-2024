@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Bairro;
 use App\Models\Localidade;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class DataController extends Controller
 {
-    public function getData($filter, Request $request)
+    public function getData($filter)
     {
         try {
             // Exemplo de lógica para retornar dados com base no filtro
@@ -25,11 +24,19 @@ class DataController extends Controller
                 ]);
             }
             if ($filter === 'localidades') {
-                // Obtém todos os bairros
+                // Obtém todas as localidades
                 $data = Localidade::all();
                 return response()->json([
                     'success' => true,
                     'escolas' => $data,
+                ]);
+            }
+            if ($filter === 'regioes') {
+                // Obtem todas as regiões distintas na tabela Bairros
+                $data = Bairro::select('regiao')->distinct()->pluck('regiao');
+                return response()->json([
+                    'success' => true,
+                    'regioes' => $data,
                 ]);
             }
 
@@ -149,6 +156,43 @@ class DataController extends Controller
         } catch (\Exception $e) {
             Log::error('Erro ao buscar localidades: ' . $e->getMessage());
             return response()->json(['error' => 'Erro ao buscar localidades'], 500);
+        }
+    }
+
+    public function getDadosRegiao($regiao)
+    {
+        try {
+            // Verifica se a região foi fornecida
+            if (!$regiao) {
+                return response()->json(['error' => 'Região não fornecida'], 400);
+            }
+
+            $data = DB::table('votos')
+                ->select('candidatos.nome', DB::raw('count(*) as total'))
+                ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
+                ->join('secoes', 'votos.secao_id', '=', 'secoes.id')
+                ->join('localidades', 'secoes.localidade_id', '=', 'localidades.id')
+                ->join('bairros', 'localidades.bairro_id', '=', 'bairros.id')
+                ->where('bairros.regiao', $regiao)
+                ->where('candidatos.cargo_id', 11) // Cargo para prefeitos
+                ->groupBy('candidatos.nome')
+                ->get();
+
+            return response()->json($data);
+        } catch (\Exception $e) {
+            Log::error('Erro ao buscar dados da região: ' . $e->getMessage());
+            return response()->json(['error' => 'Erro ao buscar dados da região'], 500);
+        }
+    }
+
+    public function getRegioes()
+    {
+        try {
+            $regiao = DB::table('bairros')->distinct()->pluck('regiao');
+            return response()->json($regiao);
+        } catch (\Exception $e) {
+            Log::error('Erro ao buscar regiões: ' . $e->getMessage());
+            return response()->json(['error' => 'Erro ao buscar regiões'], 500);
         }
     }
 }

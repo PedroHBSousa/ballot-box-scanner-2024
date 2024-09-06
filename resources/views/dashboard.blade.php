@@ -46,6 +46,7 @@
                 <option value="regioes">Regiões</option>
             </select>
         </div>
+
         <div id="subfilter-container" style="display: none;">
             <select id="bairro-subfilter-select">
                 <option value="">Selecione um bairro</option>
@@ -56,6 +57,12 @@
                 <option value="">Selecione uma escola</option>
             </select>
         </div>
+        <div id="regiao-subfilter-container" style="display: none;">
+            <select id="regiao-subfilter-select">
+                <option value="">Selecione uma regiao</option>
+            </select>
+        </div>
+
         <div class="charts-container">
             <div class="chart">
                 <div class="pref">
@@ -86,6 +93,12 @@
                     <h2>Partidos</h2>
                 </div>
                 <canvas id="barchart-partidos" width="400" height="400"></canvas>
+            </div>
+            <div class="chart">
+                <div class="regioes">
+                    <h2>Regioes</h2>
+                </div>
+                <canvas id="barchart-regioe" width="400" height="400"></canvas>
             </div>
         </div>
     </div>
