@@ -17,8 +17,12 @@ Route::get('/enter-manually/{vereadorId}', [InsertController::class, 'getVereado
 Route::post('/enter-manually/data', [InsertController::class, 'insertdata'])->name('insert.data');
 
 Route::get('/data/{filter}', [DataController::class, 'getData'])->name('getData');
+
 Route::get('/get-bairros', [DataController::class, 'getBairros'])->name('getBairros');
 Route::get('/data/bairros/{bairro_id}', [DataController::class, 'getDadosBairro'])->name('getDadosBairro');
+
 Route::get('/get-localidades', [DataController::class, 'getLocalidades'])->name('getLocalidades');
 Route::get('/data/localidades/{localidade_id}', [DataController::class, 'getDadosEscola'])->name('getDadosEscola');
 
+Route::get('/get-regioes', [DataController::class, 'getRegioes'])->name('getRegioes');
+Route::get('/data/regioes/{regiao}', [DataController::class, 'getDadosRegiao'])->name('getDadosRegiao');
