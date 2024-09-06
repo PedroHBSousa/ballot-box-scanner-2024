@@ -6,6 +6,7 @@ use App\Models\Boletim;
 use App\Models\Voto;
 use App\Models\Secao;
 use App\Models\Candidato;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -21,18 +22,34 @@ class InsertController extends Controller
 
     public function getSecao(Request $request)
     {
-        $secoes = collect();
-        $action = $request->input('action');
+        // Recebe o valor digitado no campo de pesquisa
         $search = $request->input('search');
-        $secao = Secao::where('id', $search)->with('localidade')->get()->first();
+
+        // Verifica se já existe um boletim com a secao_id digitada
+        $boletimExistente = Boletim::where('secao_id', $search)->exists();
+
+        if ($boletimExistente) {
+            // Retorna ao usuário com uma mensagem de erro
+            return redirect()->back()->withErrors(['error' => 'Seção já foi cadastrada no sistema.']);
+        }
+
+        // Busca a seção e os candidatos normalmente se o boletim não existir
+        $secao = Secao::where('id', $search)->with('localidade')->first();
+        // Verifica se a seção existe
+
+        if (!$secao) {
+            // Retorna ao usuário com uma mensagem de erro se a seção não for encontrada
+            return redirect()->back()->withErrors(['error' => 'Seção não encontrada.']);
+        }
+
         $candidatos = Candidato::where('cargo_id', 11)->get();
+
         return view('insert', compact('secao', 'candidatos'));
     }
 
     public function getVereador($vereadorId)
     {
         $candidato = Candidato::where('cargo_id', 13)->where('id', $vereadorId)->first();
-        // $candidato = Candidato::where('cargo_id', 13)->find($id);
         if ($candidato) {
             return response()->json(['success' => true, 'candidato' => $candidato]);
         } else {
@@ -63,11 +80,12 @@ class InsertController extends Controller
             'votos.*.quantidade' => 'required|integer|min:0',
             'votos_branco_prefeito' => 'required|integer|min:0',
             'votos_nulo_prefeito' => 'required|integer|min:0',
-            'votos_branco_vereador' => 'required|integer|min:0',
-            'votos_nulo_vereador' => 'required|integer|min:0',
+            'votos_branco_vereador' => 'nullable|integer',
+            'votos_nulo_vereador' => 'nullable|integer',
         ]);
 
         if ($validator->fails()) {
+            // dd($validator->errors());
             $request->session()->flash('error', 'Dados digitados incorretamente.');
             return redirect()->route('insert');
         }
@@ -90,7 +108,9 @@ class InsertController extends Controller
                 'apto' => $dadosBoletim['apto'],
                 'comp' => $dadosBoletim['comp'],
                 'falt' => $dadosBoletim['falt'],
-                'assinatura_digital' => 'manual-' . time(),
+                'assinatura_digital' => 'manual-' . Carbon::now('America/Sao_Paulo')->format('Y-m-d_H:i:s'),
+                'created_at' => Carbon::now('America/Sao_Paulo'),
+                'updated_at' => Carbon::now('America/Sao_Paulo'),
             ]);
 
             $votosData = [];
@@ -112,8 +132,8 @@ class InsertController extends Controller
                             'nominal' => 'sim',
                             'branco' => 'nao',
                             'nulo' => 'nao',
-                            'created_at' => now(),
-                            'updated_at' => now(),
+                            'created_at' => Carbon::now('America/Sao_Paulo'),
+                            'updated_at' => Carbon::now('America/Sao_Paulo'),
                         ];
                     }
                 }
@@ -129,8 +149,8 @@ class InsertController extends Controller
                     'nominal' => 'nao',
                     'branco' => 'sim',
                     'nulo' => 'nao',
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'created_at' => Carbon::now('America/Sao_Paulo'),
+                    'updated_at' => Carbon::now('America/Sao_Paulo'),
                 ];
             }
 
@@ -143,8 +163,8 @@ class InsertController extends Controller
                     'nominal' => 'nao',
                     'branco' => 'nao',
                     'nulo' => 'sim',
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'created_at' => Carbon::now('America/Sao_Paulo'),
+                    'updated_at' => Carbon::now('America/Sao_Paulo'),
                 ];
             }
 
@@ -158,8 +178,8 @@ class InsertController extends Controller
                     'nominal' => 'nao',
                     'branco' => 'sim',
                     'nulo' => 'nao',
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'created_at' => Carbon::now('America/Sao_Paulo'),
+                    'updated_at' => Carbon::now('America/Sao_Paulo'),
                 ];
             }
 
@@ -172,8 +192,8 @@ class InsertController extends Controller
                     'nominal' => 'nao',
                     'branco' => 'nao',
                     'nulo' => 'sim',
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'created_at' => Carbon::now('America/Sao_Paulo'),
+                    'updated_at' => Carbon::now('America/Sao_Paulo'),
                 ];
             }
 

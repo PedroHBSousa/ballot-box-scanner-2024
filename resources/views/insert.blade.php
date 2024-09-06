@@ -35,7 +35,7 @@
                 </div>
             </form>
 
-            @if (request('search') && $secao !== null)
+            @isset($secao)
                 <div style="display:flex; flex-direction:column; justify-content:center; align-items: center">
                     <h2 style="text-align:center; font-size:21px;">Localidade da Seção {{ $secao->id }}:</h2>
                     <h3 style="text-align:center;font-size:16px;">{{ $secao->localidade->nome }}</h3> <br>
@@ -47,7 +47,7 @@
                     <div class="form-group">
                         <label>Aptos</label>
                         <input type="number" name="apto" id="apto" placeholder="Número de pessoas da seção"
-                            required>
+                            value="{{ $secao->aptos }}" required>
                     </div>
                     <div class="form-group">
                         <label>N° de pessoas que compareceram</label>
@@ -103,33 +103,35 @@
                     <div class="form-group">
                         <label for="votos_branco_vereador">Total de votos branco:</label>
                         <input type="number" id="votos_branco_vereador" name="votos_branco_vereador" min="0"
-                            placeholder="Votos branco para vereador" required>
+                            placeholder="Votos branco para vereador">
                     </div>
                     <div class="form-group">
                         <label for="votos_nulo_vereador">Total de votos nulo:</label>
                         <input type="number" id="votos_nulo_vereador" name="votos_nulo_vereador" min="0"
-                            placeholder="Votos nulos para vereador" required>
+                            placeholder="Votos nulos para vereador">
                     </div>
 
                     <button class="form-submit-btn" type="submit" name="action"
                         value="inserir_votos">Enviar</button>
                 </form>
-            @else
+                @endisset
+            {{-- @else
                 <p>Nenhuma seção encontrada.</p>
+            @endif --}}
+            @if (session('success'))
+                <span style="color: #082;">
+                    {{ session('success') }}
+                </span>
+            @endif
+
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    <span style="color: rgb(136, 0, 0);">
+                        {{ $error }}
+                    </span>
+                @endforeach
             @endif
         </div>
-
-        @if (session('success'))
-            <span style="color: #082;">
-                {{ session('success') }}
-            </span>
-        @endif
-
-        @if (session('error'))
-            <span style="color: #f00;">
-                {{ session('error') }}
-            </span>
-        @endif
 
     </div>
     <script>
@@ -174,6 +176,23 @@
             // Remove o campo do vereador ao clicar no botão "X"
             button.parentElement.remove();
         }
+
+        // Seleciona os campos de aptos, comparecimento e faltantes
+        const aptoInput = document.getElementById('apto');
+        const compInput = document.getElementById('comp');
+        const faltInput = document.getElementById('falt');
+
+        // Função para calcular e preencher automaticamente o campo de faltantes
+        function calcularFaltantes() {
+            const aptos = parseInt(aptoInput.value) || 0; // Obtém o valor de aptos
+            const compareceram = parseInt(compInput.value) || 0; // Obtém o valor de pessoas que compareceram
+            const faltantes = aptos - compareceram; // Calcula os faltantes
+
+            faltInput.value = faltantes >= 0 ? faltantes : 0; // Preenche o campo de faltantes
+        }
+
+        // Adiciona um evento para calcular os faltantes quando o valor do campo de comparecimento mudar
+        compInput.addEventListener('input', calcularFaltantes);
     </script>
 </body>
 <footer>
