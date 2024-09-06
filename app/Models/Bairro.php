@@ -16,12 +16,10 @@ class Bairro extends Model
     protected $fillable = [
         'id',
         'nome',
-        'regiao'
     ];
 
     public function localidades()
     {
         return $this->hasMany(Localidade::class);
     }
-
 }

@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('bairros', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->string('regiao');
-            $table->timestamps();
         });
     }
 

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('localidades', function (Blueprint $table) {
             $table->id();
             $table->foreignId('bairro_id')->references('id')->on('bairros');
+            $table->string('regiao');
             $table->string('nome');
             $table->integer('secoes');
             $table->integer('eleitores');
