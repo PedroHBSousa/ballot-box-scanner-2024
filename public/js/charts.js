@@ -53,6 +53,14 @@ function initializeCharts() {
         ctxEscolas,
         createBarChartConfig("Escolas")
     );
+
+    const ctxRegioes = document
+        .getElementById("barchart-regioes")
+        .getContext("2d");
+    window.chartInstanceRegioes = new Chart(
+        ctxRegioes,
+        createBarChartConfig("Regioes")
+    );
 }
 
 // Configuração do gráfico de pizza
@@ -188,6 +196,8 @@ function loadInitialData() {
         "none";
     document.getElementById("barchart-partidos").parentElement.style.display =
         "none";
+    document.getElementById("barchart-regioes").parentElement.style.display =
+        "none";
 }
 
 function loadBairrosSubfilters() {
@@ -219,51 +229,6 @@ function loadBairrosSubfilters() {
             console.error("Erro ao buscar bairros:", error);
         });
 }
-
-function handleFilterChange(event) {
-    const selectedFilter = event.target.value;
-    console.log("Filtro selecionado:", selectedFilter);
-
-    // Oculta todos os subfiltros antes de exibir o subfiltro selecionado
-    hideAllSubfilters();
-
-    if (selectedFilter) {
-        axios
-            .get(`/data/${selectedFilter}`)
-            .then((response) => {
-                console.log("Dados recebidos:", response.data);
-                updateChart(selectedFilter, response.data);
-
-                // Exibe o subfiltro correspondente, se houver
-                if (selectedFilter === "bairros") {
-                    loadBairrosSubfilters();
-                } else if (selectedFilter === "localidades") {
-                    loadEscolasSubfilters();
-                } else {
-                    // Caso o filtro não tenha subfiltro, escondemos todos os subfiltros
-                    document.getElementById(
-                        "subfilter-container"
-                    ).style.display = "none";
-                    document.getElementById(
-                        "school-filter-container"
-                    ).style.display = "none";
-                }
-            })
-            .catch((error) => {
-                console.error(
-                    "Erro ao buscar dados do filtro selecionado:",
-                    error
-                );
-            });
-    }
-}
-
-function hideAllSubfilters() {
-    // Oculta os containers dos subfiltros
-    document.getElementById("subfilter-container").style.display = "none";
-    document.getElementById("school-filter-container").style.display = "none";
-}
-
 function loadEscolasSubfilters() {
     axios
         .get("/get-localidades")
@@ -293,14 +258,91 @@ function loadEscolasSubfilters() {
             console.error("Erro ao buscar escolas:", error);
         });
 }
+function loadRegioesSubfilters() {
+    axios
+        .get("/get-regioes")
+        .then((response) => {
+            const subfilterSelect = document.getElementById(
+                "regiao-subfilter-select"
+            );
+            subfilterSelect.innerHTML =
+                '<option value="">Selecione uma região</option>';
+
+            response.data.forEach((regioes) => {
+                const option = document.createElement("option");
+                option.value = regioes;
+                option.textContent = regioes;
+                subfilterSelect.appendChild(option);
+            });
+
+            document.getElementById(
+                "regiao-subfilter-container"
+            ).style.display = "block";
+
+            subfilterSelect.addEventListener(
+                "change",
+                handleRegioesSubfilterChange
+            );
+        })
+        .catch((error) => {
+            console.error("Erro ao buscar escolas:", error);
+        });
+}
+
+function handleFilterChange(event) {
+    const selectedFilter = event.target.value;
+    console.log("Filtro selecionado:", selectedFilter);
+
+    // Oculta todos os subfiltros antes de exibir o subfiltro selecionado
+    hideAllSubfilters();
+
+    if (selectedFilter) {
+        axios
+            .get(`/data/${selectedFilter}`)
+            .then((response) => {
+                console.log("Dados recebidos:", response.data);
+                updateChart(selectedFilter, response.data);
+                // Exibe o subfiltro correspondente, se houver
+                if (selectedFilter === "bairros") {
+                    loadBairrosSubfilters();
+                } else if (selectedFilter === "regioes") {
+                    loadRegioesSubfilters();
+                } else if (selectedFilter === "localidades") {
+                    loadEscolasSubfilters();
+                } else {
+                    // Caso o filtro não tenha subfiltro, escondemos todos os subfiltros
+                    document.getElementById(
+                        "subfilter-container"
+                    ).style.display = "none";
+                    document.getElementById(
+                        "school-filter-container"
+                    ).style.display = "none";
+                }
+            })
+            .catch((error) => {
+                console.error(
+                    "Erro ao buscar dados do filtro selecionado:",
+                    error
+                );
+            });
+    }
+}
+
+function hideAllSubfilters() {
+    // Oculta os containers dos subfiltros
+    document.getElementById("subfilter-container").style.display = "none";
+    document.getElementById("school-filter-container").style.display = "none";
+    document.getElementById("regiao-subfilter-container").style.display =
+        "none";
+}
 
 function handleBairroSubfilterChange(event) {
-    const selectedLocalidadeId = event.target.value;
-    console.log("Selected Localidade ID:", selectedLocalidadeId);
+    const selectedBairroId = event.target.value;
+    console.log("Selected Bairro ID:", selectedBairroId);
 
-    if (selectedLocalidadeId) {
+    if (selectedBairroId) {
         axios
-            .get(`/data/bairros/${selectedLocalidadeId}`)
+            .get(`/data/bairros/${selectedBairroId}`)
             .then((response) => {
                 updateChartInstance(window.chartInstanceBairros, response.data);
             })
@@ -320,6 +362,23 @@ function handleEscolaSubfilterChange(event) {
             .get(`/data/localidades/${selectedLocalidadeId}`)
             .then((response) => {
                 updateChartInstance(window.chartInstanceEscolas, response.data);
+            })
+            .catch((error) => {
+                console.error("Erro ao buscar votos para a escola:", error);
+            });
+    } else {
+        console.error("Nenhuma escola selecionada.");
+    }
+}
+function handleRegioesSubfilterChange(event) {
+    const selectedRegioesId = event.target.value;
+    console.log("Selected Regioes ID:", selectedRegioesId);
+
+    if (selectedRegioesId) {
+        axios
+            .get(`/data/regioes/${selectedRegioesId}`)
+            .then((response) => {
+                updateChartInstance(window.chartInstanceRegioes, response.data);
             })
             .catch((error) => {
                 console.error("Erro ao buscar votos para a escola:", error);
@@ -376,29 +435,41 @@ function updateChart(filter, data) {
         toggleChartVisibility("barchart-bairros", false);
         toggleChartVisibility("barchart-escolas", false);
         toggleChartVisibility("barchart-partidos", false);
+        toggleChartVisibility("barchart-regioes", false);
     } else if (filter === "vereadores") {
         updateChartInstance(window.chartInstanceVereadores, data, filter);
         toggleChartVisibility("barchart-vereadores", true);
         toggleChartVisibility("barchart-bairros", false);
         toggleChartVisibility("barchart-escolas", false);
         toggleChartVisibility("barchart-partidos", false);
+        toggleChartVisibility("barchart-regioes", false);
     } else if (filter === "bairros") {
         updateChartInstance(window.chartInstanceBairros, data, filter);
         toggleChartVisibility("barchart-vereadores", false);
         toggleChartVisibility("barchart-bairros", true);
         toggleChartVisibility("barchart-escolas", false);
         toggleChartVisibility("barchart-partidos", false);
+        toggleChartVisibility("barchart-regioes", false);
     } else if (filter === "partidos") {
         updateChartInstance(window.chartInstancePartidos, data, filter);
         toggleChartVisibility("barchart-vereadores", false);
         toggleChartVisibility("barchart-bairros", false);
         toggleChartVisibility("barchart-escolas", false);
         toggleChartVisibility("barchart-partidos", true);
+        toggleChartVisibility("barchart-regioes", false);
     } else if (filter === "localidades") {
         updateChartInstance(window.chartInstanceEscolas, data, filter);
         toggleChartVisibility("barchart-vereadores", false);
         toggleChartVisibility("barchart-bairros", false);
         toggleChartVisibility("barchart-escolas", true);
         toggleChartVisibility("barchart-partidos", false);
+        toggleChartVisibility("barchart-regioes", false);
+    } else if (filter === "regioes") {
+        updateChartInstance(window.chartInstanceRegioes, data, filter);
+        toggleChartVisibility("barchart-vereadores", false);
+        toggleChartVisibility("barchart-bairros", false);
+        toggleChartVisibility("barchart-escolas", false);
+        toggleChartVisibility("barchart-partidos", false);
+        toggleChartVisibility("barchart-regioes", true);
     }
 }

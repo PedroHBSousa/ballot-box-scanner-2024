@@ -3,17 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bairro;
+use App\Models\Candidato;
 use App\Models\Localidade;
+use App\Models\Voto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class DataController extends Controller
 {
+    public function dashboard()
+    {
+        return view('dashboard');
+    }
+
     public function getData($filter)
     {
         try {
             // Exemplo de lógica para retornar dados com base no filtro
             $data = [];
+
 
             if ($filter === 'bairros') {
                 // Obtém todos os bairros
@@ -33,7 +41,8 @@ class DataController extends Controller
             }
             if ($filter === 'regioes') {
                 // Obtem todas as regiões distintas na tabela Bairros
-                $data = Bairro::select('regiao')->distinct()->pluck('regiao');
+                $data = Localidade::select('regiao')->distinct()->pluck('regiao');
+
                 return response()->json([
                     'success' => true,
                     'regioes' => $data,
@@ -161,34 +170,40 @@ class DataController extends Controller
 
     public function getDadosRegiao($regiao)
     {
-        try {
-            // Verifica se a região foi fornecida
-            if (!$regiao) {
-                return response()->json(['error' => 'Região não fornecida'], 400);
-            }
+        // Encontrar todas as localidades pela região
+        $localidades = Localidade::where('regiao', $regiao)->pluck('id'); // Obter todos os IDs das localidades
 
-            $data = DB::table('votos')
-                ->select('candidatos.nome', DB::raw('count(*) as total'))
-                ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
-                ->join('secoes', 'votos.secao_id', '=', 'secoes.id')
-                ->join('localidades', 'secoes.localidade_id', '=', 'localidades.id')
-                ->join('bairros', 'localidades.bairro_id', '=', 'bairros.id')
-                ->where('bairros.regiao', $regiao)
-                ->where('candidatos.cargo_id', 11) // Cargo para prefeitos
-                ->groupBy('candidatos.nome')
-                ->get();
-
-            return response()->json($data);
-        } catch (\Exception $e) {
-            Log::error('Erro ao buscar dados da região: ' . $e->getMessage());
-            return response()->json(['error' => 'Erro ao buscar dados da região'], 500);
+        if ($localidades->isEmpty()) {
+            return response()->json(['error' => 'Região não encontrada.'], 404);
         }
-    }
 
+        // Encontrar os candidatos com cargo "11"
+        $candidatos = Candidato::where('cargo_id', 11)->get();
+
+        // Inicializar um array para armazenar votos
+        $candidatosVotos = [];
+
+        foreach ($candidatos as $candidato) {
+            // Contar o número de votos para o candidato em todas as localidades da região
+            $votos = Voto::where('cargo_id', 11)
+                ->whereHas('secao', function ($query) use ($localidades) {
+                    $query->whereIn('localidade_id', $localidades); // Verificar se a secao pertence a uma das localidades da região
+                })
+                ->where('candidato_id', $candidato->id)
+                ->count(); // Contar o número de votos (linhas)
+
+            $candidatosVotos[] = [
+                'nome' => $candidato->nome,
+                'total' => $votos,
+            ];
+        }
+
+        return response()->json($candidatosVotos);
+    }
     public function getRegioes()
     {
         try {
-            $regiao = DB::table('bairros')->distinct()->pluck('regiao');
+            $regiao = DB::table('localidades')->distinct()->pluck('regiao');
             return response()->json($regiao);
         } catch (\Exception $e) {
             Log::error('Erro ao buscar regiões: ' . $e->getMessage());

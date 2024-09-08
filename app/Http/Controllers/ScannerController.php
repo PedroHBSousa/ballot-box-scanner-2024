@@ -19,12 +19,6 @@ class ScannerController extends Controller
         return view('qrcodescanner',);
     }
 
-    public function dashboard()
-    {
-
-        return view('dashboard',);
-    }
-
     public function store(Request $request)
     {
         // Validação inicial do input

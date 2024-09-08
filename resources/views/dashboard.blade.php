@@ -12,7 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap"
         rel="stylesheet">
-    @vite('resources/css/app.css')
+    @vite('resources/css/dashboard.css')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ asset('js/charts.js') }}"></script>
@@ -59,7 +59,7 @@
         </div>
         <div id="regiao-subfilter-container" style="display: none;">
             <select id="regiao-subfilter-select">
-                <option value="">Selecione uma regiao</option>
+                <option value="">Selecione uma região</option>
             </select>
         </div>
 
@@ -98,7 +98,7 @@
                 <div class="regioes">
                     <h2>Regioes</h2>
                 </div>
-                <canvas id="barchart-regioe" width="400" height="400"></canvas>
+                <canvas id="barchart-regioes" width="400" height="400"></canvas>
             </div>
         </div>
     </div>
@@ -106,7 +106,6 @@
     <footer>
         <h1>Juntos é possível!</h1>
     </footer>
-
 </body>
 
 </html>

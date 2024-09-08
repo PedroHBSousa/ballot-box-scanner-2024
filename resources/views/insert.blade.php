@@ -12,17 +12,18 @@
         rel="stylesheet">
     @vite('resources/css/insert.css')
 </head>
-<header>
-    <h1>SÃO SEBASTIÃO</h1>
-    <div class="container-image">
-
-        <img id="felipe" src="{{ Vite::asset('resources/img/Felipe.png') }}">
-        <img id="reis" src="{{ Vite::asset('resources/img/Reis.png') }}">
-        <img id="reinaldinho" src="{{ Vite::asset('resources/img/Reinaldinho.png') }}">
-    </div>
-</header>
 
 <body>
+    <header>
+        <h1>SÃO SEBASTIÃO</h1>
+        <div class="container-image">
+
+            <img id="felipe" src="{{ Vite::asset('resources/img/Felipe.png') }}">
+            <img id="reis" src="{{ Vite::asset('resources/img/Reis.png') }}">
+            <img id="reinaldinho" src="{{ Vite::asset('resources/img/Reinaldinho.png') }}">
+        </div>
+    </header>
+
     <div class="container">
         <h1 class="form-title">Insira os dados abaixo</h1>
         <div class="form-container">
@@ -65,8 +66,7 @@
                         <div class="form-group">
                             <label class="names" for="candidato_{{ $candidato->id }}">{{ $candidato->nome }}</label>
                             <input type="number" name="votos[{{ $candidato->id }}][quantidade]"
-                                id="candidato_{{ $candidato->id }}_quantidade" min="0" placeholder="Votos"
-                                required>
+                                id="candidato_{{ $candidato->id }}_quantidade" min="0" placeholder="Votos" required>
                             <input type="hidden" name="votos[{{ $candidato->id }}][candidato_id]"
                                 value="{{ $candidato->id }}">
                         </div>
@@ -111,10 +111,9 @@
                             placeholder="Votos nulos para vereador">
                     </div>
 
-                    <button class="form-submit-btn" type="submit" name="action"
-                        value="inserir_votos">Enviar</button>
+                    <button class="form-submit-btn" type="submit" name="action" value="inserir_votos">Enviar</button>
                 </form>
-                @endisset
+            @endisset
             {{-- @else
                 <p>Nenhuma seção encontrada.</p>
             @endif --}}

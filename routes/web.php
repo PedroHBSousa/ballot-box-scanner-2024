@@ -8,7 +8,7 @@ use App\Http\Controllers\DataController;
 Route::get('/qrcodescanner', [ScannerController::class, 'qrcodescanner'])->name('qrcodescanner');
 Route::post('/qrcodescanner/clear', [ScannerController::class, 'clearQRCodes'])->name('qrcodes.clear');
 
-Route::get('/', [ScannerController::class, 'dashboard']);
+Route::get('/', [DataController::class, 'dashboard']);
 Route::post('/store', [ScannerController::class, 'store'])->name('store');
 
 Route::get('/enter-manually', [InsertController::class, 'insert'])->name('insert');

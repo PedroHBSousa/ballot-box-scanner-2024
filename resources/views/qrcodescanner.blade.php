@@ -18,16 +18,18 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite('resources/css/index.css')
 </head>
-<header>
-    <h1>APURAÇÃO ELEITORAL<span>2024</span></h1>
-    <div class="container-image">
-        <img id="felipe" src="{{ Vite::asset('resources/img/Felipe.png') }}">
-        <img id="reis" src="{{ Vite::asset('resources/img/Reis.png') }}">
-        <img id="reinaldinho" src="{{ Vite::asset('resources/img/Reinaldinho.png') }}">
-    </div>
-</header>
+
 
 <body>
+    <header>
+        <h1>APURAÇÃO ELEITORAL<span>2024</span></h1>
+        <div class="container-image">
+            <img id="felipe" src="{{ Vite::asset('resources/img/Felipe.png') }}">
+            <img id="reis" src="{{ Vite::asset('resources/img/Reis.png') }}">
+            <img id="reinaldinho" src="{{ Vite::asset('resources/img/Reinaldinho.png') }}">
+        </div>
+    </header>
+
     <div class="center-container">
         <div class="instructions">
             <h2>INSTRUÇÕES</h2>
