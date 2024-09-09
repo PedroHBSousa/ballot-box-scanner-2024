@@ -29,7 +29,7 @@ class LocalidadeSeeder extends Seeder
             ['id' => '1163', 'bairro_id' => '14', 'regiao' => 'centro', 'nome' => 'Creche Dona Laurinda', 'secoes' => '4', 'eleitores' => '1271'],
             ['id' => '1171', 'bairro_id' => '5', 'regiao' => 'costa sul', 'nome' => 'EM Prof Vilma Aparecida', 'secoes' => '5', 'eleitores' => '1302'],
             ['id' => '1180', 'bairro_id' => '4', 'regiao' => 'costa sul', 'nome' => 'EM Guiomar Aparecida', 'secoes' => '8', 'eleitores' => '2352'],
-            ['id' => '1198', 'bairro_id' => '6', 'regiao' => 'cost sul', 'nome' => 'EM Prof Lino Marques - Sementinha', 'secoes' => '11', 'eleitores' => '4041'],
+            ['id' => '1198', 'bairro_id' => '6', 'regiao' => 'costa sul', 'nome' => 'EM Prof Lino Marques - Sementinha', 'secoes' => '11', 'eleitores' => '4041'],
             ['id' => '1201', 'bairro_id' => '7', 'regiao' => 'costa norte', 'nome' => 'EM Profª Joana Alves', 'secoes' => '7', 'eleitores' => '2319'],
             ['id' => '1228', 'bairro_id' => '12', 'regiao' => 'costa sul', 'nome' => 'EM Nair Ribeiro', 'secoes' => '8', 'eleitores' => '2685'],
             ['id' => '1236', 'bairro_id' => '20', 'regiao' => 'costa sul', 'nome' => 'EM João Gabriel', 'secoes' => '3', 'eleitores' => '804'],
