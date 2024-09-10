@@ -83,9 +83,9 @@
     <div class="container">
         <div class="custom-select">
             <select id="filter-select">
-                <option value="">Filtro</option>
+                <option value="geral">Filtro</option>
                 <option value="prefeitos" hidden>Prefeito</option>
-                <option value="vereadores">Vereadores</option>
+                <option value="vereadores" hidden>Vereadores</option>
                 <option value="localidades">Escolas</option>
                 <option value="bairros">Bairros</option>
                 <option value="partidos">Partidos</option>

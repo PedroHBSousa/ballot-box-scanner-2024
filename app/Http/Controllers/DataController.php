@@ -51,11 +51,34 @@ class DataController extends Controller
 
 
             switch ($filter) {
+                case 'geral':
+                    $prefeitosData = DB::table('votos')
+                        ->select('candidatos.nome', DB::raw('count(*) as total'))
+                        ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
+                        ->where('candidatos.cargo_id', 11) // Cargo para prefeitos
+                        ->groupBy('candidatos.nome')
+                        ->get();
+
+                    $vereadoresData = DB::table('votos')
+                        ->select('candidatos.nome', DB::raw('count(*) as total'))
+                        ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
+                        ->where('candidatos.cargo_id', 13) // Cargo para vereadores
+                        ->groupBy('candidatos.nome')
+                        ->orderBy('total', 'desc')
+                        ->limit(10)
+                        ->get();
+
+                    $data = [
+                        'prefeitos' => $prefeitosData,
+                        'vereadores' => $vereadoresData,
+                    ];
+                    break;
+
                 case 'prefeitos':
                     $data = DB::table('votos')
                         ->select('candidatos.nome', DB::raw('count(*) as total'))
                         ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
-                        ->where('candidatos.cargo_id', 11) // Cargo para prefeitos
+                        ->where('candidatos.cargo_id', 11, 13) // Cargo para prefeitos
                         ->groupBy('candidatos.nome')
                         ->get();
                     break;
@@ -102,7 +125,8 @@ class DataController extends Controller
                 return response()->json(['error' => 'Bairro ID não fornecido'], 400);
             }
 
-            $data = DB::table('votos')
+            // Busca os dados para prefeitos
+            $prefeitosData = DB::table('votos')
                 ->select('candidatos.nome', DB::raw('count(*) as total'))
                 ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
                 ->join('secoes', 'votos.secao_id', '=', 'secoes.id')
@@ -113,7 +137,24 @@ class DataController extends Controller
                 ->groupBy('candidatos.nome')
                 ->get();
 
-            return response()->json($data);
+            // Busca os dados para vereadores
+            $vereadoresData = DB::table('votos')
+                ->select('candidatos.nome', DB::raw('count(*) as total'))
+                ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
+                ->join('secoes', 'votos.secao_id', '=', 'secoes.id')
+                ->join('localidades', 'secoes.localidade_id', '=', 'localidades.id')
+                ->join('bairros', 'localidades.bairro_id', '=', 'bairros.id')
+                ->where('bairros.id', $bairro_id)
+                ->where('candidatos.cargo_id', 13) // Cargo para vereadores
+                ->groupBy('candidatos.nome')
+                ->orderBy('total', 'desc')
+                ->limit(10)
+                ->get();
+
+            return response()->json([
+                'prefeitos' => $prefeitosData,
+                'vereadores' => $vereadoresData,
+            ]);
         } catch (\Exception $e) {
             Log::error('Erro ao buscar dados do bairro: ' . $e->getMessage());
             return response()->json(['error' => 'Erro ao buscar dados do bairro'], 500);
@@ -135,12 +176,13 @@ class DataController extends Controller
     public function getDadosEscola($localidade_id)
     {
         try {
-            // Verifica se o escola_id foi fornecido
+            // Verifica se o localidade_id foi fornecido e é válido
             if (!is_numeric($localidade_id) || !$localidade_id) {
                 return response()->json(['error' => 'Localidade ID inválido'], 400);
             }
 
-            $data = DB::table('votos')
+            // Busca os votos para prefeitos na localidade
+            $dadosPrefeitos = DB::table('votos')
                 ->select('candidatos.nome', DB::raw('count(*) as total'))
                 ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
                 ->join('secoes', 'votos.secao_id', '=', 'secoes.id')
@@ -150,10 +192,27 @@ class DataController extends Controller
                 ->groupBy('candidatos.nome')
                 ->get();
 
-            return response()->json($data);
+            // Busca os votos para vereadores na localidade
+            $dadosVereadores = DB::table('votos')
+                ->select('candidatos.nome', DB::raw('count(*) as total'))
+                ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
+                ->join('secoes', 'votos.secao_id', '=', 'secoes.id')
+                ->join('localidades', 'secoes.localidade_id', '=', 'localidades.id')
+                ->where('localidades.id', $localidade_id)
+                ->where('candidatos.cargo_id', 13) // Cargo para vereadores
+                ->groupBy('candidatos.nome')
+                ->orderBy('total', 'desc')
+                ->limit(10)
+                ->get();
+
+            // Retorna ambos os conjuntos de dados
+            return response()->json([
+                'prefeitos' => $dadosPrefeitos,
+                'vereadores' => $dadosVereadores
+            ]);
         } catch (\Exception $e) {
-            Log::error('Erro ao buscar dados da escola: ' . $e->getMessage());
-            return response()->json(['error' => 'Erro ao buscar dados da escola'], 500);
+            Log::error('Erro ao buscar dados da localidade: ' . $e->getMessage());
+            return response()->json(['error' => 'Erro ao buscar dados da localidade'], 500);
         }
     }
 
@@ -170,36 +229,45 @@ class DataController extends Controller
 
     public function getDadosRegiao($regiao)
     {
-        // Encontrar todas as localidades pela região
-        $localidades = Localidade::where('regiao', $regiao)->pluck('id'); // Obter todos os IDs das localidades
+        try {
+            // Encontrar todas as localidades pela região
+            $localidades = Localidade::where('regiao', $regiao)->pluck('id'); // Obter todos os IDs das localidades
 
-        if ($localidades->isEmpty()) {
-            return response()->json(['error' => 'Região não encontrada.'], 404);
+            if ($localidades->isEmpty()) {
+                return response()->json(['error' => 'Região não encontrada.'], 404);
+            }
+
+            // Encontrar os candidatos com cargo "11" (prefeitos)
+            $dadosPrefeitos = Voto::select('candidatos.nome', DB::raw('count(*) as total'))
+                ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
+                ->join('secoes', 'votos.secao_id', '=', 'secoes.id')
+                ->whereIn('secoes.localidade_id', $localidades)
+                ->where('candidatos.cargo_id', 11) // Cargo para prefeitos
+                ->groupBy('candidatos.nome')
+                ->get();
+
+            // Encontrar os candidatos com cargo "13" (vereadores)
+            $dadosVereadores = Voto::select('candidatos.nome', DB::raw('count(*) as total'))
+                ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
+                ->join('secoes', 'votos.secao_id', '=', 'secoes.id')
+                ->whereIn('secoes.localidade_id', $localidades)
+                ->where('candidatos.cargo_id', 13) // Cargo para vereadores
+                ->groupBy('candidatos.nome')
+                ->orderBy('total', 'desc')
+                ->limit(10)
+                ->get();
+
+            // Retorna ambos os conjuntos de dados
+            return response()->json([
+                'prefeitos' => $dadosPrefeitos,
+                'vereadores' => $dadosVereadores
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Erro ao buscar dados da região: ' . $e->getMessage());
+            return response()->json(['error' => 'Erro ao buscar dados da região'], 500);
         }
-
-        // Encontrar os candidatos com cargo "11"
-        $candidatos = Candidato::where('cargo_id', 11)->get();
-
-        // Inicializar um array para armazenar votos
-        $candidatosVotos = [];
-
-        foreach ($candidatos as $candidato) {
-            // Contar o número de votos para o candidato em todas as localidades da região
-            $votos = Voto::where('cargo_id', 11)
-                ->whereHas('secao', function ($query) use ($localidades) {
-                    $query->whereIn('localidade_id', $localidades); // Verificar se a secao pertence a uma das localidades da região
-                })
-                ->where('candidato_id', $candidato->id)
-                ->count(); // Contar o número de votos (linhas)
-
-            $candidatosVotos[] = [
-                'nome' => $candidato->nome,
-                'total' => $votos,
-            ];
-        }
-
-        return response()->json($candidatosVotos);
     }
+
     public function getRegioes()
     {
         try {

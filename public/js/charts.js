@@ -177,17 +177,18 @@ function createBarChartConfig(label) {
 
 // Funções para carregar e atualizar gráficos (sem alteração)
 function loadInitialData() {
-    axios
-        .get("/data/prefeitos")
+    axios.get('/data/geral')
         .then((response) => {
             const data = response.data;
-            updateChartInstance(window.chartInstancePrefeitos, data);
+
+            // Atualiza o gráfico de prefeitos
+            updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos');
+
+            // Atualiza o gráfico de vereadores
+            updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores');
         })
         .catch((error) => {
-            console.error(
-                "Erro ao buscar dados do gráfico de prefeitos:",
-                error
-            );
+            console.error("Erro ao buscar dados iniciais:", error);
         });
 
     document.getElementById("barchart-bairros").parentElement.style.display =
@@ -300,8 +301,10 @@ function handleFilterChange(event) {
         axios
             .get(`/data/${selectedFilter}`)
             .then((response) => {
-                console.log("Dados recebidos:", response.data);
-                updateChart(selectedFilter, response.data);
+
+                updateChart(selectedFilter, response.data, window.chartInstancePrefeitos);
+                updateChart(selectedFilter, response.data, window.chartInstanceVereadores);
+
                 // Exibe o subfiltro correspondente, se houver
                 if (selectedFilter === "bairros") {
                     loadBairrosSubfilters();
@@ -344,13 +347,19 @@ function handleBairroSubfilterChange(event) {
         axios
             .get(`/data/bairros/${selectedBairroId}`)
             .then((response) => {
-                updateChartInstance(window.chartInstanceBairros, response.data);
+                const data = response.data;
+
+                // Atualiza o gráfico de prefeitos
+                updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos');
+
+                // Atualiza o gráfico de vereadores
+                updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores');
             })
             .catch((error) => {
-                console.error("Erro ao buscar votos para a escola:", error);
+                console.error("Erro ao buscar dados para o bairro:", error);
             });
     } else {
-        console.error("Nenhuma escola selecionada.");
+        console.error("Nenhum bairro selecionado.");
     }
 }
 function handleEscolaSubfilterChange(event) {
@@ -361,7 +370,13 @@ function handleEscolaSubfilterChange(event) {
         axios
             .get(`/data/localidades/${selectedLocalidadeId}`)
             .then((response) => {
-                updateChartInstance(window.chartInstanceEscolas, response.data);
+                const data = response.data;
+
+                // Atualiza o gráfico de prefeitos
+                updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos');
+
+                // Atualiza o gráfico de vereadores
+                updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores');
             })
             .catch((error) => {
                 console.error("Erro ao buscar votos para a escola:", error);
@@ -371,31 +386,39 @@ function handleEscolaSubfilterChange(event) {
     }
 }
 function handleRegioesSubfilterChange(event) {
-    const selectedRegioesId = event.target.value;
-    console.log("Selected Regioes ID:", selectedRegioesId);
+    const selectedRegiao = event.target.value;
+    console.log("Selected Região:", selectedRegiao);
 
-    if (selectedRegioesId) {
+    if (selectedRegiao) {
         axios
-            .get(`/data/regioes/${selectedRegioesId}`)
+            .get(`/data/regioes/${selectedRegiao}`)
             .then((response) => {
-                updateChartInstance(window.chartInstanceRegioes, response.data);
+                const data = response.data;
+
+                // Atualiza o gráfico de prefeitos
+                updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos');
+
+                // Atualiza o gráfico de vereadores
+                updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores');
             })
             .catch((error) => {
-                console.error("Erro ao buscar votos para a escola:", error);
+                console.error("Erro ao buscar votos para a região:", error);
             });
     } else {
-        console.error("Nenhuma escola selecionada.");
+        console.error("Nenhuma região selecionada.");
     }
 }
 
 function updateChartInstance(chartInstance, data, filter) {
-    console.log(data); //Isso irá verificar os dados no console
+    console.log(data); // Isso irá verificar os dados no console
 
+    // Verifica se os dados estão disponíveis
     if (!Array.isArray(data) || data.length === 0) {
         console.log("Nenhum dado encontrado para este filtro.");
         chartInstance.data.labels = [];
         chartInstance.data.datasets[0].data = [];
     } else {
+        // Atualiza os dados do gráfico com base no filtro
         if (filter === "partidos") {
             // Para partidos, usa a propriedade 'partido'
             chartInstance.data.labels = data.map(
@@ -404,7 +427,7 @@ function updateChartInstance(chartInstance, data, filter) {
             chartInstance.data.datasets[0].data = data.map(
                 (item) => item.total || 0
             );
-        } else {
+        } else if (filter === "prefeitos" || filter === "vereadores") {
             // Para prefeitos e vereadores, usa a propriedade 'nome'
             chartInstance.data.labels = data.map(
                 (item) => item.nome || "Indefinido"
@@ -412,12 +435,17 @@ function updateChartInstance(chartInstance, data, filter) {
             chartInstance.data.datasets[0].data = data.map(
                 (item) => item.total || 0
             );
+        } else {
+            console.error("Filtro não reconhecido:", filter);
+            return;
         }
     }
+
+    // Atualiza o gráfico com os novos dados
     chartInstance.update();
 }
 
-function updateChart(filter, data) {
+function updateChart(filter, data, chartInstance) {
     function toggleChartVisibility(chartId, shouldShow) {
         const chartElement = document.getElementById(chartId);
         if (chartElement && chartElement.parentElement) {
@@ -429,47 +457,35 @@ function updateChart(filter, data) {
         }
     }
 
-    if (filter === "prefeitos") {
-        updateChartInstance(window.chartInstancePrefeitos, data, filter);
-        toggleChartVisibility("barchart-vereadores", false);
+    if (filter === "geral") {
+        // Atualizar gráficos de prefeitos e vereadores separadamente
+        updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos');
+        updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores');
+
+        // Mostrar os gráficos de prefeitos e vereadores
+        toggleChartVisibility(window.chartInstancePrefeitos.canvas.id, true);
+        toggleChartVisibility(window.chartInstanceVereadores.canvas.id, true);
+
+        // Ocultar outros gráficos que não são relevantes para o filtro "geral"
         toggleChartVisibility("barchart-bairros", false);
-        toggleChartVisibility("barchart-escolas", false);
         toggleChartVisibility("barchart-partidos", false);
-        toggleChartVisibility("barchart-regioes", false);
-    } else if (filter === "vereadores") {
-        updateChartInstance(window.chartInstanceVereadores, data, filter);
-        toggleChartVisibility("barchart-vereadores", true);
-        toggleChartVisibility("barchart-bairros", false);
         toggleChartVisibility("barchart-escolas", false);
-        toggleChartVisibility("barchart-partidos", false);
         toggleChartVisibility("barchart-regioes", false);
-    } else if (filter === "bairros") {
-        updateChartInstance(window.chartInstanceBairros, data, filter);
-        toggleChartVisibility("barchart-vereadores", false);
-        toggleChartVisibility("barchart-bairros", true);
-        toggleChartVisibility("barchart-escolas", false);
-        toggleChartVisibility("barchart-partidos", false);
-        toggleChartVisibility("barchart-regioes", false);
-    } else if (filter === "partidos") {
-        updateChartInstance(window.chartInstancePartidos, data, filter);
-        toggleChartVisibility("barchart-vereadores", false);
-        toggleChartVisibility("barchart-bairros", false);
-        toggleChartVisibility("barchart-escolas", false);
-        toggleChartVisibility("barchart-partidos", true);
-        toggleChartVisibility("barchart-regioes", false);
-    } else if (filter === "localidades") {
-        updateChartInstance(window.chartInstanceEscolas, data, filter);
-        toggleChartVisibility("barchart-vereadores", false);
-        toggleChartVisibility("barchart-bairros", false);
-        toggleChartVisibility("barchart-escolas", true);
-        toggleChartVisibility("barchart-partidos", false);
-        toggleChartVisibility("barchart-regioes", false);
-    } else if (filter === "regioes") {
-        updateChartInstance(window.chartInstanceRegioes, data, filter);
-        toggleChartVisibility("barchart-vereadores", false);
-        toggleChartVisibility("barchart-bairros", false);
-        toggleChartVisibility("barchart-escolas", false);
-        toggleChartVisibility("barchart-partidos", false);
-        toggleChartVisibility("barchart-regioes", true);
+
+    } else {
+
+        if (filter === "bairros") {
+            updateChartInstance(chartInstance, data, filter);
+            toggleChartVisibility(chartInstance.canvas.id, true);
+        } else if (filter === "partidos") {
+            updateChartInstance(chartInstance, data, filter);
+            toggleChartVisibility(chartInstance.canvas.id, true);
+        } else if (filter === "localidades") {
+            updateChartInstance(chartInstance, data, filter);
+            toggleChartVisibility(chartInstance.canvas.id, true);
+        } else if (filter === "regioes") {
+            updateChartInstance(chartInstance, data, filter);
+            toggleChartVisibility(chartInstance.canvas.id, true);
+        }
     }
 }
