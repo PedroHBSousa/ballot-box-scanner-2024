@@ -23,8 +23,7 @@
 <body>
     <header>
         <div class="text-container">
-            <h1>APURAÇÃO ELEITORAL</h1>
-            <p>2024</p>
+            <h1>APURAÇÃO ELEITORAL<span>2024</span></h1>
         </div>
 
         <div class="container-image">
@@ -34,7 +33,7 @@
         </div>
     </header>
 
-    <div class="accountant">
+    {{-- <div class="accountant">
         <div class="accountant-container">
             <div class="accountant-text">
                 <h1>TOTAL DE VOTOS APURADOS</h1>
@@ -78,7 +77,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="container">
         <div class="custom-select">
@@ -95,17 +94,17 @@
 
         <div id="subfilter-container" style="display: none;">
             <select id="bairro-subfilter-select">
-                <option value="">Selecione um bairro</option>
+                <option value="">Selecione o bairro</option>
             </select>
         </div>
         <div id="school-filter-container" style="display: none;">
             <select class="escola-subfilter-select" id="escola-subfilter-select">
-                <option value="">Selecione uma escola</option>
+                <option value="">Selecione a escola</option>
             </select>
         </div>
         <div id="regiao-subfilter-container" style="display: none;">
             <select id="regiao-subfilter-select">
-                <option value="">Selecione uma região</option>
+                <option value="">Selecione a região</option>
             </select>
         </div>
 
@@ -129,10 +128,12 @@
                 <canvas id="barchart-bairros" width="400" height="400"></canvas>
             </div>
             <div class="chart">
+
                 <div class="escolas">
                     <h2>Escolas</h2>
                 </div>
                 <canvas id="barchart-escolas" width="400" height="400"></canvas>
+
             </div>
             <div class="chart">
                 <div class="partidos">
