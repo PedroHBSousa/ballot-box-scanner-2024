@@ -34,6 +34,52 @@
         </div>
     </header>
 
+    <div class="accountant">
+        <div class="accountant-container">
+            <div class="accountant-text">
+                <h1>TOTAL DE VOTOS APURADOS</h1>
+            </div>
+            <div class="accountant-numbers">
+                <p>Prefeito</p>
+                <div class="accountant-items">
+                    <h1 class="accountant-number" id="accountant-number">20%</h1>
+                    <h1 class="accountant-voto">Branco</h1>
+                </div>
+                <div class="accountant-items">
+                    <h1 class="accountant-number" id="accountant-number">10%</h1>
+                    <h1 class="accountant-voto">Nulo</h1>
+                </div>
+                <div class="accountant-items">
+                    <h1 class="accountant-number" id="accountant-number">8%</h1>
+                    <h1 class="accountant-voto">Abstenção</h1>
+                </div>
+                <div class="accountant-items">
+                    <h1 class="accountant-number" id="accountant-number">2%</h1>
+                    <h1 class="accountant-voto">Restante</h1>
+                </div>
+            </div>
+            <div class="accountant-numbers">
+                <p>Vereadores</p>
+                <div class="accountant-items">
+                    <h1 class="accountant-number" id="accountant-number">20%</h1>
+                    <h1 class="accountant-voto">Branco</h1>
+                </div>
+                <div class="accountant-items">
+                    <h1 class="accountant-number" id="accountant-number">10%</h1>
+                    <h1 class="accountant-voto">Nulo</h1>
+                </div>
+                <div class="accountant-items">
+                    <h1 class="accountant-number" id="accountant-number">8%</h1>
+                    <h1 class="accountant-voto">Abstenção</h1>
+                </div>
+                <div class="accountant-items">
+                    <h1 class="accountant-number" id="accountant-number">2%</h1>
+                    <h1 class="accountant-voto">Restante</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="custom-select">
             <select id="filter-select">

@@ -3,7 +3,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
-    font-weight: 400;
     font-style: normal;
 }
 header {
@@ -29,6 +28,7 @@ header h1 {
     color: #2c2c2c;
     font-size: 20px;
     text-align: center;
+    font-size: 20px;
     font-weight: 900;
     margin: 0;
     padding: 0;
@@ -63,16 +63,58 @@ header p {
     left: -50px;
 }
 
-#logo-ssb {
-    left: 100px;
-    width: 250px;
-    position: absolute;
+.accountant {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
 }
-
-#peixe-ssb {
-    left: 20px;
-    width: 75px;
-    position: absolute;
+.accountant-container {
+    margin-top: 10px;
+    padding: 20px;
+    background-color: #f3f3f3;
+    border-radius: 10px;
+    /* box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); */
+}
+.accountant-text {
+    font-size: 16px;
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.accountant-numbers p {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+.accountant-text h1 {
+    font-size: 22px;
+}
+.accountant-voto {
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff;
+}
+.accountant-number {
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff;
+}
+.accountant-numbers {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    gap: 1rem;
+}
+.accountant-items {
+    display: flex;
+    gap: 0.5rem;
+    background-color: #6da9f7;
+    border-radius: 10px;
+    padding: 0.5rem;
 }
 
 #subfilter-select {
@@ -236,11 +278,6 @@ footer {
 
     .verea {
         margin: 0;
-    }
-
-    header h1 {
-        font-size: 20px;
-        text-align: center;
     }
 
     header p {
