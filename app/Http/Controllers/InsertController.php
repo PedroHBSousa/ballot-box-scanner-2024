@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Log;
 
 class InsertController extends Controller
 {
-    public function insert(Request $request)
+    public function insert()
     {
         return view('insert');
     }

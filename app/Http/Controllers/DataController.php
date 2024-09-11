@@ -8,6 +8,7 @@ use App\Models\Localidade;
 use App\Models\Voto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 class DataController extends Controller
 {
@@ -277,5 +278,16 @@ class DataController extends Controller
             Log::error('Erro ao buscar regiões: ' . $e->getMessage());
             return response()->json(['error' => 'Erro ao buscar regiões'], 500);
         }
+    }
+
+    public function getVereador(Request $request)
+    {
+        $id = $request->input('search');
+
+        $vereador = Candidato::find($id);
+
+        session()->flash('vereador', $vereador);
+
+        return view('dashboard');
     }
 }

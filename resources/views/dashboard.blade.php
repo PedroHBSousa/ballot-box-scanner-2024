@@ -150,6 +150,29 @@
         </div>
     </div>
 
+    <div class="search-container">
+        <div class="search">
+            <h2>Busque o vereador</h2>
+            <form class="form" action="{{ route('buscar.vereador') }}" method="GET">
+                @csrf
+                <label for="search">Digite o numero do vereador:</label>
+                <input type="number" id="search" name="search" placeholder="">
+                <button class="form-submit-btn" type="submit">Buscar</button>
+            </form>
+
+            @if (session('vereador'))
+                <p>{{ session('vereador')->id }} - {{ session('vereador')->nome }} | {{ session('vereador')->partido }}</p>
+                <p></p>
+                
+                @php
+                    session()->forget('vereador');
+                @endphp
+            @endif
+
+
+        </div>
+    </div>
+
     <footer>
         <h1>Juntos é possível!</h1>
     </footer>
