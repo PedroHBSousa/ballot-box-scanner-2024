@@ -6,6 +6,7 @@ use App\Models\Bairro;
 use App\Models\Candidato;
 use App\Models\Localidade;
 use App\Models\Voto;
+use App\Models\Secao;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
@@ -284,9 +285,26 @@ class DataController extends Controller
     {
         $id = $request->input('search');
 
+        if (!$id) {
+            session()->flash('error', 'Por favor, insira o número do vereador.');
+            return redirect()->back(); // Redireciona de volta à página anterior
+        }
+
         $vereador = Candidato::find($id);
 
-        session()->flash('vereador', $vereador);
+        $quantidadeVotos = DB::table('votos')->where('candidato_id', $id)->count();
+
+        $secoes = Secao::whereHas('votos', function ($query) use ($id) {
+            $query->where('candidato_id', $id);
+        })->get();
+
+        session()->flash('vereador', [
+            'nome' => $vereador->nome,
+            'id' => $vereador->id,
+            'partido' => $vereador->partido,
+            'quantidade_votos' => $quantidadeVotos
+        ]);
+        session()->flash('secoes', $secoes);
 
         return view('dashboard');
     }

@@ -163,12 +163,36 @@
             </form>
 
             @if (session('vereador'))
-                <p>{{ session('vereador')->id }} - {{ session('vereador')->nome }} | {{ session('vereador')->partido }}</p>
-                <p></p>
+            @php
+            $vereador = session('vereador');
+            @endphp
+            <p>
+                {{ $vereador['id'] }} -
+                {{ $vereador['nome'] }} |
+                {{ $vereador['partido'] }} <br>
+                Votos: {{ $vereador['quantidade_votos'] }}
+            </p>
 
-                @php
-                    session()->forget('vereador');
-                @endphp
+            @if (session('secoes'))
+            <p>Seções em que foi votado:</p>
+            <ul>
+                @foreach (session('secoes') as $secao)
+                <li>{{ $secao->id }}</li>
+                @endforeach
+            </ul>
+            @endif
+
+            @php
+            session()->forget('vereador');
+            session()->forget('totalVotes');
+            session()->forget('secoes');
+            @endphp
+            @endif
+
+            @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
             @endif
 
 
