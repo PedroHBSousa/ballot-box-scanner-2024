@@ -33,10 +33,12 @@
         </div>
     </header>
 
-    {{-- <div class="accountant">
+    <div class="accountant">
         <div class="accountant-container">
             <div class="accountant-text">
-                <h1>TOTAL DE VOTOS APURADOS</h1>
+                <h1>SITUAÇÃO ATUAL DOS VOTOS</h1>
+                <h3>Atualizado em: 12:14:20 11/09/2024</h3>
+                {{-- 20777 --}}
             </div>
             <div class="accountant-numbers">
                 <p>Prefeito</p>
@@ -77,7 +79,7 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
 
     <div class="container">
         <div class="custom-select">
@@ -163,7 +165,7 @@
             @if (session('vereador'))
                 <p>{{ session('vereador')->id }} - {{ session('vereador')->nome }} | {{ session('vereador')->partido }}</p>
                 <p></p>
-                
+
                 @php
                     session()->forget('vereador');
                 @endphp
