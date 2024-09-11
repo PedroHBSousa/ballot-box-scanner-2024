@@ -209,7 +209,7 @@ function loadBairrosSubfilters() {
                 "bairro-subfilter-select"
             );
             subfilterSelect.innerHTML =
-                '<option value="">Selecione um bairro</option>';
+                '<option value="">Selecione o bairro</option>';
 
             response.data.forEach((bairro) => {
                 const option = document.createElement("option");
@@ -238,7 +238,7 @@ function loadEscolasSubfilters() {
                 "escola-subfilter-select"
             );
             subfilterSelect.innerHTML =
-                '<option value="">Selecione uma escola</option>';
+                '<option value="">Selecione a escola</option>';
 
             response.data.forEach((localidade) => {
                 const option = document.createElement("option");
@@ -267,7 +267,7 @@ function loadRegioesSubfilters() {
                 "regiao-subfilter-select"
             );
             subfilterSelect.innerHTML =
-                '<option value="">Selecione uma região</option>';
+                '<option value="">Selecione a região</option>';
 
             response.data.forEach((regioes) => {
                 const option = document.createElement("option");
