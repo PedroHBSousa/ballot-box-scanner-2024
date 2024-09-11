@@ -157,44 +157,42 @@
             <h2>Busque o vereador</h2>
             <form class="form" action="{{ route('buscar.vereador') }}" method="GET">
                 @csrf
-                <label for="search">Digite o numero do vereador:</label>
-                <input type="number" id="search" name="search" placeholder="">
-                <button class="form-submit-btn" type="submit">Buscar</button>
+                <input class="input-search-vereador" type="number" id="search" name="search"
+                    placeholder="Digite o número do vereador">
+                <button class="button-submit-vereador" type="submit">Buscar</button>
             </form>
 
-            @if (session('vereador'))
-            @php
-            $vereador = session('vereador');
-            @endphp
-            <p>
-                {{ $vereador['id'] }} -
-                {{ $vereador['nome'] }} |
-                {{ $vereador['partido'] }} <br>
-                Votos: {{ $vereador['quantidade_votos'] }}
-            </p>
-
-            @if (session('secoes'))
-            <p>Seções em que foi votado:</p>
-            <ul>
-                @foreach (session('secoes') as $secao)
-                <li>{{ $secao->id }}</li>
-                @endforeach
-            </ul>
-            @endif
-
-            @php
-            session()->forget('vereador');
-            session()->forget('totalVotes');
-            session()->forget('secoes');
-            @endphp
-            @endif
-
             @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
+                <div class="error-message">
+                    {{ session('error') }}
+                </div>
             @endif
 
+            @if (session('vereador'))
+                @php
+                    $vereador = session('vereador');
+                @endphp
+                <div class="items-buscar-vereador">
+                    <h4><span>Número: </span>{{ $vereador['id'] }}</h4>
+                    <h4><span>Nome: </span>{{ $vereador['nome'] }}</h4>
+                    <h4><span>Partido: </span>{{ $vereador['partido'] }}</h4>
+                    <h4><span>Total de votos: </span>{{ $vereador['quantidade_votos'] }}</h4>
+                </div>
+                @if (session('secoes'))
+                    <h4>Seções em que foi votado:</h4>
+                    <ul>
+                        @foreach (session('secoes') as $secao)
+                            <h4>{{ $secao->id }}</h4>
+                        @endforeach
+                    </ul>
+                @endif
+
+                @php
+                    session()->forget('vereador');
+                    session()->forget('totalVotes');
+                    session()->forget('secoes');
+                @endphp
+            @endif
 
         </div>
     </div>

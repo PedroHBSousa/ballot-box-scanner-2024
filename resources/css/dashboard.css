@@ -36,7 +36,6 @@ header h1 {
 header span {
     display: block;
     font-weight: 700;
-
 }
 
 .container-image {
@@ -90,6 +89,7 @@ header span {
     background-color: #f3f3f3;
     border-radius: 10px;
     /* box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); */
+    max-width: 360px;
 }
 .accountant-text {
     font-size: 16px;
@@ -121,6 +121,7 @@ header span {
     flex-direction: row;
     margin-bottom: 20px;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 .accountant-items {
     display: flex;
@@ -163,8 +164,7 @@ header span {
 
 #bairro-subfilter-select::before,
 #bairro-subfilter-select::after,
-#regiao-subfilter-container::before
-#regiao-subfilter-container::after,
+#regiao-subfilter-container::before #regiao-subfilter-container::after,
 #school-filter-container::before,
 #school-filter-container::after {
     --size: 0.3rem;
@@ -283,6 +283,84 @@ footer {
     text-align: center;
     padding: 10px 0;
 }
+/* -------------------------- INICIO DO BUSQUE VEREADOR -------------------------- */
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+}
+.search {
+    width: 100%;
+    background-color: #f3f3f3;
+    padding: 20px;
+    border-radius: 15px;
+}
+.search-container h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.form label {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.input-search-vereador {
+    height: 45px;
+    width: 100%;
+    border-radius: 5px;
+    background: white;
+    margin-bottom: 15px;
+    border: none;
+    padding: 0 20px;
+    font-weight: 300;
+    font-size: 14px;
+    color: #4b4b4b;
+}
+.button-submit-vereador:hover,
+.input-search-vereador:hover {
+    transform: scale(1.009);
+    box-shadow: 0px 0px 3px 0px #212529;
+}
+.button-submit-vereador {
+    width: 100%;
+    height: 45px;
+    font-size: 14px;
+    color: white;
+    background: rgb(97, 185, 85);
+    border-radius: 5px;
+    border: none;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+.error-message {
+    width: 100%;
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    background: #fce8db;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px -3px #111;
+    font-weight: 500;
+    font-size: 14px;
+    color: #71192f;
+}
+
+.search-container h4 {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* -------------------------- FIM DO BUSQUE VEREADOR -------------------------- */
 
 /* -------------------------- INICIO DA RESPONSIVIDADE MOBILE -------------------------- */
 
