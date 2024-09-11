@@ -286,7 +286,14 @@ class DataController extends Controller
 
         $vereador = Candidato::find($id);
 
-        session()->flash('vereador', $vereador);
+        $quantidadeVotos = DB::table('votos')->where('candidato_id', $id)->count();
+
+        session()->flash('vereador', [
+            'nome' => $vereador->nome,
+            'id' => $vereador->id,
+            'partido' => $vereador->partido,
+            'quantidade_votos' => $quantidadeVotos
+        ]);
 
         return view('dashboard');
     }

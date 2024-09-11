@@ -161,12 +161,19 @@
             </form>
 
             @if (session('vereador'))
-                <p>{{ session('vereador')->id }} - {{ session('vereador')->nome }} | {{ session('vereador')->partido }}</p>
-                <p></p>
-                
-                @php
-                    session()->forget('vereador');
-                @endphp
+            @php
+            $vereador = session('vereador');
+            @endphp
+            <p>
+                {{ $vereador['id'] }} -
+                {{ $vereador['nome'] }} |
+                {{ $vereador['partido'] }} <br>
+                Votos: {{ $vereador['quantidade_votos'] }}
+            </p>
+
+            @php
+            session()->forget('vereador');
+            @endphp
             @endif
 
 
