@@ -171,9 +171,26 @@
                 Votos: {{ $vereador['quantidade_votos'] }}
             </p>
 
+            @if (session('secoes'))
+            <p>Seções em que foi votado:</p>
+            <ul>
+                @foreach (session('secoes') as $secao)
+                <li>{{ $secao->id }}</li>
+                @endforeach
+            </ul>
+            @endif
+
             @php
             session()->forget('vereador');
+            session()->forget('totalVotes');
+            session()->forget('secoes');
             @endphp
+            @endif
+
+            @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
             @endif
 
 

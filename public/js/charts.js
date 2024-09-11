@@ -75,9 +75,9 @@ function createPieChartConfig() {
                     backgroundColor: [
                         "rgba(7, 217, 0)",
                         "rgba(255,0,0)",
-                        "rgba(252, 186, 3)",
-                        "rgba(30,144,255)",
                         "rgba(242, 0, 255)",
+                        "rgba(30,144,255)",
+                        "rgba(252, 186, 3)",
                     ],
                     borderColor: ["#FFF", "#FFF", "#FFF", "#FFF", "#FFF"],
                     borderWidth: 2,
@@ -101,11 +101,12 @@ function createPieChartConfig() {
                         const percentage = ((value / totalVotes) * 100).toFixed(
                             1
                         );
-                        return `${value} (${percentage}%)`;
+                        return `${value}\n(${percentage}%)`;
                     },
                     font: {
                         weight: "bold",
                         size: 14,
+                        lineHeight: 1.2,
                     },
                     anchor: "center", // Coloca o texto no centro da fatia
                     align: "center", // Alinha o texto no centro
@@ -159,7 +160,7 @@ function createBarChartConfig(label) {
                         const percentage = ((value / totalVotes) * 100).toFixed(
                             1
                         );
-                        return `${value} (${percentage}%)`;
+                        return `${value}\n(${percentage}%)`;
                     },
                     font: {
                         weight: "bold",
