@@ -84,6 +84,8 @@ header span {
     position: relative;
 }
 .accountant-container {
+    display:flex;
+    flex-direction: column;
     margin-top: 10px;
     padding: 20px;
     background-color: #f3f3f3;
@@ -91,22 +93,21 @@ header span {
     /* box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); */
     max-width: 360px;
 }
-.accountant-text {
-    font-size: 16px;
+.accountant-header {
+    font-size: 14px;
     font-weight: 300;
     text-align: center;
     margin-bottom: 15px;
 }
-.accountant-numbers p {
+.accountant-numbers-title {
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 10px;
-    margin-top: 5px;
 }
 .accountant-text h1 {
     font-size: 22px;
 }
-.accountant-voto {
+.accountant-type-voto {
     font-size: 14px;
     font-weight: 400;
     color: #fff;
@@ -118,7 +119,7 @@ header span {
 }
 .accountant-numbers {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-bottom: 20px;
     gap: 1rem;
     flex-wrap: wrap;
@@ -127,8 +128,20 @@ header span {
     display: flex;
     gap: 0.5rem;
     background-color: #6da9f7;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 0.5rem;
+}
+.last-update-title{
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 10px;
+}
+.last-update-time{
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+
 }
 
 /* -------------------------- INICIO DO SUB-FILTROS -------------------------- */
@@ -392,6 +405,16 @@ footer {
         max-width: 350px;
         height: 450px;
     }
+    /* canvas {
+        #piechart-prefeitos{
+            width: 340px !important;
+            height: 340px !important;
+        }
+    }
+    /* canvas #piechart-prefeitos{
+        width: 340px !important;
+        height: 350px !important;
+    } */ */
 
     .charts-container {
         display: flex;

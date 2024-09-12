@@ -33,54 +33,6 @@
         </div>
     </header>
 
-    <div class="accountant">
-        <div class="accountant-container">
-            <div class="accountant-text">
-                <h1>SITUAÇÃO ATUAL DOS VOTOS</h1>
-                <h3>Atualizado em: 12:14:20 11/09/2024</h3>
-                {{-- 20777 --}}
-            </div>
-            <div class="accountant-numbers">
-                <p>Prefeito</p>
-                <div class="accountant-items">
-                    <h1 class="accountant-number" id="accountant-number">20%</h1>
-                    <h1 class="accountant-voto">Branco</h1>
-                </div>
-                <div class="accountant-items">
-                    <h1 class="accountant-number" id="accountant-number">10%</h1>
-                    <h1 class="accountant-voto">Nulo</h1>
-                </div>
-                <div class="accountant-items">
-                    <h1 class="accountant-number" id="accountant-number">8%</h1>
-                    <h1 class="accountant-voto">Abstenção</h1>
-                </div>
-                <div class="accountant-items">
-                    <h1 class="accountant-number" id="accountant-number">2%</h1>
-                    <h1 class="accountant-voto">Restante</h1>
-                </div>
-            </div>
-            <div class="accountant-numbers">
-                <p>Vereadores</p>
-                <div class="accountant-items">
-                    <h1 class="accountant-number" id="accountant-number">20%</h1>
-                    <h1 class="accountant-voto">Branco</h1>
-                </div>
-                <div class="accountant-items">
-                    <h1 class="accountant-number" id="accountant-number">10%</h1>
-                    <h1 class="accountant-voto">Nulo</h1>
-                </div>
-                <div class="accountant-items">
-                    <h1 class="accountant-number" id="accountant-number">8%</h1>
-                    <h1 class="accountant-voto">Abstenção</h1>
-                </div>
-                <div class="accountant-items">
-                    <h1 class="accountant-number" id="accountant-number">2%</h1>
-                    <h1 class="accountant-voto">Restante</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="container">
         <div class="custom-select">
             <select id="filter-select">
@@ -117,6 +69,67 @@
                 </div>
                 <canvas id="piechart-prefeitos" width="400" height="400"></canvas>
             </div>
+            <section class="accountant">
+                <div class="accountant-container">
+                    <div class="accountant-header">
+                        <h1>SITUAÇÃO ATUAL DOS VOTOS</h1>
+                        <h2 class="last-update-title"> Última entrada de dados: </h2>
+                        <h2 class="last-update-time">{{ $ultimaAtualizacao->format('H:i:s d/m/Y') }}</h2>
+                    </div>
+                    <h1 class="accountant-numbers-title">Prefeito</h1>
+                    <div class="accountant-numbers">
+                        <div class="accountant-items">
+                            <h2 class="accountant-type-voto">Nominal:</h2>
+                            <h2 class="accountant-number" id="accountant-number">
+                                {{ $nominais }} ({{ number_format($porcentagemNominais, 2) }}%)
+                            </h2>
+                        </div>
+                        <div class="accountant-items">
+                            <h2 class="accountant-type-voto">Branco:</h2>
+                            <h2 class="accountant-number" id="accountant-number">
+                                {{ $brancos }} ({{ number_format($porcentagemBrancos, 2) }}%)
+                            </h2>
+                        </div>
+                        <div class="accountant-items">
+                            <h2 class="accountant-type-voto">Nulo:</h2>
+                            <h2 class="accountant-number" id="accountant-number">
+                                {{ $nulos }} ({{ number_format($porcentagemNulos, 2) }}%)
+                            </h2>
+                        </div>
+                    </div>
+                    <h1 class="accountant-numbers-title">Vereadores</h1>
+                    <div class="accountant-numbers">
+                        <div class="accountant-items">
+                            <h2 class="accountant-type-voto">Nominal:</h2>
+                            <h2 class="accountant-number" id="accountant-number">8.967 (20%)</h2>
+                        </div>
+                        <div class="accountant-items">
+                            <h2 class="accountant-type-voto">Branco:</h2>
+                            <h2 class="accountant-number" id="accountant-number">8.967 (20%)</h2>
+                        </div>
+                        <div class="accountant-items">
+                            <h2 class="accountant-type-voto">Nulo:</h2>
+                            <h2 class="accountant-number" id="accountant-number">8.967 (20%)</h2>
+                        </div>
+
+                    </div>
+                    <h1 class="accountant-numbers-title">Geral</h1>
+                    <div class="accountant-numbers">
+                        <div class="accountant-items">
+                            <h2 class="accountant-type-voto">Total:</h2>
+                            <h2 class="accountant-number" id="accountant-number">8.967 (20%)</h2>
+                        </div>
+                        <div class="accountant-items">
+                            <h2 class="accountant-type-voto">Abstenção:</h2>
+                            <h2 class="accountant-number" id="accountant-number">8.967 (20%)</h2>
+                        </div>
+                        <div class="accountant-items">
+                            <h2 class="accountant-type-voto">Restante:</h2>
+                            <h2 class="accountant-number" id="accountant-number">8.967 (20%)</h2>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <div class="chart">
                 <div class="verea">
                     <h2>Vereadores</h2>
@@ -130,7 +143,6 @@
                 <canvas id="barchart-bairros" width="400" height="400"></canvas>
             </div>
             <div class="chart">
-
                 <div class="escolas">
                     <h2>Escolas</h2>
                 </div>

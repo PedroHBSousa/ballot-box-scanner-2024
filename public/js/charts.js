@@ -90,6 +90,8 @@ function createPieChartConfig() {
                 legend: {
                     display: true,
                 },
+                responsive: true,
+                maintainAspectRatio: false, // Desabilita a manutenção da proporção
                 datalabels: {
                     color: "#000", // A cor branca pode ser mais visível dentro das fatias
                     formatter: (value, context) => {

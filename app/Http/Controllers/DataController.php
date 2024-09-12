@@ -10,12 +10,43 @@ use App\Models\Secao;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class DataController extends Controller
 {
     public function dashboard()
     {
-        return view('dashboard');
+        // $totalPrevisto = 64437;
+
+
+        $totalPrevisto = DB::table('votos')
+            ->where('cargo_id', 11) // Cargo para prefeitos
+            ->count();
+
+        // Contagem de votos nominais, nulos e brancos para o cargo de prefeito (id = 11)
+        $nominais = DB::table('votos')
+            ->where('cargo_id', 11)
+            ->whereNotNull('candidato_id') // Votos nominais têm candidato_id
+            ->count();
+
+        $nulos = DB::table('votos')
+            ->where('cargo_id', 11)
+            ->where('nulo', 'sim') // Supondo que "nulo" seja marcado com '1'
+            ->count();
+
+        $brancos = DB::table('votos')
+            ->where('cargo_id', 11)
+            ->where('branco', 'sim') // Supondo que "branco" seja marcado com '1'
+            ->count();
+
+        // Calcular porcentagens
+        $porcentagemNominais = ($nominais / $totalPrevisto) * 100;
+        $porcentagemNulos = ($nulos / $totalPrevisto) * 100;
+        $porcentagemBrancos = ($brancos / $totalPrevisto) * 100;
+
+        $ultimaAtualizacao = Voto::latest()->first()->updated_at ?? Carbon::now();
+
+        return view('dashboard', compact('nominais', 'brancos', 'nulos', 'porcentagemNominais', 'porcentagemNulos', 'porcentagemBrancos', 'ultimaAtualizacao'));
     }
 
     public function getData($filter)
