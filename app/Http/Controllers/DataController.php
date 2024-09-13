@@ -75,7 +75,17 @@ class DataController extends Controller
 
 
         $ultimaAtualizacao = Voto::latest()->first()->updated_at ?? Carbon::now();
-        return view('dashboard', compact('nominais', 'brancos', 'nulos', 'porcentagemNominais', 'porcentagemNulos', 'porcentagemBrancos', 'ultimaAtualizacao', 'nominaisVereador', 'brancosVereador', 'nulosVereador', 'porcentagemNominaisVereador', 'porcentagemNulosVereador', 'porcentagemBrancosVereador', 'totalApurados', 'totalFaltantes', 'restanteApurar',  'percentApurados', 'percentFaltantes', 'percentRestante'));
+        return view('dashboard',
+         compact('nominais',
+          'brancos', 'nulos',
+           'porcentagemNominais', 'porcentagemNulos',
+            'porcentagemBrancos', 'ultimaAtualizacao',
+             'nominaisVereador', 'brancosVereador',
+              'nulosVereador', 'porcentagemNominaisVereador',
+               'porcentagemNulosVereador', 'porcentagemBrancosVereador',
+                'totalApurados', 'totalFaltantes',
+                 'restanteApurar',  'percentApurados',
+                  'percentFaltantes', 'percentRestante'));
     }
 
     public function getData($filter)
@@ -334,7 +344,8 @@ class DataController extends Controller
     {
         try {
             $regiao = DB::table('localidades')->distinct()->pluck('regiao');
-            return response()->json($regiao);
+            return response()->json($regiao->toArray());
+
         } catch (\Exception $e) {
             Log::error('Erro ao buscar regiões: ' . $e->getMessage());
             return response()->json(['error' => 'Erro ao buscar regiões'], 500);

@@ -419,16 +419,12 @@ footer {
         max-width: 350px;
         height: 450px;
     }
-    /* canvas {
-        #piechart-prefeitos{
-            width: 340px !important;
-            height: 340px !important;
-        }
+
+    canvas {
+        width: 100% !important; 
+        height: auto !important; 
     }
-    /* canvas #piechart-prefeitos{
-        width: 340px !important;
-        height: 350px !important;
-    } */
+    
     .charts-container {
         display: flex;
         justify-content: center;

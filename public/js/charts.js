@@ -86,12 +86,24 @@ function createPieChartConfig() {
         },
 
         options: {
+            layout: {
+                padding: {
+                    top: 10,
+                    bottom: 50,
+                    left: 20,
+                    right: 20,
+                },
+            },
+            maintainAspectRatio: true,
+            aspectRatio: 1.01,
             plugins: {
                 legend: {
                     display: true,
+                    labels: {
+                        padding: 10,
+                    },
                 },
                 responsive: true,
-                maintainAspectRatio: false, // Desabilita a manutenção da proporção
                 datalabels: {
                     color: "#000", // A cor branca pode ser mais visível dentro das fatias
                     formatter: (value, context) => {
@@ -100,9 +112,7 @@ function createPieChartConfig() {
                                 (a, b) => a + b,
                                 0
                             );
-                        const percentage = ((value / totalVotes) * 100).toFixed(
-                            1
-                        );
+                        const percentage = ((value / totalVotes) * 100).toFixed();
                         return `${value}\n(${percentage}%)`;
                     },
                     font: {
@@ -110,10 +120,9 @@ function createPieChartConfig() {
                         size: 14,
                         lineHeight: 1.2,
                     },
-                    anchor: "center", // Coloca o texto no centro da fatia
-                    align: "center", // Alinha o texto no centro
-                    clip: false, // Permite que o texto seja exibido fora dos limites da fatia se necessário
-                    padding: 0, // Remove o padding para evitar o recuo
+                    anchor: "end",
+                    align: "end",
+                    offset: -10,
                 },
             },
         },
@@ -162,7 +171,7 @@ function createBarChartConfig(label) {
                         const percentage = ((value / totalVotes) * 100).toFixed(
                             1
                         );
-                        return `${value}\n(${percentage}%)`;
+                        return `${value}`;
                     },
                     font: {
                         weight: "bold",
@@ -475,20 +484,31 @@ function updateChart(filter, data, chartInstance) {
         toggleChartVisibility("barchart-escolas", false);
         toggleChartVisibility("barchart-regioes", false);
 
-    } else {
+    } else if (filter === "partidos") {
+        // Atualizar apenas o gráfico de partidos
+        updateChartInstance(chartInstance, data, filter);
 
-        if (filter === "bairros") {
-            updateChartInstance(chartInstance, data, filter);
-            toggleChartVisibility(chartInstance.canvas.id, true);
-        } else if (filter === "partidos") {
-            updateChartInstance(chartInstance, data, filter);
-            toggleChartVisibility(chartInstance.canvas.id, true);
-        } else if (filter === "localidades") {
-            updateChartInstance(chartInstance, data, filter);
-            toggleChartVisibility(chartInstance.canvas.id, true);
-        } else if (filter === "regioes") {
-            updateChartInstance(chartInstance, data, filter);
-            toggleChartVisibility(chartInstance.canvas.id, true);
-        }
+        // Mostrar apenas o gráfico de partidos
+        toggleChartVisibility(chartInstance.canvas.id, true);
+
+        // Ocultar os gráficos de prefeitos e vereadores
+        toggleChartVisibility(window.chartInstancePrefeitos.canvas.id, false);
+        toggleChartVisibility(window.chartInstanceVereadores.canvas.id, true);
+
+        // Ocultar outros gráficos que não são relevantes para o filtro "partidos"
+        toggleChartVisibility("barchart-bairros", false);
+        toggleChartVisibility("barchart-escolas", false);
+        toggleChartVisibility("barchart-regioes", false);
+
+    } else if (filter === "bairros") {
+        updateChartInstance(chartInstance, data, filter);
+        toggleChartVisibility(chartInstance.canvas.id, true);
+    } else if (filter === "localidades") {
+        updateChartInstance(chartInstance, data, filter);
+        toggleChartVisibility(chartInstance.canvas.id, true);
+    } else if (filter === "regioes") {
+        updateChartInstance(chartInstance, data, filter);
+        toggleChartVisibility(chartInstance.canvas.id, true);
     }
+
 }
