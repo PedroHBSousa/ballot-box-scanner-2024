@@ -15,6 +15,7 @@ Route::get('/enter-manually', [InsertController::class, 'insert'])->name('insert
 Route::get('/enter-manually/search', [InsertController::class, 'getSecao'])->name('getSecao');
 Route::get('/enter-manually/{vereadorId}', [InsertController::class, 'getVereador'])->name('getVereador');
 Route::post('/enter-manually/data', [InsertController::class, 'insertdata'])->name('insert.data');
+Route::get('/enter-manually/secoes-restantes', [InsertController::class, 'getSecoesRestantes'])->name('getSecoesRestantes');
 
 Route::get('/data/{filter}', [DataController::class, 'getData'])->name('getData');
 

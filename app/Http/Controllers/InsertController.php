@@ -47,6 +47,31 @@ class InsertController extends Controller
         return view('insert', compact('secao', 'candidatos'));
     }
 
+    public function getSecoesRestantes()
+    {
+        try {
+            // Obter IDs das seções que já estão na tabela boletins
+            $secoesBoletim = Boletim::pluck('secao_id')->toArray();
+            dd($secoesBoletim);
+
+            // Obter seções que ainda não estão no boletim
+            // $secoesRestantes = Secao::whereNotIn('id', $secoesBoletim)
+            //     ->with('localidade')
+            //     ->get();
+
+            dd($secoesRestantes);
+            return response()->json([
+                'success' => true,
+                'secoesRestantes' => $secoesBoletim,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function getVereador($vereadorId)
     {
         $candidato = Candidato::where('cargo_id', 13)->where('id', $vereadorId)->first();

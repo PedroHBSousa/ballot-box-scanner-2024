@@ -94,7 +94,7 @@ function createPieChartConfig() {
                     right: 20,
                 },
             },
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
             aspectRatio: 1.01,
             plugins: {
                 legend: {

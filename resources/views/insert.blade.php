@@ -17,13 +17,17 @@
     <header>
         <h1>SÃO SEBASTIÃO</h1>
         <div class="container-image">
-
             <img id="felipe" src="{{ Vite::asset('resources/img/Felipe.png') }}">
             <img id="reis" src="{{ Vite::asset('resources/img/Reis.png') }}">
             <img id="reinaldinho" src="{{ Vite::asset('resources/img/Reinaldinho.png') }}">
         </div>
     </header>
-
+    <div class="sections-panel">
+        <button class="sections-panel-button">Visualizar Seções Restantes</button>
+        <div class="sections-info" style="display: none;">
+            <ul id="secoesRestantes"></ul>
+        </div>
+    </div>
     <div class="container">
         <h1 class="form-title">Insira os dados abaixo</h1>
         <div class="form-container">
@@ -191,7 +195,41 @@
         }
 
         // Adiciona um evento para calcular os faltantes quando o valor do campo de comparecimento mudar
-        compInput.addEventListener('input', calcularFaltantes);
+        if (compInput && aptoInput && faltInput) {
+            compInput.addEventListener('input', calcularFaltantes);
+        }
+
+        document.querySelector('.sections-panel-button').addEventListener('click', function() {
+            const sectionsInfo = document.querySelector('.sections-info');
+
+            if (sectionsInfo.style.display === 'none') {
+                // Mostrar e buscar dados via AJAX
+                fetch('/enter-manually/secoes-restantes')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success === false) {
+                            console.error('Erro no servidor:', data.message || 'Erro desconhecido');
+                            document.getElementById('secoesRestantes').innerHTML =
+                                'Não foi possível carregar as seções restantes.';
+                        } else {
+                            let secaoList = '';
+                            data.secoesRestantes.forEach(secao => {
+                                secaoList +=
+                                    `<li>Seção: ${secao.id} - Localidade: ${secao.localidade.nome}</li>`;
+                            });
+                            document.getElementById('secoesRestantes').innerHTML = secaoList;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar as seções restantes:', error);
+                        document.getElementById('secoesRestantes').innerHTML =
+                            'Erro ao buscar as seções restantes.';
+                    });
+                sectionsInfo.style.display = 'block';
+            } else {
+                sectionsInfo.style.display = 'none';
+            }
+        });
     </script>
 </body>
 <footer>
