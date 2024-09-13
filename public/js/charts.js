@@ -151,8 +151,9 @@ function createBarChartConfig(label) {
             ],
         },
         options: {
+            indexAxis: 'y',
             scales: {
-                y: {
+                x: {
                     beginAtZero: true,
                 },
             },
