@@ -228,6 +228,30 @@
         </div>
     </div>
 
+    <!-- <div class="search-container">
+        <div class="search">
+            <h2>Busque o vereador</h2>
+            <form id="search-form" class="form">
+                @csrf
+                <input class="input-search-vereador" type="number" id="search" name="search" placeholder="Digite o número do vereador">
+                <button class="button-submit-vereador" type="submit">Buscar</button>
+            </form>
+
+            <div id="response-message"></div>
+            <div id="vereador-info" style="display: none;">
+                <div class="items-buscar-vereador">
+                    <h4><span>Número: </span><span id="vereador-id"></span></h4>
+                    <h4><span>Nome: </span><span id="vereador-nome"></span></h4>
+                    <h4><span>Partido: </span><span id="vereador-partido"></span></h4>
+                    <h4><span>Total de votos: </span><span id="vereador-votos"></span></h4>
+                </div>
+                <h4>Seções em que foi votado:</h4>
+                <ul id="vereador-secoes"></ul>
+            </div>
+        </div>
+    </div> -->
+
+
     <footer>
         <h1>Juntos é possível!</h1>
     </footer>

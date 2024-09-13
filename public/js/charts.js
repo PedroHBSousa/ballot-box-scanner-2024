@@ -151,8 +151,9 @@ function createBarChartConfig(label) {
             ],
         },
         options: {
+            indexAxis: 'y',
             scales: {
-                y: {
+                x: {
                     beginAtZero: true,
                 },
             },
@@ -512,3 +513,45 @@ function updateChart(filter, data, chartInstance) {
     }
 
 }
+
+// document.getElementById('search-form').addEventListener('submit', function (e) {
+//     e.preventDefault(); // Previne o envio padrão do formulário
+
+//     const searchValue = document.getElementById('search').value;
+//     const csrfToken = document.querySelector('input[name="_token"]').value;
+
+//     fetch('/buscar.vereador', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'X-CSRF-TOKEN': csrfToken
+//         },
+//         body: JSON.stringify({ search: searchValue })
+//     })
+//         .then(response => response.json())
+//         .then(data => {
+//             if (data.error) {
+//                 document.getElementById('response-message').innerText = data.error;
+//                 document.getElementById('vereador-info').style.display = 'none';
+//             } else {
+//                 document.getElementById('response-message').innerText = '';
+//                 document.getElementById('vereador-info').style.display = 'block';
+//                 document.getElementById('vereador-id').innerText = data.id;
+//                 document.getElementById('vereador-nome').innerText = data.nome;
+//                 document.getElementById('vereador-partido').innerText = data.partido;
+//                 document.getElementById('vereador-votos').innerText = data.quantidade_votos;
+
+//                 const secoesList = document.getElementById('vereador-secoes');
+//                 secoesList.innerHTML = ''; // Limpa a lista existente
+//                 data.secoes.forEach(secao => {
+//                     const li = document.createElement('li');
+//                     li.innerText = `Seção ID: ${secao.id}`;
+//                     secoesList.appendChild(li);
+//                 });
+//             }
+//         })
+//         .catch(error => {
+//             document.getElementById('response-message').innerText = `Erro: ${error.message}`;
+//             document.getElementById('vereador-info').style.display = 'none';
+//         });
+// });
