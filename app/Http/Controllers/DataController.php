@@ -75,17 +75,30 @@ class DataController extends Controller
 
 
         $ultimaAtualizacao = Voto::latest()->first()->updated_at ?? Carbon::now();
-        return view('dashboard',
-         compact('nominais',
-          'brancos', 'nulos',
-           'porcentagemNominais', 'porcentagemNulos',
-            'porcentagemBrancos', 'ultimaAtualizacao',
-             'nominaisVereador', 'brancosVereador',
-              'nulosVereador', 'porcentagemNominaisVereador',
-               'porcentagemNulosVereador', 'porcentagemBrancosVereador',
-                'totalApurados', 'totalFaltantes',
-                 'restanteApurar',  'percentApurados',
-                  'percentFaltantes', 'percentRestante'));
+        return view(
+            'dashboard',
+            compact(
+                'nominais',
+                'brancos',
+                'nulos',
+                'porcentagemNominais',
+                'porcentagemNulos',
+                'porcentagemBrancos',
+                'ultimaAtualizacao',
+                'nominaisVereador',
+                'brancosVereador',
+                'nulosVereador',
+                'porcentagemNominaisVereador',
+                'porcentagemNulosVereador',
+                'porcentagemBrancosVereador',
+                'totalApurados',
+                'totalFaltantes',
+                'restanteApurar',
+                'percentApurados',
+                'percentFaltantes',
+                'percentRestante'
+            )
+        );
     }
 
     public function getData($filter)
@@ -137,7 +150,7 @@ class DataController extends Controller
                         ->where('candidatos.cargo_id', 13) // Cargo para vereadores
                         ->groupBy('candidatos.nome')
                         ->orderBy('total', 'desc')
-                        ->limit(10)
+                        ->limit(12)
                         ->get();
 
                     $data = [
@@ -162,7 +175,7 @@ class DataController extends Controller
                         ->where('candidatos.cargo_id', 13) // Cargo para vereadores.
                         ->groupBy('candidatos.nome')
                         ->orderBy('total', 'desc')
-                        ->limit(10)
+                        ->limit(12)
                         ->get();
                     break;
 
@@ -220,7 +233,7 @@ class DataController extends Controller
                 ->where('candidatos.cargo_id', 13) // Cargo para vereadores
                 ->groupBy('candidatos.nome')
                 ->orderBy('total', 'desc')
-                ->limit(10)
+                ->limit(12)
                 ->get();
 
             return response()->json([
@@ -274,7 +287,7 @@ class DataController extends Controller
                 ->where('candidatos.cargo_id', 13) // Cargo para vereadores
                 ->groupBy('candidatos.nome')
                 ->orderBy('total', 'desc')
-                ->limit(10)
+                ->limit(12)
                 ->get();
 
             // Retorna ambos os conjuntos de dados
@@ -326,7 +339,7 @@ class DataController extends Controller
                 ->where('candidatos.cargo_id', 13) // Cargo para vereadores
                 ->groupBy('candidatos.nome')
                 ->orderBy('total', 'desc')
-                ->limit(10)
+                ->limit(12)
                 ->get();
 
             // Retorna ambos os conjuntos de dados
@@ -345,7 +358,6 @@ class DataController extends Controller
         try {
             $regiao = DB::table('localidades')->distinct()->pluck('regiao');
             return response()->json($regiao->toArray());
-
         } catch (\Exception $e) {
             Log::error('Erro ao buscar regiões: ' . $e->getMessage());
             return response()->json(['error' => 'Erro ao buscar regiões'], 500);
@@ -379,4 +391,30 @@ class DataController extends Controller
 
         return view('dashboard');
     }
+
+    // public function getVereador(Request $request)
+    // {
+    //     $request->validate([
+    //         'search' => 'required|numeric'
+    //     ]);
+
+    //     $vereadorId = $request->input('search');
+
+    //     // Suponha que você tenha um modelo Vereador e uma relação com Secao
+    //     $vereador = Candidato::with('secoes')->find($vereadorId);
+
+    //     if (!$vereador) {
+    //         return response()->json(['error' => 'Vereador não encontrado'], 404);
+    //     }
+
+    //     $data = [
+    //         'id' => $vereador->id,
+    //         'nome' => $vereador->nome,
+    //         'partido' => $vereador->partido,
+    //         'quantidade_votos' => $vereador->quantidade_votos,
+    //         'secoes' => $vereador->secoes
+    //     ];
+
+    //     return response()->json($data);
+    // }
 }
