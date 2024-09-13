@@ -16,37 +16,66 @@ class DataController extends Controller
 {
     public function dashboard()
     {
-        // $totalPrevisto = 64437;
-
-
         $totalPrevisto = DB::table('votos')
-            ->where('cargo_id', 11) // Cargo para prefeitos
+            ->where('cargo_id', 11)
             ->count();
-
-        // Contagem de votos nominais, nulos e brancos para o cargo de prefeito (id = 11)
         $nominais = DB::table('votos')
             ->where('cargo_id', 11)
-            ->whereNotNull('candidato_id') // Votos nominais têm candidato_id
+            ->whereNotNull('candidato_id')
             ->count();
-
         $nulos = DB::table('votos')
             ->where('cargo_id', 11)
-            ->where('nulo', 'sim') // Supondo que "nulo" seja marcado com '1'
+            ->where('nulo', 'sim')
             ->count();
-
         $brancos = DB::table('votos')
             ->where('cargo_id', 11)
-            ->where('branco', 'sim') // Supondo que "branco" seja marcado com '1'
+            ->where('branco', 'sim')
+            ->count();
+        // ------------------------------------------------------------------------------------------------------
+        $totalPrevistoVereador = DB::table('votos')
+            ->where('cargo_id', 13)
+            ->count();
+        $nominaisVereador = DB::table('votos')
+            ->where('cargo_id', 13)
+            ->whereNotNull('candidato_id')
+            ->count();
+        $nulosVereador = DB::table('votos')
+            ->where('cargo_id', 13)
+            ->where('nulo', 'sim')
+            ->count();
+        $brancosVereador = DB::table('votos')
+            ->where('cargo_id', 13)
+            ->where('branco', 'sim')
             ->count();
 
         // Calcular porcentagens
-        $porcentagemNominais = ($nominais / $totalPrevisto) * 100;
-        $porcentagemNulos = ($nulos / $totalPrevisto) * 100;
-        $porcentagemBrancos = ($brancos / $totalPrevisto) * 100;
+        $porcentagemNominais = $totalPrevisto > 0 ? ($nominais / $totalPrevisto) * 100 : 0;
+        $porcentagemNulos =  $totalPrevisto > 0 ? ($nulos / $totalPrevisto) * 100 : 0;
+        $porcentagemBrancos =  $totalPrevisto > 0 ? ($brancos / $totalPrevisto) * 100 : 0;
+
+        $porcentagemNominaisVereador = $totalPrevistoVereador > 0 ? ($nominaisVereador / $totalPrevistoVereador) * 100 : 0;
+        $porcentagemNulosVereador =  $totalPrevistoVereador > 0 ? ($nulosVereador / $totalPrevistoVereador) * 100 : 0;
+        $porcentagemBrancosVereador =  $totalPrevistoVereador > 0 ? ($brancosVereador / $totalPrevistoVereador) * 100 : 0;
+
+        // -------------------------------------------------------------------------------------------------------------
+        // Total de votos apurados (nominais, nulos, brancos)
+        $totalApurados = DB::table('votos')
+            ->count();
+
+        // Total de pessoas que faltaram (somar o campo 'falt' e multiplicar por 2)
+        $totalFaltantes = DB::table('boletins')
+            ->sum('falt') * 2;
+
+        $totalDeVotosPrevistos = 128874;
+        $restanteApurar = $totalDeVotosPrevistos - ($totalApurados + $totalFaltantes);
+
+        $percentApurados = ($totalApurados / $totalDeVotosPrevistos) * 100;
+        $percentFaltantes = ($totalFaltantes / $totalDeVotosPrevistos) * 100;
+        $percentRestante = ($restanteApurar / $totalDeVotosPrevistos) * 100;
+
 
         $ultimaAtualizacao = Voto::latest()->first()->updated_at ?? Carbon::now();
-
-        return view('dashboard', compact('nominais', 'brancos', 'nulos', 'porcentagemNominais', 'porcentagemNulos', 'porcentagemBrancos', 'ultimaAtualizacao'));
+        return view('dashboard', compact('nominais', 'brancos', 'nulos', 'porcentagemNominais', 'porcentagemNulos', 'porcentagemBrancos', 'ultimaAtualizacao', 'nominaisVereador', 'brancosVereador', 'nulosVereador', 'porcentagemNominaisVereador', 'porcentagemNulosVereador', 'porcentagemBrancosVereador', 'totalApurados', 'totalFaltantes', 'restanteApurar',  'percentApurados', 'percentFaltantes', 'percentRestante'));
     }
 
     public function getData($filter)
