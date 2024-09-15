@@ -366,8 +366,8 @@ class DataController extends Controller
 
     public function getVereador(Request $request)
     {
-        $id = $request->input('search');
-
+        // $id = $request->input('search');
+        $id = $request->query('search');
         if (!$id) {
             return response()->json(['error' => 'Por favor, insira o número do vereador.'], 400);
         }

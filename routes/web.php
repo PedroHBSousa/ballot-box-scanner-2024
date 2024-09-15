@@ -28,4 +28,4 @@ Route::get('/data/localidades/{localidade_id}', [DataController::class, 'getDado
 Route::get('/get-regioes', [DataController::class, 'getRegioes'])->name('getRegioes');
 Route::get('/data/regioes/{regiao}', [DataController::class, 'getDadosRegiao'])->name('getDadosRegiao');
 
-Route::get('/buscar-vereador/{', [DataController::class, 'getVereador'])->name('buscar.vereador');
+Route::get('/buscar-vereador', [DataController::class, 'getVereador'])->name('buscar.vereador');
