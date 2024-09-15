@@ -369,27 +369,36 @@ class DataController extends Controller
         $id = $request->input('search');
 
         if (!$id) {
-            session()->flash('error', 'Por favor, insira o número do vereador.');
-            return redirect()->back(); // Redireciona de volta à página anterior
+            return response()->json(['error' => 'Por favor, insira o número do vereador.'], 400);
         }
 
         $vereador = Candidato::find($id);
 
+        if (!$vereador) {
+            return response()->json(['error' => 'Vereador não encontrado.'], 404);
+        }
+
         $quantidadeVotos = DB::table('votos')->where('candidato_id', $id)->count();
 
+        // Busca as seções com o nome da localidade e contagem de votos por seção
         $secoes = Secao::whereHas('votos', function ($query) use ($id) {
             $query->where('candidato_id', $id);
-        })->get();
+        })
+            ->with('localidade') // Associa a localidade
+            ->withCount(['votos as votos_na_secao' => function ($query) use ($id) {
+                $query->where('candidato_id', $id);
+            }])
+            ->get();
 
-        session()->flash('vereador', [
-            'nome' => $vereador->nome,
-            'id' => $vereador->id,
-            'partido' => $vereador->partido,
-            'quantidade_votos' => $quantidadeVotos
+        return response()->json([
+            'vereador' => [
+                'nome' => $vereador->nome,
+                'id' => $vereador->id,
+                'partido' => $vereador->partido,
+                'quantidade_votos' => $quantidadeVotos
+            ],
+            'secoes' => $secoes
         ]);
-        session()->flash('secoes', $secoes);
-
-        return view('dashboard');
     }
 
     // public function getVereador(Request $request)

@@ -10,6 +10,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     @vite('resources/css/insert.css')
 </head>
 
@@ -22,12 +24,17 @@
             <img id="reinaldinho" src="{{ Vite::asset('resources/img/Reinaldinho.png') }}">
         </div>
     </header>
-    <div class="sections-panel">
-        <button class="sections-panel-button">Visualizar Seções Restantes</button>
-        <div class="sections-info" style="display: none;">
-            <ul id="secoesRestantes"></ul>
+    <div class="sections-panel-container">
+        <div class="sections-panel">
+            <button class="sections-panel-button">Seções restantes <span class="material-symbols-outlined">
+                    arrow_drop_down
+                </span></button>
+            <div class="sections-info" style="display: none;">
+                <ul id="secoesRestantes"></ul>
+            </div>
         </div>
     </div>
+
     <div class="container">
         <h1 class="form-title">Insira os dados abaixo</h1>
         <div class="form-container">
@@ -49,45 +56,52 @@
                     @csrf
                     <input type="hidden" name="secao_id" value="{{ $secao->id }}">
                     <h2>Insira os dados do Boletim</h2>
-                    <div class="form-group">
-                        <label>Aptos</label>
-                        <input type="number" name="apto" id="apto" placeholder="Número de pessoas da seção"
-                            value="{{ $secao->aptos }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>N° de pessoas que compareceram</label>
-                        <input type="number" name="comp" id="comp" placeholder="Número de pessoas que votaram"
-                            required>
-                    </div>
-                    <div class="form-group">
-                        <label>N° de pessoas que faltaram</label>
-                        <input type="number" name="falt" id="falt" placeholder="Número de pessoas que faltaram"
-                            required>
+
+                    <div class="form-group-container">
+                        <div class="form-group">
+                            <label>Aptos</label>
+                            <input type="number" name="apto" id="apto" placeholder="Número de pessoas da seção"
+                                value="{{ $secao->aptos }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>N° de pessoas que compareceram</label>
+                            <input type="number" name="comp" id="comp" placeholder="Número de pessoas que votaram"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label>N° de pessoas que faltaram</label>
+                            <input type="number" name="falt" id="falt" placeholder="Número de pessoas que faltaram"
+                                required>
+                        </div>
                     </div>
 
                     <h2>Digite os votos para prefeito</h2>
-                    @foreach ($candidatos as $candidato)
+                    <div class="form-group-container">
+                        @foreach ($candidatos as $candidato)
+                            <div class="form-group">
+                                <label class="names" for="candidato_{{ $candidato->id }}">{{ $candidato->nome }}</label>
+                                <input type="number" name="votos[{{ $candidato->id }}][quantidade]"
+                                    id="candidato_{{ $candidato->id }}_quantidade" min="0" placeholder="Votos"
+                                    required>
+                                <input type="hidden" name="votos[{{ $candidato->id }}][candidato_id]"
+                                    value="{{ $candidato->id }}">
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="form-group-container">
+                        <!-- Campos para votos em branco e nulos -->
                         <div class="form-group">
-                            <label class="names" for="candidato_{{ $candidato->id }}">{{ $candidato->nome }}</label>
-                            <input type="number" name="votos[{{ $candidato->id }}][quantidade]"
-                                id="candidato_{{ $candidato->id }}_quantidade" min="0" placeholder="Votos" required>
-                            <input type="hidden" name="votos[{{ $candidato->id }}][candidato_id]"
-                                value="{{ $candidato->id }}">
+                            <label for="votos_branco_prefeito">Total de votos branco</label>
+                            <input type="number" id="votos_branco_prefeito" name="votos_branco_prefeito" min="0"
+                                placeholder="Votos branco para prefeito" required>
                         </div>
-                    @endforeach
-
-                    <!-- Campos para votos em branco e nulos -->
-                    <div class="form-group">
-                        <label for="votos_branco_prefeito">Total de votos branco</label>
-                        <input type="number" id="votos_branco_prefeito" name="votos_branco_prefeito" min="0"
-                            placeholder="Votos branco para prefeito" required>
+                        <div class="form-group">
+                            <label for="votos_nulo_prefeito">Total de votos nulo</label>
+                            <input type="number" id="votos_nulo_prefeito" name="votos_nulo_prefeito" min="0"
+                                placeholder="Votos nulos para prefeito" required>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="votos_nulo_prefeito">Total de votos nulo</label>
-                        <input type="number" id="votos_nulo_prefeito" name="votos_nulo_prefeito" min="0"
-                            placeholder="Votos nulos para prefeito" required>
-                    </div>
-
                     <!-- Seção para buscar e adicionar candidato para vereador -->
                     <h2>Adicionar votos para vereador</h2>
                     <div class="form-group" id="vereadors">
@@ -103,18 +117,19 @@
                         <div id="vereador_resultado"></div>
                     </div>
 
-                    <!-- Campos para votos em branco e nulos -->
-                    <div class="form-group">
-                        <label for="votos_branco_vereador">Total de votos branco:</label>
-                        <input type="number" id="votos_branco_vereador" name="votos_branco_vereador" min="0"
-                            placeholder="Votos branco para vereador">
+                    <div class="form-group-container">
+                        <!-- Campos para votos em branco e nulos -->
+                        <div class="form-group">
+                            <label for="votos_branco_vereador">Total de votos branco:</label>
+                            <input type="number" id="votos_branco_vereador" name="votos_branco_vereador" min="0"
+                                placeholder="Votos branco para vereador">
+                        </div>
+                        <div class="form-group">
+                            <label for="votos_nulo_vereador">Total de votos nulo:</label>
+                            <input type="number" id="votos_nulo_vereador" name="votos_nulo_vereador" min="0"
+                                placeholder="Votos nulos para vereador">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="votos_nulo_vereador">Total de votos nulo:</label>
-                        <input type="number" id="votos_nulo_vereador" name="votos_nulo_vereador" min="0"
-                            placeholder="Votos nulos para vereador">
-                    </div>
-
                     <button class="form-submit-btn" type="submit" name="action" value="inserir_votos">Enviar</button>
                 </form>
             @endisset
@@ -160,7 +175,7 @@
                         novoVereador.classList.add('form-group-vereador');
                         novoVereador.innerHTML = `
                         <div style="width:100%">
-                            <label style="text-transform: capitalize;">${candidato.nome}</label>
+                            <label style="text-transform: capitalize;">${candidato.id} - ${candidato.nome}</label>
                             <input type="number" name="votos[${candidato.id}][quantidade]" min="0" placeholder="Votos">
                             <input type="hidden" name="votos[${candidato.id}][candidato_id]" value="${candidato.id}">
                         </div>
@@ -202,31 +217,22 @@
         document.querySelector('.sections-panel-button').addEventListener('click', function() {
             const sectionsInfo = document.querySelector('.sections-info');
 
+            // Toggle display
             if (sectionsInfo.style.display === 'none') {
                 // Mostrar e buscar dados via AJAX
-                fetch('/enter-manually/secoes-restantes')
+                fetch('/secoesrestantes')
                     .then(response => response.json())
                     .then(data => {
-                        if (data.success === false) {
-                            console.error('Erro no servidor:', data.message || 'Erro desconhecido');
-                            document.getElementById('secoesRestantes').innerHTML =
-                                'Não foi possível carregar as seções restantes.';
-                        } else {
-                            let secaoList = '';
-                            data.secoesRestantes.forEach(secao => {
-                                secaoList +=
-                                    `<li>Seção: ${secao.id} - Localidade: ${secao.localidade.nome}</li>`;
-                            });
-                            document.getElementById('secoesRestantes').innerHTML = secaoList;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erro ao buscar as seções restantes:', error);
-                        document.getElementById('secoesRestantes').innerHTML =
-                            'Erro ao buscar as seções restantes.';
+                        let secaoList = '';
+                        data.forEach(secao => {
+                            secaoList +=
+                                `<li>Seção: ${secao.id} - ${secao.localidade.nome}</li>`;
+                        });
+                        document.getElementById('secoesRestantes').innerHTML = secaoList;
                     });
                 sectionsInfo.style.display = 'block';
             } else {
+                // Esconder
                 sectionsInfo.style.display = 'none';
             }
         });

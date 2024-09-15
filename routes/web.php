@@ -15,7 +15,7 @@ Route::get('/enter-manually', [InsertController::class, 'insert'])->name('insert
 Route::get('/enter-manually/search', [InsertController::class, 'getSecao'])->name('getSecao');
 Route::get('/enter-manually/{vereadorId}', [InsertController::class, 'getVereador'])->name('getVereador');
 Route::post('/enter-manually/data', [InsertController::class, 'insertdata'])->name('insert.data');
-Route::get('/enter-manually/secoes-restantes', [InsertController::class, 'getSecoesRestantes'])->name('getSecoesRestantes');
+Route::get('/secoesrestantes', [InsertController::class, 'getSecoesRestantes'])->name('getSecoesRestantes');
 
 Route::get('/data/{filter}', [DataController::class, 'getData'])->name('getData');
 
@@ -28,4 +28,4 @@ Route::get('/data/localidades/{localidade_id}', [DataController::class, 'getDado
 Route::get('/get-regioes', [DataController::class, 'getRegioes'])->name('getRegioes');
 Route::get('/data/regioes/{regiao}', [DataController::class, 'getDadosRegiao'])->name('getDadosRegiao');
 
-Route::get('/buscar-vereador', [DataController::class, 'getVereador'])->name('buscar.vereador');
+Route::get('/buscar-vereador/{', [DataController::class, 'getVereador'])->name('buscar.vereador');

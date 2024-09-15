@@ -179,79 +179,93 @@
                 </div>
                 <canvas id="barchart-regioes" width="400" height="400"></canvas>
             </div>
-
         </div>
     </div>
 
     <div class="search-container">
         <div class="search">
             <h2>Busque o vereador</h2>
-            <form class="form" action="{{ route('buscar.vereador') }}" method="GET">
-                @csrf
+            <form class="form" id="form-buscar-vereador">
                 <input class="input-search-vereador" type="number" id="search" name="search"
                     placeholder="Digite o número do vereador">
                 <button class="button-submit-vereador" type="submit">Buscar</button>
             </form>
 
-            @if (session('error'))
-                <div class="error-message">
-                    {{ session('error') }}
-                </div>
-            @endif
-
-            @if (session('vereador'))
-                @php
-                    $vereador = session('vereador');
-                @endphp
-                <div class="items-buscar-vereador">
-                    <h4><span>Número: </span>{{ $vereador['id'] }}</h4>
-                    <h4><span>Nome: </span>{{ $vereador['nome'] }}</h4>
-                    <h4><span>Partido: </span>{{ $vereador['partido'] }}</h4>
-                    <h4><span>Total de votos: </span>{{ $vereador['quantidade_votos'] }}</h4>
-                </div>
-                @if (session('secoes'))
-                    <h4>Seções em que foi votado:</h4>
-                    <ul>
-                        @foreach (session('secoes') as $secao)
-                            <h4>{{ $secao->id }}</h4>
-                        @endforeach
-                    </ul>
-                @endif
-
-                @php
-                    session()->forget('vereador');
-                    session()->forget('totalVotes');
-                    session()->forget('secoes');
-                @endphp
-            @endif
-
+            <div id="error-message" class="error-message" style="display:none;"></div>
+            <div id="result-container" class="items-buscar-vereador" style="display:none;"></div>
         </div>
     </div>
 
-    <!-- <div class="search-container">
-        <div class="search">
-            <h2>Busque o vereador</h2>
-            <form id="search-form" class="form">
-                @csrf
-                <input class="input-search-vereador" type="number" id="search" name="search" placeholder="Digite o número do vereador">
-                <button class="button-submit-vereador" type="submit">Buscar</button>
-            </form>
+    <script>
+        document.getElementById('form-buscar-vereador').addEventListener('submit', function(e) {
+            e.preventDefault(); // Evita o reload da página
 
-            <div id="response-message"></div>
-            <div id="vereador-info" style="display: none;">
-                <div class="items-buscar-vereador">
-                    <h4><span>Número: </span><span id="vereador-id"></span></h4>
-                    <h4><span>Nome: </span><span id="vereador-nome"></span></h4>
-                    <h4><span>Partido: </span><span id="vereador-partido"></span></h4>
-                    <h4><span>Total de votos: </span><span id="vereador-votos"></span></h4>
+            let search = document.getElementById('search').value;
+            let errorMessage = document.getElementById('error-message');
+            let resultContainer = document.getElementById('result-container');
+
+            errorMessage.style.display = 'none';
+            resultContainer.style.display = 'none';
+
+            fetch(`/buscar-vereador?search=${search}`, {
+                    method: 'GET',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Adiciona o token CSRF para segurança
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        errorMessage.innerText = data.error;
+                        errorMessage.style.display = 'block';
+                    } else {
+                        let secoesList = data.secoes.map(secao => `
+                            <tr>
+                                <th scope="row">${secao.id}</th>
+                                <td>${secao.localidade.nome}</td>
+                                <td>${secao.votos_na_secao}</td>
+                            </tr>
+            `).join('');
+                        resultContainer.innerHTML = `
+                <div class="councilor-information">
+                    <div class="councilor-information-items">
+                         <h4 class="councilor-information-items-title">Número</h4>
+                         <h5 class="councilor-information-items-subtitle">${data.vereador.id}</h5>
+                    </div>
+                    <div class="councilor-information-items">
+                        <h4 class="councilor-information-items-title">Nome</h4>
+                        <h5 class="councilor-information-items-subtitle">${data.vereador.nome}</h5>
+                    </div>
+                    <div class="councilor-information-items">
+                        <h4 class="councilor-information-items-title">Partido</h4>
+                        <h5 class="councilor-information-items-subtitle">${data.vereador.partido}</h5>
+                    </div>
+                    <div class="councilor-information-items">
+                        <h4 class="councilor-information-items-title">Total de votos</h4>
+                        <h5 class="councilor-information-items-subtitle">${data.vereador.quantidade_votos}</h5>
+                    </div>
                 </div>
-                <h4>Seções em que foi votado:</h4>
-                <ul id="vereador-secoes"></ul>
-            </div>
-        </div>
-    </div> -->
-
-
+                <div class="section-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col">Secão</th>
+                                <th scope="col">Escola</th>
+                                <th scope="col">Votos</th>
+                            </tr>
+                        </thead>
+                        ${secoesList}
+                    </table>
+                </div>
+            `;
+                        resultContainer.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                });
+        });
+    </script>
     <footer>
         <h1>Juntos é possível!</h1>
     </footer>
