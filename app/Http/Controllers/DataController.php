@@ -400,30 +400,4 @@ class DataController extends Controller
             'secoes' => $secoes
         ]);
     }
-
-    // public function getVereador(Request $request)
-    // {
-    //     $request->validate([
-    //         'search' => 'required|numeric'
-    //     ]);
-
-    //     $vereadorId = $request->input('search');
-
-    //     // Suponha que você tenha um modelo Vereador e uma relação com Secao
-    //     $vereador = Candidato::with('secoes')->find($vereadorId);
-
-    //     if (!$vereador) {
-    //         return response()->json(['error' => 'Vereador não encontrado'], 404);
-    //     }
-
-    //     $data = [
-    //         'id' => $vereador->id,
-    //         'nome' => $vereador->nome,
-    //         'partido' => $vereador->partido,
-    //         'quantidade_votos' => $vereador->quantidade_votos,
-    //         'secoes' => $vereador->secoes
-    //     ];
-
-    //     return response()->json($data);
-    // }
 }
