@@ -48,6 +48,16 @@ class DataController extends Controller
             ->where('branco', 'sim')
             ->count();
 
+        // Total de seções previstas
+        $totalSecoes = 206;
+
+        // Quantidade de boletins apurados (linhas na tabela 'boletins')
+        $secoesApuradas = DB::table('boletins')->count();
+
+        // Percentual de seções apuradas
+        $percentSecoesApuradas = $secoesApuradas > 0 ? ($secoesApuradas / $totalSecoes) * 100 : 0;
+
+
         // Calcular porcentagens
         $porcentagemNominais = $totalPrevisto > 0 ? ($nominais / $totalPrevisto) * 100 : 0;
         $porcentagemNulos =  $totalPrevisto > 0 ? ($nulos / $totalPrevisto) * 100 : 0;
@@ -96,7 +106,9 @@ class DataController extends Controller
                 'restanteApurar',
                 'percentApurados',
                 'percentFaltantes',
-                'percentRestante'
+                'percentRestante',
+                'secoesApuradas',
+                'percentSecoesApuradas'
             )
         );
     }

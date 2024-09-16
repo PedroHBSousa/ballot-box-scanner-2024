@@ -23,7 +23,8 @@
 <body>
     <header>
         <div class="text-container">
-            <h1>APURAÇÃO ELEITORAL<span>2024</span></h1>
+            <h1>APURAÇÃO ELEITORAL<span>SÃO SEBASTIÃO</span></h1>
+            <h2 class="text-container-title">2024</h2>
         </div>
 
         <div class="container-image">
@@ -138,10 +139,17 @@
                                 </h2>
                             </div>
                             <div class="accountant-items" id="restante">
-                                <h2 class="accountant-type-voto">Restante:</h2>
+                                <h2 class="accountant-type-voto">À apurar:</h2>
                                 <h2 class="accountant-number" id="accountant-number">
                                     {{ number_format($restanteApurar, 0) }}
                                     ({{ number_format($percentRestante, 2) }}%)
+                                </h2>
+                            </div>
+                            <div class="accountant-items" id="secoesApuradas">
+                                <h2 class="accountant-type-voto">Seção apurada:</h2>
+                                <h2 class="accountant-number" id="accountant-number">
+                                    {{ number_format($secoesApuradas, 0) }}
+                                    ({{ number_format($percentSecoesApuradas, 2) }}%)
                                 </h2>
                             </div>
                         </div>
@@ -267,7 +275,7 @@
         });
     </script>
     <footer>
-        <h1>Juntos é possível!</h1>
+        <h1 class="footer-title">Vai ser ainda melhor.</h1>
     </footer>
 </body>
 
