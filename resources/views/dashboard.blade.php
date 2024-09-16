@@ -184,10 +184,10 @@
 
     <div class="search-container">
         <div class="search">
-            <h2>Busque o vereador</h2>
+            <h2>Buscar votos de candidato</h2>
             <form class="form" id="form-buscar-vereador">
                 <input class="input-search-vereador" type="number" id="search" name="search"
-                    placeholder="Digite o número do vereador">
+                    placeholder="Digite o número do candidato">
                 <button class="button-submit-vereador" type="submit">Buscar</button>
             </form>
 
