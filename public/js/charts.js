@@ -126,7 +126,7 @@ function getChartOptions() {
                 },
                 font: {
                     weight: "bold",
-                    size: isMobile ? 10 : 16, // Ajusta o tamanho da fonte no mobile
+                    size: isMobile ? 13 : 16, // Ajusta o tamanho da fonte no mobile
                     lineHeight: 1,
                 },
                 anchor: "end",
