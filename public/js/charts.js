@@ -63,7 +63,7 @@ function initializeCharts() {
     );
 }
 
-// Configuração do gráfico de pizza
+// Função para criar a configuração do gráfico de pizza
 function createPieChartConfig() {
     return {
         type: "pie",
@@ -84,50 +84,73 @@ function createPieChartConfig() {
                 },
             ],
         },
+        options: getChartOptions(), // Usando uma função para definir as opções
+    };
+}
 
-        options: {
-            layout: {
-                padding: {
-                    top: 10,
-                    bottom: 50,
-                    left: 20,
-                    right: 20,
+// Função para obter as opções do gráfico com base no tamanho da tela
+function getChartOptions() {
+    const isMobile = window.innerWidth <= 440; // Verifica se a tela é mobile (menor que 768px)
+    
+    return {
+        layout: {
+            padding: {
+                top: isMobile ? 10 : -10,
+                bottom: isMobile ? 10 : 20,
+                left: isMobile ? 10 : 20,
+                right: isMobile ? 10 : 20,
+            },
+        },
+        maintainAspectRatio: false,
+        aspectRatio: isMobile ? 1 : 1.05, // Ajuste a proporção para mobile
+        plugins: {
+            legend: {
+                display: true,
+                labels: {
+                    padding: isMobile ? 5 : 10,
+                    font: {
+                        
+                        size: isMobile ? 12 : 15, // Ajusta o tamanho da fonte no mobile
+                    },
                 },
             },
-            maintainAspectRatio: false,
-            aspectRatio: 1.01,
-            plugins: {
-                legend: {
-                    display: true,
-                    labels: {
-                        padding: 10,
-                    },
+            datalabels: {
+                color: "#000",
+                formatter: (value, context) => {
+                    const totalVotes = context.chart.data.datasets[0].data.reduce(
+                        (a, b) => a + b,
+                        0
+                    );
+                    const percentage = ((value / totalVotes) * 100).toFixed();
+                    return `${value}\n(${percentage}%)`;
                 },
-                responsive: true,
-                datalabels: {
-                    color: "#000", // A cor branca pode ser mais visível dentro das fatias
-                    formatter: (value, context) => {
-                        const totalVotes =
-                            context.chart.data.datasets[0].data.reduce(
-                                (a, b) => a + b,
-                                0
-                            );
-                        const percentage = ((value / totalVotes) * 100).toFixed();
-                        return `${value}\n(${percentage}%)`;
-                    },
-                    font: {
-                        weight: "bold",
-                        size: 14,
-                        lineHeight: 1.2,
-                    },
-                    anchor: "end",
-                    align: "end",
-                    offset: -10,
+                font: {
+                    weight: "bold",
+                    size: isMobile ? 10 : 16, // Ajusta o tamanho da fonte no mobile
+                    lineHeight: 1,
                 },
+                anchor: "end",
+                align: "end",
+                offset: isMobile ? -5 : -15, // Ajusta o offset no mobile
             },
         },
     };
 }
+
+// Função para redimensionar o gráfico com base no tamanho da tela
+function resizeChart(chart) {
+    chart.options = getChartOptions(); // Atualiza as opções do gráfico
+    chart.update(); // Redesenha o gráfico com as novas configurações
+}
+
+// Exemplo de inicialização do gráfico
+const ctx = document.getElementById("myChart").getContext("2d");
+let pieChart = new Chart(ctx, createPieChartConfig());
+
+// Listener para redimensionamento da janela
+window.addEventListener("resize", () => resizeChart(pieChart));
+
+
 
 // Configuração do gráfico de barras
 function createBarChartConfig(label) {
@@ -147,6 +170,7 @@ function createBarChartConfig(label) {
                     ],
                     borderColor: ["#FFF", "#FFF", "#FFF", "#FFF", "#FFF"],
                     borderWidth: 2,
+                    
                 },
             ],
         },
@@ -180,7 +204,7 @@ function createBarChartConfig(label) {
                     },
                     anchor: "end", // Posiciona o texto no final da barra
                     align: "start", // Alinha o texto dentro da barra
-                    clip: false, // Permite que o texto ultrapasse a borda da barra
+                    clip: true, // Permite que o texto ultrapasse a borda da barra
                     padding: 0, // Remove o padding para centralizar o texto dentro da barra
                 },
             },
