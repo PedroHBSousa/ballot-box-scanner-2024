@@ -84,14 +84,26 @@ function createPieChartConfig() {
                 },
             ],
         },
-        options: getChartOptions(), // Usando uma função para definir as opções
+        options: {
+            ...getChartOptions(), // Usa a função para definir outras opções
+            plugins: {
+                ...getChartOptions().plugins,
+                title: {
+                    display: true,
+                    text: '', // O texto do título será definido pela função updateChartInstance
+                    font: {
+                        size: 16,
+                    },
+                },
+            },
+        },
     };
 }
 
 // Função para obter as opções do gráfico com base no tamanho da tela
 function getChartOptions() {
     const isMobile = window.innerWidth <= 440; // Verifica se a tela é mobile (menor que 768px)
-    
+
     return {
         layout: {
             padding: {
@@ -109,7 +121,7 @@ function getChartOptions() {
                 labels: {
                     padding: isMobile ? 5 : 10,
                     font: {
-                        
+
                         size: isMobile ? 12 : 15, // Ajusta o tamanho da fonte no mobile
                     },
                 },
@@ -170,7 +182,7 @@ function createBarChartConfig(label) {
                     ],
                     borderColor: ["#FFF", "#FFF", "#FFF", "#FFF", "#FFF"],
                     borderWidth: 2,
-                    
+
                 },
             ],
         },
@@ -184,6 +196,13 @@ function createBarChartConfig(label) {
             plugins: {
                 legend: {
                     display: false,
+                },
+                title: {
+                    display: true,
+                    text: label, // Atualiza o título com base na configuração fornecida
+                    font: {
+                        size: 16,
+                    },
                 },
                 datalabels: {
                     color: "#000", // Branco para contraste com as barras
@@ -378,6 +397,7 @@ function hideAllSubfilters() {
 
 function handleBairroSubfilterChange(event) {
     const selectedBairroId = event.target.value;
+    const selectedBairroName = event.target.options[event.target.selectedIndex].text.trim();
     console.log("Selected Bairro ID:", selectedBairroId);
 
     if (selectedBairroId) {
@@ -387,10 +407,10 @@ function handleBairroSubfilterChange(event) {
                 const data = response.data;
 
                 // Atualiza o gráfico de prefeitos
-                updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos');
+                updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos', selectedBairroName);
 
                 // Atualiza o gráfico de vereadores
-                updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores');
+                updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores', selectedBairroName);
             })
             .catch((error) => {
                 console.error("Erro ao buscar dados para o bairro:", error);
@@ -401,6 +421,7 @@ function handleBairroSubfilterChange(event) {
 }
 function handleEscolaSubfilterChange(event) {
     const selectedLocalidadeId = event.target.value;
+    const selectedLocalidadeName = event.target.options[event.target.selectedIndex].text.trim();
     console.log("Selected Localidade ID:", selectedLocalidadeId);
 
     if (selectedLocalidadeId) {
@@ -409,11 +430,11 @@ function handleEscolaSubfilterChange(event) {
             .then((response) => {
                 const data = response.data;
 
-                // Atualiza o gráfico de prefeitos
-                updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos');
+                // Atualiza o gráfico de prefeitos, passando o nome da escola como título
+                updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos', selectedLocalidadeName);
 
-                // Atualiza o gráfico de vereadores
-                updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores');
+                // Atualiza o gráfico de vereadores, passando o nome da escola como título
+                updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores', selectedLocalidadeName);
             })
             .catch((error) => {
                 console.error("Erro ao buscar votos para a escola:", error);
@@ -424,6 +445,7 @@ function handleEscolaSubfilterChange(event) {
 }
 function handleRegioesSubfilterChange(event) {
     const selectedRegiao = event.target.value;
+    const selectedRegiaoName = event.target.options[event.target.selectedIndex].text.trim();
     console.log("Selected Região:", selectedRegiao);
 
     if (selectedRegiao) {
@@ -433,10 +455,10 @@ function handleRegioesSubfilterChange(event) {
                 const data = response.data;
 
                 // Atualiza o gráfico de prefeitos
-                updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos');
+                updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos', selectedRegiaoName);
 
                 // Atualiza o gráfico de vereadores
-                updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores');
+                updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores', selectedRegiaoName);
             })
             .catch((error) => {
                 console.error("Erro ao buscar votos para a região:", error);
@@ -446,8 +468,15 @@ function handleRegioesSubfilterChange(event) {
     }
 }
 
-function updateChartInstance(chartInstance, data, filter) {
-    console.log(data); // Isso irá verificar os dados no console
+function updateChartInstance(chartInstance, data, filter, subfilterName = '') {
+    console.log(data); // Verifica os dados no console
+
+    // Atualizar o título com o nome do subfiltro (escola)
+    const titleText = subfilterName || ''; // Mostra o subfiltro ou uma mensagem padrão se não houver subfiltro
+
+    if (chartInstance.options.plugins && chartInstance.options.plugins.title) {
+        chartInstance.options.plugins.title.text = titleText;
+    }
 
     // Verifica se os dados estão disponíveis
     if (!Array.isArray(data) || data.length === 0) {
@@ -457,21 +486,11 @@ function updateChartInstance(chartInstance, data, filter) {
     } else {
         // Atualiza os dados do gráfico com base no filtro
         if (filter === "partidos") {
-            // Para partidos, usa a propriedade 'partido'
-            chartInstance.data.labels = data.map(
-                (item) => item.partido || "Indefinido"
-            );
-            chartInstance.data.datasets[0].data = data.map(
-                (item) => item.total || 0
-            );
+            chartInstance.data.labels = data.map(item => item.partido || "Indefinido");
+            chartInstance.data.datasets[0].data = data.map(item => item.total || 0);
         } else if (filter === "prefeitos" || filter === "vereadores") {
-            // Para prefeitos e vereadores, usa a propriedade 'nome'
-            chartInstance.data.labels = data.map(
-                (item) => item.nome || "Indefinido"
-            );
-            chartInstance.data.datasets[0].data = data.map(
-                (item) => item.total || 0
-            );
+            chartInstance.data.labels = data.map(item => item.nome || "Indefinido");
+            chartInstance.data.datasets[0].data = data.map(item => item.total || 0);
         } else {
             console.error("Filtro não reconhecido:", filter);
             return;
@@ -481,6 +500,7 @@ function updateChartInstance(chartInstance, data, filter) {
     // Atualiza o gráfico com os novos dados
     chartInstance.update();
 }
+
 
 function updateChart(filter, data, chartInstance) {
     function toggleChartVisibility(chartId, shouldShow) {
@@ -537,45 +557,3 @@ function updateChart(filter, data, chartInstance) {
     }
 
 }
-
-// document.getElementById('search-form').addEventListener('submit', function (e) {
-//     e.preventDefault(); // Previne o envio padrão do formulário
-
-//     const searchValue = document.getElementById('search').value;
-//     const csrfToken = document.querySelector('input[name="_token"]').value;
-
-//     fetch('/buscar.vereador', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'X-CSRF-TOKEN': csrfToken
-//         },
-//         body: JSON.stringify({ search: searchValue })
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.error) {
-//                 document.getElementById('response-message').innerText = data.error;
-//                 document.getElementById('vereador-info').style.display = 'none';
-//             } else {
-//                 document.getElementById('response-message').innerText = '';
-//                 document.getElementById('vereador-info').style.display = 'block';
-//                 document.getElementById('vereador-id').innerText = data.id;
-//                 document.getElementById('vereador-nome').innerText = data.nome;
-//                 document.getElementById('vereador-partido').innerText = data.partido;
-//                 document.getElementById('vereador-votos').innerText = data.quantidade_votos;
-
-//                 const secoesList = document.getElementById('vereador-secoes');
-//                 secoesList.innerHTML = ''; // Limpa a lista existente
-//                 data.secoes.forEach(secao => {
-//                     const li = document.createElement('li');
-//                     li.innerText = `Seção ID: ${secao.id}`;
-//                     secoesList.appendChild(li);
-//                 });
-//             }
-//         })
-//         .catch(error => {
-//             document.getElementById('response-message').innerText = `Erro: ${error.message}`;
-//             document.getElementById('vereador-info').style.display = 'none';
-//         });
-// });
