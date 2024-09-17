@@ -64,12 +64,12 @@
                                 value="{{ $secao->aptos }}" required>
                         </div>
                         <div class="form-group">
-                            <label>N° de pessoas que compareceram</label>
+                            <label>N° de eleitores que compareceram</label>
                             <input type="number" name="comp" id="comp" placeholder="Número de pessoas que votaram"
                                 required>
                         </div>
                         <div class="form-group">
-                            <label>N° de pessoas que faltaram</label>
+                            <label>N° de eleitores que faltaram</label>
                             <input type="number" name="falt" id="falt" placeholder="Número de pessoas que faltaram"
                                 required>
                         </div>
@@ -176,7 +176,7 @@
                         novoVereador.innerHTML = `
                         <div style="width:100%">
                             <label style="text-transform: capitalize;">${candidato.id} - ${candidato.nome}</label>
-                            <input type="number" name="votos[${candidato.id}][quantidade]" min="0" placeholder="Votos">
+                            <input type="number" name="votos[${candidato.id}][quantidade]" min="0" placeholder="Votos" required>
                             <input type="hidden" name="votos[${candidato.id}][candidato_id]" value="${candidato.id}">
                         </div>
                             <button class="button-delete" onclick="removerVereador(this)">X</button>

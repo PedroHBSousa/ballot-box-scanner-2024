@@ -69,14 +69,13 @@ class DataController extends Controller
 
         // -------------------------------------------------------------------------------------------------------------
         // Total de votos apurados (nominais, nulos, brancos)
-        $totalApurados = DB::table('votos')
-            ->count();
+        $totalApurados = DB::table('boletins')
+            ->sum('comp');
 
-        // Total de pessoas que faltaram (somar o campo 'falt' e multiplicar por 2)
         $totalFaltantes = DB::table('boletins')
-            ->sum('falt') * 2;
+            ->sum('falt');
 
-        $totalDeVotosPrevistos = 128874;
+        $totalDeVotosPrevistos = 64437;
         $restanteApurar = $totalDeVotosPrevistos - ($totalApurados + $totalFaltantes);
 
         $percentApurados = ($totalApurados / $totalDeVotosPrevistos) * 100;

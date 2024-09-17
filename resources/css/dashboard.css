@@ -118,6 +118,7 @@ footer{
 .accountant-numbers-title {
     font-size: 18px;
     font-weight: 600;
+    margin-bottom: 10px;
 }
 .accountant-text h1 {
     font-size: 22px;
@@ -134,10 +135,13 @@ footer{
 }
 .accountant-numbers {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
+
     margin-bottom: 20px;
     gap: 1rem;
     flex-wrap: wrap;
+    width: 100%;
 }
 #secoesApuradas {
     background-color: #b068f3;
@@ -154,12 +158,17 @@ footer{
 #abstencao {
     background-color: #f53b57;
 }
+.teste-dois{
+
+    width: 600px;
+}
 .accountant-items {
     display: flex;
     gap: 0.5rem;
     background-color: #6da9f7;
     border-radius: 5px;
     padding: 0.5rem;
+    width: 350px;
 }
 .last-update-title {
     font-size: 15px;
@@ -174,9 +183,12 @@ footer{
 }
 .teste {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
-    gap: 2rem;
+    align-items: center;
+    width: 1140px;
+    /* max-width: 350px; */
+    /* gap: 2rem; */
 }
 
 /* -------------------------- INICIO DO SUB-FILTROS -------------------------- */
