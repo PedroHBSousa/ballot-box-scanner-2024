@@ -563,6 +563,27 @@ table {
     max-width: 100%; /* Garante que o texto se ajuste ao tamanho do item */
 }
 
+.autocomplete-items {
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.autocomplete-items div:hover {
+    background-color: #ddd;
+}
+
 /* -------------------------- FIM DO BUSQUE VEREADOR -------------------------- */
 
 /* -------------------------- INICIO DA RESPONSIVIDADE MOBILE -------------------------- */

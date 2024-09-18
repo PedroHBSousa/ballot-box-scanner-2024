@@ -76,7 +76,8 @@
                     <div class="painel-header">
                         <h1 class="painel-header-title">SITUAÇÃO ATUAL DOS VOTOS</h1>
                         <h2 class="last-update-time">Última entrada de dados:
-                            {{ $ultimaAtualizacao->format('H:i:s d/m/Y') }}</h2>
+                            {{ $ultimaAtualizacao->format('H:i:s d/m/Y') }}
+                        </h2>
                     </div>
                     <div class="painel-body">
                         <div class="group-candidato">
@@ -197,85 +198,125 @@
         <div class="search">
             <h2>Buscar votos de candidato</h2>
             <form class="form" id="form-buscar-vereador">
-                <input class="input-search-vereador" type="number" id="search" name="search"
-                    placeholder="Digite o número do candidato">
+                <input class="input-search-vereador" type="text" id="search" name="search"
+                    placeholder="Digite o nome ou número do candidato">
                 <button class="button-submit-vereador" type="submit">Buscar</button>
+                <div id="autocomplete-list" class="autocomplete-items"></div> <!-- Lista de sugestões -->
             </form>
-
             <div id="error-message" class="error-message" style="display:none;"></div>
             <div id="result-container" class="items-buscar-vereador" style="display:none;"></div>
         </div>
     </div>
 
     <script>
-        document.getElementById('form-buscar-vereador').addEventListener('submit', function(e) {
-            e.preventDefault(); // Evita o reload da página
+        // Adiciona o evento de input para o campo de busca
+        document.getElementById('search').addEventListener('input', function() {
+            let search = this.value;
+            let autocompleteList = document.getElementById('autocomplete-list');
+            autocompleteList.innerHTML = ''; // Limpa as sugestões anteriores
 
-            let search = document.getElementById('search').value;
-            let errorMessage = document.getElementById('error-message');
-            let resultContainer = document.getElementById('result-container');
+            if (search.length < 3) { // Evita buscar com menos de 3 caracteres
+                return;
+            }
 
-            errorMessage.style.display = 'none';
-            resultContainer.style.display = 'none';
-
+            // Faz uma requisição para buscar vereadores cujo nome ou número corresponde à busca
             fetch(`/buscar-vereador?search=${search}`, {
                     method: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Adiciona o token CSRF para segurança
-                    },
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
-                        errorMessage.innerText = data.error;
-                        errorMessage.style.display = 'block';
+                        autocompleteList.innerHTML = `<div>${data.error}</div>`;
                     } else {
-                        let secoesList = data.secoes.map(secao => `
-                            <tr>
-                                <th scope="row">${secao.id}</th>
-                                <td>${secao.localidade.nome}</td>
-                                <td>${secao.votos_na_secao}</td>
-                            </tr>
-            `).join('');
-                        resultContainer.innerHTML = `
-                <div class="councilor-information">
-                    <div class="councilor-information-items">
-                         <h4 class="councilor-information-items-title">Número</h4>
-                         <h5 class="councilor-information-items-subtitle">${data.vereador.id}</h5>
-                    </div>
-                    <div class="councilor-information-items">
-                        <h4 class="councilor-information-items-title">Nome</h4>
-                        <h5 class="councilor-information-items-subtitle">${data.vereador.nome}</h5>
-                    </div>
-                    <div class="councilor-information-items">
-                        <h4 class="councilor-information-items-title">Partido</h4>
-                        <h5 class="councilor-information-items-subtitle">${data.vereador.partido}</h5>
-                    </div>
-                    <div class="councilor-information-items">
-                        <h4 class="councilor-information-items-title">Total de votos</h4>
-                        <h5 class="councilor-information-items-subtitle">${data.vereador.quantidade_votos}</h5>
-                    </div>
-                </div>
-                <div class="section-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th scope="col">Secão</th>
-                                <th scope="col">Escola</th>
-                                <th scope="col">Votos</th>
-                            </tr>
-                        </thead>
-                        ${secoesList}
-                    </table>
-                </div>
-            `;
-                        resultContainer.style.display = 'block';
+                        // Exibe a lista de sugestões
+                        data.vereadores.forEach(vereador => {
+                            let item = document.createElement('div');
+                            item.innerHTML = `<strong>${vereador.nome}</strong> (${vereador.partido})`;
+
+                            // Quando o item da lista for clicado, busca os detalhes do vereador
+                            item.addEventListener('click', function() {
+                                fetchVereadorDetails(vereador.id);
+                                autocompleteList.innerHTML = ''; // Limpa as sugestões ao selecionar
+                            });
+
+                            autocompleteList.appendChild(item);
+                        });
                     }
                 })
                 .catch(error => {
                     console.error('Erro:', error);
                 });
         });
+
+        // Adiciona o evento de submit para o formulário
+        document.getElementById('form-buscar-vereador').addEventListener('submit', function(e) {
+            e.preventDefault(); // Evita o reload da página
+            let search = document.getElementById('search').value;
+            fetchVereadorDetails(search); // Busca os detalhes do vereador baseado no valor do campo de busca
+        });
+
+        // Função para buscar e exibir os detalhes do vereador selecionado
+        function fetchVereadorDetails(vereadorId) {
+            let resultContainer = document.getElementById('result-container');
+
+            fetch(`/buscar-vereador?search=${vereadorId}`, {
+                    method: 'GET',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.vereador) {
+                        // Gera a lista de seções onde o vereador recebeu votos
+                        let secoesList = data.secoes.map(secao => `
+                    <tr>
+                        <th scope="row">${secao.id}</th>
+                        <td>${secao.localidade.nome}</td>
+                        <td>${secao.votos_na_secao}</td>
+                    </tr>
+                `).join('');
+
+                        // Atualiza o container com as informações do vereador e as seções
+                        resultContainer.innerHTML = `
+                    <div class="councilor-information">
+                        <div class="councilor-information-items">
+                            <h4 class="councilor-information-items-title">Número</h4>
+                            <h5 class="councilor-information-items-subtitle">${data.vereador.id}</h5>
+                        </div>
+                        <div class="councilor-information-items">
+                            <h4 class="councilor-information-items-title">Nome</h4>
+                            <h5 class="councilor-information-items-subtitle">${data.vereador.nome}</h5>
+                        </div>
+                        <div class="councilor-information-items">
+                            <h4 class="councilor-information-items-title">Partido</h4>
+                            <h5 class="councilor-information-items-subtitle">${data.vereador.partido}</h5>
+                        </div>
+                        <div class="councilor-information-items">
+                            <h4 class="councilor-information-items-title">Total de votos</h4>
+                            <h5 class="councilor-information-items-subtitle">${data.vereador.quantidade_votos}</h5>
+                        </div>
+                    </div>
+                    <div class="section-table">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Secão</th>
+                                    <th scope="col">Escola</th>
+                                    <th scope="col">Votos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${secoesList}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+
+                        resultContainer.style.display = 'block'; // Exibe o container com os dados
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                });
+        }
     </script>
     <footer>
         <h1 class="footer-title">Vai ser ainda melhor.</h1>
