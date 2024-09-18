@@ -36,7 +36,6 @@
     </div>
 
     <div class="container">
-        <h1 class="form-title">Insira os dados abaixo</h1>
         <div class="form-container">
             <form class="form" method="GET" action="{{ route('getSecao') }}">
                 @csrf
@@ -55,22 +54,23 @@
                 <form class="form" action="{{ route('insert.data') }}" method="POST">
                     @csrf
                     <input type="hidden" name="secao_id" value="{{ $secao->id }}">
-                    <h2>Insira os dados do Boletim</h2>
-
                     <div class="form-group-container">
                         <div class="form-group">
-                            <label>Aptos</label>
-                            <input type="number" name="apto" id="apto" placeholder="Número de pessoas da seção"
+                            <label class="eleitores-title">Aptos</label>
+                            <h1 class="qtd-eleitores">{{ $secao->aptos }}</h1>
+                            <input type="hidden" name="apto" id="apto" placeholder="Número de pessoas da seção"
                                 value="{{ $secao->aptos }}" required>
                         </div>
                         <div class="form-group">
-                            <label>N° de eleitores que compareceram</label>
-                            <input type="number" name="comp" id="comp" placeholder="Número de pessoas que votaram"
+                            <label class="eleitores-title">Eleitores que compareceram</label>
+                            <h1 class="qtd-eleitores" id="comp-display">0</h1>
+                            <input type="hidden" name="comp" id="comp" placeholder="Número de pessoas que votaram"
                                 required>
                         </div>
                         <div class="form-group">
-                            <label>N° de eleitores que faltaram</label>
-                            <input type="number" name="falt" id="falt" placeholder="Número de pessoas que faltaram"
+                            <label class="eleitores-title">Eleitores que faltaram</label>
+                            <h1 class="qtd-eleitores" id="falt-display">0</h1>
+                            <input type="hidden" name="falt" id="falt" placeholder="Número de pessoas que faltaram"
                                 required>
                         </div>
                     </div>
@@ -199,6 +199,53 @@
         const aptoInput = document.getElementById('apto');
         const compInput = document.getElementById('comp');
         const faltInput = document.getElementById('falt');
+        const compDisplay = document.getElementById('comp-display');
+        const faltDisplay = document.getElementById('falt-display');
+
+        function atualizarDisplayComparecimento() {
+            compDisplay.textContent = compInput.value || 0; // Mostra o valor no h1
+            faltDisplay.textContent = faltInput.value || 0; // Mostra o valor no h1
+        }
+
+        // Seleciona os campos de votos nulos, brancos e todos os candidatos
+        const votosBrancoPrefeitoInput = document.getElementById('votos_branco_prefeito');
+        const votosNuloPrefeitoInput = document.getElementById('votos_nulo_prefeito');
+        const candidatosInputs = document.querySelectorAll('input[id^="candidato_"][id$="_quantidade"]');
+
+        // Função para calcular o total de votos
+        function calcularTotalVotos() {
+            let totalVotos = 0;
+
+            // Soma os votos dos candidatos
+            candidatosInputs.forEach(input => {
+                totalVotos += parseInt(input.value) || 0;
+            });
+
+            // Adiciona os votos nulos e brancos
+            totalVotos += parseInt(votosBrancoPrefeitoInput.value) || 0;
+            totalVotos += parseInt(votosNuloPrefeitoInput.value) || 0;
+
+            // Preenche o campo de comparecimento com o total
+            compInput.value = totalVotos;
+
+            // Atualiza o cálculo de faltantes após preencher o campo de comparecimento
+            calcularFaltantes();
+            atualizarDisplayComparecimento();
+        }
+
+        // Adiciona eventos para calcular quando os valores mudarem
+        if (compInput && aptoInput && faltInput) {
+            compInput.addEventListener('input', calcularFaltantes);
+        }
+
+        if (votosBrancoPrefeitoInput && votosNuloPrefeitoInput && candidatosInputs.length > 0) {
+            votosBrancoPrefeitoInput.addEventListener('input', calcularTotalVotos);
+            votosNuloPrefeitoInput.addEventListener('input', calcularTotalVotos);
+
+            candidatosInputs.forEach(input => {
+                input.addEventListener('input', calcularTotalVotos);
+            });
+        }
 
         // Função para calcular e preencher automaticamente o campo de faltantes
         function calcularFaltantes() {

@@ -30,7 +30,7 @@ class InsertController extends Controller
 
         if ($boletimExistente) {
             // Retorna ao usuário com uma mensagem de erro
-            return redirect()->back()->withErrors(['error' => 'Seção já foi cadastrada no sistema.']);
+            return redirect()->route('insert', ['reset' => true])->withErrors(['error' => 'Seção já foi cadastrada no sistema.']);
         }
 
         // Busca a seção e os candidatos normalmente se o boletim não existir
