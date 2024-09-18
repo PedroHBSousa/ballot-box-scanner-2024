@@ -231,7 +231,6 @@ function createBarChartConfig(label) {
     };
 }
 
-// Funções para carregar e atualizar gráficos (sem alteração)
 function loadInitialData() {
     axios.get('/data/geral')
         .then((response) => {

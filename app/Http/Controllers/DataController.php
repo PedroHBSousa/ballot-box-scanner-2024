@@ -377,27 +377,35 @@ class DataController extends Controller
 
     public function getVereador(Request $request)
     {
-        // $id = $request->input('search');
-        $id = $request->query('search');
-        if (!$id) {
-            return response()->json(['error' => 'Por favor, insira o número do vereador.'], 400);
+        $search = $request->query('search');
+        if (!$search) {
+            return response()->json(['error' => 'Por favor, insira o nome ou número do vereador.'], 400);
         }
 
-        $vereador = Candidato::find($id);
+        // Busca por ID exato ou por nome usando LIKE
+        $vereadores = Candidato::where('id', $search)
+            ->orWhere('nome', 'like', '%' . $search . '%')
+            ->get();
 
-        if (!$vereador) {
+        if ($vereadores->isEmpty()) {
             return response()->json(['error' => 'Vereador não encontrado.'], 404);
         }
 
-        $quantidadeVotos = DB::table('votos')->where('candidato_id', $id)->count();
+        // Se houver mais de um vereador, retornamos todos
+        if ($vereadores->count() > 1) {
+            return response()->json(['vereadores' => $vereadores]);
+        }
 
-        // Busca as seções com o nome da localidade e contagem de votos por seção
-        $secoes = Secao::whereHas('votos', function ($query) use ($id) {
-            $query->where('candidato_id', $id);
+        // Se for apenas um vereador, buscamos suas seções
+        $vereador = $vereadores->first();
+        $quantidadeVotos = DB::table('votos')->where('candidato_id', $vereador->id)->count();
+
+        $secoes = Secao::whereHas('votos', function ($query) use ($vereador) {
+            $query->where('candidato_id', $vereador->id);
         })
-            ->with('localidade') // Associa a localidade
-            ->withCount(['votos as votos_na_secao' => function ($query) use ($id) {
-                $query->where('candidato_id', $id);
+            ->with('localidade')
+            ->withCount(['votos as votos_na_secao' => function ($query) use ($vereador) {
+                $query->where('candidato_id', $vereador->id);
             }])
             ->get();
 
