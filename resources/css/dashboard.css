@@ -38,11 +38,10 @@ header span {
     display: block;
     font-weight: 800;
 }
-.text-container-title{
+.text-container-title {
     text-align: center;
     font-size: 16px;
     font-weight: 600;
-
 }
 
 .container-image {
@@ -69,13 +68,12 @@ header span {
     top: -110px;
     left: -50px;
 }
-footer{
+footer {
     display: flex;
     flex-direction: row;
-
 }
-.footer-title{
-    color:#001c3b;
+.footer-title {
+    color: #001c3b;
     font-size: 30px;
     font-weight: 900;
     text-align: center;
@@ -93,83 +91,177 @@ footer{
 }
 /* -------------------------- FIM DO HEADER -------------------------- */
 
-.accountant {
-    margin-top: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    position: relative;
-}
-.accountant-container {
+/* -------------------------- INICIO DO PAINEL -------------------------- */
+.painel {
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    background-color: #f3f3f3;
-    border-radius: 10px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-}
-.accountant-header {
-    font-size: 14px;
-    font-weight: 300;
-    text-align: center;
-    margin-bottom: 15px;
-}
-.accountant-numbers-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-.accountant-text h1 {
-    font-size: 22px;
-}
-.accountant-type-voto {
-    font-size: 14px;
-    font-weight: 500;
-    color: #fff;
-}
-.accountant-number {
-    font-size: 14px;
-    font-weight: 500;
-    color: #fff;
-}
-.accountant-numbers {
-    display: flex;
-    flex-direction: row;
+    position: relative;
+    align-items: center;
     justify-content: center;
+    width: 100%;
+    margin-top: 30px;
+}
 
-    margin-bottom: 20px;
+.painel-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 800px;
+    border-radius: 10px;
+    background-color: #f3f3f3;
+    /* background: linear-gradient(135deg, #f0f0f0, #e0e0e0); */
+    padding: 20px;
     gap: 1rem;
-    flex-wrap: wrap;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+}
+
+.votos-container,
+.eleitores-container {
+}
+.painel-header {
+}
+.painel-header-title {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #232323;
+}
+
+.painel-body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+}
+
+.group-candidato {
+    display: flex;
+    flex-direction: column;
+}
+
+.group-geral {
+    display: flex;
+    flex-direction: column;
     width: 100%;
 }
-#secoesApuradas {
-    background-color: #b068f3;
-}
-#outros {
-    background-color: rgba(30,144,255);
-}
-#total {
-    background-color: #05c46b;
-}
-#restante {
-    background-color: #ff9f43;
-}
-#abstencao {
-    background-color: #f53b57;
-}
-.teste-dois{
 
-    width: 600px;
+.eleitores-container {
+    /* display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 20px;
+    gap: 1rem;
 }
-.accountant-items {
+
+.eleitores {
+    background-color: rgba(30, 144, 255);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+.eleitor-information {
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.eleitor-information span {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.group-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #232323;
+}
+
+.votos-container {
     display: flex;
-    gap: 0.5rem;
-    background-color: #6da9f7;
-    border-radius: 5px;
-    padding: 0.5rem;
-    width: 350px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    /* padding: 1rem; */
+    /* background-color: #f3f3f3; */
+    /* border-radius: 10px; */
+    /* box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); */
 }
+
+.voto {
+    background-color: rgba(30, 144, 255);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 0 15px rgba(30, 144, 255, 0.5); /* Brilho suave */
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.voto-information {
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.voto-information span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    display: block;
+}
+
+#total-votos-apurados {
+    background-color: #05c46b;
+    box-shadow: 0 0 15px rgba(5, 196, 107, 0.5); /* Brilho suave */
+    transition: box-shadow 0.3s ease-in-out; /* Transição suave */
+}
+
+#nao-apurado {
+    background-color: #f53b57;
+    box-shadow: 0 0 15px rgba(245, 59, 87, 0.5); /* Brilho suave */
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+#eleitor-faltante {
+    background-color: #ff9f43;
+    box-shadow: 0 0 15px rgba(255, 159, 67, 0.5); /* Brilho suave */
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+#secoes-apuradas {
+    background-color: #b068f3;
+    box-shadow: 0 0 15px rgba(176, 104, 243, 0.5); /* Brilho suave */
+    transition: box-shadow 0.3s ease-in-out;
+}
+#eleitor-faltante:hover {
+    box-shadow: 0 0 25px rgba(255, 159, 67, 0.8); /* Realce ao passar o mouse */
+}
+#secoes-apuradas:hover {
+    box-shadow: 0 0 25px rgba(176, 104, 243, 0.8); /* Realce ao passar o mouse */
+}
+#nao-apurado:hover {
+    box-shadow: 0 0 25px rgba(245, 59, 87, 0.8); /* Realce ao passar o mouse */
+}
+#total-votos-apurados:hover {
+    box-shadow: 0 0 25px rgba(5, 196, 107, 0.8); /* Realce ao passar o mouse */
+}
+.voto:hover {
+    box-shadow: 0 0 25px rgba(30, 144, 255, 0.8); /* Realce ao passar o mouse */
+}
+/* -------------------------- FIM DO PAINEL -------------------------- */
+
 .last-update-title {
     font-size: 15px;
     font-weight: 500;
@@ -180,15 +272,6 @@ footer{
     font-size: 12px;
     font-weight: 500;
     text-align: center;
-}
-.teste {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 1140px;
-    /* max-width: 350px; */
-    /* gap: 2rem; */
 }
 
 /* -------------------------- INICIO DO SUB-FILTROS -------------------------- */
@@ -434,7 +517,7 @@ tr {
     padding: 10px;
     border-bottom: 2px solid #f1f1f1;
 }
-td{
+td {
     font-weight: 400;
     font-size: 14px;
 }
@@ -562,6 +645,10 @@ table {
     .accountant {
         order: -1; /* Exibe o painel de contagem de votos no topo */
     }
+
+    .painel {
+        order: -1; /* Exibe o painel de contagem de votos no topo */
+    }
 }
 /* Layout para telas pequenas (mobile) */
 @media (max-width: 767px) {
@@ -573,7 +660,10 @@ table {
     .chart-container {
         order: 1; /* Gráfico no topo */
     }
-    .accountant {
+    .painel {
         order: 0; /* Painel abaixo do gráfico */
+    }
+    .painel-container {
+        max-width: 350px;
     }
 }

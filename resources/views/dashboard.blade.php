@@ -70,95 +70,95 @@
                 </div>
                 <canvas id="piechart-prefeitos" width="400" height="400"></canvas>
             </div>
-            <section class="accountant">
-                <div class="accountant-container">
-                    <div class="accountant-header">
-                        <h1>SITUAÇÃO ATUAL DOS VOTOS</h1>
-                        <h2 class="last-update-title"> Última entrada de dados: </h2>
-                        <h2 class="last-update-time">{{ $ultimaAtualizacao->format('H:i:s d/m/Y') }}</h2>
+            {{-- -------------------------------------------------- inicio do painel ---------------------------------------------- --}}
+            <div class="painel">
+                <div class="painel-container">
+                    <div class="painel-header">
+                        <h1 class="painel-header-title">SITUAÇÃO ATUAL DOS VOTOS</h1>
+                        <h2 class="last-update-time">Última entrada de dados:
+                            {{ $ultimaAtualizacao->format('H:i:s d/m/Y') }}</h2>
                     </div>
-                    <div class="teste">
-                        <h1 class="accountant-numbers-title">Prefeito</h1>
-                        <div class="accountant-numbers">
-                            <div class="accountant-items" id="outros">
-                                <h2 class="accountant-type-voto">Nominal:</h2>
-                                <h2 class="accountant-number" id="accountant-number">
-                                    {{ number_format($nominais, 0) }} ({{ number_format($porcentagemNominais, 2) }}%)
-                                </h2>
-                            </div>
-                            <div class="accountant-items" id="outros">
-                                <h2 class="accountant-type-voto">Branco:</h2>
-                                <h2 class="accountant-number" id="accountant-number">
-                                    {{ number_format($brancos, 0) }} ({{ number_format($porcentagemBrancos, 2) }}%)
-                                </h2>
-                            </div>
-                            <div class="accountant-items" id="outros">
-                                <h2 class="accountant-type-voto">Nulo:</h2>
-                                <h2 class="accountant-number" id="accountant-number">
-                                    {{ number_format($nulos, 0) }} ({{ number_format($porcentagemNulos, 2) }}%)
-                                </h2>
+                    <div class="painel-body">
+                        <div class="group-candidato">
+                            <h1 class="group-title">PREFEITO</h1>
+                            <div class="votos-container">
+                                <div class="voto">
+                                    <h1 class="voto-information">
+                                        <span>Nominal</span>{{ number_format($nominais, 0) }}
+                                        ({{ number_format($porcentagemNominais, 2) }}%)
+                                    </h1>
+                                </div>
+                                <div class="voto">
+                                    <h1 class="voto-information">
+                                        <span>Branco</span>{{ number_format($brancos, 0) }}
+                                        ({{ number_format($porcentagemBrancos, 2) }}%)
+                                    </h1>
+                                </div>
+                                <div class="voto">
+                                    <h1 class="voto-information">
+                                        <span>Nulo</span> {{ number_format($nulos, 0) }}
+                                        ({{ number_format($porcentagemNulos, 2) }}%)
+                                    </h1>
+                                </div>
                             </div>
                         </div>
-                        <h1 class="accountant-numbers-title">Vereadores</h1>
-                        <div class="accountant-numbers">
-                            <div class="accountant-items" id="outros">
-                                <h2 class="accountant-type-voto">Nominal:</h2>
-                                <h2 class="accountant-number" id="accountant-number">
-                                    {{ number_format($nominaisVereador, 0) }}
-                                    ({{ number_format($porcentagemNominaisVereador, 2) }}%)
-                                </h2>
-                            </div>
-                            <div class="accountant-items" id="outros">
-                                <h2 class="accountant-type-voto">Branco:</h2>
-                                <h2 class="accountant-number" id="accountant-number">
-                                    {{ number_format($brancosVereador, 0) }}
-                                    ({{ number_format($porcentagemBrancosVereador, 2) }}%)
-                                </h2>
-                            </div>
-                            <div class="accountant-items" id="outros">
-                                <h2 class="accountant-type-voto">Nulo:</h2>
-                                <h2 class="accountant-number" id="accountant-number">
-                                    {{ number_format($nulosVereador, 0) }}
-                                    ({{ number_format($porcentagemNulosVereador, 2) }}%)
-                                </h2>
+                        <div class="group-candidato">
+                            <h1 class="group-title">VEREADORES</h1>
+                            <div class="votos-container">
+                                <div class="voto">
+                                    <h1 class="voto-information">
+                                        <span>Nominal</span>{{ number_format($nominaisVereador, 0) }}
+                                        ({{ number_format($porcentagemNominaisVereador, 2) }}%)
+                                    </h1>
+                                </div>
+                                <div class="voto">
+                                    <h1 class="voto-information">
+                                        <span>Branco</span>{{ number_format($brancosVereador, 0) }}
+                                        ({{ number_format($porcentagemBrancosVereador, 2) }}%)
+                                    </h1>
+                                </div>
+                                <div class="voto">
+                                    <h1 class="voto-information">
+                                        <span>Nulo</span> {{ number_format($nulosVereador, 0) }}
+                                        ({{ number_format($porcentagemNulosVereador, 2) }}%)
+                                    </h1>
+                                </div>
                             </div>
                         </div>
-                        <h1 class="accountant-numbers-title">Geral</h1>
-                            <div class="accountant-numbers">
-                                <div class="accountant-items" id="abstencao">
-                                    <h2 class="accountant-type-voto">Abstenção:</h2>
-                                    <h2 class="accountant-number" id="accountant-number">
-                                        {{ number_format($totalFaltantes, 0) }}
-                                        ({{ number_format($percentFaltantes, 2) }}%)
-                                    </h2>
-                                </div>
-                                <div class="accountant-items" id="restante">
-                                    <h2 class="accountant-type-voto">Não apurados:</h2>
-                                    <h2 class="accountant-number" id="accountant-number">
-                                        {{ number_format($restanteApurar, 0) }}
-                                        ({{ number_format($percentRestante, 2) }}%)
-                                    </h2>
-                                </div>
-                                <div class="accountant-items" id="secoesApuradas">
-                                    <h2 class="accountant-type-voto">Seções apuradas:</h2>
-                                    <h2 class="accountant-number" id="accountant-number">
-                                        {{ number_format($secoesApuradas, 0) }}/206
-                                        ({{ number_format($percentSecoesApuradas, 2) }}%)
-                                    </h2>
-                                </div>
-                                <div class="accountant-items" id="total">
-                                    <h2 class="accountant-type-voto">Total de votos apurados:</h2>
-                                    <h2 class="accountant-number" id="accountant-number">
+                        <div class="group-geral">
+                            <h1 class="group-title">ELEITORES</h1>
+                            <div class="eleitores-container">
+                                <div class="eleitores" id="total-votos-apurados">
+                                    <h1 class="eleitor-information">
+                                        <span>Votos apurados</span>
                                         {{ number_format($totalApurados, 0) }}/64.437
                                         ({{ number_format($percentApurados, 2) }}%)
-                                    </h2>
+                                    </h1>
+                                </div>
+                                <div class="eleitores" id="eleitor-faltante">
+                                    <h1 class="eleitor-information">
+                                        <span>Abstenção</span>{{ number_format($totalFaltantes, 0) }}
+                                        ({{ number_format($percentFaltantes, 2) }}%)
+                                    </h1>
+                                </div>
+                                <div class="eleitores" id="nao-apurado">
+                                    <h1 class="eleitor-information">
+                                        <span>Não apurados</span>{{ number_format($restanteApurar, 0) }}
+                                        ({{ number_format($percentRestante, 2) }}%)
+                                    </h1>
+                                </div>
+                                <div class="eleitores" id="secoes-apuradas">
+                                    <h1 class="eleitor-information">
+                                        <span>Seções apuradas</span> {{ number_format($secoesApuradas, 0) }}/206
+                                        ({{ number_format($percentSecoesApuradas, 2) }}%)
+                                    </h1>
                                 </div>
                             </div>
-
+                        </div>
                     </div>
-
                 </div>
-            </section>
+            </div>
+            {{-- -------------------------------------------------- fim do painel ---------------------------------------------- --}}
             <div class="chart">
                 <div class="verea">
                     <h2>Vereadores</h2>
