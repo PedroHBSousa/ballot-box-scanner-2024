@@ -85,19 +85,19 @@
                             <div class="votos-container">
                                 <div class="voto">
                                     <h1 class="voto-information">
-                                        <span>Nominal</span>{{ number_format($nominais, 0) }}
+                                        <span>Nominal</span>{{ number_format($nominais, 0, '.', '.') }}
                                         ({{ number_format($porcentagemNominais, 2) }}%)
                                     </h1>
                                 </div>
                                 <div class="voto">
                                     <h1 class="voto-information">
-                                        <span>Branco</span>{{ number_format($brancos, 0) }}
+                                        <span>Branco</span>{{ number_format($brancos, 0, '.', '.') }}
                                         ({{ number_format($porcentagemBrancos, 2) }}%)
                                     </h1>
                                 </div>
                                 <div class="voto">
                                     <h1 class="voto-information">
-                                        <span>Nulo</span> {{ number_format($nulos, 0) }}
+                                        <span>Nulo</span> {{ number_format($nulos, 0, '.', '.') }}
                                         ({{ number_format($porcentagemNulos, 2) }}%)
                                     </h1>
                                 </div>
@@ -108,19 +108,19 @@
                             <div class="votos-container">
                                 <div class="voto">
                                     <h1 class="voto-information">
-                                        <span>Nominal</span>{{ number_format($nominaisVereador, 0) }}
+                                        <span>Nominal</span>{{ number_format($nominaisVereador, 0, '.', '.') }}
                                         ({{ number_format($porcentagemNominaisVereador, 2) }}%)
                                     </h1>
                                 </div>
                                 <div class="voto">
                                     <h1 class="voto-information">
-                                        <span>Branco</span>{{ number_format($brancosVereador, 0) }}
+                                        <span>Branco</span>{{ number_format($brancosVereador, 0, '.', '.') }}
                                         ({{ number_format($porcentagemBrancosVereador, 2) }}%)
                                     </h1>
                                 </div>
                                 <div class="voto">
                                     <h1 class="voto-information">
-                                        <span>Nulo</span> {{ number_format($nulosVereador, 0) }}
+                                        <span>Nulo</span> {{ number_format($nulosVereador, 0, '.', '.') }}
                                         ({{ number_format($porcentagemNulosVereador, 2) }}%)
                                     </h1>
                                 </div>
@@ -132,7 +132,7 @@
                                 <div class="eleitores" id="total-votos-apurados">
                                     <h1 class="eleitor-information">
                                         <span>Votos apurados</span>
-                                        {{ number_format($totalApurados, 0) }}/64.437
+                                        {{ number_format($totalApurados, 0, '.', '.') }}/64.437
                                         ({{ number_format($percentApurados, 2) }}%)
                                     </h1>
                                 </div>
@@ -236,7 +236,8 @@
                             // Quando o item da lista for clicado, busca os detalhes do vereador
                             item.addEventListener('click', function() {
                                 fetchVereadorDetails(vereador.id);
-                                autocompleteList.innerHTML = ''; // Limpa as sugestões ao selecionar
+                                autocompleteList.innerHTML =
+                                    ''; // Limpa as sugestões ao selecionar
                             });
 
                             autocompleteList.appendChild(item);
