@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\InsertController;
+use App\Http\Controllers\MenuController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScannerController;
 use App\Http\Controllers\DataController;
+
 
 Route::get('/qrcodescanner', [ScannerController::class, 'qrcodescanner'])->name('qrcodescanner');
 Route::post('/qrcodescanner/clear', [ScannerController::class, 'clearQRCodes'])->name('qrcodes.clear');
@@ -29,3 +31,7 @@ Route::get('/get-regioes', [DataController::class, 'getRegioes'])->name('getRegi
 Route::get('/data/regioes/{regiao}', [DataController::class, 'getDadosRegiao'])->name('getDadosRegiao');
 
 Route::get('/buscar-vereador', [DataController::class, 'getVereador'])->name('buscar.vereador');
+
+Route::get('/main-menu', [MenuController::class, 'menu'])->name('menu');
+
+Route::get('/dashboard', [DataController::class, 'dashboard'])->name('dashboard');

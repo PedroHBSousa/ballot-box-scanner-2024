@@ -1,0 +1,213 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    font-style: normal;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Faz com que o body tenha no mínimo a altura da tela */
+}
+
+
+/* -------------------------- INICIO DO HEADER -------------------------- */
+header {
+    background: linear-gradient(
+        -45deg,
+        rgba(0, 129, 255, 0.989233193277311) 10%,
+        rgba(255, 218, 0, 1) 40%,
+        rgba(0, 129, 255, 0.989233193277311) 60%,
+        rgba(255, 218, 0, 1) 90%
+    );
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    width: 100%;
+    height: 125px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+}
+
+header h1 {
+    color: #000000;
+    font-size: 18px;
+    text-align: center;
+    font-weight: 800;
+}
+
+header span {
+    font-size: 16px;
+    display: block;
+    font-weight: 800;
+}
+.text-container-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.container-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    position: relative;
+    top: 50px;
+}
+
+#reinaldinho {
+    width: 180px;
+    position: absolute;
+}
+#reis {
+    width: 160px;
+    position: absolute;
+    left: 150px;
+}
+#felipe {
+    width: 250px;
+    position: absolute;
+    top: -110px;
+    left: -50px;
+}
+
+/*--------------------- FIM DO HEADER --------------------*/
+
+.menu-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 800px;
+    border-radius: 10px;
+    background-color: #f3f3f3;
+    /* background: linear-gradient(135deg, #f0f0f0, #e0e0e0); */
+    padding: 20px;
+    gap: 1rem;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+}
+
+main {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 0 25px #007bff;
+    height: 50px;
+    width: 200px;
+}
+
+button:hover {
+    background-color: #007bff;
+}
+
+
+footer {
+    display: flex;
+    flex-direction: row;
+}
+.footer-title {
+    color: #001c3b;
+    font-size: 30px;
+    font-weight: 900;
+    text-align: center;
+}
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+/* -------------------------- INÍCIO FOOTER -------------------------- */
+footer {
+    background: linear-gradient(
+        -45deg,
+        rgba(0, 129, 255, 0.989233193277311) 10%,
+        rgba(255, 218, 0, 1) 40%,
+        rgba(0, 129, 255, 0.989233193277311) 60%,
+        rgba(255, 218, 0, 1) 90%
+    );
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    width: 100%;
+    height: 125px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* -------------------------- INICIO DA RESPONSIVIDADE MOBILE -------------------------- */
+/* Estilos específicos para dispositivos móveis */
+
+@media (min-width: 320px) and (max-width: 440px) {
+    #reis {
+        left: 120px;
+    }
+    #felipe {
+        left: -80px;
+    }
+    #reinaldinho {
+        left: 30px;
+    }
+
+    .verea {
+        margin: 0;
+    }
+
+    header p {
+        font-size: 20px;
+        padding-left: 40px;
+    }
+
+
+   
+}
+/* -------------------------- FIM DA RESPONSIVIDADE MOBILE -------------------------- */
+
+/* Layout para telas pequenas (mobile) */
+@media (max-width: 767px) {
+
+    .menu-container {
+        max-width: 350px;
+    }
+}
