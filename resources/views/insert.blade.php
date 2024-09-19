@@ -51,23 +51,23 @@
                     <h2 style="text-align:center; font-size:21px;">Localidade da Seção {{ $secao->id }}:</h2>
                     <h3 style="text-align:center;font-size:16px;">{{ $secao->localidade->nome }}</h3> <br>
                 </div>
-                <form class="form" action="{{ route('insert.data') }}" method="POST">
+                <form class="form" action="{{ route('insert.data') }}" method="POST" id="voting-form">
                     @csrf
                     <input type="hidden" name="secao_id" value="{{ $secao->id }}">
                     <div class="form-group-container">
-                        <div class="form-group">
+                        <div class="form-group-eleitor">
                             <label class="eleitores-title">Aptos</label>
                             <h1 class="qtd-eleitores">{{ $secao->aptos }}</h1>
                             <input type="hidden" name="apto" id="apto" placeholder="Número de pessoas da seção"
                                 value="{{ $secao->aptos }}" required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group-eleitor">
                             <label class="eleitores-title">Eleitores que compareceram</label>
                             <h1 class="qtd-eleitores" id="comp-display">0</h1>
                             <input type="hidden" name="comp" id="comp" placeholder="Número de pessoas que votaram"
                                 required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group-eleitor">
                             <label class="eleitores-title">Eleitores que faltaram</label>
                             <h1 class="qtd-eleitores" id="falt-display">0</h1>
                             <input type="hidden" name="falt" id="falt" placeholder="Número de pessoas que faltaram"
@@ -130,8 +130,10 @@
                                 placeholder="Votos nulos para vereador">
                         </div>
                     </div>
-                    <button class="form-submit-btn" type="submit" name="action" value="inserir_votos">Enviar</button>
+                    <button class="form-submit-btn" type="button" name="action" value="inserir_votos"
+                    onclick="openConfirmationModal()">Enviar</button>
                 </form>
+
             @endisset
             {{-- @else
                 <p>Nenhuma seção encontrada.</p>
@@ -150,7 +152,17 @@
                 @endforeach
             @endif
         </div>
+    </div>
 
+    <!-- Modal de Confirmação -->
+    <div id="confirmationModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Você tem certeza de que deseja enviar os dados?</h3>
+            <div class="modal-buttons">
+                <button id="confirm-btn" class="confirm-btn">Sim</button>
+                <button id="cancel-btn" class="cancel-btn">Não</button>
+            </div>
+        </div>
     </div>
     <script>
         function buscarVereador() {
@@ -282,6 +294,36 @@
                 // Esconder
                 sectionsInfo.style.display = 'none';
             }
+        });
+
+        // Função para abrir o modal de confirmação
+        function openConfirmationModal() {
+            document.getElementById('confirmationModal').style.display = 'flex';
+        }
+
+        // Função para fechar o modal
+        function closeConfirmationModal() {
+            document.getElementById('confirmationModal').style.display = 'none';
+        }
+
+        // Ação ao clicar no botão "Sim"
+        document.getElementById('confirm-btn').addEventListener('click', function() {
+            const form = document.getElementById('voting-form');
+
+            // Verifica se o formulário é válido
+            if (form.reportValidity()) {
+                // Se o formulário for válido, envia o formulário
+                form.submit();
+            } else {
+                // Se o formulário for inválido, fecha o modal e permite que as mensagens de erro apareçam
+                closeConfirmationModal();
+            }
+        });
+
+        // Ação ao clicar no botão "Não"
+        document.getElementById('cancel-btn').addEventListener('click', function() {
+            // Fecha o modal sem enviar o formulário
+            closeConfirmationModal();
         });
     </script>
 </body>

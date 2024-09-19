@@ -39,7 +39,7 @@ class InsertController extends Controller
 
         if (!$secao) {
             // Retorna ao usuário com uma mensagem de erro se a seção não for encontrada
-            return redirect()->back()->withErrors(['error' => 'Seção não encontrada.']);
+            return redirect()->route('insert')->withErrors(['error' => 'Seção não encontrada.']);
         }
 
         $candidatos = Candidato::where('cargo_id', 11)->get();
