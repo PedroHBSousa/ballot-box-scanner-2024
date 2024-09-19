@@ -100,29 +100,42 @@ function createPieChartConfig() {
     };
 }
 
-// Função para obter as opções do gráfico com base no tamanho da tela
 function getChartOptions() {
-    const isMobile = window.innerWidth <= 440; // Verifica se a tela é mobile (menor que 768px)
+    const isMobile = window.innerWidth <= 440;
 
     return {
         layout: {
+            
             padding: {
-                top: isMobile ? 10 : -10,
-                bottom: isMobile ? 10 : 20,
+                
+                margin: isMobile ? 0 : 0,
+                top: isMobile ? -10 : -20,  // Diminui o padding superior para aproximar o gráfico do título
+                bottom: isMobile ? -10 : 20,
                 left: isMobile ? 10 : 20,
                 right: isMobile ? 10 : 20,
             },
         },
-        maintainAspectRatio: false,
-        aspectRatio: isMobile ? 1 : 1.05, // Ajuste a proporção para mobile
+        maintainAspectRatio: true,
+        aspectRatio: isMobile ? 0.9 : 1.01,
         plugins: {
+            title: {
+                display: true,
+                text: 'Prefeito',
+                padding: {
+                    top: isMobile ? 10 : 10,  // Ajusta o padding do título para não ficar muito longe do gráfico
+                    bottom: isMobile ? 10 : 10,
+                },
+                font: {
+                    size: isMobile ? 14 : 22,  // Ajusta o tamanho da fonte do título
+                },
+            },
             legend: {
                 display: true,
+                position: 'bottom',
                 labels: {
-                    padding: isMobile ? 5 : 10,
+                    padding: isMobile ? 5 : 15,
                     font: {
-
-                        size: isMobile ? 12 : 15, // Ajusta o tamanho da fonte no mobile
+                        size: isMobile ? 12 : 15,
                     },
                 },
             },
@@ -138,12 +151,12 @@ function getChartOptions() {
                 },
                 font: {
                     weight: "bold",
-                    size: isMobile ? 13 : 16, // Ajusta o tamanho da fonte no mobile
+                    size: isMobile ? 12 : 14,
                     lineHeight: 1,
                 },
                 anchor: "end",
                 align: "end",
-                offset: isMobile ? -5 : -15, // Ajusta o offset no mobile
+                offset: isMobile ? -10 : -15,
             },
         },
     };

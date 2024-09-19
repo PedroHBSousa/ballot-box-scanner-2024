@@ -404,6 +404,12 @@ option {
     border-top: var(--size) solid black;
     top: 55%;
 }
+
+.pref p {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+}
 /* -------------------------- FIM DO FILTRO PRINCIPAL -------------------------- */
 
 footer {
@@ -635,6 +641,11 @@ table {
     .chart {
         max-width: 350px;
         height: 450px;
+        padding: 0;
+    }
+    
+    .chart canvas {
+        padding: 0;
     }
 
     canvas {

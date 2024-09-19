@@ -66,7 +66,7 @@
         <div class="charts-container">
             <div class="chart">
                 <div class="pref">
-                    <h2>Prefeito</h2>
+                    <p>Prefeito</p>
                 </div>
                 <canvas id="piechart-prefeitos" width="400" height="400"></canvas>
             </div>

@@ -12,10 +12,13 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
+
+
 class DataController extends Controller
 {
     public function dashboard()
     {
+        
         $totalPrevisto = DB::table('votos')
             ->where('cargo_id', 11)
             ->count();
