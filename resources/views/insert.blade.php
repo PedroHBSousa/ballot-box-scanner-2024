@@ -30,6 +30,7 @@
                     arrow_drop_down
                 </span></button>
             <div class="sections-info" style="display: none;">
+                <div id="infoSecoes"></div>
                 <ul id="secoesRestantes"></ul>
             </div>
         </div>
@@ -131,7 +132,7 @@
                         </div>
                     </div>
                     <button class="form-submit-btn" type="button" name="action" value="inserir_votos"
-                    onclick="openConfirmationModal()">Enviar</button>
+                        onclick="openConfirmationModal()">Enviar</button>
                 </form>
 
             @endisset
@@ -178,7 +179,8 @@
 
                     // Verifica se o candidato já foi adicionado
                     if (document.querySelector(`input[name='votos[${vereadorId}][candidato_id]']`)) {
-                        erroVereador.innerHTML = '<p>Este candidato já foi adicionado!</p>';
+                        erroVereador.innerHTML =
+                        '<p class="custom-error-message">Este candidato já foi adicionado!</p>';
                         return; // Impede a adição do candidato duplicado
                     }
                     if (data.success) {
@@ -196,7 +198,7 @@
                         // Adiciona o novo vereador no início
                         vereadorResultado.insertAdjacentElement('afterbegin', novoVereador);
                     } else {
-                        erroVereador.innerHTML = '<p>Candidato não encontrado!</p>';
+                        erroVereador.innerHTML = '<p class="custom-error-message">Candidato não encontrado!</p>';
                     }
                 })
                 .catch(error => console.error('Erro ao buscar candidato:', error));
@@ -283,11 +285,19 @@
                     .then(response => response.json())
                     .then(data => {
                         let secaoList = '';
-                        data.forEach(secao => {
-                            secaoList +=
-                                `<li>Seção: ${secao.id} - ${secao.localidade.nome}</li>`;
+                        data.secoesRestantes.forEach(secao => {
+                            secaoList += `<li>Seção: ${secao.id} - ${secao.localidade.nome}</li>`;
                         });
+
+                        // Exibir seções restantes
                         document.getElementById('secoesRestantes').innerHTML = secaoList;
+
+                        // Exibir informações de contagem
+                        document.getElementById('infoSecoes').innerHTML = `
+                    <p>Total de Seções: ${data.totalSecoes}</p>
+                    <p>Seções Lidas: ${data.secoesLidas} (${data.porcentagemLidas.toFixed(2)}%)</p>
+                    <p>Seções Faltantes: ${data.secoesFaltantes} (${data.porcentagemFaltantes.toFixed(2)}%)</p>
+                `;
                     });
                 sectionsInfo.style.display = 'block';
             } else {
@@ -295,6 +305,7 @@
                 sectionsInfo.style.display = 'none';
             }
         });
+
 
         // Função para abrir o modal de confirmação
         function openConfirmationModal() {
@@ -310,6 +321,23 @@
         document.getElementById('confirm-btn').addEventListener('click', function() {
             const form = document.getElementById('voting-form');
 
+
+            // Obtém os valores dos inputs "comp", "falt" e "aptos"
+            const comp = parseInt(document.getElementById('comp').value) || 0;
+            const falt = parseInt(document.getElementById('falt').value) || 0;
+            const aptos = parseInt(document.getElementById('apto').value) || 0;
+
+            // Verifica se a soma de "comp" e "falt" é maior que "aptos"
+            if ((comp + falt) > aptos) {
+                closeConfirmationModal();
+                // Exibe a mensagem de erro
+                showErrorMessage(
+                    'Erro: A soma de comparecimentos e faltas não pode ser maior que o número de eleitores aptos.'
+                );
+                return; // Impede o envio do formulário
+            }
+
+
             // Verifica se o formulário é válido
             if (form.reportValidity()) {
                 // Se o formulário for válido, envia o formulário
@@ -319,6 +347,22 @@
                 closeConfirmationModal();
             }
         });
+
+        function showErrorMessage(message) {
+            // Cria o elemento de mensagem de erro
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'custom-error-message'; // Adiciona a classe personalizada
+            errorDiv.textContent = message;
+
+            // Insere a mensagem no topo do formulário ou em outro lugar da página
+            const formContainer = document.getElementById('voting-form');
+            formContainer.insertBefore(errorDiv, formContainer.firstChild);
+
+            // Remove a mensagem após 5 segundos
+            setTimeout(function() {
+                errorDiv.remove();
+            }, 10000);
+        }
 
         // Ação ao clicar no botão "Não"
         document.getElementById('cancel-btn').addEventListener('click', function() {

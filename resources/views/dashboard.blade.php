@@ -138,13 +138,13 @@
                                 </div>
                                 <div class="eleitores" id="eleitor-faltante">
                                     <h1 class="eleitor-information">
-                                        <span>Abstenção</span>{{ number_format($totalFaltantes, 0) }}
+                                        <span>Abstenção</span>{{ number_format($totalFaltantes, 0, '.', '.') }}
                                         ({{ number_format($percentFaltantes, 2) }}%)
                                     </h1>
                                 </div>
                                 <div class="eleitores" id="nao-apurado">
                                     <h1 class="eleitor-information">
-                                        <span>Não apurados</span>{{ number_format($restanteApurar, 0) }}
+                                        <span>Não apurados</span>{{ number_format($restanteApurar, 0, '.', '.') }}
                                         ({{ number_format($percentRestante, 2) }}%)
                                     </h1>
                                 </div>

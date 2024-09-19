@@ -49,15 +49,33 @@ class InsertController extends Controller
 
     public function getSecoesRestantes()
     {
+        $totalSecoes = 206;
         // Obter IDs das seções que já estão na tabela boletins
         $secoesBoletim = Boletim::pluck('secao_id')->toArray();
+
+        // Quantidade de seções lidas
+        $secoesLidas = count($secoesBoletim);
 
         // Obter seções que ainda não estão no boletim
         $secoesRestantes = Secao::whereNotIn('id', $secoesBoletim)
             ->with('localidade') // Carregar informações da localidade
             ->get();
 
-        return response()->json($secoesRestantes);
+        // Quantidade de seções restantes
+        $secoesFaltantes = $secoesRestantes->count();
+
+        // Cálculo das porcentagens
+        $porcentagemLidas = ($secoesLidas / $totalSecoes) * 100;
+        $porcentagemFaltantes = ($secoesFaltantes / $totalSecoes) * 100;
+
+        return response()->json([
+            'secoesRestantes' => $secoesRestantes,
+            'totalSecoes' => $totalSecoes,
+            'secoesLidas' => $secoesLidas,
+            'secoesFaltantes' => $secoesFaltantes,
+            'porcentagemLidas' => $porcentagemLidas,
+            'porcentagemFaltantes' => $porcentagemFaltantes,
+        ]);
     }
 
     public function getVereador($vereadorId)
