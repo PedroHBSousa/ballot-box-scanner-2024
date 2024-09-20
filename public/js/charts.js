@@ -92,7 +92,7 @@ function createPieChartConfig() {
                     display: true,
                     text: '', // O texto do título será definido pela função updateChartInstance
                     font: {
-                        size: 16,
+                        size: 12,
                     },
                 },
             },
@@ -109,7 +109,7 @@ function getChartOptions() {
             padding: {
                 
                 margin: isMobile ? 0 : 0,
-                top: isMobile ? -10 : -20,  // Diminui o padding superior para aproximar o gráfico do título
+                top: isMobile ? -10 : 10,  // Diminui o padding superior para aproximar o gráfico do título
                 bottom: isMobile ? -10 : 20,
                 left: isMobile ? 10 : 20,
                 right: isMobile ? 10 : 20,
@@ -214,7 +214,7 @@ function createBarChartConfig(label) {
                     display: true,
                     text: label, // Atualiza o título com base na configuração fornecida
                     font: {
-                        size: 16,
+                        size: 12,
                     },
                 },
                 datalabels: {
