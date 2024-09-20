@@ -193,13 +193,13 @@
             </div>
         </div>
     </div>
-
+    {{-- -------------------------------------------------- inicio do search ---------------------------------------------- --}}
     <div class="search-container">
         <div class="search">
-            <h2>Buscar votos de candidato</h2>
+            <h2>Buscar votos de candidato ou partido</h2>
             <form class="form" id="form-buscar-vereador">
                 <input class="input-search-vereador" type="text" id="search" name="search"
-                    placeholder="Digite o nome ou número do candidato">
+                    placeholder="Digite o nome ou número do candidato ou partido">
                 <button class="button-submit-vereador" type="submit">Buscar</button>
                 <div id="autocomplete-list" class="autocomplete-items"></div> <!-- Lista de sugestões -->
             </form>
@@ -211,15 +211,28 @@
     <script>
         // Adiciona o evento de input para o campo de busca
         document.getElementById('search').addEventListener('input', function() {
-            let search = this.value;
+            let search = this.value.trim(); // Remove espaços desnecessários
             let autocompleteList = document.getElementById('autocomplete-list');
+
             autocompleteList.innerHTML = ''; // Limpa as sugestões anteriores
 
-            if (search.length < 3) { // Evita buscar com menos de 3 caracteres
+            // Evita buscar se o campo de pesquisa tiver menos de 3 caracteres
+            if (search.length < 3) {
                 return;
             }
 
-            // Faz uma requisição para buscar vereadores cujo nome ou número corresponde à busca
+            // Se a busca for por número ou nome do candidato
+            if (isNaN(search)) { // Se for um texto (pode ser nome ou partido)
+                searchPorNomeOuPartido(search);
+            } else { // Se for um número (ID do candidato)
+                searchVereadorPorNumero(search);
+            }
+        });
+
+        // Função para buscar por nome do vereador ou partido
+        function searchPorNomeOuPartido(search) {
+            let autocompleteList = document.getElementById('autocomplete-list');
+
             fetch(`/buscar-vereador?search=${search}`, {
                     method: 'GET',
                 })
@@ -228,16 +241,64 @@
                     if (data.error) {
                         autocompleteList.innerHTML = `<div>${data.error}</div>`;
                     } else {
-                        // Exibe a lista de sugestões
+                        if (data.vereadores && data.vereadores.length > 0) {
+                            // Se houver vereadores correspondentes, exibe os resultados
+                            data.vereadores.forEach(vereador => {
+                                let item = document.createElement('div');
+                                item.innerHTML = `<strong>${vereador.nome}</strong> (${vereador.partido})`;
+
+                                // Quando o item da lista for clicado, busca os detalhes do vereador
+                                item.addEventListener('click', function() {
+                                    fetchVereadorDetails(vereador.id);
+                                    autocompleteList.innerHTML = ''; // Limpa as sugestões ao selecionar
+                                });
+
+                                autocompleteList.appendChild(item);
+                            });
+                        } else if (data.partido) {
+                            // Se for uma busca por partido, exibe os 12 vereadores mais votados
+                            let vereadores = data.partido.vereadores; // Espera que o backend retorne essa chave
+                            vereadores.forEach(vereador => {
+                                let item = document.createElement('div');
+                                item.innerHTML = `<strong>${vereador.nome}</strong> - ${vereador.partido} (${vereador.quantidade_votos} votos)`;
+
+                                // Quando o item da lista for clicado, busca os detalhes do vereador
+                                item.addEventListener('click', function() {
+                                    fetchVereadorDetails(vereador.id);
+                                    autocompleteList.innerHTML = ''; // Limpa as sugestões ao selecionar
+                                });
+
+                                autocompleteList.appendChild(item);
+                            });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar vereadores:', error);
+                });
+        }
+
+        // Função para buscar vereador pelo número (ID)
+        function searchVereadorPorNumero(search) {
+            let autocompleteList = document.getElementById('autocomplete-list');
+
+            fetch(`/buscar-vereador?search=${search}`, {
+                    method: 'GET',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        autocompleteList.innerHTML = `<div>${data.error}</div>`;
+                    } else {
+                        // Exibe a lista de sugestões de vereadores
                         data.vereadores.forEach(vereador => {
                             let item = document.createElement('div');
                             item.innerHTML = `<strong>${vereador.nome}</strong> (${vereador.partido})`;
 
-                            // Quando o item da lista for clicado, busca os detalhes do vereador
+                            // Ao clicar em uma sugestão, busca os detalhes do vereador
                             item.addEventListener('click', function() {
                                 fetchVereadorDetails(vereador.id);
-                                autocompleteList.innerHTML =
-                                    ''; // Limpa as sugestões ao selecionar
+                                autocompleteList.innerHTML = ''; // Limpa as sugestões
                             });
 
                             autocompleteList.appendChild(item);
@@ -245,16 +306,9 @@
                     }
                 })
                 .catch(error => {
-                    console.error('Erro:', error);
+                    console.error('Erro ao buscar vereador por número:', error);
                 });
-        });
-
-        // Adiciona o evento de submit para o formulário
-        document.getElementById('form-buscar-vereador').addEventListener('submit', function(e) {
-            e.preventDefault(); // Evita o reload da página
-            let search = document.getElementById('search').value;
-            fetchVereadorDetails(search); // Busca os detalhes do vereador baseado no valor do campo de busca
-        });
+        }
 
         // Função para buscar e exibir os detalhes do vereador selecionado
         function fetchVereadorDetails(vereadorId) {
@@ -275,7 +329,7 @@
                     </tr>
                 `).join('');
 
-                        // Atualiza o container com as informações do vereador e as seções
+                        // Exibe os detalhes do vereador selecionado
                         resultContainer.innerHTML = `
                     <div class="councilor-information">
                         <div class="councilor-information-items">
@@ -299,7 +353,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Secão</th>
+                                    <th scope="col">Seção</th>
                                     <th scope="col">Escola</th>
                                     <th scope="col">Votos</th>
                                 </tr>
@@ -311,14 +365,17 @@
                     </div>
                 `;
 
-                        resultContainer.style.display = 'block'; // Exibe o container com os dados
+                        resultContainer.style.display = 'block'; // Exibe o container de resultados
+                    } else {
+                        resultContainer.innerHTML = `<div>${data.error}</div>`;
                     }
                 })
                 .catch(error => {
-                    console.error('Erro:', error);
+                    console.error('Erro ao buscar detalhes do vereador:', error);
                 });
         }
     </script>
+
     <footer>
         <h1 class="footer-title">Vai ser ainda melhor.</h1>
     </footer>

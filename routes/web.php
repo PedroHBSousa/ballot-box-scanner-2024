@@ -33,5 +33,6 @@ Route::get('/data/regioes/{regiao}', [DataController::class, 'getDadosRegiao'])-
 Route::get('/buscar-vereador', [DataController::class, 'getVereador'])->name('buscar.vereador');
 
 Route::get('/main-menu', [MenuController::class, 'menu'])->name('menu');
-
 Route::get('/dashboard', [DataController::class, 'dashboard'])->name('dashboard');
+
+Route::get('/buscar-por-partido', [DataController::class, 'buscarPartido'])->name('buscarPartido');

@@ -362,6 +362,7 @@ footer {
 }
 #piechart-prefeitos {
     text-transform: capitalize;
+    z-index: 2;
 }
 
 option {

@@ -18,7 +18,7 @@ class DataController extends Controller
 {
     public function dashboard()
     {
-        
+
         $totalPrevisto = DB::table('votos')
             ->where('cargo_id', 11)
             ->count();
@@ -381,45 +381,73 @@ class DataController extends Controller
     public function getVereador(Request $request)
     {
         $search = $request->query('search');
+
         if (!$search) {
-            return response()->json(['error' => 'Por favor, insira o nome ou número do vereador.'], 400);
+            return response()->json(['error' => 'Por favor, insira o nome, número do vereador ou partido.'], 400);
         }
 
-        // Busca por ID exato ou por nome usando LIKE
-        $vereadores = Candidato::where('id', $search)
-            ->orWhere('nome', 'like', '%' . $search . '%')
-            ->get();
+        // Verifica se a busca é um número (ID do vereador)
+        if (is_numeric($search)) {
+            // Busca o vereador pelo ID
+            $vereador = Candidato::where('id', $search)->first();
 
-        if ($vereadores->isEmpty()) {
-            return response()->json(['error' => 'Vereador não encontrado.'], 404);
-        }
+            if (!$vereador) {
+                return response()->json(['error' => 'Vereador não encontrado.'], 404);
+            }
 
-        // Se houver mais de um vereador, retornamos todos
-        if ($vereadores->count() > 1) {
-            return response()->json(['vereadores' => $vereadores]);
-        }
+            // Busca a quantidade de votos do vereador
+            $quantidadeVotos = DB::table('votos')->where('candidato_id', $vereador->id)->count();
 
-        // Se for apenas um vereador, buscamos suas seções
-        $vereador = $vereadores->first();
-        $quantidadeVotos = DB::table('votos')->where('candidato_id', $vereador->id)->count();
-
-        $secoes = Secao::whereHas('votos', function ($query) use ($vereador) {
-            $query->where('candidato_id', $vereador->id);
-        })
-            ->with('localidade')
-            ->withCount(['votos as votos_na_secao' => function ($query) use ($vereador) {
+            // Busca as seções onde o vereador recebeu votos
+            $secoes = Secao::whereHas('votos', function ($query) use ($vereador) {
                 $query->where('candidato_id', $vereador->id);
-            }])
-            ->get();
+            })
+                ->with('localidade')
+                ->withCount(['votos as votos_na_secao' => function ($query) use ($vereador) {
+                    $query->where('candidato_id', $vereador->id);
+                }])
+                ->get();
 
-        return response()->json([
-            'vereador' => [
-                'nome' => $vereador->nome,
-                'id' => $vereador->id,
-                'partido' => $vereador->partido,
-                'quantidade_votos' => $quantidadeVotos
-            ],
-            'secoes' => $secoes
-        ]);
+            return response()->json([
+                'vereador' => [
+                    'nome' => $vereador->nome,
+                    'id' => $vereador->id,
+                    'partido' => $vereador->partido,
+                    'quantidade_votos' => $quantidadeVotos
+                ],
+                'secoes' => $secoes
+            ]);
+        } else {
+            // Se a busca não for um número, assume que pode ser um partido ou um nome
+            // Verifica se a busca é um nome de partido
+            $partido = DB::table('candidatos')->where('partido', 'LIKE', '%' . $search . '%')->exists();
+
+            if ($partido) {
+                // Busca os 12 vereadores mais votados desse partido
+                $vereadores = DB::table('candidatos')
+                    ->join('votos', 'candidatos.id', '=', 'votos.candidato_id')
+                    ->select('candidatos.id', 'candidatos.nome', 'candidatos.partido', DB::raw('COUNT(votos.id) as total_votos'))
+                    ->where('candidatos.partido', 'LIKE', '%' . $search . '%')
+                    ->groupBy('candidatos.id', 'candidatos.nome', 'candidatos.partido')
+                    ->orderByDesc('total_votos')
+                    ->limit(12)
+                    ->get();
+
+                if ($vereadores->isEmpty()) {
+                    return response()->json(['error' => 'Nenhum vereador encontrado para esse partido.'], 404);
+                }
+
+                return response()->json(['vereadores' => $vereadores]);
+            } else {
+                // Busca pelo nome do vereador
+                $vereadores = Candidato::where('nome', 'LIKE', '%' . $search . '%')->get();
+
+                if ($vereadores->isEmpty()) {
+                    return response()->json(['error' => 'Vereador não encontrado.'], 404);
+                }
+
+                return response()->json(['vereadores' => $vereadores]);
+            }
+        }
     }
 }
