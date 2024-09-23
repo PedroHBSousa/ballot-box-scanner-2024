@@ -18,10 +18,8 @@ class DataController extends Controller
 {
     public function dashboard()
     {
+        $totalDeVotosPrevistos = 64437;
 
-        $totalPrevisto = DB::table('votos')
-            ->where('cargo_id', 11)
-            ->count();
         $nominais = DB::table('votos')
             ->where('cargo_id', 11)
             ->whereNotNull('candidato_id')
@@ -35,9 +33,6 @@ class DataController extends Controller
             ->where('branco', 'sim')
             ->count();
         // ------------------------------------------------------------------------------------------------------
-        $totalPrevistoVereador = DB::table('votos')
-            ->where('cargo_id', 13)
-            ->count();
         $nominaisVereador = DB::table('votos')
             ->where('cargo_id', 13)
             ->whereNotNull('candidato_id')
@@ -60,15 +55,14 @@ class DataController extends Controller
         // Percentual de seções apuradas
         $percentSecoesApuradas = $secoesApuradas > 0 ? ($secoesApuradas / $totalSecoes) * 100 : 0;
 
-
         // Calcular porcentagens
-        $porcentagemNominais = $totalPrevisto > 0 ? ($nominais / $totalPrevisto) * 100 : 0;
-        $porcentagemNulos =  $totalPrevisto > 0 ? ($nulos / $totalPrevisto) * 100 : 0;
-        $porcentagemBrancos =  $totalPrevisto > 0 ? ($brancos / $totalPrevisto) * 100 : 0;
+        $porcentagemNominais = $totalDeVotosPrevistos > 0 ? ($nominais / $totalDeVotosPrevistos) * 100 : 0;
+        $porcentagemNulos =  $totalDeVotosPrevistos > 0 ? ($nulos / $totalDeVotosPrevistos) * 100 : 0;
+        $porcentagemBrancos =  $totalDeVotosPrevistos > 0 ? ($brancos / $totalDeVotosPrevistos) * 100 : 0;
 
-        $porcentagemNominaisVereador = $totalPrevistoVereador > 0 ? ($nominaisVereador / $totalPrevistoVereador) * 100 : 0;
-        $porcentagemNulosVereador =  $totalPrevistoVereador > 0 ? ($nulosVereador / $totalPrevistoVereador) * 100 : 0;
-        $porcentagemBrancosVereador =  $totalPrevistoVereador > 0 ? ($brancosVereador / $totalPrevistoVereador) * 100 : 0;
+        $porcentagemNominaisVereador = $totalDeVotosPrevistos > 0 ? ($nominaisVereador / $totalDeVotosPrevistos) * 100 : 0;
+        $porcentagemNulosVereador =  $totalDeVotosPrevistos > 0 ? ($nulosVereador / $totalDeVotosPrevistos) * 100 : 0;
+        $porcentagemBrancosVereador =  $totalDeVotosPrevistos > 0 ? ($brancosVereador / $totalDeVotosPrevistos) * 100 : 0;
 
         // -------------------------------------------------------------------------------------------------------------
         // Total de votos apurados (nominais, nulos, brancos)
@@ -78,7 +72,7 @@ class DataController extends Controller
         $totalFaltantes = DB::table('boletins')
             ->sum('falt');
 
-        $totalDeVotosPrevistos = 64437;
+
         $restanteApurar = $totalDeVotosPrevistos - ($totalApurados + $totalFaltantes);
 
         $percentApurados = ($totalApurados / $totalDeVotosPrevistos) * 100;
