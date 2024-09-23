@@ -196,10 +196,10 @@
     {{-- -------------------------------------------------- inicio do search ---------------------------------------------- --}}
     <div class="search-container">
         <div class="search">
-            <h2>Buscar votos de candidato ou partido</h2>
+            <h2>Buscar votos de candidato</h2>
             <form class="form" id="form-buscar-vereador">
                 <input class="input-search-vereador" type="text" id="search" name="search"
-                    placeholder="Digite o nome ou número do candidato ou partido">
+                    placeholder="Digite o nome ou número do candidato">
                 <button class="button-submit-vereador" type="submit">Buscar</button>
                 <div id="autocomplete-list" class="autocomplete-items"></div> <!-- Lista de sugestões -->
             </form>
@@ -209,22 +209,41 @@
     </div>
 
     <script>
-        // Adiciona o evento de input para o campo de busca
+        // Evento de input para o campo de busca
         document.getElementById('search').addEventListener('input', function() {
             let search = this.value.trim(); // Remove espaços desnecessários
             let autocompleteList = document.getElementById('autocomplete-list');
 
             autocompleteList.innerHTML = ''; // Limpa as sugestões anteriores
 
-            // Evita buscar se o campo de pesquisa tiver menos de 3 caracteres
-            if (search.length < 3) {
+            // Evita buscar se o campo de pesquisa tiver menos de 2 caracteres
+            if (search.length < 2) {
                 return;
             }
 
-            // Se a busca for por número ou nome do candidato
-            if (isNaN(search)) { // Se for um texto (pode ser nome ou partido)
+            // Se a busca for por nome (ou partido)
+            if (isNaN(search)) { // Se for um texto
                 searchPorNomeOuPartido(search);
-            } else { // Se for um número (ID do candidato)
+            }
+        });
+
+        // Adiciona o evento de submit para o formulário
+        document.getElementById('form-buscar-vereador').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            let search = document.getElementById('search').value.trim(); // Captura o valor do campo de busca
+
+            // Verifica se o campo de busca está vazio
+            if (search.length < 2) {
+                document.getElementById('error-message').innerText = 'Por favor, digite pelo menos 2 caracteres.';
+                document.getElementById('error-message').style.display = 'block'; // Exibe a mensagem de erro
+                return;
+            } else {
+                document.getElementById('error-message').style.display = 'none'; // Esconde a mensagem de erro
+            }
+
+            // Se a busca for por número (ID do candidato)
+            if (!isNaN(search)) { // Se for um número
                 searchVereadorPorNumero(search);
             }
         });
@@ -238,6 +257,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
+                    autocompleteList.innerHTML = ''; // Limpa as sugestões anteriores
                     if (data.error) {
                         autocompleteList.innerHTML = `<div>${data.error}</div>`;
                     } else {
@@ -246,21 +266,6 @@
                             data.vereadores.forEach(vereador => {
                                 let item = document.createElement('div');
                                 item.innerHTML = `<strong>${vereador.nome}</strong> (${vereador.partido})`;
-
-                                // Quando o item da lista for clicado, busca os detalhes do vereador
-                                item.addEventListener('click', function() {
-                                    fetchVereadorDetails(vereador.id);
-                                    autocompleteList.innerHTML = ''; // Limpa as sugestões ao selecionar
-                                });
-
-                                autocompleteList.appendChild(item);
-                            });
-                        } else if (data.partido) {
-                            // Se for uma busca por partido, exibe os 12 vereadores mais votados
-                            let vereadores = data.partido.vereadores; // Espera que o backend retorne essa chave
-                            vereadores.forEach(vereador => {
-                                let item = document.createElement('div');
-                                item.innerHTML = `<strong>${vereador.nome}</strong> - ${vereador.partido} (${vereador.quantidade_votos} votos)`;
 
                                 // Quando o item da lista for clicado, busca os detalhes do vereador
                                 item.addEventListener('click', function() {
@@ -280,7 +285,7 @@
 
         // Função para buscar vereador pelo número (ID)
         function searchVereadorPorNumero(search) {
-            let autocompleteList = document.getElementById('autocomplete-list');
+            let resultContainer = document.getElementById('result-container'); // Para mostrar os detalhes do vereador
 
             fetch(`/buscar-vereador?search=${search}`, {
                     method: 'GET',
@@ -288,21 +293,14 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
-                        autocompleteList.innerHTML = `<div>${data.error}</div>`;
+                        resultContainer.innerHTML = `<div>${data.error}</div>`;
+                        resultContainer.style.display = 'block'; // Exibe a mensagem de erro
+                    } else if (data.vereador) {
+                        // Exibe os detalhes do vereador diretamente
+                        fetchVereadorDetails(data.vereador.id); // Chama a função que exibe os detalhes do vereador
                     } else {
-                        // Exibe a lista de sugestões de vereadores
-                        data.vereadores.forEach(vereador => {
-                            let item = document.createElement('div');
-                            item.innerHTML = `<strong>${vereador.nome}</strong> (${vereador.partido})`;
-
-                            // Ao clicar em uma sugestão, busca os detalhes do vereador
-                            item.addEventListener('click', function() {
-                                fetchVereadorDetails(vereador.id);
-                                autocompleteList.innerHTML = ''; // Limpa as sugestões
-                            });
-
-                            autocompleteList.appendChild(item);
-                        });
+                        resultContainer.innerHTML = '<div>Nenhum vereador encontrado.</div>';
+                        resultContainer.style.display = 'block'; // Exibe a mensagem se não encontrar
                     }
                 })
                 .catch(error => {
