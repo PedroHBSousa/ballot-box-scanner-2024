@@ -418,36 +418,15 @@ class DataController extends Controller
                 'secoes' => $secoes
             ]);
         } else {
-            // Se a busca não for um número, assume que pode ser um partido ou um nome
-            // Verifica se a busca é um nome de partido
-            $partido = DB::table('candidatos')->where('partido', 'LIKE', '%' . $search . '%')->exists();
 
-            if ($partido) {
-                // Busca os 12 vereadores mais votados desse partido
-                $vereadores = DB::table('candidatos')
-                    ->join('votos', 'candidatos.id', '=', 'votos.candidato_id')
-                    ->select('candidatos.id', 'candidatos.nome', 'candidatos.partido', DB::raw('COUNT(votos.id) as total_votos'))
-                    ->where('candidatos.partido', 'LIKE', '%' . $search . '%')
-                    ->groupBy('candidatos.id', 'candidatos.nome', 'candidatos.partido')
-                    ->orderByDesc('total_votos')
-                    ->limit(12)
-                    ->get();
+            // Busca pelo nome do vereador
+            $vereadores = Candidato::where('nome', 'LIKE', '%' . $search . '%')->get();
 
-                if ($vereadores->isEmpty()) {
-                    return response()->json(['error' => 'Nenhum vereador encontrado para esse partido.'], 404);
-                }
-
-                return response()->json(['vereadores' => $vereadores]);
-            } else {
-                // Busca pelo nome do vereador
-                $vereadores = Candidato::where('nome', 'LIKE', '%' . $search . '%')->get();
-
-                if ($vereadores->isEmpty()) {
-                    return response()->json(['error' => 'Vereador não encontrado.'], 404);
-                }
-
-                return response()->json(['vereadores' => $vereadores]);
+            if ($vereadores->isEmpty()) {
+                return response()->json(['error' => 'Vereador não encontrado.'], 404);
             }
+
+            return response()->json(['vereadores' => $vereadores]);
         }
     }
 }
