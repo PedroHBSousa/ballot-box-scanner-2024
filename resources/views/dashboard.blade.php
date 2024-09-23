@@ -66,7 +66,7 @@
         <div class="charts-container">
             <div class="chart">
                 <div class="pref">
-                    <p>Prefeito</p>
+                    <h2>Prefeito</h2>
                 </div>
                 <canvas id="piechart-prefeitos" width="400" height="400"></canvas>
             </div>
@@ -162,7 +162,7 @@
             {{-- -------------------------------------------------- fim do painel ---------------------------------------------- --}}
             <div class="chart">
                 <div class="verea">
-                    <h2>Vereadores</h2>
+                    <h2>Vereadores (12 mais votados)</h2>
                 </div>
                 <canvas id="barchart-vereadores" width="400" height="400"></canvas>
             </div>
