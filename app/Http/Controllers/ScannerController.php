@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Boletim;
+use App\Models\Candidato;
 use Illuminate\Support\Facades\Validator;
 use App\Services\ScannerService;
 use Illuminate\Database\QueryException;
@@ -72,10 +73,28 @@ class ScannerController extends Controller
                         ]);
                         // dd($votos);
                         foreach ($votos as $voto) {
-                            Voto::create(array_merge($voto, [
-                                'boletim_id' => $boletim->id,
-                                'secao_id' => $dadosBoletim['SECA'],
-                            ]));
+                            // Verificar se o voto é nulo ou branco
+                            if ($voto['nulo'] === 'sim' || $voto['branco'] === 'sim') {
+                                // Salvar votos nulos ou brancos, que não têm candidato
+                                Voto::create(array_merge($voto, [
+                                    'boletim_id' => $boletim->id,
+                                    'secao_id' => $dadosBoletim['SECA'],
+                                ]));
+                            } else {
+                                // Verificar se o candidato existe para votos nominais
+                                $candidatoExistente = Candidato::find($voto['candidato_id']);
+
+                                if ($candidatoExistente) {
+                                    // Se o candidato existir, criar o voto nominal
+                                    Voto::create(array_merge($voto, [
+                                        'boletim_id' => $boletim->id,
+                                        'secao_id' => $dadosBoletim['SECA'],
+                                    ]));
+                                } else {
+                                    // Caso o candidato não exista, registrar no log ou continuar
+                                    Log::warning("Candidato não encontrado: {$voto['candidato_id']}. Voto ignorado.");
+                                }
+                            }
                         }
 
                         $request->session()->flash('success', 'BOLETIM SALVO COM SUCESSO');

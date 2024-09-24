@@ -48,22 +48,22 @@
             </select>
         </div>
 
-        <div id="subfilter-container" style="display: none;">
+        <div class="custom-select" id="subfilter-container" style="display: none;">
             <select id="bairro-subfilter-select">
                 <option value="">Selecione o bairro</option>
             </select>
         </div>
-        <div id="school-filter-container" style="display: none;">
+        <div class="custom-select" id="school-filter-container" style="display: none;">
             <select id="escola-subfilter-select">
                 <option value="">Selecione a escola</option>
             </select>
         </div>
-        <div id="regiao-subfilter-container" style="display: none;">
+        <div class="custom-select" id="regiao-subfilter-container" style="display: none;">
             <select id="regiao-subfilter-select">
                 <option value="">Selecione a região</option>
             </select>
         </div>
-        <div id="partido-subfilter-container" style="display: none;">
+        <div class="custom-select" id="partido-subfilter-container" style="display: none;">
             <select id="partido-subfilter-select">
                 <option value="">Selecione o partido</option>
             </select>

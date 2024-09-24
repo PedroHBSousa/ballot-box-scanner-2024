@@ -270,7 +270,8 @@ footer {
 }
 
 /* -------------------------- INICIO DO SUB-FILTROS -------------------------- */
-
+/*
+#partido-subfilter-container,
 #subfilter-container,
 #regiao-subfilter-container,
 #school-filter-container {
@@ -282,6 +283,7 @@ footer {
     cursor: pointer;
 }
 
+#partido-subfilter-select,
 #bairro-subfilter-select,
 #regiao-subfilter-select,
 #escola-subfilter-select {
@@ -302,7 +304,8 @@ footer {
 
 #bairro-subfilter-select::before,
 #bairro-subfilter-select::after,
-#regiao-subfilter-container::before #regiao-subfilter-container::after,
+#regiao-subfilter-container::before,
+#regiao-subfilter-container::after,
 #school-filter-container::before,
 #school-filter-container::after {
     --size: 0.3rem;
@@ -328,7 +331,7 @@ footer {
     border-right: var(--size) solid transparent;
     border-top: var(--size) solid black;
     top: 55%;
-}
+} */
 /* -------------------------- FIM DO SUB-FILTROS -------------------------- */
 
 .container {
@@ -372,6 +375,7 @@ option {
 .custom-select select {
     appearance: none;
     width: 100%;
+    max-width: 350px;
     font-size: 1.15rem;
     padding: 0.675em 6em 0.675em 1em;
     background-color: #fff;
@@ -379,7 +383,11 @@ option {
     border-radius: 0.25rem;
     color: #000;
     cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
 .custom-select::before,
 .custom-select::after {
     --size: 0.3rem;
@@ -639,7 +647,7 @@ table {
         height: 450px;
         padding: 0;
     }
-    
+
     .chart canvas {
         padding: 0;
     }
