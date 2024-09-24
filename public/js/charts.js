@@ -427,8 +427,8 @@ function hideAllSubfilters() {
     // Oculta os containers dos subfiltros
     document.getElementById("subfilter-container").style.display = "none";
     document.getElementById("school-filter-container").style.display = "none";
-    document.getElementById("regiao-subfilter-container").style.display =
-        "none";
+    document.getElementById("regiao-subfilter-container").style.display = "none";
+    document.getElementById("partido-subfilter-container").style.display = "none";
 }
 
 function handleBairroSubfilterChange(event) {
@@ -603,6 +603,23 @@ function updateChart(filter, data, chartInstance) {
         toggleChartVisibility("barchart-bairros", false);
         toggleChartVisibility("barchart-escolas", false);
         toggleChartVisibility("barchart-regioes", false);
+
+    } else if (filter === "partidos-vereador") {
+        // Atualizar apenas o gráfico de partidos
+        updateChartInstance(chartInstance, data, filter);
+
+        // Mostrar apenas o gráfico de partidos
+        toggleChartVisibility(chartInstance.canvas.id, true);
+
+        // Ocultar os gráficos de prefeitos e vereadores
+        toggleChartVisibility(window.chartInstancePrefeitos.canvas.id, false);
+        toggleChartVisibility(window.chartInstanceVereadores.canvas.id, true);
+
+        // Ocultar outros gráficos que não são relevantes para o filtro "partidos"
+        toggleChartVisibility("barchart-bairros", false);
+        toggleChartVisibility("barchart-escolas", false);
+        toggleChartVisibility("barchart-regioes", false);
+        toggleChartVisibility("barchart-partidos", false);
 
     } else if (filter === "bairros") {
         updateChartInstance(chartInstance, data, filter);
