@@ -16,6 +16,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ asset('js/charts.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="{{ asset('js/html2canvas.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js">
     </script>
 </head>
@@ -209,7 +211,9 @@
                 <div id="autocomplete-list" class="autocomplete-items"></div> <!-- Lista de sugestões -->
             </form>
             <div id="error-message" class="error-message" style="display:none;"></div>
-            <div id="result-container" class="items-buscar-vereador" style="display:none;"></div>
+            <div id="result-container" class="items-buscar-vereador" style="display:none;">
+            </div>
+            <button id="button-download-pdf" onclick="downloadPDF()" style="display:none;">Download PDF</button>
         </div>
     </div>
 
@@ -253,6 +257,44 @@
             }
         });
 
+        function downloadPDF() {
+            let resultContainer = document.getElementById('result-container');
+
+            html2canvas(resultContainer, {
+                scale: 2, // Aumente o fator de escala para melhorar a qualidade
+                useCORS: true, // Caso use imagens de outros domínios, habilita CORS
+            }).then(canvas => {
+                // Conversão da div em uma imagem de alta qualidade
+                let imgData = canvas.toDataURL('image/png');
+
+                // Acessa o jsPDF corretamente
+                const {
+                    jsPDF
+                } = window.jspdf || window;
+                let pdf = new jsPDF('p', 'mm', 'a4'); // Formato retrato, milímetros, tamanho A4
+
+                let pageWidth = pdf.internal.pageSize.getWidth(); // Largura da página
+                let pageHeight = pdf.internal.pageSize.getHeight(); // Altura da página
+                let imgWidth = canvas.width;
+                let imgHeight = canvas.height;
+
+                // Ajusta a altura proporcional da imagem ao PDF
+                let heightRatio = imgHeight / imgWidth;
+                let pdfHeight = pageWidth * heightRatio;
+
+                // Se a imagem capturada for maior que a altura da página, você pode ajustá-la
+                if (pdfHeight > pageHeight) {
+                    pdfHeight = pageHeight;
+                    pageWidth = pageHeight / heightRatio;
+                }
+
+                // Adiciona a imagem no PDF, ajustando-a para o tamanho da página
+                pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, pdfHeight);
+                pdf.save('vereador-detalhes.pdf'); // Faz o download do PDF
+            });
+        }
+
+
         // Função para buscar por nome do vereador ou partido
         function searchPorNomeOuPartido(search) {
             let autocompleteList = document.getElementById('autocomplete-list');
@@ -291,6 +333,7 @@
         // Função para buscar vereador pelo número (ID)
         function searchVereadorPorNumero(search) {
             let resultContainer = document.getElementById('result-container'); // Para mostrar os detalhes do vereador
+            let buttonDownloadPDF = document.querySelector('button'); // Botão de download do PDF
 
             fetch(`/buscar-vereador?search=${search}`, {
                     method: 'GET',
@@ -316,6 +359,7 @@
         // Função para buscar e exibir os detalhes do vereador selecionado
         function fetchVereadorDetails(vereadorId) {
             let resultContainer = document.getElementById('result-container');
+            let buttonDownloadPDF = document.getElementById('button-download-pdf');
 
             fetch(`/buscar-vereador?search=${vereadorId}`, {
                     method: 'GET',
@@ -369,6 +413,7 @@
                 `;
 
                         resultContainer.style.display = 'block'; // Exibe o container de resultados
+                        buttonDownloadPDF.style.display = 'block'; // Exibe o botão de download do PDF
                     } else {
                         resultContainer.innerHTML = `<div>${data.error}</div>`;
                     }

@@ -31,7 +31,6 @@ header h1 {
     text-align: center;
 }
 
-
 /*
 header img {
     max-width: 100%;
@@ -82,7 +81,6 @@ header img {
     position: absolute;
     top: -110px;
     left: -50px;
-
 }
 body {
     /* margin: 0;
@@ -151,8 +149,7 @@ h1 span {
     border: 0 !important;
 }
 
-
-#reader__dashboard_section_csr{
+#reader__dashboard_section_csr {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -179,10 +176,10 @@ h1 span {
 }
 #html5-qrcode-select-camera {
     padding: 0.5rem;
-	cursor: pointer;
-	border-radius: 5px;
-	background-color: #ffffff;
-	list-style: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #ffffff;
+    list-style: none;
 }
 #html5-qrcode-anchor-scan-type-change {
     display: none;
@@ -206,7 +203,7 @@ h1 span {
     -webkit-appearance: none;
     -webkit-box-pack: center;
 }
-#html5-qrcode-button-camera-start{
+#html5-qrcode-button-camera-start {
     text-decoration: none !important;
     border-radius: 5px;
     margin-top: 1rem;
