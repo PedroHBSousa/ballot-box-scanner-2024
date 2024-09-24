@@ -30,6 +30,9 @@ Route::get('/data/localidades/{localidade_id}', [DataController::class, 'getDado
 Route::get('/get-regioes', [DataController::class, 'getRegioes'])->name('getRegioes');
 Route::get('/data/regioes/{regiao}', [DataController::class, 'getDadosRegiao'])->name('getDadosRegiao');
 
+Route::get('/get-partidos', [DataController::class, 'getPartidos'])->name('getPartidos');
+Route::get('/data/partidos/{partido}', [DataController::class, 'getVereadoresPorPartido'])->name('getVereadoresPorPartido');
+
 Route::get('/buscar-vereador', [DataController::class, 'getVereador'])->name('buscar.vereador');
 
 Route::get('/main-menu', [MenuController::class, 'menu'])->name('menu');

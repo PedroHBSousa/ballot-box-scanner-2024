@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function initializeCharts() {
     Chart.register(ChartDataLabels);
-    // Inicializa os gráficos
+
     const ctxPrefeitos = document
         .getElementById("piechart-prefeitos")
         .getContext("2d");
@@ -85,12 +85,12 @@ function createPieChartConfig() {
             ],
         },
         options: {
-            ...getChartOptions(), // Usa a função para definir outras opções
+            ...getChartOptions(),
             plugins: {
                 ...getChartOptions().plugins,
                 title: {
                     display: true,
-                    text: '', // O texto do título será definido pela função updateChartInstance
+                    text: '',
                     font: {
                         size: 12,
                     },
@@ -105,11 +105,9 @@ function getChartOptions() {
 
     return {
         layout: {
-            
             padding: {
-                
                 margin: isMobile ? 0 : 0,
-                top: isMobile ? -10 : 10,  // Diminui o padding superior para aproximar o gráfico do título
+                top: isMobile ? -10 : 10,
                 bottom: isMobile ? -10 : 20,
                 left: isMobile ? 10 : 20,
                 right: isMobile ? 10 : 20,
@@ -122,11 +120,11 @@ function getChartOptions() {
                 display: true,
                 text: 'Prefeito',
                 padding: {
-                    top: isMobile ? 10 : 10,  // Ajusta o padding do título para não ficar muito longe do gráfico
+                    top: isMobile ? 10 : 10,
                     bottom: isMobile ? 10 : 10,
                 },
                 font: {
-                    size: isMobile ? 14 : 22,  // Ajusta o tamanho da fonte do título
+                    size: isMobile ? 14 : 22,
                 },
             },
             legend: {
@@ -164,18 +162,12 @@ function getChartOptions() {
 
 // Função para redimensionar o gráfico com base no tamanho da tela
 function resizeChart(chart) {
-    chart.options = getChartOptions(); // Atualiza as opções do gráfico
-    chart.update(); // Redesenha o gráfico com as novas configurações
+    chart.options = getChartOptions();
+    chart.update();
 }
 
-// Exemplo de inicialização do gráfico
-const ctx = document.getElementById("myChart").getContext("2d");
-let pieChart = new Chart(ctx, createPieChartConfig());
-
 // Listener para redimensionamento da janela
-window.addEventListener("resize", () => resizeChart(pieChart));
-
-
+window.addEventListener("resize", () => resizeChart(window.chartInstancePrefeitos));
 
 // Configuração do gráfico de barras
 function createBarChartConfig(label) {
@@ -357,6 +349,36 @@ function loadRegioesSubfilters() {
             console.error("Erro ao buscar escolas:", error);
         });
 }
+function loadPartidosSubfilters() {
+    axios
+        .get("/get-partidos") // Ajuste a URL conforme necessário
+        .then((response) => {
+            const subfilterSelect = document.getElementById(
+                "partido-subfilter-select"
+            );
+            subfilterSelect.innerHTML =
+                '<option value="">Selecione o partido</option>';
+
+            response.data.forEach((partido) => {
+                const option = document.createElement("option");
+                option.value = partido;
+                option.textContent = partido;
+                subfilterSelect.appendChild(option);
+            });
+
+            document.getElementById(
+                "partido-subfilter-container"
+            ).style.display = "block";
+
+            subfilterSelect.addEventListener(
+                "change",
+                handlePartidoSubfilterChange // Chame a função que irá lidar com a mudança do filtro
+            );
+        })
+        .catch((error) => {
+            console.error("Erro ao buscar partidos:", error);
+        });
+}
 
 function handleFilterChange(event) {
     const selectedFilter = event.target.value;
@@ -380,6 +402,8 @@ function handleFilterChange(event) {
                     loadRegioesSubfilters();
                 } else if (selectedFilter === "localidades") {
                     loadEscolasSubfilters();
+                } else if (selectedFilter === "partidos-vereador") {
+                    loadPartidosSubfilters();
                 } else {
                     // Caso o filtro não tenha subfiltro, escondemos todos os subfiltros
                     document.getElementById(
@@ -479,6 +503,30 @@ function handleRegioesSubfilterChange(event) {
         console.error("Nenhuma região selecionada.");
     }
 }
+function handlePartidoSubfilterChange(event) {
+    const selectedPartido = event.target.value;
+    const selectedPartidoName = event.target.options[event.target.selectedIndex].text.trim();
+    console.log("Selected Partido:", selectedPartido);
+
+    if (selectedPartido) {
+        const url = `/data/partidos/${encodeURIComponent(selectedPartido)}`;
+        console.log("Fetching data from URL:", url);
+
+        axios
+            .get(`/data/partidos/${encodeURIComponent(selectedPartido)}`)
+            .then((response) => {
+                const data = response.data;
+
+                // Aqui você pode atualizar os gráficos ou fazer outras operações com os dados retornados
+                updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores', selectedPartidoName);
+            })
+            .catch((error) => {
+                console.error("Erro ao buscar candidatos para o partido:", error);
+            });
+    } else {
+        console.error("Nenhum partido selecionado.");
+    }
+}
 
 function updateChartInstance(chartInstance, data, filter, subfilterName = '') {
     console.log(data); // Verifica os dados no console
@@ -512,7 +560,6 @@ function updateChartInstance(chartInstance, data, filter, subfilterName = '') {
     // Atualiza o gráfico com os novos dados
     chartInstance.update();
 }
-
 
 function updateChart(filter, data, chartInstance) {
     function toggleChartVisibility(chartId, shouldShow) {

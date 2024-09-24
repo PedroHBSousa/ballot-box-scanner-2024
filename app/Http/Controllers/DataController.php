@@ -147,6 +147,16 @@ class DataController extends Controller
                     'regioes' => $data,
                 ]);
             }
+            if ($filter === 'partidos-vereador') {
+                // Obtem todos os partidos distintos na tabela Candidatos
+                $data = Candidato::select('partido')->distinct()->pluck('partido');
+
+                return response()->json([
+                    'success' => true,
+                    'partidos' => $data,
+                ]);
+            }
+
 
 
             switch ($filter) {
@@ -375,6 +385,55 @@ class DataController extends Controller
         } catch (\Exception $e) {
             Log::error('Erro ao buscar regiões: ' . $e->getMessage());
             return response()->json(['error' => 'Erro ao buscar regiões'], 500);
+        }
+    }
+
+    public function getVereadoresPorPartido($partido)
+    {
+        try {
+            $partido = urldecode($partido);
+            // Verificar se o partido existe na tabela Candidatos
+            $candidatosPartido = Candidato::where('partido', $partido)
+                ->where('cargo_id', 13) // Cargo para vereadores
+                ->pluck('id'); // Obter todos os IDs dos candidatos do partido
+
+            if ($candidatosPartido->isEmpty()) {
+                return response()->json(['error' => 'Partido não encontrado ou não há vereadores desse partido.'], 404);
+            }
+
+            // Buscar os vereadores mais votados pelo partido
+            $dadosVereadores = Voto::select('candidatos.nome', DB::raw('count(*) as total'))
+                ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
+                ->whereIn('votos.candidato_id', $candidatosPartido) // Filtrar pelo partido selecionado
+                ->groupBy('candidatos.nome')
+                ->orderBy('total', 'desc')
+                ->limit(13) // Limitar aos 12 mais votados
+                ->get();
+
+            // Retornar os vereadores mais votados
+            return response()->json([
+                'vereadores' => $dadosVereadores
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Erro ao buscar vereadores por partido: ' . $e->getMessage());
+            return response()->json(['error' => 'Erro ao buscar vereadores por partido'], 500);
+        }
+    }
+
+    public function getPartidos()
+    {
+        
+        try {
+            // Filtra apenas os candidatos com cargo de vereador (cargo_id = 13)
+            $partido = DB::table('candidatos')
+                ->where('cargo_id', 13)  // Adiciona o filtro para cargo 13 (vereadores)
+                ->distinct()
+                ->pluck('partido');
+
+            return response()->json($partido->toArray());
+        } catch (\Exception $e) {
+            Log::error('Erro ao buscar partidos: ' . $e->getMessage());
+            return response()->json(['error' => 'Erro ao buscar partidos'], 500);
         }
     }
 

@@ -43,6 +43,7 @@
                 <option value="localidades">Escolas</option>
                 <option value="bairros">Bairros</option>
                 <option value="partidos">Partidos</option>
+                <option value="partidos-vereador">Vereadores por partido</option>
                 <option value="regioes">Regiões</option>
             </select>
         </div>
@@ -53,13 +54,18 @@
             </select>
         </div>
         <div id="school-filter-container" style="display: none;">
-            <select class="escola-subfilter-select" id="escola-subfilter-select">
+            <select id="escola-subfilter-select">
                 <option value="">Selecione a escola</option>
             </select>
         </div>
         <div id="regiao-subfilter-container" style="display: none;">
             <select id="regiao-subfilter-select">
                 <option value="">Selecione a região</option>
+            </select>
+        </div>
+        <div id="partido-subfilter-container" style="display: none;">
+            <select id="partido-subfilter-select">
+                <option value="">Selecione o partido</option>
             </select>
         </div>
 
@@ -162,7 +168,7 @@
             {{-- -------------------------------------------------- fim do painel ---------------------------------------------- --}}
             <div class="chart">
                 <div class="verea">
-                    <h2>Vereadores</h2>
+                    <h3>Os 12 vereadores mais votados</h3> 
                 </div>
                 <canvas id="barchart-vereadores" width="400" height="400"></canvas>
             </div>
@@ -177,7 +183,6 @@
                     <h2>Escolas</h2>
                 </div>
                 <canvas id="barchart-escolas" width="400" height="400"></canvas>
-
             </div>
             <div class="chart">
                 <div class="partidos">
@@ -373,7 +378,7 @@
                 });
         }
     </script>
-
+    {{-- -------------------------------------------------- fim do search ---------------------------------------------- --}}
     <footer>
         <h1 class="footer-title">Vai ser ainda melhor.</h1>
     </footer>
