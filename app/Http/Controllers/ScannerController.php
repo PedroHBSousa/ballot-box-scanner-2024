@@ -50,10 +50,10 @@ class ScannerController extends Controller
                 $dadosBoletim = $qrCodeService->getDadosBoletim();
                 $votos = $qrCodeService->getVotos();
                 // Verificar se o boletim já existe
-                $boletimExistente = Boletim::where('assinatura_digital', $dadosBoletim['ASSI'])->first();
+                $boletimExistente = Boletim::where('secao_id', $dadosBoletim['SECA'])->exists();
 
                 if ($boletimExistente) {
-                    $request->session()->flash('error', 'BOLETIM EXISTENTE');
+                    $request->session()->flash('error', 'BOLETIM JÁ CONSTA NO SISTEMA');
                 } else {
                     // Verificar se a seção existe
                     $secaoExistente = Secao::find($dadosBoletim['SECA']);
