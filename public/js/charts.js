@@ -73,10 +73,10 @@ function createPieChartConfig() {
                 {
                     data: [],
                     backgroundColor: [
-                        "rgba(7, 217, 0)",
+                        "rgba(30, 144, 255)",
                         "rgba(255,0,0)",
                         "rgba(242, 0, 255)",
-                        "rgba(30,144,255)",
+                        "rgba(7, 217, 0)",
                         "rgba(252, 186, 3)",
                     ],
                     borderColor: ["#FFF", "#FFF", "#FFF", "#FFF", "#FFF"],
@@ -144,7 +144,7 @@ function getChartOptions() {
                         (a, b) => a + b,
                         0
                     );
-                    const percentage = ((value / totalVotes) * 100).toFixed();
+                    const percentage = ((value / totalVotes) * 100).toFixed(2); // Agora com duas casas decimais
                     return `${value}\n(${percentage}%)`;
                 },
                 font: {
@@ -632,4 +632,44 @@ function updateChart(filter, data, chartInstance) {
         toggleChartVisibility(chartInstance.canvas.id, true);
     }
 
+}
+
+function updateChartInstance(chartInstance, data, filter, subfilterName = '') {
+    console.log(data); // Verifica os dados no console
+
+    // Atualizar o título com o nome do subfiltro (escola)
+    const titleText = subfilterName || ''; // Mostra o subfiltro ou uma mensagem padrão se não houver subfiltro
+
+    if (chartInstance.options.plugins && chartInstance.options.plugins.title) {
+        chartInstance.options.plugins.title.text = titleText;
+    }
+
+    // Verifica se os dados estão disponíveis
+    if (!Array.isArray(data) || data.length === 0) {
+        console.log("Nenhum dado encontrado para este filtro.");
+        chartInstance.data.labels = [];
+        chartInstance.data.datasets[0].data = [];
+    } else {
+        // Reorganiza os dados para que "Reinaldinho" fique em primeiro
+        const reorderedData = data.sort((a, b) => {
+            if (a.nome === "Reinaldinho") return -1; // Coloca "Reinaldinho" em primeiro
+            if (b.nome === "Reinaldinho") return 1;
+            return 0; // Mantém a ordem para os outros
+        });
+
+        // Atualiza os dados do gráfico com base no filtro
+        if (filter === "partidos") {
+            chartInstance.data.labels = reorderedData.map(item => item.partido || "Indefinido");
+            chartInstance.data.datasets[0].data = reorderedData.map(item => item.total || 0);
+        } else if (filter === "prefeitos" || filter === "vereadores") {
+            chartInstance.data.labels = reorderedData.map(item => item.nome || "Indefinido");
+            chartInstance.data.datasets[0].data = reorderedData.map(item => item.total || 0);
+        } else {
+            console.error("Filtro não reconhecido:", filter);
+            return;
+        }
+    }
+
+    // Atualiza o gráfico com os novos dados
+    chartInstance.update();
 }
