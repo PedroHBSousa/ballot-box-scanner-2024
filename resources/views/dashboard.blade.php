@@ -20,6 +20,9 @@
     <script src="{{ asset('js/html2canvas.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+        integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>
@@ -259,40 +262,61 @@
 
         function downloadPDF() {
             let resultContainer = document.getElementById('result-container');
+            let buttonDownloadPDF = document.getElementById('button-download-pdf');
 
-            html2canvas(resultContainer, {
-                scale: 2, // Aumente o fator de escala para melhorar a qualidade
-                useCORS: true, // Caso use imagens de outros domínios, habilita CORS
-            }).then(canvas => {
-                // Conversão da div em uma imagem de alta qualidade
-                let imgData = canvas.toDataURL('image/png');
+            // Verificar se o resultContainer tem conteúdo
+            if (!resultContainer.innerHTML.trim()) {
+                alert("Não há conteúdo para gerar o PDF.");
+                return;
+            }
 
-                // Acessa o jsPDF corretamente
-                const {
-                    jsPDF
-                } = window.jspdf || window;
-                let pdf = new jsPDF('p', 'mm', 'a4'); // Formato retrato, milímetros, tamanho A4
+            // Temporariamente mostrar o conteúdo do resultContainer
+            resultContainer.style.display = 'block';
 
-                let pageWidth = pdf.internal.pageSize.getWidth(); // Largura da página
-                let pageHeight = pdf.internal.pageSize.getHeight(); // Altura da página
-                let imgWidth = canvas.width;
-                let imgHeight = canvas.height;
+            // Forçar renderização antes de gerar o PDF
+            window.scrollTo(0, 0);
 
-                // Ajusta a altura proporcional da imagem ao PDF
-                let heightRatio = imgHeight / imgWidth;
-                let pdfHeight = pageWidth * heightRatio;
+            // Configurações para html2pdf
+            let opt = {
+                margin: [0.5, 0.5, 0.5, 0.5], // Diminuir a margem para aproveitar mais espaço na página
+                filename: 'vereador-detalhes.pdf',
+                image: {
+                    type: 'jpeg',
+                    quality: 0.98
+                },
+                html2canvas: {
+                    scale: 2, // Aumentar a escala para melhorar a qualidade
+                    useCORS: true,
+                    logging: true, // Ativar logging para depuração
+                    onclone: (documentClone) => {
+                        // Garantir que o conteúdo clonado mantenha os estilos corretos
+                        let clonedResultContainer = documentClone.getElementById('result-container');
+                        clonedResultContainer.style.display = 'block';
 
-                // Se a imagem capturada for maior que a altura da página, você pode ajustá-la
-                if (pdfHeight > pageHeight) {
-                    pdfHeight = pageHeight;
-                    pageWidth = pageHeight / heightRatio;
+                        // Definir largura fixa para manter o layout de desktop
+                        clonedResultContainer.style.width = '800px'; // Defina a largura apropriada ao seu layout
+                    }
+                },
+                jsPDF: {
+                    unit: 'in',
+                    format: 'letter',
+                    orientation: 'portrait'
+                },
+                pagebreak: {
+                    mode: ['avoid-all', 'css', 'legacy'] // Evitar quebras estranhas no meio de elementos
                 }
+            };
 
-                // Adiciona a imagem no PDF, ajustando-a para o tamanho da página
-                pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, pdfHeight);
-                pdf.save('vereador-detalhes.pdf'); // Faz o download do PDF
-            });
+            // Usar setTimeout para garantir a renderização do conteúdo antes de gerar o PDF
+            setTimeout(function() {
+                html2pdf().set(opt).from(resultContainer).save().then(() => {
+                    // Após gerar o PDF, você pode ocultar o conteúdo novamente, se necessário
+                    resultContainer.style.display = 'none';
+                    buttonDownloadPDF.style.display = 'none'; // Exibe o botão de download do PDF
+                });
+            }, 500); // Atraso de 500ms para garantir a renderização
         }
+
 
 
         // Função para buscar por nome do vereador ou partido

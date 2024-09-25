@@ -269,71 +269,6 @@ footer {
     text-align: center;
 }
 
-/* -------------------------- INICIO DO SUB-FILTROS -------------------------- */
-/*
-#partido-subfilter-container,
-#subfilter-container,
-#regiao-subfilter-container,
-#school-filter-container {
-    width: 100%;
-    max-width: 350px;
-    position: relative;
-    margin-bottom: 2rem;
-    margin-top: 2rem;
-    cursor: pointer;
-}
-
-#partido-subfilter-select,
-#bairro-subfilter-select,
-#regiao-subfilter-select,
-#escola-subfilter-select {
-    appearance: none;
-    width: 100%;
-    max-width: 350px;
-    font-size: 1.15rem;
-    padding: 0.675em 6em 0.675em 1em;
-    background-color: #fff;
-    border: 1px solid #000;
-    border-radius: 0.25rem;
-    color: #000;
-    cursor: pointer;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-#bairro-subfilter-select::before,
-#bairro-subfilter-select::after,
-#regiao-subfilter-container::before,
-#regiao-subfilter-container::after,
-#school-filter-container::before,
-#school-filter-container::after {
-    --size: 0.3rem;
-    content: "";
-    position: absolute;
-    right: 1rem;
-    pointer-events: none;
-}
-
-#bairro-subfilter-select::before,
-#regiao-subfilter-container::before,
-#school-filter-container::before {
-    border-left: var(--size) solid transparent;
-    border-right: var(--size) solid transparent;
-    border-bottom: var(--size) solid black;
-    top: 40%;
-}
-
-#bairro-subfilter-select::after,
-#regiao-subfilter-container::after,
-#school-filter-container::after {
-    border-left: var(--size) solid transparent;
-    border-right: var(--size) solid transparent;
-    border-top: var(--size) solid black;
-    top: 55%;
-} */
-/* -------------------------- FIM DO SUB-FILTROS -------------------------- */
-
 .container {
     display: flex;
     flex-direction: column;
@@ -734,5 +669,11 @@ table {
     }
     .painel-container {
         max-width: 350px;
+    }
+}
+/* CSS para forçar o layout de desktop ao gerar o PDF */
+@media print {
+    body {
+        width: 1000px; /* Forçar o layout de desktop para PDF */
     }
 }
