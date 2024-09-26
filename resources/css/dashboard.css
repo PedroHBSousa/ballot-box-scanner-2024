@@ -8,13 +8,11 @@
 
 /* -------------------------- INICIO DO HEADER -------------------------- */
 header {
-    background: linear-gradient(
-        -45deg,
-        rgba(0, 129, 255, 0.989233193277311) 10%,
-        rgba(255, 218, 0, 1) 40%,
-        rgba(0, 129, 255, 0.989233193277311) 60%,
-        rgba(255, 218, 0, 1) 90%
-    );
+    background: linear-gradient(-45deg,
+            rgba(0, 129, 255, 0.989233193277311) 10%,
+            rgba(255, 218, 0, 1) 40%,
+            rgba(0, 129, 255, 0.989233193277311) 60%,
+            rgba(255, 218, 0, 1) 90%);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
     width: 100%;
@@ -38,6 +36,7 @@ header span {
     display: block;
     font-weight: 800;
 }
+
 .text-container-title {
     text-align: center;
     font-size: 16px;
@@ -57,38 +56,46 @@ header span {
     width: 180px;
     position: absolute;
 }
+
 #reis {
     width: 160px;
     position: absolute;
     left: 150px;
 }
+
 #felipe {
     width: 250px;
     position: absolute;
     top: -110px;
     left: -50px;
 }
+
 footer {
     display: flex;
     flex-direction: row;
 }
+
 .footer-title {
     color: #001c3b;
     font-size: 30px;
     font-weight: 900;
     text-align: center;
 }
+
 @keyframes gradientBG {
     0% {
         background-position: 0% 50%;
     }
+
     50% {
         background-position: 100% 50%;
     }
+
     100% {
         background-position: 0% 50%;
     }
 }
+
 /* -------------------------- FIM DO HEADER -------------------------- */
 
 /* -------------------------- INICIO DO PAINEL -------------------------- */
@@ -200,7 +207,8 @@ footer {
     padding: 10px;
     text-align: center;
     width: 100%;
-    box-shadow: 0 0 15px rgba(30, 144, 255, 0.5); /* Brilho suave */
+    box-shadow: 0 0 15px rgba(30, 144, 255, 0.5);
+    /* Brilho suave */
     transition: box-shadow 0.3s ease-in-out;
 }
 
@@ -219,42 +227,58 @@ footer {
 
 #total-votos-apurados {
     background-color: #05c46b;
-    box-shadow: 0 0 15px rgba(5, 196, 107, 0.5); /* Brilho suave */
-    transition: box-shadow 0.3s ease-in-out; /* Transição suave */
+    box-shadow: 0 0 15px rgba(5, 196, 107, 0.5);
+    /* Brilho suave */
+    transition: box-shadow 0.3s ease-in-out;
+    /* Transição suave */
 }
 
 #nao-apurado {
     background-color: #f53b57;
-    box-shadow: 0 0 15px rgba(245, 59, 87, 0.5); /* Brilho suave */
+    box-shadow: 0 0 15px rgba(245, 59, 87, 0.5);
+    /* Brilho suave */
     transition: box-shadow 0.3s ease-in-out;
 }
 
 #eleitor-faltante {
     background-color: #ff9f43;
-    box-shadow: 0 0 15px rgba(255, 159, 67, 0.5); /* Brilho suave */
+    box-shadow: 0 0 15px rgba(255, 159, 67, 0.5);
+    /* Brilho suave */
     transition: box-shadow 0.3s ease-in-out;
 }
 
 #secoes-apuradas {
     background-color: #b068f3;
-    box-shadow: 0 0 15px rgba(176, 104, 243, 0.5); /* Brilho suave */
+    box-shadow: 0 0 15px rgba(176, 104, 243, 0.5);
+    /* Brilho suave */
     transition: box-shadow 0.3s ease-in-out;
 }
+
 #eleitor-faltante:hover {
-    box-shadow: 0 0 25px rgba(255, 159, 67, 0.8); /* Realce ao passar o mouse */
+    box-shadow: 0 0 25px rgba(255, 159, 67, 0.8);
+    /* Realce ao passar o mouse */
 }
+
 #secoes-apuradas:hover {
-    box-shadow: 0 0 25px rgba(176, 104, 243, 0.8); /* Realce ao passar o mouse */
+    box-shadow: 0 0 25px rgba(176, 104, 243, 0.8);
+    /* Realce ao passar o mouse */
 }
+
 #nao-apurado:hover {
-    box-shadow: 0 0 25px rgba(245, 59, 87, 0.8); /* Realce ao passar o mouse */
+    box-shadow: 0 0 25px rgba(245, 59, 87, 0.8);
+    /* Realce ao passar o mouse */
 }
+
 #total-votos-apurados:hover {
-    box-shadow: 0 0 25px rgba(5, 196, 107, 0.8); /* Realce ao passar o mouse */
+    box-shadow: 0 0 25px rgba(5, 196, 107, 0.8);
+    /* Realce ao passar o mouse */
 }
+
 .voto:hover {
-    box-shadow: 0 0 25px rgba(30, 144, 255, 0.8); /* Realce ao passar o mouse */
+    box-shadow: 0 0 25px rgba(30, 144, 255, 0.8);
+    /* Realce ao passar o mouse */
 }
+
 /* -------------------------- FIM DO PAINEL -------------------------- */
 
 .last-update-title {
@@ -263,6 +287,7 @@ footer {
     text-align: center;
     margin-top: 10px;
 }
+
 .last-update-time {
     font-size: 12px;
     font-weight: 500;
@@ -278,30 +303,30 @@ footer {
 }
 
 .chart {
-    width: 700px; /* Ajustei para 400px para combinar com o canvas */
+    width: 700px;
     height: 720px;
     padding: 2rem;
     border: 1px solid #aaa9a9;
     border-radius: 1rem;
     box-shadow: 0 0 16px rgba(0, 0, 0, 0);
     margin-top: 15px;
-    margin-bottom: 15px;
 }
 
-/* Alinha os dois gráficos de prefeito lado a lado */
-.row-container {
+.charts-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    /* Alterado de column para row */
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    /* Isso permitirá que os gráficos se ajustem ao tamanho da tela */
+    padding-bottom: 50px;
     justify-content: center;
-    gap: 2rem; /* Espaçamento entre os gráficos */
 }
 
-.pref {
-    text-align: center;
-}
-
-#piechart-prefeitos, #piechart-prefeitos-geral {
+#piechart-prefeitos {
     text-transform: capitalize;
+    z-index: 2;
 }
 
 option {
@@ -314,6 +339,7 @@ option {
     position: relative;
     margin-top: 2rem;
 }
+
 .custom-select select {
     appearance: none;
     width: 100%;
@@ -338,12 +364,14 @@ option {
     right: 1rem;
     pointer-events: none;
 }
+
 .custom-select::before {
     border-left: var(--size) solid transparent;
     border-right: var(--size) solid transparent;
     border-bottom: var(--size) solid black;
     top: 40%;
 }
+
 .custom-select::after {
     border-left: var(--size) solid transparent;
     border-right: var(--size) solid transparent;
@@ -356,16 +384,15 @@ option {
     font-size: 20px;
     font-weight: 600;
 }
+
 /* -------------------------- FIM DO FILTRO PRINCIPAL -------------------------- */
 
 footer {
-    background: linear-gradient(
-        -45deg,
-        rgba(0, 129, 255, 0.989233193277311) 10%,
-        rgba(255, 218, 0, 1) 40%,
-        rgba(0, 129, 255, 0.989233193277311) 60%,
-        rgba(255, 218, 0, 1) 90%
-    );
+    background: linear-gradient(-45deg,
+            rgba(0, 129, 255, 0.989233193277311) 10%,
+            rgba(255, 218, 0, 1) 40%,
+            rgba(0, 129, 255, 0.989233193277311) 60%,
+            rgba(255, 218, 0, 1) 90%);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
     width: 100%;
@@ -378,6 +405,7 @@ footer {
     text-align: center;
     padding: 10px 0;
 }
+
 /* -------------------------- INICIO DO BUSQUE VEREADOR -------------------------- */
 
 .search-container {
@@ -386,6 +414,7 @@ footer {
     align-items: center;
     position: relative;
 }
+
 .search {
     width: 700px;
     background-color: #f3f3f3;
@@ -393,21 +422,26 @@ footer {
     padding: 20px;
     margin-bottom: 50px;
     display: flex;
-    flex-direction: column; /* Alinha os itens em coluna */
+    flex-direction: column;
+    /* Alinha os itens em coluna */
     /* align-items: center; */
-    justify-content: center; /* Centraliza verticalmente, se necessário */
+    justify-content: center;
+    /* Centraliza verticalmente, se necessário */
 }
+
 .search-container h2 {
     font-size: 20px;
     font-weight: 500;
     margin-bottom: 20px;
     text-align: center;
 }
+
 .form label {
     font-size: 16px;
     font-weight: 500;
     margin-bottom: 10px;
 }
+
 .input-search-vereador {
     height: 45px;
     width: 100%;
@@ -420,11 +454,13 @@ footer {
     font-size: 16px;
     color: #4b4b4b;
 }
+
 .button-submit-vereador:hover,
 .input-search-vereador:hover {
     transform: scale(1.009);
     box-shadow: 0px 0px 3px 0px #212529;
 }
+
 .button-submit-vereador {
     width: 100%;
     height: 45px;
@@ -437,6 +473,7 @@ footer {
     text-transform: uppercase;
     margin-bottom: 15px;
 }
+
 .error-message {
     width: 100%;
     padding: 12px;
@@ -451,6 +488,7 @@ footer {
     font-size: 14px;
     color: #71192f;
 }
+
 .button-download-pdf {
     margin-top: 20px;
     border: none;
@@ -472,15 +510,18 @@ footer {
     box-shadow: 0 4px 6px -1px #488aec31, 0 2px 4px -1px #488aec17;
     transition: all 0.6s ease;
 }
+
 .button-download-pdf:hover {
     background-color: #3a6ebd;
     box-shadow: 0 10px 15px -3px #488aec4f, 0 4px 6px -2px #488aec17;
 }
+
 .button-download-pdf:focus,
 .button-download-pdf:active {
     opacity: 0.85;
     box-shadow: none;
 }
+
 .section-table {
     display: flex;
     justify-content: center;
@@ -488,6 +529,7 @@ footer {
     background-color: #f5f5f5;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 th {
     font-weight: 500;
     font-size: 16px;
@@ -495,6 +537,7 @@ th {
     padding: 10px;
     border-bottom: 2px solid #f1f1f1;
 }
+
 tr {
     font-weight: 400;
     font-size: 14px;
@@ -502,50 +545,71 @@ tr {
     padding: 10px;
     border-bottom: 2px solid #f1f1f1;
 }
+
 td {
     font-weight: 400;
     font-size: 14px;
 }
+
 thead {
     background-color: #f5f5f5;
 }
+
 table {
     width: 100%;
     border-collapse: collapse;
 }
+
 .councilor-information {
     display: flex;
     flex-direction: row;
-    align-items: flex-start; /* Alinha os itens no topo, mantendo uma linha base */
-    justify-content: space-between; /* Centraliza os itens horizontalmente */
-    gap: 2rem; /* Aumenta o espaço entre os itens */
-    margin-bottom: 20px; /* Aumenta a margem inferior para mais espaçamento */
-    flex-wrap: wrap; /* Ajusta os itens em várias linhas se necessário */
-    padding: 10px; /* Adiciona espaçamento interno ao container */
+    align-items: flex-start;
+    /* Alinha os itens no topo, mantendo uma linha base */
+    justify-content: space-between;
+    /* Centraliza os itens horizontalmente */
+    gap: 2rem;
+    /* Aumenta o espaço entre os itens */
+    margin-bottom: 20px;
+    /* Aumenta a margem inferior para mais espaçamento */
+    flex-wrap: wrap;
+    /* Ajusta os itens em várias linhas se necessário */
+    padding: 10px;
+    /* Adiciona espaçamento interno ao container */
 }
+
 .councilor-information-items {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Alinha o conteúdo à esquerda dentro dos itens */
+    align-items: flex-start;
+    /* Alinha o conteúdo à esquerda dentro dos itens */
     justify-content: center;
-    background-color: #f5f5f5; /* Adiciona uma cor de fundo para destacar os itens */
-    border-radius: 5px; /* Bordas arredondadas para um visual mais suave */
-    padding: 15px; /* Espaçamento interno para evitar que o conteúdo fique colado nas bordas */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adiciona uma leve sombra para destacar os itens */
-    width: 300px; /* Define uma largura consistente para os itens */
-    min-width: 200px; /* Define uma largura mínima */
+    background-color: #f5f5f5;
+    /* Adiciona uma cor de fundo para destacar os itens */
+    border-radius: 5px;
+    /* Bordas arredondadas para um visual mais suave */
+    padding: 15px;
+    /* Espaçamento interno para evitar que o conteúdo fique colado nas bordas */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Adiciona uma leve sombra para destacar os itens */
+    width: 300px;
+    /* Define uma largura consistente para os itens */
+    min-width: 200px;
+    /* Define uma largura mínima */
 }
+
 .councilor-information-items-title {
     font-size: 16px;
     font-weight: 500;
 }
+
 .councilor-information-items-subtitle {
     font-size: 15px;
     font-weight: 500;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 100%; /* Garante que o texto se ajuste ao tamanho do item */
+    max-width: 100%;
+    /* Garante que o texto se ajuste ao tamanho do item */
 }
 
 .autocomplete-items {
@@ -575,21 +639,29 @@ table {
 /* Estilos específicos para dispositivos móveis */
 @media (max-width: 768px) {
     .councilor-information {
-        flex-direction: column; /* Empilha os itens verticalmente no mobile */
-        gap: 1rem; /* Reduz o espaço entre os itens para compactar mais */
+        flex-direction: column;
+        /* Empilha os itens verticalmente no mobile */
+        gap: 1rem;
+        /* Reduz o espaço entre os itens para compactar mais */
     }
 
     .councilor-information-items {
-        flex-direction: row; /* Coloca os itens em linha no mobile */
-        align-items: center; /* Centraliza verticalmente os itens em uma linha */
-        justify-content: space-between; /* Adiciona espaçamento entre os itens */
-        width: 100%; /* Faz os itens ocuparem a largura total da tela */
-        padding: 10px; /* Ajusta o padding para ser mais compacto */
+        flex-direction: row;
+        /* Coloca os itens em linha no mobile */
+        align-items: center;
+        /* Centraliza verticalmente os itens em uma linha */
+        justify-content: space-between;
+        /* Adiciona espaçamento entre os itens */
+        width: 100%;
+        /* Faz os itens ocuparem a largura total da tela */
+        padding: 10px;
+        /* Ajusta o padding para ser mais compacto */
     }
 
     .councilor-information-items-title,
     .councilor-information-items-subtitle {
-        margin-bottom: 0; /* Remove o espaçamento entre título e subtítulo no mobile */
+        margin-bottom: 0;
+        /* Remove o espaçamento entre título e subtítulo no mobile */
     }
 }
 
@@ -597,9 +669,11 @@ table {
     #reis {
         left: 120px;
     }
+
     #felipe {
         left: -80px;
     }
+
     #reinaldinho {
         left: 30px;
     }
@@ -617,6 +691,7 @@ table {
         font-size: 15px;
         text-align: center;
     }
+
     .chart {
         max-width: 350px;
         height: 450px;
@@ -635,52 +710,68 @@ table {
     .charts-container {
         display: flex;
         justify-content: center;
-        flex-wrap: wrap; /* Isso permitirá que os gráficos se ajustem ao tamanho da tela */
+        flex-wrap: wrap;
+        /* Isso permitirá que os gráficos se ajustem ao tamanho da tela */
     }
+
     .teste {
         display: flex;
         flex-direction: column;
         justify-content: center;
         gap: 2rem;
     }
+
     .search {
         max-width: 350px;
     }
 }
+
 /* -------------------------- FIM DA RESPONSIVIDADE MOBILE -------------------------- */
 /* No desktop, o painel de contagem de votos fica no topo */
 @media (min-width: 768px) {
     .container {
-        flex-direction: column; /* O painel fica acima */
+        flex-direction: column;
+        /* O painel fica acima */
     }
+
     .accountant {
-        order: -1; /* Exibe o painel de contagem de votos no topo */
+        order: -1;
+        /* Exibe o painel de contagem de votos no topo */
     }
 
     .painel {
-        order: -1; /* Exibe o painel de contagem de votos no topo */
+        order: -1;
+        /* Exibe o painel de contagem de votos no topo */
     }
 }
+
 /* Layout para telas pequenas (mobile) */
 @media (max-width: 767px) {
     .container {
         display: flex;
         flex-direction: column;
     }
+
     /* No mobile, o gráfico vem primeiro e o painel abaixo */
     .chart-container {
-        order: 1; /* Gráfico no topo */
+        order: 1;
+        /* Gráfico no topo */
     }
+
     .painel {
-        order: 0; /* Painel abaixo do gráfico */
+        order: 0;
+        /* Painel abaixo do gráfico */
     }
+
     .painel-container {
         max-width: 350px;
     }
 }
+
 /* CSS para forçar o layout de desktop ao gerar o PDF */
 @media print {
     body {
-        width: 1000px; /* Forçar o layout de desktop para PDF */
+        width: 1000px;
+        /* Forçar o layout de desktop para PDF */
     }
 }
