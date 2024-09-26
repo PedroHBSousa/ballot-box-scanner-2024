@@ -713,8 +713,8 @@ function updateChart(filter, data, chartInstance) {
 function updateChartInstance(chartInstance, data, filter, subfilterName = "") {
     console.log(data); // Verifica os dados no console
 
-    // Atualizar o título com o nome do subfiltro (ex: escola)
-    const titleText = subfilterName || ""; // Mostra o subfiltro ou uma mensagem padrão se não houver subfiltro
+    // Atualizar o título com o nome do subfiltro
+    const titleText = subfilterName || "";
 
     if (chartInstance.options.plugins && chartInstance.options.plugins.title) {
         chartInstance.options.plugins.title.text = titleText;
@@ -724,7 +724,7 @@ function updateChartInstance(chartInstance, data, filter, subfilterName = "") {
     if (filter === "prefeitos-geral" && typeof data === "object" && !Array.isArray(data)) {
         // Supondo que 'data' contém os campos 'prefeitos', 'abstencoes', 'brancos', e 'nulos'
         const candidatos = data.prefeitos || [];
-        const abstencoes = data.abstencoes || 0;
+        const abstenções = data.abstenções || 0;
         const brancos = data.brancos || 0;
         const nulos = data.nulos || 0;
 
@@ -738,7 +738,7 @@ function updateChartInstance(chartInstance, data, filter, subfilterName = "") {
 
         chartInstance.data.datasets[0].data = [
             ...candidatos.map(item => item.total || 0),
-            abstencoes,
+            abstenções,
             brancos,
             nulos
         ];

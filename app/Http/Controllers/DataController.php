@@ -112,9 +112,7 @@ class DataController extends Controller
     public function getData($filter)
     {
         try {
-            // Exemplo de lógica para retornar dados com base no filtro
             $data = [];
-
 
             if ($filter === 'bairros') {
                 // Obtém todos os bairros
@@ -151,8 +149,6 @@ class DataController extends Controller
                 ]);
             }
 
-
-
             switch ($filter) {
                 case 'geral':
                     // Consulta para obter dados dos prefeitos
@@ -175,13 +171,13 @@ class DataController extends Controller
 
                     // Consulta para votos brancos e nulos para prefeitos
                     $brancos = DB::table('votos')
-                        ->where('branco', 'sim') // Verificando votos brancos
-                        ->where('cargo_id', 11) // Cargo para prefeitos
+                        ->where('branco', 'sim')
+                        ->where('cargo_id', 11)
                         ->count();
 
                     $nulos = DB::table('votos')
-                        ->where('nulo', 'sim') // Verificando votos nulos
-                        ->where('cargo_id', 11) // Cargo para prefeitos
+                        ->where('nulo', 'sim')
+                        ->where('cargo_id', 11)
                         ->count();
 
                     $secoesComBoletim = DB::table('boletins')
@@ -244,8 +240,6 @@ class DataController extends Controller
 
             return response()->json($data);
         } catch (\Exception $e) {
-            // Registra o erro no log e retorna uma resposta de erro
-            // \log::error('Erro ao buscar dados do gráfico: ' . $e->getMessage());
             return response()->json(['error' => 'Erro ao buscar dados do gráfico'], 500);
         }
     }
