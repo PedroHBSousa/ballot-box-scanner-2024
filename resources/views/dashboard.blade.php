@@ -85,7 +85,7 @@
                 <div class="pref">
                     <h2>Prefeito - Votação Geral</h2>
                 </div>
-                <canvas id="piechart-prefeitos" width="400" height="400"></canvas>
+                <canvas id="piechart-prefeitos-geral" width="400" height="400"></canvas>
             </div>
             {{-- -------------------------------------------------- inicio do painel ---------------------------------------------- --}}
             <div class="painel">

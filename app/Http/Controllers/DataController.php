@@ -155,6 +155,7 @@ class DataController extends Controller
 
             switch ($filter) {
                 case 'geral':
+                    // Consulta para obter dados dos prefeitos
                     $prefeitosData = DB::table('votos')
                         ->select('candidatos.nome', DB::raw('count(*) as total'))
                         ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
@@ -162,6 +163,7 @@ class DataController extends Controller
                         ->groupBy('candidatos.nome')
                         ->get();
 
+                    // Consulta para obter dados dos vereadores
                     $vereadoresData = DB::table('votos')
                         ->select('candidatos.nome', DB::raw('count(*) as total'))
                         ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
@@ -171,9 +173,37 @@ class DataController extends Controller
                         ->limit(12)
                         ->get();
 
+                    // Consulta para votos brancos e nulos para prefeitos
+                    $brancos = DB::table('votos')
+                        ->where('branco', 'sim') // Verificando votos brancos
+                        ->where('cargo_id', 11) // Cargo para prefeitos
+                        ->count();
+
+                    $nulos = DB::table('votos')
+                        ->where('nulo', 'sim') // Verificando votos nulos
+                        ->where('cargo_id', 11) // Cargo para prefeitos
+                        ->count();
+
+                    $secoesComBoletim = DB::table('boletins')
+                        ->distinct()
+                        ->pluck('secao_id');
+
+                    $totalAptos = DB::table('secoes')
+                        ->whereIn('id', $secoesComBoletim)
+                        ->sum('aptos');
+
+                    $totalVotosPrefeitos = DB::table('votos')
+                        ->where('cargo_id', 11)
+                        ->count();
+
+                    $abstencoes = $totalAptos - $totalVotosPrefeitos;
+
                     $data = [
                         'prefeitos' => $prefeitosData,
                         'vereadores' => $vereadoresData,
+                        'votos_brancos' => $brancos,
+                        'votos_nulos' => $nulos,
+                        'abstencoes' => $abstencoes,
                     ];
                     break;
 
@@ -181,7 +211,7 @@ class DataController extends Controller
                     $data = DB::table('votos')
                         ->select('candidatos.nome', DB::raw('count(*) as total'))
                         ->join('candidatos', 'votos.candidato_id', '=', 'candidatos.id')
-                        ->where('candidatos.cargo_id', 11, 13) // Cargo para prefeitos
+                        ->where('candidatos.cargo_id', 11) // Cargo para prefeitos
                         ->groupBy('candidatos.nome')
                         ->get();
                     break;
@@ -416,7 +446,7 @@ class DataController extends Controller
 
     public function getPartidos()
     {
-        
+
         try {
             // Filtra apenas os candidatos com cargo de vereador (cargo_id = 13)
             $partido = DB::table('candidatos')
