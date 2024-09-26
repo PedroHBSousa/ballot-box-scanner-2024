@@ -474,10 +474,8 @@ function hideAllSubfilters() {
     // Oculta os containers dos subfiltros
     document.getElementById("subfilter-container").style.display = "none";
     document.getElementById("school-filter-container").style.display = "none";
-    document.getElementById("regiao-subfilter-container").style.display =
-        "none";
-    document.getElementById("partido-subfilter-container").style.display =
-        "none";
+    document.getElementById("regiao-subfilter-container").style.display = "none";
+    document.getElementById("partido-subfilter-container").style.display = "none";
 }
 
 function handleBairroSubfilterChange(event) {
@@ -724,7 +722,7 @@ function updateChartInstance(chartInstance, data, filter, subfilterName = "") {
     if (filter === "prefeitos-geral" && typeof data === "object" && !Array.isArray(data)) {
         // Supondo que 'data' contém os campos 'prefeitos', 'abstencoes', 'brancos', e 'nulos'
         const candidatos = data.prefeitos || [];
-        const abstenções = data.abstenções || 0;
+        const abstenções = parseInt(data.abstenções, 10) || 0;
         const brancos = data.brancos || 0;
         const nulos = data.nulos || 0;
 

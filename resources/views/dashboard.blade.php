@@ -182,7 +182,7 @@
                 PDF</button>
             <div class="chart" id="vereadores-chart">
                 <div class="verea">
-                    <h2>Vereadores (Votação em ordem decrescente)</h2>
+                    <h2>Vereadores (12 mais votados)</h2>
                 </div>
                 <canvas id="barchart-vereadores" width="400" height="400"></canvas>
             </div>
