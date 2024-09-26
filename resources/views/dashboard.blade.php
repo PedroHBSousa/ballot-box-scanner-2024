@@ -177,15 +177,16 @@
                 </div>
             </div>
             {{-- -------------------------------------------------- fim do painel ---------------------------------------------- --}}
-            <button id="button-download-chart-pdf" class="button-download-pdf" onclick="downloadPDFChart()"
-                style="display:none;">Download
-                PDF</button>
+
             <div class="chart" id="vereadores-chart">
                 <div class="verea">
                     <h2>Vereadores (12 mais votados)</h2>
                 </div>
                 <canvas id="barchart-vereadores" width="400" height="400"></canvas>
             </div>
+            <button id="button-download-chart-pdf" class="button-download-pdf" onclick="downloadPDFChart()"
+            style="display:none;">Download
+            PDF</button>
             <div class="chart">
                 <div class="bairros">
                     <h2>Bairros</h2>
