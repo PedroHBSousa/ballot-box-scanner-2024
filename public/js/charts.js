@@ -90,7 +90,7 @@ function createPieChartConfig() {
                 ...getChartOptions().plugins,
                 title: {
                     display: true,
-                    text: '',
+                    text: "",
                     font: {
                         size: 12,
                     },
@@ -118,7 +118,7 @@ function getChartOptions() {
         plugins: {
             title: {
                 display: true,
-                text: 'Prefeito',
+                text: "Prefeito",
                 padding: {
                     top: isMobile ? 10 : 10,
                     bottom: isMobile ? 10 : 10,
@@ -129,7 +129,7 @@ function getChartOptions() {
             },
             legend: {
                 display: true,
-                position: 'bottom',
+                position: "bottom",
                 labels: {
                     padding: isMobile ? 5 : 15,
                     font: {
@@ -140,10 +140,11 @@ function getChartOptions() {
             datalabels: {
                 color: "#000",
                 formatter: (value, context) => {
-                    const totalVotes = context.chart.data.datasets[0].data.reduce(
-                        (a, b) => a + b,
-                        0
-                    );
+                    const totalVotes =
+                        context.chart.data.datasets[0].data.reduce(
+                            (a, b) => a + b,
+                            0
+                        );
                     const percentage = ((value / totalVotes) * 100).toFixed(2); // Agora com duas casas decimais
                     return `${value}\n(${percentage}%)`;
                 },
@@ -167,7 +168,9 @@ function resizeChart(chart) {
 }
 
 // Listener para redimensionamento da janela
-window.addEventListener("resize", () => resizeChart(window.chartInstancePrefeitos));
+window.addEventListener("resize", () =>
+    resizeChart(window.chartInstancePrefeitos)
+);
 
 // Configuração do gráfico de barras
 function createBarChartConfig(label) {
@@ -187,12 +190,11 @@ function createBarChartConfig(label) {
                     ],
                     borderColor: ["#FFF", "#FFF", "#FFF", "#FFF", "#FFF"],
                     borderWidth: 2,
-
                 },
             ],
         },
         options: {
-            indexAxis: 'y',
+            indexAxis: "y",
             scales: {
                 x: {
                     beginAtZero: true,
@@ -237,15 +239,24 @@ function createBarChartConfig(label) {
 }
 
 function loadInitialData() {
-    axios.get('/data/geral')
+    axios
+        .get("/data/geral")
         .then((response) => {
             const data = response.data;
 
             // Atualiza o gráfico de prefeitos
-            updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos');
+            updateChartInstance(
+                window.chartInstancePrefeitos,
+                data.prefeitos,
+                "prefeitos"
+            );
 
             // Atualiza o gráfico de vereadores
-            updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores');
+            updateChartInstance(
+                window.chartInstanceVereadores,
+                data.vereadores,
+                "vereadores"
+            );
         })
         .catch((error) => {
             console.error("Erro ao buscar dados iniciais:", error);
@@ -391,9 +402,16 @@ function handleFilterChange(event) {
         axios
             .get(`/data/${selectedFilter}`)
             .then((response) => {
-
-                updateChart(selectedFilter, response.data, window.chartInstancePrefeitos);
-                updateChart(selectedFilter, response.data, window.chartInstanceVereadores);
+                updateChart(
+                    selectedFilter,
+                    response.data,
+                    window.chartInstancePrefeitos
+                );
+                updateChart(
+                    selectedFilter,
+                    response.data,
+                    window.chartInstanceVereadores
+                );
 
                 // Exibe o subfiltro correspondente, se houver
                 if (selectedFilter === "bairros") {
@@ -413,6 +431,9 @@ function handleFilterChange(event) {
                         "school-filter-container"
                     ).style.display = "none";
                 }
+                document.getElementById(
+                    "button-download-chart-pdf"
+                ).style.display = "none";
             })
             .catch((error) => {
                 console.error(
@@ -427,13 +448,16 @@ function hideAllSubfilters() {
     // Oculta os containers dos subfiltros
     document.getElementById("subfilter-container").style.display = "none";
     document.getElementById("school-filter-container").style.display = "none";
-    document.getElementById("regiao-subfilter-container").style.display = "none";
-    document.getElementById("partido-subfilter-container").style.display = "none";
+    document.getElementById("regiao-subfilter-container").style.display =
+        "none";
+    document.getElementById("partido-subfilter-container").style.display =
+        "none";
 }
 
 function handleBairroSubfilterChange(event) {
     const selectedBairroId = event.target.value;
-    const selectedBairroName = event.target.options[event.target.selectedIndex].text.trim();
+    const selectedBairroName =
+        event.target.options[event.target.selectedIndex].text.trim();
     console.log("Selected Bairro ID:", selectedBairroId);
 
     if (selectedBairroId) {
@@ -443,10 +467,20 @@ function handleBairroSubfilterChange(event) {
                 const data = response.data;
 
                 // Atualiza o gráfico de prefeitos
-                updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos', selectedBairroName);
+                updateChartInstance(
+                    window.chartInstancePrefeitos,
+                    data.prefeitos,
+                    "prefeitos",
+                    selectedBairroName
+                );
 
                 // Atualiza o gráfico de vereadores
-                updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores', selectedBairroName);
+                updateChartInstance(
+                    window.chartInstanceVereadores,
+                    data.vereadores,
+                    "vereadores",
+                    selectedBairroName
+                );
             })
             .catch((error) => {
                 console.error("Erro ao buscar dados para o bairro:", error);
@@ -457,7 +491,8 @@ function handleBairroSubfilterChange(event) {
 }
 function handleEscolaSubfilterChange(event) {
     const selectedLocalidadeId = event.target.value;
-    const selectedLocalidadeName = event.target.options[event.target.selectedIndex].text.trim();
+    const selectedLocalidadeName =
+        event.target.options[event.target.selectedIndex].text.trim();
     console.log("Selected Localidade ID:", selectedLocalidadeId);
 
     if (selectedLocalidadeId) {
@@ -467,10 +502,20 @@ function handleEscolaSubfilterChange(event) {
                 const data = response.data;
 
                 // Atualiza o gráfico de prefeitos, passando o nome da escola como título
-                updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos', selectedLocalidadeName);
+                updateChartInstance(
+                    window.chartInstancePrefeitos,
+                    data.prefeitos,
+                    "prefeitos",
+                    selectedLocalidadeName
+                );
 
                 // Atualiza o gráfico de vereadores, passando o nome da escola como título
-                updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores', selectedLocalidadeName);
+                updateChartInstance(
+                    window.chartInstanceVereadores,
+                    data.vereadores,
+                    "vereadores",
+                    selectedLocalidadeName
+                );
             })
             .catch((error) => {
                 console.error("Erro ao buscar votos para a escola:", error);
@@ -481,7 +526,8 @@ function handleEscolaSubfilterChange(event) {
 }
 function handleRegioesSubfilterChange(event) {
     const selectedRegiao = event.target.value;
-    const selectedRegiaoName = event.target.options[event.target.selectedIndex].text.trim();
+    const selectedRegiaoName =
+        event.target.options[event.target.selectedIndex].text.trim();
     console.log("Selected Região:", selectedRegiao);
 
     if (selectedRegiao) {
@@ -491,10 +537,20 @@ function handleRegioesSubfilterChange(event) {
                 const data = response.data;
 
                 // Atualiza o gráfico de prefeitos
-                updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos', selectedRegiaoName);
+                updateChartInstance(
+                    window.chartInstancePrefeitos,
+                    data.prefeitos,
+                    "prefeitos",
+                    selectedRegiaoName
+                );
 
                 // Atualiza o gráfico de vereadores
-                updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores', selectedRegiaoName);
+                updateChartInstance(
+                    window.chartInstanceVereadores,
+                    data.vereadores,
+                    "vereadores",
+                    selectedRegiaoName
+                );
             })
             .catch((error) => {
                 console.error("Erro ao buscar votos para a região:", error);
@@ -505,7 +561,8 @@ function handleRegioesSubfilterChange(event) {
 }
 function handlePartidoSubfilterChange(event) {
     const selectedPartido = event.target.value;
-    const selectedPartidoName = event.target.options[event.target.selectedIndex].text.trim();
+    const selectedPartidoName =
+        event.target.options[event.target.selectedIndex].text.trim();
     console.log("Selected Partido:", selectedPartido);
 
     if (selectedPartido) {
@@ -518,21 +575,31 @@ function handlePartidoSubfilterChange(event) {
                 const data = response.data;
 
                 // Aqui você pode atualizar os gráficos ou fazer outras operações com os dados retornados
-                updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores', selectedPartidoName);
+                updateChartInstance(
+                    window.chartInstanceVereadores,
+                    data.vereadores,
+                    "vereadores",
+                    selectedPartidoName
+                );
             })
             .catch((error) => {
-                console.error("Erro ao buscar candidatos para o partido:", error);
+                console.error(
+                    "Erro ao buscar candidatos para o partido:",
+                    error
+                );
             });
+        document.getElementById("button-download-chart-pdf").style.display =
+            "block";
     } else {
         console.error("Nenhum partido selecionado.");
     }
 }
 
-function updateChartInstance(chartInstance, data, filter, subfilterName = '') {
+function updateChartInstance(chartInstance, data, filter, subfilterName = "") {
     console.log(data); // Verifica os dados no console
 
     // Atualizar o título com o nome do subfiltro (escola)
-    const titleText = subfilterName || ''; // Mostra o subfiltro ou uma mensagem padrão se não houver subfiltro
+    const titleText = subfilterName || ""; // Mostra o subfiltro ou uma mensagem padrão se não houver subfiltro
 
     if (chartInstance.options.plugins && chartInstance.options.plugins.title) {
         chartInstance.options.plugins.title.text = titleText;
@@ -546,11 +613,19 @@ function updateChartInstance(chartInstance, data, filter, subfilterName = '') {
     } else {
         // Atualiza os dados do gráfico com base no filtro
         if (filter === "partidos") {
-            chartInstance.data.labels = data.map(item => item.partido || "Indefinido");
-            chartInstance.data.datasets[0].data = data.map(item => item.total || 0);
+            chartInstance.data.labels = data.map(
+                (item) => item.partido || "Indefinido"
+            );
+            chartInstance.data.datasets[0].data = data.map(
+                (item) => item.total || 0
+            );
         } else if (filter === "prefeitos" || filter === "vereadores") {
-            chartInstance.data.labels = data.map(item => item.nome || "Indefinido");
-            chartInstance.data.datasets[0].data = data.map(item => item.total || 0);
+            chartInstance.data.labels = data.map(
+                (item) => item.nome || "Indefinido"
+            );
+            chartInstance.data.datasets[0].data = data.map(
+                (item) => item.total || 0
+            );
         } else {
             console.error("Filtro não reconhecido:", filter);
             return;
@@ -575,8 +650,16 @@ function updateChart(filter, data, chartInstance) {
 
     if (filter === "geral") {
         // Atualizar gráficos de prefeitos e vereadores separadamente
-        updateChartInstance(window.chartInstancePrefeitos, data.prefeitos, 'prefeitos');
-        updateChartInstance(window.chartInstanceVereadores, data.vereadores, 'vereadores');
+        updateChartInstance(
+            window.chartInstancePrefeitos,
+            data.prefeitos,
+            "prefeitos"
+        );
+        updateChartInstance(
+            window.chartInstanceVereadores,
+            data.vereadores,
+            "vereadores"
+        );
 
         // Mostrar os gráficos de prefeitos e vereadores
         toggleChartVisibility(window.chartInstancePrefeitos.canvas.id, true);
@@ -587,7 +670,6 @@ function updateChart(filter, data, chartInstance) {
         toggleChartVisibility("barchart-partidos", false);
         toggleChartVisibility("barchart-escolas", false);
         toggleChartVisibility("barchart-regioes", false);
-
     } else if (filter === "partidos") {
         // Atualizar apenas o gráfico de partidos
         updateChartInstance(chartInstance, data, filter);
@@ -603,7 +685,6 @@ function updateChart(filter, data, chartInstance) {
         toggleChartVisibility("barchart-bairros", false);
         toggleChartVisibility("barchart-escolas", false);
         toggleChartVisibility("barchart-regioes", false);
-
     } else if (filter === "partidos-vereador") {
         // Atualizar apenas o gráfico de partidos
         updateChartInstance(chartInstance, data, filter);
@@ -620,7 +701,6 @@ function updateChart(filter, data, chartInstance) {
         toggleChartVisibility("barchart-escolas", false);
         toggleChartVisibility("barchart-regioes", false);
         toggleChartVisibility("barchart-partidos", false);
-
     } else if (filter === "bairros") {
         updateChartInstance(chartInstance, data, filter);
         toggleChartVisibility(chartInstance.canvas.id, true);
@@ -631,14 +711,13 @@ function updateChart(filter, data, chartInstance) {
         updateChartInstance(chartInstance, data, filter);
         toggleChartVisibility(chartInstance.canvas.id, true);
     }
-
 }
 
-function updateChartInstance(chartInstance, data, filter, subfilterName = '') {
+function updateChartInstance(chartInstance, data, filter, subfilterName = "") {
     console.log(data); // Verifica os dados no console
 
     // Atualizar o título com o nome do subfiltro (escola)
-    const titleText = subfilterName || ''; // Mostra o subfiltro ou uma mensagem padrão se não houver subfiltro
+    const titleText = subfilterName || ""; // Mostra o subfiltro ou uma mensagem padrão se não houver subfiltro
 
     if (chartInstance.options.plugins && chartInstance.options.plugins.title) {
         chartInstance.options.plugins.title.text = titleText;
@@ -659,11 +738,19 @@ function updateChartInstance(chartInstance, data, filter, subfilterName = '') {
 
         // Atualiza os dados do gráfico com base no filtro
         if (filter === "partidos") {
-            chartInstance.data.labels = reorderedData.map(item => item.partido || "Indefinido");
-            chartInstance.data.datasets[0].data = reorderedData.map(item => item.total || 0);
+            chartInstance.data.labels = reorderedData.map(
+                (item) => item.partido || "Indefinido"
+            );
+            chartInstance.data.datasets[0].data = reorderedData.map(
+                (item) => item.total || 0
+            );
         } else if (filter === "prefeitos" || filter === "vereadores") {
-            chartInstance.data.labels = reorderedData.map(item => item.nome || "Indefinido");
-            chartInstance.data.datasets[0].data = reorderedData.map(item => item.total || 0);
+            chartInstance.data.labels = reorderedData.map(
+                (item) => item.nome || "Indefinido"
+            );
+            chartInstance.data.datasets[0].data = reorderedData.map(
+                (item) => item.total || 0
+            );
         } else {
             console.error("Filtro não reconhecido:", filter);
             return;

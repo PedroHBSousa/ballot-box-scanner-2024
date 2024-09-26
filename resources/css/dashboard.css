@@ -287,7 +287,8 @@ footer {
 }
 .charts-container {
     display: flex;
-    flex-direction: row; /* Alterado de column para row */
+    flex-direction: column; /* Alterado de column para row */
+    align-items: center;
     gap: 2rem;
     flex-wrap: wrap; /* Isso permitirá que os gráficos se ajustem ao tamanho da tela */
     padding-bottom: 50px;
@@ -444,7 +445,7 @@ footer {
     font-size: 14px;
     color: #71192f;
 }
-#button-download-pdf {
+.button-download-pdf {
     margin-top: 20px;
     border: none;
     display: flex;
@@ -465,12 +466,12 @@ footer {
     box-shadow: 0 4px 6px -1px #488aec31, 0 2px 4px -1px #488aec17;
     transition: all 0.6s ease;
 }
-#button-download-pdf:hover {
+.button-download-pdf:hover {
     background-color: #3a6ebd;
     box-shadow: 0 10px 15px -3px #488aec4f, 0 4px 6px -2px #488aec17;
 }
-#button-download-pdf:focus,
-#button-download-pdf:active {
+.button-download-pdf:focus,
+.button-download-pdf:active {
     opacity: 0.85;
     box-shadow: none;
 }

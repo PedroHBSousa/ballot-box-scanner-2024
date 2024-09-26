@@ -171,7 +171,10 @@
                 </div>
             </div>
             {{-- -------------------------------------------------- fim do painel ---------------------------------------------- --}}
-            <div class="chart">
+            <button id="button-download-chart-pdf" class="button-download-pdf" onclick="downloadPDFChart()"
+                style="display:none;">Download
+                PDF</button>
+            <div class="chart" id="vereadores-chart">
                 <div class="verea">
                     <h2>Vereadores (Votação em ordem decrescente)</h2>
                 </div>
@@ -189,6 +192,7 @@
                 </div>
                 <canvas id="barchart-escolas" width="400" height="400"></canvas>
             </div>
+
             <div class="chart">
                 <div class="partidos">
                     <h2>Partidos</h2>
@@ -216,7 +220,8 @@
             <div id="error-message" class="error-message" style="display:none;"></div>
             <div id="result-container" class="items-buscar-vereador" style="display:none;">
             </div>
-            <button id="button-download-pdf" onclick="downloadPDF()" style="display:none;">Download PDF</button>
+            <button id="button-download-pdf" class="button-download-pdf" onclick="downloadPDF()"
+                style="display:none;">Download PDF</button>
         </div>
     </div>
 
@@ -259,6 +264,57 @@
                 searchVereadorPorNumero(search);
             }
         });
+
+        function downloadPDFChart() {
+            let chartContainer = document.getElementById('vereadores-chart');
+            let buttonDownloadPDF = document.getElementById('button-download-chart-pdf');
+
+            // Verificar se o gráfico tem conteúdo
+            if (!chartContainer.innerHTML.trim()) {
+                alert("Não há gráfico para gerar o PDF.");
+                return;
+            }
+
+            // Temporariamente mostrar o conteúdo do chartContainer
+            chartContainer.style.display = 'block';
+
+            // Forçar renderização antes de gerar o PDF
+            window.scrollTo(0, 0);
+
+            // Configurações para html2pdf
+            let opt = {
+                margin: [0.5, 0.5, 0.5, 0.5], // Margens para o PDF
+                filename: 'grafico-vereadores.pdf',
+                image: {
+                    type: 'jpeg',
+                    quality: 0.98
+                },
+                html2canvas: {
+                    scale: 2, // Aumentar a escala para melhorar a qualidade
+                    useCORS: true,
+                    logging: true, // Ativar logging para depuração
+                    onclone: (documentClone) => {
+                        // Garantir que o conteúdo clonado mantenha os estilos corretos
+                        let clonedChartContainer = documentClone.getElementById('vereadores-chart');
+                        clonedChartContainer.style.display = 'block';
+                        clonedChartContainer.style.backgroundColor = '#000'; // Adicionar cor de fundo
+
+                    }
+                },
+                jsPDF: {
+                    unit: 'in',
+                    format: 'letter',
+                    orientation: 'portrait'
+                },
+                pagebreak: {
+                    mode: ['avoid-all', 'css', 'legacy'] // Evitar quebras estranhas no meio de elementos
+                }
+            };
+            // Usar setTimeout para garantir a renderização do conteúdo antes de gerar o PDF
+            setTimeout(function() {
+                html2pdf().set(opt).from(chartContainer).save();
+            }, 300); // Atraso de 300ms para garantir a renderização
+        }
 
         function downloadPDF() {
             let resultContainer = document.getElementById('result-container');
@@ -316,8 +372,6 @@
                 });
             }, 500); // Atraso de 500ms para garantir a renderização
         }
-
-
 
         // Função para buscar por nome do vereador ou partido
         function searchPorNomeOuPartido(search) {
