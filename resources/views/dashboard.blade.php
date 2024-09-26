@@ -74,7 +74,7 @@
             </select>
         </div>
 
-        <div class="charts-container">
+        <div class="charts-container row-container">
             <div class="chart">
                 <div class="pref">
                     <h2>Prefeito - Votação Nominal</h2>
@@ -200,21 +200,22 @@
                 <canvas id="barchart-escolas" width="400" height="400"></canvas>
             </div>
 
-            <div class="chart">
-                <div class="partidos">
-                    <h2>Partidos</h2>
-                </div>
-                <canvas id="barchart-partidos" width="400" height="400"></canvas>
+        <div class="chart">
+            <div class="partidos">
+                <h2>Partidos</h2>
             </div>
-            <div class="chart">
-                <div class="regioes">
-                    <h2>Regioes</h2>
-                </div>
-                <canvas id="barchart-regioes" width="400" height="400"></canvas>
+            <canvas id="barchart-partidos" width="400" height="400"></canvas>
+        </div>
+        <div class="chart">
+            <div class="regioes">
+                <h2>Regioes</h2>
             </div>
+            <canvas id="barchart-regioes" width="400" height="400"></canvas>
         </div>
     </div>
-    {{-- -------------------------------------------------- inicio do search ---------------------------------------------- --}}
+    </div>
+    {{-- -------------------------------------------------- inicio do search
+    ---------------------------------------------- --}}
     <div class="search-container">
         <div class="search">
             <h2>Buscar votos de candidato</h2>
@@ -234,7 +235,7 @@
 
     <script>
         // Evento de input para o campo de busca
-        document.getElementById('search').addEventListener('input', function() {
+        document.getElementById('search').addEventListener('input', function () {
             let search = this.value.trim(); // Remove espaços desnecessários
             let autocompleteList = document.getElementById('autocomplete-list');
 
@@ -252,7 +253,7 @@
         });
 
         // Adiciona o evento de submit para o formulário
-        document.getElementById('form-buscar-vereador').addEventListener('submit', function(event) {
+        document.getElementById('form-buscar-vereador').addEventListener('submit', function (event) {
             event.preventDefault(); // Impede o envio padrão do formulário
 
             let search = document.getElementById('search').value.trim(); // Captura o valor do campo de busca
@@ -318,7 +319,7 @@
                 }
             };
             // Usar setTimeout para garantir a renderização do conteúdo antes de gerar o PDF
-            setTimeout(function() {
+            setTimeout(function () {
                 html2pdf().set(opt).from(chartContainer).save();
             }, 300); // Atraso de 300ms para garantir a renderização
         }
@@ -371,7 +372,7 @@
             };
 
             // Usar setTimeout para garantir a renderização do conteúdo antes de gerar o PDF
-            setTimeout(function() {
+            setTimeout(function () {
                 html2pdf().set(opt).from(resultContainer).save().then(() => {
                     // Após gerar o PDF, você pode ocultar o conteúdo novamente, se necessário
                     resultContainer.style.display = 'none';
@@ -385,8 +386,8 @@
             let autocompleteList = document.getElementById('autocomplete-list');
 
             fetch(`/buscar-vereador?search=${search}`, {
-                    method: 'GET',
-                })
+                method: 'GET',
+            })
                 .then(response => response.json())
                 .then(data => {
                     autocompleteList.innerHTML = ''; // Limpa as sugestões anteriores
@@ -400,7 +401,7 @@
                                 item.innerHTML = `<strong>${vereador.nome}</strong> (${vereador.partido})`;
 
                                 // Quando o item da lista for clicado, busca os detalhes do vereador
-                                item.addEventListener('click', function() {
+                                item.addEventListener('click', function () {
                                     fetchVereadorDetails(vereador.id);
                                     autocompleteList.innerHTML = ''; // Limpa as sugestões ao selecionar
                                 });
@@ -421,8 +422,8 @@
             let buttonDownloadPDF = document.querySelector('button'); // Botão de download do PDF
 
             fetch(`/buscar-vereador?search=${search}`, {
-                    method: 'GET',
-                })
+                method: 'GET',
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
@@ -447,8 +448,8 @@
             let buttonDownloadPDF = document.getElementById('button-download-pdf');
 
             fetch(`/buscar-vereador?search=${vereadorId}`, {
-                    method: 'GET',
-                })
+                method: 'GET',
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data.vereador) {
@@ -508,7 +509,8 @@
                 });
         }
     </script>
-    {{-- -------------------------------------------------- fim do search ---------------------------------------------- --}}
+    {{-- -------------------------------------------------- fim do search ----------------------------------------------
+    --}}
     <footer>
         <h1 class="footer-title">Vai ser ainda melhor.</h1>
     </footer>
