@@ -279,11 +279,13 @@ footer {
 
 .chart {
     width: 700px; /* Ajustei para 400px para combinar com o canvas */
+    height: 720px;
     padding: 2rem;
     border: 1px solid #aaa9a9;
     border-radius: 1rem;
     box-shadow: 0 0 16px rgba(0, 0, 0, 0);
     margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 /* Alinha os dois gráficos de prefeito lado a lado */
@@ -305,7 +307,6 @@ footer {
 option {
     text-transform: capitalize;
 }
-
 
 /* -------------------------- INICIO DO FILTRO PRINCIPAL -------------------------- */
 .custom-select {

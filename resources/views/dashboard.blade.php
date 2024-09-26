@@ -87,117 +87,121 @@
                 </div>
                 <canvas id="piechart-prefeitos-geral" width="400" height="400"></canvas>
             </div>
-            {{-- -------------------------------------------------- inicio do painel ---------------------------------------------- --}}
-            <div class="painel">
-                <div class="painel-container">
-                    <div class="painel-header">
-                        <h1 class="painel-header-title">SITUAÇÃO ATUAL DOS VOTOS</h1>
-                        <h2 class="last-update-time">Última entrada de dados:
-                            {{ $ultimaAtualizacao->format('H:i:s d/m/Y') }}
-                        </h2>
-                    </div>
-                    <div class="painel-body">
-                        <div class="group-candidato">
-                            <h1 class="group-title">PREFEITO</h1>
-                            <div class="votos-container">
-                                <div class="voto">
-                                    <h1 class="voto-information">
-                                        <span>Nominal</span>{{ number_format($nominais, 0, '.', '.') }}
-                                        ({{ number_format($porcentagemNominais, 2) }}%)
-                                    </h1>
-                                </div>
-                                <div class="voto">
-                                    <h1 class="voto-information">
-                                        <span>Branco</span>{{ number_format($brancos, 0, '.', '.') }}
-                                        ({{ number_format($porcentagemBrancos, 2) }}%)
-                                    </h1>
-                                </div>
-                                <div class="voto">
-                                    <h1 class="voto-information">
-                                        <span>Nulo</span> {{ number_format($nulos, 0, '.', '.') }}
-                                        ({{ number_format($porcentagemNulos, 2) }}%)
-                                    </h1>
-                                </div>
+        </div>
+        {{-- -------------------------------------------------- inicio do painel
+        ---------------------------------------------- --}}
+
+        <div class="painel">
+            <div class="painel-container">
+                <div class="painel-header">
+                    <h1 class="painel-header-title">SITUAÇÃO ATUAL DOS VOTOS</h1>
+                    <h2 class="last-update-time">Última entrada de dados:
+                        {{ $ultimaAtualizacao->format('H:i:s d/m/Y') }}
+                    </h2>
+                </div>
+                <div class="painel-body">
+                    <div class="group-candidato">
+                        <h1 class="group-title">PREFEITO</h1>
+                        <div class="votos-container">
+                            <div class="voto">
+                                <h1 class="voto-information">
+                                    <span>Nominal</span>{{ number_format($nominais, 0, '.', '.') }}
+                                    ({{ number_format($porcentagemNominais, 2) }}%)
+                                </h1>
                             </div>
-                        </div>
-                        <div class="group-candidato">
-                            <h1 class="group-title">VEREADORES</h1>
-                            <div class="votos-container">
-                                <div class="voto">
-                                    <h1 class="voto-information">
-                                        <span>Nominal</span>{{ number_format($nominaisVereador, 0, '.', '.') }}
-                                        ({{ number_format($porcentagemNominaisVereador, 2) }}%)
-                                    </h1>
-                                </div>
-                                <div class="voto">
-                                    <h1 class="voto-information">
-                                        <span>Branco</span>{{ number_format($brancosVereador, 0, '.', '.') }}
-                                        ({{ number_format($porcentagemBrancosVereador, 2) }}%)
-                                    </h1>
-                                </div>
-                                <div class="voto">
-                                    <h1 class="voto-information">
-                                        <span>Nulo</span> {{ number_format($nulosVereador, 0, '.', '.') }}
-                                        ({{ number_format($porcentagemNulosVereador, 2) }}%)
-                                    </h1>
-                                </div>
+                            <div class="voto">
+                                <h1 class="voto-information">
+                                    <span>Branco</span>{{ number_format($brancos, 0, '.', '.') }}
+                                    ({{ number_format($porcentagemBrancos, 2) }}%)
+                                </h1>
                             </div>
-                        </div>
-                        <div class="group-geral">
-                            <h1 class="group-title">ELEITORES</h1>
-                            <div class="eleitores-container">
-                                <div class="eleitores" id="total-votos-apurados">
-                                    <h1 class="eleitor-information">
-                                        <span>Votos apurados</span>
-                                        {{ number_format($totalApurados, 0, '.', '.') }}/64.437
-                                        ({{ number_format($percentApurados, 2) }}%)
-                                    </h1>
-                                </div>
-                                <div class="eleitores" id="eleitor-faltante">
-                                    <h1 class="eleitor-information">
-                                        <span>Abstenção</span>{{ number_format($totalFaltantes, 0, '.', '.') }}
-                                        ({{ number_format($percentFaltantes, 2) }}%)
-                                    </h1>
-                                </div>
-                                <div class="eleitores" id="nao-apurado">
-                                    <h1 class="eleitor-information">
-                                        <span>Não apurados</span>{{ number_format($restanteApurar, 0, '.', '.') }}
-                                        ({{ number_format($percentRestante, 2) }}%)
-                                    </h1>
-                                </div>
-                                <div class="eleitores" id="secoes-apuradas">
-                                    <h1 class="eleitor-information">
-                                        <span>Seções apuradas</span> {{ number_format($secoesApuradas, 0) }}/206
-                                        ({{ number_format($percentSecoesApuradas, 2) }}%)
-                                    </h1>
-                                </div>
+                            <div class="voto">
+                                <h1 class="voto-information">
+                                    <span>Nulo</span> {{ number_format($nulos, 0, '.', '.') }}
+                                    ({{ number_format($porcentagemNulos, 2) }}%)
+                                </h1>
                             </div>
                         </div>
                     </div>
+                    <div class="group-candidato">
+                        <h1 class="group-title">VEREADORES</h1>
+                        <div class="votos-container">
+                            <div class="voto">
+                                <h1 class="voto-information">
+                                    <span>Nominal</span>{{ number_format($nominaisVereador, 0, '.', '.') }}
+                                    ({{ number_format($porcentagemNominaisVereador, 2) }}%)
+                                </h1>
+                            </div>
+                            <div class="voto">
+                                <h1 class="voto-information">
+                                    <span>Branco</span>{{ number_format($brancosVereador, 0, '.', '.') }}
+                                    ({{ number_format($porcentagemBrancosVereador, 2) }}%)
+                                </h1>
+                            </div>
+                            <div class="voto">
+                                <h1 class="voto-information">
+                                    <span>Nulo</span> {{ number_format($nulosVereador, 0, '.', '.') }}
+                                    ({{ number_format($porcentagemNulosVereador, 2) }}%)
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group-geral">
+                        <h1 class="group-title">ELEITORES</h1>
+                        <div class="eleitores-container">
+                            <div class="eleitores" id="total-votos-apurados">
+                                <h1 class="eleitor-information">
+                                    <span>Votos apurados</span>
+                                    {{ number_format($totalApurados, 0, '.', '.') }}/64.437
+                                    ({{ number_format($percentApurados, 2) }}%)
+                                </h1>
+                            </div>
+                            <div class="eleitores" id="eleitor-faltante">
+                                <h1 class="eleitor-information">
+                                    <span>Abstenção</span>{{ number_format($totalFaltantes, 0, '.', '.') }}
+                                    ({{ number_format($percentFaltantes, 2) }}%)
+                                </h1>
+                            </div>
+                            <div class="eleitores" id="nao-apurado">
+                                <h1 class="eleitor-information">
+                                    <span>Não apurados</span>{{ number_format($restanteApurar, 0, '.', '.') }}
+                                    ({{ number_format($percentRestante, 2) }}%)
+                                </h1>
+                            </div>
+                            <div class="eleitores" id="secoes-apuradas">
+                                <h1 class="eleitor-information">
+                                    <span>Seções apuradas</span> {{ number_format($secoesApuradas, 0) }}/206
+                                    ({{ number_format($percentSecoesApuradas, 2) }}%)
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            {{-- -------------------------------------------------- fim do painel ---------------------------------------------- --}}
-            <button id="button-download-chart-pdf" class="button-download-pdf" onclick="downloadPDFChart()"
-                style="display:none;">Download
-                PDF</button>
-            <div class="chart" id="vereadores-chart">
-                <div class="verea">
-                    <h2>Vereadores (12 mais votados)</h2>
-                </div>
-                <canvas id="barchart-vereadores" width="400" height="400"></canvas>
+        </div>
+        {{-- -------------------------------------------------- fim do painel
+        ---------------------------------------------- --}}
+        <button id="button-download-chart-pdf" class="button-download-pdf" onclick="downloadPDFChart()"
+            style="display:none;">Download
+            PDF</button>
+        <div class="chart" id="vereadores-chart">
+            <div class="verea">
+                <h2>Vereadores (12 mais votados)</h2>
             </div>
-            <div class="chart">
-                <div class="bairros">
-                    <h2>Bairros</h2>
-                </div>
-                <canvas id="barchart-bairros" width="400" height="400"></canvas>
+            <canvas id="barchart-vereadores" width="400" height="400"></canvas>
+        </div>
+        <div class="chart">
+            <div class="bairros">
+                <h2>Bairros</h2>
             </div>
-            <div class="chart">
-                <div class="escolas">
-                    <h2>Escolas</h2>
-                </div>
-                <canvas id="barchart-escolas" width="400" height="400"></canvas>
+            <canvas id="barchart-bairros" width="400" height="400"></canvas>
+        </div>
+        <div class="chart">
+            <div class="escolas">
+                <h2>Escolas</h2>
             </div>
+            <canvas id="barchart-escolas" width="400" height="400"></canvas>
+        </div>
 
         <div class="chart">
             <div class="partidos">
