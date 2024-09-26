@@ -180,19 +180,8 @@ class DataController extends Controller
                         ->where('cargo_id', 11)
                         ->count();
 
-                    $secoesComBoletim = DB::table('boletins')
-                        ->distinct()
-                        ->pluck('secao_id');
-
-                    $totalAptos = DB::table('secoes')
-                        ->whereIn('id', $secoesComBoletim)
-                        ->sum('aptos');
-
-                    $totalVotosPrefeitos = DB::table('votos')
-                        ->where('cargo_id', 11)
-                        ->count();
-
-                    $abstencoes = $totalAptos - $totalVotosPrefeitos;
+                    $abstencoes = DB::table('boletins')
+                        ->sum('falt');
 
                     $data = [
                         'prefeitos' => $prefeitosData,
