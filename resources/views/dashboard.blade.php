@@ -74,7 +74,7 @@
             </select>
         </div>
 
-        <div class="charts-container">
+        <div class="charts-container row-container">
             <div class="chart">
                 <div class="pref">
                     <h2>Prefeito - Votação Nominal</h2>
@@ -87,133 +87,137 @@
                 </div>
                 <canvas id="piechart-prefeitos-geral" width="400" height="400"></canvas>
             </div>
-            {{-- -------------------------------------------------- inicio do painel ---------------------------------------------- --}}
-            <div class="painel">
-                <div class="painel-container">
-                    <div class="painel-header">
-                        <h1 class="painel-header-title">SITUAÇÃO ATUAL DOS VOTOS</h1>
-                        <h2 class="last-update-time">Última entrada de dados:
-                            {{ $ultimaAtualizacao->format('H:i:s d/m/Y') }}
-                        </h2>
-                    </div>
-                    <div class="painel-body">
-                        <div class="group-candidato">
-                            <h1 class="group-title">PREFEITO</h1>
-                            <div class="votos-container">
-                                <div class="voto">
-                                    <h1 class="voto-information">
-                                        <span>Nominal</span>{{ number_format($nominais, 0, '.', '.') }}
-                                        ({{ number_format($porcentagemNominais, 2) }}%)
-                                    </h1>
-                                </div>
-                                <div class="voto">
-                                    <h1 class="voto-information">
-                                        <span>Branco</span>{{ number_format($brancos, 0, '.', '.') }}
-                                        ({{ number_format($porcentagemBrancos, 2) }}%)
-                                    </h1>
-                                </div>
-                                <div class="voto">
-                                    <h1 class="voto-information">
-                                        <span>Nulo</span> {{ number_format($nulos, 0, '.', '.') }}
-                                        ({{ number_format($porcentagemNulos, 2) }}%)
-                                    </h1>
-                                </div>
+        </div>
+        {{-- -------------------------------------------------- inicio do painel
+        ---------------------------------------------- --}}
+        <div class="painel">
+            <div class="painel-container">
+                <div class="painel-header">
+                    <h1 class="painel-header-title">SITUAÇÃO ATUAL DOS VOTOS</h1>
+                    <h2 class="last-update-time">Última entrada de dados:
+                        {{ $ultimaAtualizacao->format('H:i:s d/m/Y') }}
+                    </h2>
+                </div>
+                <div class="painel-body">
+                    <div class="group-candidato">
+                        <h1 class="group-title">PREFEITO</h1>
+                        <div class="votos-container">
+                            <div class="voto">
+                                <h1 class="voto-information">
+                                    <span>Nominal</span>{{ number_format($nominais, 0, '.', '.') }}
+                                    ({{ number_format($porcentagemNominais, 2) }}%)
+                                </h1>
                             </div>
-                        </div>
-                        <div class="group-candidato">
-                            <h1 class="group-title">VEREADORES</h1>
-                            <div class="votos-container">
-                                <div class="voto">
-                                    <h1 class="voto-information">
-                                        <span>Nominal</span>{{ number_format($nominaisVereador, 0, '.', '.') }}
-                                        ({{ number_format($porcentagemNominaisVereador, 2) }}%)
-                                    </h1>
-                                </div>
-                                <div class="voto">
-                                    <h1 class="voto-information">
-                                        <span>Branco</span>{{ number_format($brancosVereador, 0, '.', '.') }}
-                                        ({{ number_format($porcentagemBrancosVereador, 2) }}%)
-                                    </h1>
-                                </div>
-                                <div class="voto">
-                                    <h1 class="voto-information">
-                                        <span>Nulo</span> {{ number_format($nulosVereador, 0, '.', '.') }}
-                                        ({{ number_format($porcentagemNulosVereador, 2) }}%)
-                                    </h1>
-                                </div>
+                            <div class="voto">
+                                <h1 class="voto-information">
+                                    <span>Branco</span>{{ number_format($brancos, 0, '.', '.') }}
+                                    ({{ number_format($porcentagemBrancos, 2) }}%)
+                                </h1>
                             </div>
-                        </div>
-                        <div class="group-geral">
-                            <h1 class="group-title">ELEITORES</h1>
-                            <div class="eleitores-container">
-                                <div class="eleitores" id="total-votos-apurados">
-                                    <h1 class="eleitor-information">
-                                        <span>Votos apurados</span>
-                                        {{ number_format($totalApurados, 0, '.', '.') }}/64.437
-                                        ({{ number_format($percentApurados, 2) }}%)
-                                    </h1>
-                                </div>
-                                <div class="eleitores" id="eleitor-faltante">
-                                    <h1 class="eleitor-information">
-                                        <span>Abstenção</span>{{ number_format($totalFaltantes, 0, '.', '.') }}
-                                        ({{ number_format($percentFaltantes, 2) }}%)
-                                    </h1>
-                                </div>
-                                <div class="eleitores" id="nao-apurado">
-                                    <h1 class="eleitor-information">
-                                        <span>Não apurados</span>{{ number_format($restanteApurar, 0, '.', '.') }}
-                                        ({{ number_format($percentRestante, 2) }}%)
-                                    </h1>
-                                </div>
-                                <div class="eleitores" id="secoes-apuradas">
-                                    <h1 class="eleitor-information">
-                                        <span>Seções apuradas</span> {{ number_format($secoesApuradas, 0) }}/206
-                                        ({{ number_format($percentSecoesApuradas, 2) }}%)
-                                    </h1>
-                                </div>
+                            <div class="voto">
+                                <h1 class="voto-information">
+                                    <span>Nulo</span> {{ number_format($nulos, 0, '.', '.') }}
+                                    ({{ number_format($porcentagemNulos, 2) }}%)
+                                </h1>
                             </div>
                         </div>
                     </div>
+                    <div class="group-candidato">
+                        <h1 class="group-title">VEREADORES</h1>
+                        <div class="votos-container">
+                            <div class="voto">
+                                <h1 class="voto-information">
+                                    <span>Nominal</span>{{ number_format($nominaisVereador, 0, '.', '.') }}
+                                    ({{ number_format($porcentagemNominaisVereador, 2) }}%)
+                                </h1>
+                            </div>
+                            <div class="voto">
+                                <h1 class="voto-information">
+                                    <span>Branco</span>{{ number_format($brancosVereador, 0, '.', '.') }}
+                                    ({{ number_format($porcentagemBrancosVereador, 2) }}%)
+                                </h1>
+                            </div>
+                            <div class="voto">
+                                <h1 class="voto-information">
+                                    <span>Nulo</span> {{ number_format($nulosVereador, 0, '.', '.') }}
+                                    ({{ number_format($porcentagemNulosVereador, 2) }}%)
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group-geral">
+                        <h1 class="group-title">ELEITORES</h1>
+                        <div class="eleitores-container">
+                            <div class="eleitores" id="total-votos-apurados">
+                                <h1 class="eleitor-information">
+                                    <span>Votos apurados</span>
+                                    {{ number_format($totalApurados, 0, '.', '.') }}/64.437
+                                    ({{ number_format($percentApurados, 2) }}%)
+                                </h1>
+                            </div>
+                            <div class="eleitores" id="eleitor-faltante">
+                                <h1 class="eleitor-information">
+                                    <span>Abstenção</span>{{ number_format($totalFaltantes, 0, '.', '.') }}
+                                    ({{ number_format($percentFaltantes, 2) }}%)
+                                </h1>
+                            </div>
+                            <div class="eleitores" id="nao-apurado">
+                                <h1 class="eleitor-information">
+                                    <span>Não apurados</span>{{ number_format($restanteApurar, 0, '.', '.') }}
+                                    ({{ number_format($percentRestante, 2) }}%)
+                                </h1>
+                            </div>
+                            <div class="eleitores" id="secoes-apuradas">
+                                <h1 class="eleitor-information">
+                                    <span>Seções apuradas</span> {{ number_format($secoesApuradas, 0) }}/206
+                                    ({{ number_format($percentSecoesApuradas, 2) }}%)
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            {{-- -------------------------------------------------- fim do painel ---------------------------------------------- --}}
-            <button id="button-download-chart-pdf" class="button-download-pdf" onclick="downloadPDFChart()"
-                style="display:none;">Download
-                PDF</button>
-            <div class="chart" id="vereadores-chart">
-                <div class="verea">
-                    <h2>Vereadores (Votação em ordem decrescente)</h2>
-                </div>
-                <canvas id="barchart-vereadores" width="400" height="400"></canvas>
-            </div>
-            <div class="chart">
-                <div class="bairros">
-                    <h2>Bairros</h2>
-                </div>
-                <canvas id="barchart-bairros" width="400" height="400"></canvas>
-            </div>
-            <div class="chart">
-                <div class="escolas">
-                    <h2>Escolas</h2>
-                </div>
-                <canvas id="barchart-escolas" width="400" height="400"></canvas>
-            </div>
-
-            <div class="chart">
-                <div class="partidos">
-                    <h2>Partidos</h2>
-                </div>
-                <canvas id="barchart-partidos" width="400" height="400"></canvas>
-            </div>
-            <div class="chart">
-                <div class="regioes">
-                    <h2>Regioes</h2>
-                </div>
-                <canvas id="barchart-regioes" width="400" height="400"></canvas>
             </div>
         </div>
+        {{-- -------------------------------------------------- fim do painel
+        ---------------------------------------------- --}}
+        <button id="button-download-chart-pdf" class="button-download-pdf" onclick="downloadPDFChart()"
+            style="display:none;">Download
+            PDF</button>
+        <div class="chart" id="vereadores-chart">
+            <div class="verea">
+                <h2>Vereadores (Votação em ordem decrescente)</h2>
+            </div>
+            <canvas id="barchart-vereadores" width="400" height="400"></canvas>
+        </div>
+        <div class="chart">
+            <div class="bairros">
+                <h2>Bairros</h2>
+            </div>
+            <canvas id="barchart-bairros" width="400" height="400"></canvas>
+        </div>
+        <div class="chart">
+            <div class="escolas">
+                <h2>Escolas</h2>
+            </div>
+            <canvas id="barchart-escolas" width="400" height="400"></canvas>
+        </div>
+
+        <div class="chart">
+            <div class="partidos">
+                <h2>Partidos</h2>
+            </div>
+            <canvas id="barchart-partidos" width="400" height="400"></canvas>
+        </div>
+        <div class="chart">
+            <div class="regioes">
+                <h2>Regioes</h2>
+            </div>
+            <canvas id="barchart-regioes" width="400" height="400"></canvas>
+        </div>
     </div>
-    {{-- -------------------------------------------------- inicio do search ---------------------------------------------- --}}
+    </div>
+    {{-- -------------------------------------------------- inicio do search
+    ---------------------------------------------- --}}
     <div class="search-container">
         <div class="search">
             <h2>Buscar votos de candidato</h2>
@@ -233,7 +237,7 @@
 
     <script>
         // Evento de input para o campo de busca
-        document.getElementById('search').addEventListener('input', function() {
+        document.getElementById('search').addEventListener('input', function () {
             let search = this.value.trim(); // Remove espaços desnecessários
             let autocompleteList = document.getElementById('autocomplete-list');
 
@@ -251,7 +255,7 @@
         });
 
         // Adiciona o evento de submit para o formulário
-        document.getElementById('form-buscar-vereador').addEventListener('submit', function(event) {
+        document.getElementById('form-buscar-vereador').addEventListener('submit', function (event) {
             event.preventDefault(); // Impede o envio padrão do formulário
 
             let search = document.getElementById('search').value.trim(); // Captura o valor do campo de busca
@@ -317,7 +321,7 @@
                 }
             };
             // Usar setTimeout para garantir a renderização do conteúdo antes de gerar o PDF
-            setTimeout(function() {
+            setTimeout(function () {
                 html2pdf().set(opt).from(chartContainer).save();
             }, 300); // Atraso de 300ms para garantir a renderização
         }
@@ -370,7 +374,7 @@
             };
 
             // Usar setTimeout para garantir a renderização do conteúdo antes de gerar o PDF
-            setTimeout(function() {
+            setTimeout(function () {
                 html2pdf().set(opt).from(resultContainer).save().then(() => {
                     // Após gerar o PDF, você pode ocultar o conteúdo novamente, se necessário
                     resultContainer.style.display = 'none';
@@ -384,8 +388,8 @@
             let autocompleteList = document.getElementById('autocomplete-list');
 
             fetch(`/buscar-vereador?search=${search}`, {
-                    method: 'GET',
-                })
+                method: 'GET',
+            })
                 .then(response => response.json())
                 .then(data => {
                     autocompleteList.innerHTML = ''; // Limpa as sugestões anteriores
@@ -399,7 +403,7 @@
                                 item.innerHTML = `<strong>${vereador.nome}</strong> (${vereador.partido})`;
 
                                 // Quando o item da lista for clicado, busca os detalhes do vereador
-                                item.addEventListener('click', function() {
+                                item.addEventListener('click', function () {
                                     fetchVereadorDetails(vereador.id);
                                     autocompleteList.innerHTML = ''; // Limpa as sugestões ao selecionar
                                 });
@@ -420,8 +424,8 @@
             let buttonDownloadPDF = document.querySelector('button'); // Botão de download do PDF
 
             fetch(`/buscar-vereador?search=${search}`, {
-                    method: 'GET',
-                })
+                method: 'GET',
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
@@ -446,8 +450,8 @@
             let buttonDownloadPDF = document.getElementById('button-download-pdf');
 
             fetch(`/buscar-vereador?search=${vereadorId}`, {
-                    method: 'GET',
-                })
+                method: 'GET',
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data.vereador) {
@@ -507,7 +511,8 @@
                 });
         }
     </script>
-    {{-- -------------------------------------------------- fim do search ---------------------------------------------- --}}
+    {{-- -------------------------------------------------- fim do search ----------------------------------------------
+    --}}
     <footer>
         <h1 class="footer-title">Vai ser ainda melhor.</h1>
     </footer>

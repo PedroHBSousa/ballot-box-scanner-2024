@@ -276,32 +276,37 @@ footer {
     justify-content: center;
     font-weight: 300;
 }
+
 .chart {
-    width: 700px;
-    height: 720px;
+    width: 700px; /* Ajustei para 400px para combinar com o canvas */
     padding: 2rem;
     border: 1px solid #aaa9a9;
     border-radius: 1rem;
     box-shadow: 0 0 16px rgba(0, 0, 0, 0);
     margin-top: 15px;
 }
-.charts-container {
+
+/* Alinha os dois gráficos de prefeito lado a lado */
+.row-container {
     display: flex;
-    flex-direction: column; /* Alterado de column para row */
-    align-items: center;
-    gap: 2rem;
-    flex-wrap: wrap; /* Isso permitirá que os gráficos se ajustem ao tamanho da tela */
-    padding-bottom: 50px;
+    flex-direction: row;
     justify-content: center;
+    gap: 2rem; /* Espaçamento entre os gráficos */
 }
-#piechart-prefeitos {
+
+.pref {
+    text-align: center;
+}
+
+#piechart-prefeitos, #piechart-prefeitos-geral {
     text-transform: capitalize;
-    z-index: 2;
 }
 
 option {
     text-transform: capitalize;
 }
+
+
 /* -------------------------- INICIO DO FILTRO PRINCIPAL -------------------------- */
 .custom-select {
     min-width: 350px;
