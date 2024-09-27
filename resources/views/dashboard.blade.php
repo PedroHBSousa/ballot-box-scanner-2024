@@ -75,17 +75,35 @@
         </div>
 
         <div class="charts-container row-container">
-        <div class="chart">
+            <div class="chart">
                 <div class="pref">
                     <h2>Prefeito - Votação Geral</h2>
                 </div>
                 <canvas id="piechart-prefeitos-geral" width="400" height="400"></canvas>
+                <div class="legend">
+                    <p><span class="square" style="background-color: rgba(30,144,255);"></span> Reinadinho</p>
+                    <p><span class="square" style="background-color: rgba(204,0,255);"></span> Prof. Gleivison</p>
+                    <p><span class="square" style="background-color: rgba(255,0,0);"></span> Dr Juan Garcia</p>
+                    <p><span class="square" style="background-color: rgba(7,207,0);"></span> Dr NilL</p>
+                    <p><span class="square" style="background-color: rgba(252, 186, 3);"></span> Vinicius PCB</p>
+                    <p><span class="square" style="background-color: rgba(255, 159, 67);"></span> Abstenção</p>
+                    <p><span class="square" style="background-color: rgba(220, 220, 220);"></span> Votos Brancos</p>
+                    <p><span class="square" style="background-color: rgba(128, 128, 128);"></span> Votos Nulos</p>
+                </div>
+
             </div>
             <div class="chart">
                 <div class="pref">
                     <h2>Prefeito - Votação Nominal</h2>
                 </div>
                 <canvas id="piechart-prefeitos" width="400" height="400"></canvas>
+                <div class="legend-2">
+                    <p><span class="square" style="background-color:rgba(30,144,255);"></span> Reinadinho</p>
+                    <p><span class="square" style="background-color: rgba(204,0,255);"></span> Prof. Gleivison</p>
+                    <p><span class="square" style="background-color: rgba(255,0,0);"></span> Dr Juan Garcia</p>
+                    <p><span class="square" style="background-color: rgba(7,207,0);"></span> Dr NilL</p>
+                    <p><span class="square" style="background-color: rgba(252, 186, 3);"></span> Vinicius PCB</p>
+                </div>
             </div>
 
             {{-- -------------------------------------------------- inicio do painel ---------------------------------------------- --}}
@@ -185,17 +203,18 @@
                     </div>
                 </div>
             </div>
-            {{-- -------------------------------------------------- fim do painel ---------------------------------------------- --}}
+            {{-- -------------------------------------------------- fim do painel
+            ---------------------------------------------- --}}
 
             <div class="chart" id="vereadores-chart">
                 <div class="verea">
-                    <h2>Vereadores (12 mais votados)</h2>
+                    <h2>Vereadores (Votação em ordem decrescente)</h2>
                 </div>
                 <canvas id="barchart-vereadores" width="400" height="400"></canvas>
             </div>
             <button id="button-download-chart-pdf" class="button-download-pdf" onclick="downloadPDFChart()"
-            style="display:none;">Download
-            PDF</button>
+                style="display:none;">Download
+                PDF</button>
             <div class="chart">
                 <div class="bairros">
                     <h2>Bairros</h2>
@@ -209,19 +228,19 @@
                 <canvas id="barchart-escolas" width="400" height="400"></canvas>
             </div>
 
-        <div class="chart">
-            <div class="partidos">
-                <h2>Partidos</h2>
+            <div class="chart">
+                <div class="partidos">
+                    <h2>Partidos</h2>
+                </div>
+                <canvas id="barchart-partidos" width="400" height="400"></canvas>
             </div>
-            <canvas id="barchart-partidos" width="400" height="400"></canvas>
-        </div>
-        <div class="chart">
-            <div class="regioes">
-                <h2>Regioes</h2>
+            <div class="chart">
+                <div class="regioes">
+                    <h2>Regioes</h2>
+                </div>
+                <canvas id="barchart-regioes" width="400" height="400"></canvas>
             </div>
-            <canvas id="barchart-regioes" width="400" height="400"></canvas>
         </div>
-    </div>
     </div>
     {{-- -------------------------------------------------- inicio do search
     ---------------------------------------------- --}}
