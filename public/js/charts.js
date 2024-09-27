@@ -85,7 +85,7 @@ function getChartOptions() {
             },
         },
         maintainAspectRatio: true,
-        aspectRatio: isMobile ? 0.9 : 1.01,
+        aspectRatio: isMobile ? 1.20 : 1.20,
         plugins: {
             title: {
                 display: true,
@@ -99,7 +99,7 @@ function getChartOptions() {
                 },
             },
             legend: {
-                display: true,
+                display: false,
                 position: "bottom",
                 labels: {
                     padding: isMobile ? 5 : 15,
@@ -126,7 +126,7 @@ function getChartOptions() {
                 },
                 anchor: "end",
                 align: "end",
-                offset: isMobile ? -10 : -15,
+                offset: isMobile ? 0 : 0,
             },
         },
     };
@@ -220,7 +220,7 @@ function createBarChartConfig(label) {
                     display: false,
                 },
                 title: {
-                    display: true,
+                    display: false,
                     text: label, // Atualiza o título com base na configuração fornecida
                     font: {
                         size: 12,
