@@ -232,7 +232,7 @@ function createBarChartConfig(label) {
                     display: false,
                 },
                 title: {
-                    display: false,
+                    display: true,
                     text: label, // Atualiza o título com base na configuração fornecida
                     font: {
                         size: 12,
