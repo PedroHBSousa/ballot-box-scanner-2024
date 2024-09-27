@@ -240,7 +240,10 @@ class CandidatoSeeder extends Seeder
             ['id' => '45633', 'cargo_id' => '13', 'nome' => 'Wellington bilicão', 'partido' => 'PSDB'],
             ['id' => '35777', 'cargo_id' => '13', 'nome' => 'Will lira', 'partido' => 'PMB'],
             ['id' => '20444', 'cargo_id' => '13', 'nome' => 'Zezé do iate', 'partido' => 'Pode'],
-            ['id' => '12670', 'cargo_id' => '13', 'nome' => 'Zezinho da piscina', 'partido' => 'PDT']
+            ['id' => '12670', 'cargo_id' => '13', 'nome' => 'Zezinho da piscina', 'partido' => 'PDT'],
+            ['id' => '30699', 'cargo_id' => '13', 'nome' => 'Pr antônio carlos', 'partido' => 'Novo'],
+            ['id' => '11007', 'cargo_id' => '13', 'nome' => 'Karina insaurrade', 'partido' => 'PP'],
+            ['id' => '33100', 'cargo_id' => '13', 'nome' => 'Adson Silva', 'partido' => 'Mobiliza'],
         ]);
     }
 }
