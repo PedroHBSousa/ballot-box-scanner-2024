@@ -49,7 +49,7 @@ class ScannerService
                 // Adiciona o QR code lido ao array
                 $this->qrCodesLidos[] = $posicaoAtual;
             }
-            if (in_array($item[0], ['SECA', 'APTO', 'COMP', 'FALT', 'ASSI'])) {
+            if (in_array($item[0], ['SECA', 'APTO', 'COMP', 'FALT', 'LEGC', 'ASSI'])) {
                 $this->dadosBoletim[$item[0]] = $item[1];
             }
             $this->conteudoCompleto .= implode(':', $item) . " ";

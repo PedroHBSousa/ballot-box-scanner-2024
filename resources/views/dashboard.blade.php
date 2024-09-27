@@ -87,7 +87,7 @@
                 </div>
                 <canvas id="piechart-prefeitos" width="400" height="400"></canvas>
             </div>
-            
+
             {{-- -------------------------------------------------- inicio do painel ---------------------------------------------- --}}
             <div class="painel">
                 <div class="painel-container">
@@ -147,13 +147,14 @@
                         <div class="group-geral">
                             <h1 class="group-title">ELEITORES</h1>
                             <div class="eleitores-container">
-                                <div class="eleitores" id="total-votos-apurados">
+                                <div class="eleitores" id="voto-legenda">
                                     <h1 class="eleitor-information">
-                                        <span>Votos apurados</span>
-                                        {{ number_format($totalApurados, 0, '.', '.') }}/64.437
-                                        ({{ number_format($percentApurados, 2) }}%)
+                                        <span>Votos de legenda</span>
+                                        {{ number_format($totalLegc, 0, '.', '.') }}
+                                        ({{ number_format($percentLegc, 2) }}%)
                                     </h1>
                                 </div>
+
                                 <div class="eleitores" id="eleitor-faltante">
                                     <h1 class="eleitor-information">
                                         <span>Abstenção</span>{{ number_format($totalFaltantes, 0, '.', '.') }}
@@ -170,6 +171,13 @@
                                     <h1 class="eleitor-information">
                                         <span>Seções apuradas</span> {{ number_format($secoesApuradas, 0) }}/206
                                         ({{ number_format($percentSecoesApuradas, 2) }}%)
+                                    </h1>
+                                </div>
+                                <div class="eleitores" id="total-votos-apurados">
+                                    <h1 class="eleitor-information">
+                                        <span>Votos apurados</span>
+                                        {{ number_format($totalApurados, 0, '.', '.') }}/64.437
+                                        ({{ number_format($percentApurados, 2) }}%)
                                     </h1>
                                 </div>
                             </div>

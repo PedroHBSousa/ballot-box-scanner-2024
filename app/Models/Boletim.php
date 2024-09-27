@@ -16,6 +16,7 @@ class Boletim extends Model
         'apto',
         'comp',
         'falt',
+        'legc',
         'assinatura_digital',
     ];
 

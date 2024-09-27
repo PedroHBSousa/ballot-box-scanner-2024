@@ -18,7 +18,9 @@ return new class extends Migration
             $table->integer('comp');
             $table->integer('falt');
             $table->string('assinatura_digital');
+            $table->integer('legc')->nullable();
             $table->timestamps();
+
         });
     }
 

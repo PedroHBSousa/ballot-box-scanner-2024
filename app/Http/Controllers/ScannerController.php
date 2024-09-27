@@ -69,6 +69,7 @@ class ScannerController extends Controller
                             'apto' => $dadosBoletim['APTO'],
                             'comp' => $dadosBoletim['COMP'],
                             'falt' => $dadosBoletim['FALT'],
+                            'legc' => $dadosBoletim['LEGC'],
                             'assinatura_digital' => $dadosBoletim['ASSI'],
                         ]);
                         // dd($votos);
