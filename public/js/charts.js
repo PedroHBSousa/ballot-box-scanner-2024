@@ -99,12 +99,24 @@ function getChartOptions() {
                 },
             },
             legend: {
-                display: false,
+                display: true,
                 position: "bottom",
                 labels: {
                     padding: isMobile ? 5 : 15,
                     font: {
                         size: isMobile ? 12 : 15,
+                    },
+                    generateLabels: function (chart) {
+                        return chart.data.labels.map(function (label) {
+                            return {
+                                text: '   ',
+                                color: 'transparent',
+                                fillStyle: 'transparent',
+                                strokeStyle: 'transparent',
+                                hidden: false,
+                                pointStyle: 'none', // Remove os quadrados
+                            };
+                        });
                     },
                 },
             },
