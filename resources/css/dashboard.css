@@ -314,12 +314,9 @@ footer {
 
 .charts-container {
     display: flex;
-    flex-direction: column;
-    /* Alterado de column para row */
     align-items: center;
     gap: 2rem;
     flex-wrap: wrap;
-    /* Isso permitirá que os gráficos se ajustem ao tamanho da tela */
     padding-bottom: 50px;
     justify-content: center;
 }
