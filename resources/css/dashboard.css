@@ -710,7 +710,7 @@ table {
     }
 
     .chart {
-        max-width: 350px;
+        max-width: 330px;
         height: 450px;
         padding: 0;
     }
@@ -787,6 +787,9 @@ table {
         max-width: 280px;
     }
     .painel-container {
+        max-width: 320px;
+    }
+    .custom-select select {
         max-width: 320px;
     }
 }
