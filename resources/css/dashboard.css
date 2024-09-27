@@ -290,7 +290,6 @@ footer {
 /* -------------------------- FIM DO PAINEL -------------------------- */
 
 .legend {
-
     column-count: 2;
     flex-wrap: wrap;
     padding-left: 100px;
@@ -301,12 +300,10 @@ footer {
 }
 
 .legend p {
-
     display: flex;
     align-items: center;
     font-size: 19px;
     margin: 2px 0;
-
 }
 
 .legend-2 p {
@@ -734,12 +731,10 @@ table {
     }
 
     .legend p {
-
         display: flex;
         align-items: center;
         font-size: 13px;
         margin: 2px 0;
-
     }
 
     .legend-2 p {
@@ -792,6 +787,9 @@ table {
     .custom-select select {
         max-width: 320px;
     }
+    .painel {
+        order: 0;
+    }
 }
 
 /* -------------------------- FIM DA RESPONSIVIDADE MOBILE -------------------------- */
@@ -808,8 +806,6 @@ table {
         order: 1;
         /* Gráfico no topo */
     }
-
-
 
     .container {
         flex-direction: column;
@@ -847,4 +843,3 @@ table {
         /* Remove o espaçamento entre título e subtítulo no mobile */
     }
 }
-
