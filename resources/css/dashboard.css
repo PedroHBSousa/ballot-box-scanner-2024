@@ -721,6 +721,19 @@ table {
     .search {
         max-width: 350px;
     }
+
+    #piechart-prefeitos {
+        width: 50%;
+        height: 800px;
+        padding: 10px;
+        
+    }
+
+    #piechart-prefeitos-geral {
+        width: 50%;
+        height: 100%;
+        padding: 10px;
+    }
 }
 
 /* -------------------------- FIM DA RESPONSIVIDADE MOBILE -------------------------- */
