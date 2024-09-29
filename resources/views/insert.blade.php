@@ -48,10 +48,8 @@
             </form>
 
             @isset($secao)
-                <div style="display:flex; flex-direction:column; justify-content:center; align-items: center">
-                    <h2 style="text-align:center; font-size:21px;">Localidade da Seção {{ $secao->id }}:</h2>
-                    <h3 style="text-align:center;font-size:16px;">{{ $secao->localidade->nome }}</h3> <br>
-                </div>
+                <h2 class="form-header">Local da seção {{ $secao->id }} <span>{{ $secao->localidade->nome }}</span>
+                </h2>
                 <form class="form" action="{{ route('insert.data') }}" method="POST" id="voting-form">
                     @csrf
                     <input type="hidden" name="secao_id" value="{{ $secao->id }}">

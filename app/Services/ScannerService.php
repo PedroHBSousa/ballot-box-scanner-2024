@@ -43,7 +43,7 @@ class ScannerService
                 if (in_array($posicaoAtual, $this->qrCodesLidos)) {
                     throw new \Exception("O QR Code $posicaoAtual já foi lido.");
                 } elseif ($posicaoAtual != count($this->qrCodesLidos) + 1) {
-                    throw new \Exception("Você pulou o QR Code " . (count($this->qrCodesLidos) + 1) . ". Por favor, escaneie novamente.");
+                    throw new \Exception("Você pulou o " . (count($this->qrCodesLidos) + 1) . "° QR Code. Escaneie novamente.");
                 }
 
                 // Adiciona o QR code lido ao array

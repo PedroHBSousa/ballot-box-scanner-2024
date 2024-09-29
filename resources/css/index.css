@@ -134,11 +134,11 @@ body {
 }
 
 .qr-reader {
-    width: 100%; /* O scanner ocupa 100% da largura disponível */
-    max-width: 400px; /* Limita o tamanho máximo do scanner */
-    margin: 0 auto; /* Centraliza o scanner */
-    overflow: hidden; /* Esconde qualquer parte do scanner que ultrapasse o container */
-    position: relative; /* Garante que o scanner fique dentro do container */
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
     margin-bottom: 25px;
     margin-top: 15px;
 }
@@ -195,6 +195,7 @@ h1 span {
     display: inline-block;
     box-sizing: border-box;
     height: 2.5rem;
+    font-size: 18px;
     width: 88% !important;
     line-height: 2.5rem;
     text-align: center;
@@ -202,6 +203,7 @@ h1 span {
     align-items: center;
     -webkit-appearance: none;
     -webkit-box-pack: center;
+    font-weight: 600;
 }
 #html5-qrcode-button-camera-start {
     text-decoration: none !important;
@@ -214,6 +216,7 @@ h1 span {
     display: inline-block;
     box-sizing: border-box;
     height: 2.5rem;
+    font-size: 18px;
     width: 88% !important;
     line-height: 2.5rem;
     text-align: center;
@@ -221,6 +224,7 @@ h1 span {
     align-items: center;
     -webkit-appearance: none;
     -webkit-box-pack: center;
+    font-weight: 600;
 }
 
 .result-container {
@@ -287,10 +291,12 @@ textarea {
     font-size: 30px;
 }
 #message {
+    max-width: 320px;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 5px;
+    margin-top: 20px;
 }
 
 #success-message {
@@ -307,10 +313,10 @@ textarea {
     font-size: 20px;
 }
 
-.material-symbols-outlined {
+/* .material-symbols-outlined {
     font-size: 30px;
     font-weight: 500;
-}
+} */
 
 /* RESPONSIVIDADE MOBILE */
 
@@ -332,4 +338,47 @@ textarea {
         flex-direction: column;
         text-align: center;
     }
+}
+.alert {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+}
+
+/* Ícones */
+.alert .material-symbols-outlined {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+/* Mensagens de status */
+.alert-status {
+    background-color: #e3f2fd; /* Azul claro */
+    color: #255290;
+    border-left: 5px solid #255290;
+}
+
+/* Mensagens de erro */
+.alert-error {
+    background-color: #fdecea; /* Vermelho claro */
+    color: #bb271a;
+    border-left: 5px solid #bb271a;
+}
+
+/* Mensagens de sucesso */
+.alert-success {
+    background-color: #eaf4ea; /* Verde claro */
+    color: #48752c;
+    border-left: 5px solid #48752c;
+}
+
+/* Estilos para o texto */
+.alert p {
+    margin: 0;
+    font-size: 16px;
 }

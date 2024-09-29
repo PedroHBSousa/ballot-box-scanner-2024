@@ -103,7 +103,6 @@ footer {
     flex-direction: column;
     align-items: center;
     padding: 10px;
-    margin-top: 50px;
 }
 .sections-panel-button {
     display: flex;
@@ -414,6 +413,16 @@ li {
 }
 #form-submit-btn-boletim:hover {
     background-color: #0f5f9b;
+}
+.form-header {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+.form-header span {
+    font-size: 22px;
+    font-weight: 700;
+    display: block;
 }
 
 .form-container .form-submit-btn:hover {

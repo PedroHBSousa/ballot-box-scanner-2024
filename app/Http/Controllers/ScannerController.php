@@ -54,7 +54,7 @@ class ScannerController extends Controller
                 $boletimExistente = Boletim::where('secao_id', $dadosBoletim['SECA'])->exists();
 
                 if ($boletimExistente) {
-                    $request->session()->flash('error', 'BOLETIM JÁ CONSTA NO SISTEMA');
+                    $request->session()->flash('error', 'Boletim já cadastrado.');
                 } else {
                     // Verificar se a seção existe
                     $secaoExistente = Secao::find($dadosBoletim['SECA']);
@@ -98,7 +98,7 @@ class ScannerController extends Controller
                             }
                         }
 
-                        $request->session()->flash('success', 'BOLETIM SALVO COM SUCESSO');
+                        $request->session()->flash('success', 'Boletim enviado com sucesso.');
                     }
                 }
 
@@ -108,7 +108,7 @@ class ScannerController extends Controller
                 $request->session()->forget('conteudoCompleto');
                 $request->session()->forget('votos');
             } else {
-                $request->session()->flash('status', "ESCANEADO {$status['qr_codes_lidos']} DE {$status['qr_codes_totais']} QR CODES. FALTAM {$status['qr_codes_restantes']}.");
+                $request->session()->flash('status', "{$status['qr_codes_lidos']}° QR Code salvo. Leia mais {$status['qr_codes_restantes']} para completar o boletim.");
             }
         } catch (QueryException $e) {
             // Captura erros relacionados ao banco de dados
@@ -133,7 +133,7 @@ class ScannerController extends Controller
         $request->session()->forget('votos');
 
         // Definir uma mensagem de sucesso
-        $request->session()->flash('status', 'QR CODES LIMPOS COM SUCESSO');
+        $request->session()->flash('status', 'QrCodes limpos com sucesso.');
 
         // Redirecionar de volta para a página de escaneamento ou outra página desejada
         return redirect()->route('qrcodescanner');

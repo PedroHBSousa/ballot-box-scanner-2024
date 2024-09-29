@@ -31,11 +31,38 @@
     </header>
 
     <div class="center-container">
-        <div class="instructions">
+        {{-- <div class="instructions">
             <h2>INSTRUÇÕES</h2>
             <h4>REALIZE O ESCANEAMENTO EM ORDEM CRESCENTE E SEQUENCIAL. SE ESTIVER TENDO <span>PROBLEMAS</span> COM O
                 ESCANEAMENTO, CLIQUE NO BOTÃO "LIMPAR QR CODES" PARA
                 REINICIAR.</h4>
+        </div> --}}
+
+        <div id="message">
+            @if (session('status'))
+                <div class="alert alert-status">
+                    <span class="material-symbols-outlined">
+                        upload_file
+                    </span>
+                    <p>{{ session('status') }}</p>
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-error">
+                    <span class="material-symbols-outlined">
+                        error
+                    </span>
+                    <p>{{ session('error') }}</p>
+                </div>
+            @endif
+            @if (session('success'))
+                <div class="alert alert-success">
+                    <span class="material-symbols-outlined">
+                        check_circle
+                    </span>
+                    <p>{{ session('success') }}</p>
+                </div>
+            @endif
         </div>
 
         <div id="reader" class="qr-reader"></div>
@@ -44,27 +71,6 @@
             @csrf
             <input type="hidden" id="qrcode-value" name="qrcode_value">
         </form>
-
-        <div id="message">
-            @if (session('status'))
-                <span style="color:#255290" class="material-symbols-outlined">
-                    scan_delete
-                </span>
-                <p style="color:#255290">{{ session('status') }}</p>
-            @endif
-            @if (session('error'))
-                <span style="color:#BB271A "class="material-symbols-outlined">
-                    error
-                </span>
-                <p style="color:#BB271A">{{ session('error') }}</p>
-            @endif
-            @if (session('success'))
-                <span style="color:#48752C" class="material-symbols-outlined">
-                    check_circle
-                </span>
-                <p style="color:#48752C">{{ session('success') }}</p>
-            @endif
-        </div>
 
         <div class="container-button">
             <form action="{{ route('qrcodes.clear') }}" method="POST">
@@ -75,22 +81,12 @@
             </form>
         </div>
 
-        <div id="filteredData">
-            @if (session('data'))
-                <h2>Dados Filtrados:</h2>
-                <ul>
-                    @foreach (session('data') as $key => $value)
-                        <li><strong>{{ $key }}:</strong> {{ $value }}</li>
-                    @endforeach
-                </ul>
-            @endif
-        </div>
     </div>
     <script>
         var html5QrcodeScanner = new Html5QrcodeScanner(
             "reader", {
-                fps: 10,
-                qrbox: 250,
+                fps: 15,
+                qrbox: 200,
             });
 
         // Função que será chamada ao encontrar um QR Code
