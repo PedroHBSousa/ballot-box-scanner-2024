@@ -93,12 +93,12 @@
                     <div class="form-group-container">
                         <!-- Campos para votos em branco e nulos -->
                         <div class="form-group">
-                            <label for="votos_branco_prefeito">Total de votos branco</label>
+                            <label for="votos_branco_prefeito">Votos branco de prefeito</label>
                             <input type="number" id="votos_branco_prefeito" name="votos_branco_prefeito" min="0"
                                 placeholder="Votos branco para prefeito" required>
                         </div>
                         <div class="form-group">
-                            <label for="votos_nulo_prefeito">Total de votos nulo</label>
+                            <label for="votos_nulo_prefeito">Votos nulo de prefeito</label>
                             <input type="number" id="votos_nulo_prefeito" name="votos_nulo_prefeito" min="0"
                                 placeholder="Votos nulos para prefeito" required>
                         </div>
@@ -108,9 +108,13 @@
                     <div class="form-group" id="vereadors">
                         <div>
                             <label for="vereador_search">Buscar vereador</label>
-                            <input type="number" id="vereador_search" name="vereador_search"
-                                placeholder="Digite o número do vereador">
-                            <button class="form-submit-btn" type="button" onclick="buscarVereador()">Adicionar</button>
+                            <div class="search-buscar-vereador-container">
+                                <input type="number" id="vereador_search" name="vereador_search"
+                                    placeholder="Digite o número do vereador">
+                                <button id="button-buscar-vereador" class="form-submit-btn" type="button"
+                                    onclick="buscarVereador()">Buscar
+                                    vereador<span class="material-symbols-outlined">search</span></button>
+                            </div>
                         </div>
                         <!-- Mensagem de erro, se existir -->
                         <div id="erro_vereador" style="color: red;"></div>
@@ -121,18 +125,23 @@
                     <div class="form-group-container">
                         <!-- Campos para votos em branco e nulos -->
                         <div class="form-group">
-                            <label for="votos_branco_vereador">Total de votos branco:</label>
+                            <label for="votos_branco_vereador">Votos branco de vereador</label>
                             <input type="number" id="votos_branco_vereador" name="votos_branco_vereador" min="0"
                                 placeholder="Votos branco para vereador">
                         </div>
                         <div class="form-group">
-                            <label for="votos_nulo_vereador">Total de votos nulo:</label>
+                            <label for="votos_nulo_vereador">Votos nulo de vereador</label>
                             <input type="number" id="votos_nulo_vereador" name="votos_nulo_vereador" min="0"
                                 placeholder="Votos nulos para vereador">
                         </div>
+                        <div class="form-group">
+                            <label for="votos_legenda_vereador">Votos de legenda</label>
+                            <input type="number" id="votos_legenda_vereador" name="votos_legenda_vereador"
+                                min="0" placeholder="Votos de legenda">
+                        </div>
                     </div>
-                    <button class="form-submit-btn" type="button" name="action" value="inserir_votos"
-                        onclick="openConfirmationModal()">Enviar</button>
+                    <button id="form-submit-btn-boletim" class="form-submit-btn" type="button" name="action"
+                        value="inserir_votos" onclick="openConfirmationModal()">Enviar boletim</button>
                 </form>
 
             @endisset
@@ -180,7 +189,7 @@
                     // Verifica se o candidato já foi adicionado
                     if (document.querySelector(`input[name='votos[${vereadorId}][candidato_id]']`)) {
                         erroVereador.innerHTML =
-                        '<p class="custom-error-message">Este candidato já foi adicionado!</p>';
+                            '<p class="custom-error-message">Este candidato já foi adicionado!</p>';
                         return; // Impede a adição do candidato duplicado
                     }
                     if (data.success) {
@@ -274,6 +283,34 @@
         if (compInput && aptoInput && faltInput) {
             compInput.addEventListener('input', calcularFaltantes);
         }
+        // Função para calcular a soma dos votos e validar
+        function calcularSomaVotos() {
+            const comp = parseInt(document.getElementById('comp').value) || 0;
+
+
+            // Obtém os valores dos votos brancos, nulos e de legenda para vereador
+            const votosBranco = parseInt(document.getElementById('votos_branco_vereador').value) || 0;
+            const votosNulo = parseInt(document.getElementById('votos_nulo_vereador').value) || 0;
+            const votosLegenda = parseInt(document.getElementById('votos_legenda_vereador').value) || 0;
+
+            // Inicializa a soma com votos brancos, nulos e de legenda
+            let totalVotos = votosBranco + votosNulo + votosLegenda;
+
+            // Soma os votos de cada vereador adicionado
+            const vereadorInputs = document.querySelectorAll('#vereador_resultado input[type="number"]');
+            vereadorInputs.forEach(input => {
+                totalVotos += parseInt(input.value) || 0;
+            });
+
+            // Verifica se a soma dos votos é maior que o número de comparecimentos
+            if (totalVotos > comp) {
+                showErrorMessage('Erro: A soma dos votos de vereador não pode ser maior que o número de comparecimentos.');
+                return false; // Impede o envio do formulário
+            }
+
+            return true; // Permite o envio se a soma estiver correta
+        }
+
 
         document.querySelector('.sections-panel-button').addEventListener('click', function() {
             const sectionsInfo = document.querySelector('.sections-info');
@@ -309,7 +346,10 @@
 
         // Função para abrir o modal de confirmação
         function openConfirmationModal() {
-            document.getElementById('confirmationModal').style.display = 'flex';
+            if (calcularSomaVotos()) {
+                document.getElementById('confirmationModal').style.display = 'flex';
+            }
+
         }
 
         // Função para fechar o modal

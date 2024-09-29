@@ -113,6 +113,7 @@ class InsertController extends Controller
             'votos_nulo_prefeito' => 'required|integer|min:0',
             'votos_branco_vereador' => 'nullable|integer',
             'votos_nulo_vereador' => 'nullable|integer',
+            'votos_legenda_vereador' => 'nullable|integer',
         ]);
 
         if ($validator->fails()) {
@@ -122,7 +123,7 @@ class InsertController extends Controller
         }
 
         try {
-            $dadosBoletim = $request->only(['secao_id', 'apto', 'comp', 'falt']);
+            $dadosBoletim = $request->only(['secao_id', 'apto', 'comp', 'falt', 'votos_legenda_vereador']);
             $votos = $request->input('votos');
             $votosBrancoPrefeito = $request->input('votos_branco_prefeito');
             $votosNuloPrefeito = $request->input('votos_nulo_prefeito');
@@ -139,6 +140,7 @@ class InsertController extends Controller
                 'apto' => $dadosBoletim['apto'],
                 'comp' => $dadosBoletim['comp'],
                 'falt' => $dadosBoletim['falt'],
+                'legc' => $dadosBoletim['votos_legenda_vereador'],
                 'assinatura_digital' => 'manual-' . Carbon::now('America/Sao_Paulo')->format('Y-m-d_H:i:s'),
                 'created_at' => Carbon::now('America/Sao_Paulo'),
                 'updated_at' => Carbon::now('America/Sao_Paulo'),
