@@ -85,8 +85,14 @@
     <script>
         var html5QrcodeScanner = new Html5QrcodeScanner(
             "reader", {
-                fps: 15,
-                qrbox: 225,
+                fps: 15, // Aumente a FPS se necessário
+                qrbox: {
+                    width: 250,
+                    height: 250
+                },
+                experimentalFeatures: {
+                    useBarCodeDetectorIfSupported: true // Habilitar features experimentais, se suportadas
+                }
             });
 
         // Função que será chamada ao encontrar um QR Code
