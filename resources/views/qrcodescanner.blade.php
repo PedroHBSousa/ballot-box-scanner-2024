@@ -42,7 +42,7 @@
             @if (session('status'))
                 <div class="alert alert-status">
                     <span class="material-symbols-outlined">
-                        upload_file
+                        clock_loader_40
                     </span>
                     <p>{{ session('status') }}</p>
                 </div>
@@ -76,7 +76,7 @@
             <form action="{{ route('qrcodes.clear') }}" method="POST">
                 @csrf
                 <div id="writer" class="digitar">
-                    <button type="submit">Limpar QR Codes</button>
+                    <button type="submit">Apagar QRCodes lidos</button>
                 </div>
             </form>
         </div>

@@ -166,20 +166,45 @@ h1 span {
     display: inline-block;
     box-sizing: border-box;
     height: 2.5rem;
-    width: 88% !important;
+    width: 100% !important;
+    height: 45px !important;
     line-height: 2.5rem;
     text-align: center;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
     align-items: center;
     -webkit-appearance: none;
     -webkit-box-pack: center;
 }
 #html5-qrcode-select-camera {
-    padding: 0.5rem;
+    padding: 0.75rem;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    color: #495057;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#html5-qrcode-select-camera:hover {
+    border-color: #6c757d;
+}
+
+#html5-qrcode-select-camera:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+#html5-qrcode-select-camera option {
+    padding: 0.5rem;
     background-color: #ffffff;
-    list-style: none;
+    color: #495057;
 }
 #html5-qrcode-anchor-scan-type-change {
     display: none;
@@ -196,7 +221,8 @@ h1 span {
     box-sizing: border-box;
     height: 2.5rem;
     font-size: 18px;
-    width: 88% !important;
+    width: 100% !important;
+    height: 45px !important;
     line-height: 2.5rem;
     text-align: center;
     cursor: pointer;
@@ -217,7 +243,8 @@ h1 span {
     box-sizing: border-box;
     height: 2.5rem;
     font-size: 18px;
-    width: 88% !important;
+    width: 100% !important;
+    height: 45px !important;
     line-height: 2.5rem;
     text-align: center;
     cursor: pointer;
@@ -253,9 +280,7 @@ h1 span {
 .container-button {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
-    margin-bottom: 25px;
-    gap: 10px;
+    margin-bottom: 20px;
 }
 
 label,
@@ -270,7 +295,6 @@ textarea {
     height: 30px;
     align-content: center;
 }
-
 .digitar button {
     background: rgb(255, 218, 0);
     background: linear-gradient(
@@ -284,7 +308,15 @@ textarea {
     border-radius: 10px;
     cursor: pointer;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 700;
+    box-shadow: 0 8px 15px rgba(0, 129, 255, 0.4),
+        0 4px 10px rgba(255, 218, 0, 0.4);
+    transition: box-shadow 0.3s ease;
+}
+
+.digitar button:hover {
+    box-shadow: 0 12px 20px rgba(0, 129, 255, 0.6),
+        0 6px 12px rgba(255, 218, 0, 0.5);
 }
 
 .codigo {
@@ -296,7 +328,6 @@ textarea {
     flex-direction: row;
     align-items: center;
     gap: 5px;
-    margin-top: 20px;
 }
 
 #success-message {

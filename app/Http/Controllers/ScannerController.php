@@ -133,7 +133,7 @@ class ScannerController extends Controller
         $request->session()->forget('votos');
 
         // Definir uma mensagem de sucesso
-        $request->session()->flash('status', 'QrCodes limpos com sucesso.');
+        $request->session()->flash('status', 'QRCodes apagados com sucesso.');
 
         // Redirecionar de volta para a página de escaneamento ou outra página desejada
         return redirect()->route('qrcodescanner');

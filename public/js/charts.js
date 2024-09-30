@@ -85,7 +85,7 @@ function getChartOptions() {
             },
         },
         maintainAspectRatio: true,
-        aspectRatio: isMobile ? 1.20 : 1.20,
+        aspectRatio: isMobile ? 1.2 : 1.2,
         plugins: {
             title: {
                 display: true,
@@ -109,12 +109,12 @@ function getChartOptions() {
                     generateLabels: function (chart) {
                         return chart.data.labels.map(function (label) {
                             return {
-                                text: '   ',
-                                color: 'transparent',
-                                fillStyle: 'transparent',
-                                strokeStyle: 'transparent',
+                                text: "   ",
+                                color: "transparent",
+                                fillStyle: "transparent",
+                                strokeStyle: "transparent",
                                 hidden: false,
-                                pointStyle: 'none', // Remove os quadrados
+                                pointStyle: "none", // Remove os quadrados
                             };
                         });
                     },
@@ -164,23 +164,27 @@ function createPieChartConfig() {
                 {
                     data: [],
                     backgroundColor: [
-                        "rgba(30,144,255)",   // Reinaldinho
-                        "rgba(255,0,0)",     // Dr Ruan
+                        "rgba(30,144,255)", // Reinaldinho
+                        "rgba(255,0,0)", // Dr Ruan
                         "rgba(7,207,0)", // Dr Nill
-                        "rgba(204,0,255)",  // Gleivison
+                        "rgba(204,0,255)", // Gleivison
                         "rgba(252, 186, 3)", // Vinicius
-                        "rgba(255, 159, 67)",  // Abstenções
-                        "rgba(220, 220, 220)",  // Votos Brancos
-                        "rgba(128, 128, 128)"   // Votos Nulos
+                        "rgba(255, 159, 67)", // Abstenções
+                        "rgba(220, 220, 220)", // Votos Brancos
+                        "rgba(128, 128, 128)", // Votos Nulos
                     ],
                     borderColor: [
-                        "#FFF", "#FFF", "#FFF", "#FFF", "#FFF",
-                        '#FFF',  // Abstenções
-                        '#FFF',  // Votos Brancos
-                        '#FFF'   // Votos Nulos
+                        "#FFF",
+                        "#FFF",
+                        "#FFF",
+                        "#FFF",
+                        "#FFF",
+                        "#FFF", // Abstenções
+                        "#FFF", // Votos Brancos
+                        "#FFF", // Votos Nulos
                     ],
                     borderWidth: 2,
-                }
+                },
             ],
         },
         options: {
@@ -189,7 +193,7 @@ function createPieChartConfig() {
                 ...getChartOptions().plugins,
                 title: {
                     display: true,
-                    text: '', // Título será preenchido dinamicamente
+                    text: "", // Título será preenchido dinamicamente
                     font: {
                         size: 12,
                     },
@@ -278,16 +282,16 @@ function loadInitialData() {
                 "prefeitos"
             );
 
-            updateChartInstance(window.chartInstancePrefeitosGeral,
+            updateChartInstance(
+                window.chartInstancePrefeitosGeral,
                 {
-                    prefeitos: data.prefeitos,       // Dados dos prefeitos
-                    abstenções: data.abstencoes,     // Abstenções
-                    brancos: data.votos_brancos,     // Votos brancos
-                    nulos: data.votos_nulos          // Votos nulos
+                    prefeitos: data.prefeitos, // Dados dos prefeitos
+                    abstenções: data.abstencoes, // Abstenções
+                    brancos: data.votos_brancos, // Votos brancos
+                    nulos: data.votos_nulos, // Votos nulos
                 },
                 "prefeitos-geral"
             );
-
 
             // Atualiza o gráfico de vereadores
             updateChartInstance(
@@ -431,7 +435,6 @@ function loadPartidosSubfilters() {
 
 function handleFilterChange(event) {
     const selectedFilter = event.target.value;
-    console.log("Filtro selecionado:", selectedFilter);
 
     // Oculta todos os subfiltros antes de exibir o subfiltro selecionado
     hideAllSubfilters();
@@ -486,15 +489,16 @@ function hideAllSubfilters() {
     // Oculta os containers dos subfiltros
     document.getElementById("subfilter-container").style.display = "none";
     document.getElementById("school-filter-container").style.display = "none";
-    document.getElementById("regiao-subfilter-container").style.display = "none";
-    document.getElementById("partido-subfilter-container").style.display = "none";
+    document.getElementById("regiao-subfilter-container").style.display =
+        "none";
+    document.getElementById("partido-subfilter-container").style.display =
+        "none";
 }
 
 function handleBairroSubfilterChange(event) {
     const selectedBairroId = event.target.value;
     const selectedBairroName =
         event.target.options[event.target.selectedIndex].text.trim();
-    console.log("Selected Bairro ID:", selectedBairroId);
 
     if (selectedBairroId) {
         axios
@@ -529,7 +533,6 @@ function handleEscolaSubfilterChange(event) {
     const selectedLocalidadeId = event.target.value;
     const selectedLocalidadeName =
         event.target.options[event.target.selectedIndex].text.trim();
-    console.log("Selected Localidade ID:", selectedLocalidadeId);
 
     if (selectedLocalidadeId) {
         axios
@@ -564,7 +567,6 @@ function handleRegioesSubfilterChange(event) {
     const selectedRegiao = event.target.value;
     const selectedRegiaoName =
         event.target.options[event.target.selectedIndex].text.trim();
-    console.log("Selected Região:", selectedRegiao);
 
     if (selectedRegiao) {
         axios
@@ -599,11 +601,9 @@ function handlePartidoSubfilterChange(event) {
     const selectedPartido = event.target.value;
     const selectedPartidoName =
         event.target.options[event.target.selectedIndex].text.trim();
-    console.log("Selected Partido:", selectedPartido);
 
     if (selectedPartido) {
         const url = `/data/partidos/${encodeURIComponent(selectedPartido)}`;
-        console.log("Fetching data from URL:", url);
 
         axios
             .get(`/data/partidos/${encodeURIComponent(selectedPartido)}`)
@@ -658,19 +658,21 @@ function updateChart(filter, data, chartInstance) {
         updateChartInstance(
             window.chartInstancePrefeitosGeral,
             {
-                prefeitos: data.prefeitos,       // Dados dos prefeitos
-                abstenções: data.abstencoes,     // Abstenções
-                brancos: data.votos_brancos,     // Votos brancos
-                nulos: data.votos_nulos          // Votos nulos
+                prefeitos: data.prefeitos, // Dados dos prefeitos
+                abstenções: data.abstencoes, // Abstenções
+                brancos: data.votos_brancos, // Votos brancos
+                nulos: data.votos_nulos, // Votos nulos
             },
             "prefeitos-geral"
         );
 
-
         // Mostrar os gráficos de prefeitos e vereadores
         toggleChartVisibility(window.chartInstancePrefeitos.canvas.id, true);
         toggleChartVisibility(window.chartInstanceVereadores.canvas.id, true);
-        toggleChartVisibility(window.chartInstancePrefeitosGeral.canvas.id, true);
+        toggleChartVisibility(
+            window.chartInstancePrefeitosGeral.canvas.id,
+            true
+        );
 
         // Ocultar outros gráficos que não são relevantes para o filtro "geral"
         toggleChartVisibility("barchart-bairros", false);
@@ -721,8 +723,6 @@ function updateChart(filter, data, chartInstance) {
 }
 
 function updateChartInstance(chartInstance, data, filter, subfilterName = "") {
-    console.log(data); // Verifica os dados no console
-
     // Atualizar o título com o nome do subfiltro
     const titleText = subfilterName || "";
 
@@ -731,7 +731,11 @@ function updateChartInstance(chartInstance, data, filter, subfilterName = "") {
     }
 
     // Verifica se os dados são um objeto (caso do segundo gráfico)
-    if (filter === "prefeitos-geral" && typeof data === "object" && !Array.isArray(data)) {
+    if (
+        filter === "prefeitos-geral" &&
+        typeof data === "object" &&
+        !Array.isArray(data)
+    ) {
         // Supondo que 'data' contém os campos 'prefeitos', 'abstencoes', 'brancos', e 'nulos'
         const candidatos = data.prefeitos || [];
         const abstenções = parseInt(data.abstenções, 10) || 0;
@@ -740,21 +744,19 @@ function updateChartInstance(chartInstance, data, filter, subfilterName = "") {
 
         // Atualiza os rótulos e os dados do gráfico
         chartInstance.data.labels = [
-            ...candidatos.map(item => item.nome || "Indefinido"),
+            ...candidatos.map((item) => item.nome || "Indefinido"),
             "Abstenções",
             "Votos Brancos",
-            "Votos Nulos"
+            "Votos Nulos",
         ];
 
         chartInstance.data.datasets[0].data = [
-            ...candidatos.map(item => item.total || 0),
+            ...candidatos.map((item) => item.total || 0),
             abstenções,
             brancos,
-            nulos
+            nulos,
         ];
-
     } else if (!Array.isArray(data) || data.length === 0) {
-        console.log("Nenhum dado encontrado para este filtro.");
         chartInstance.data.labels = [];
         chartInstance.data.datasets[0].data = [];
     } else {
