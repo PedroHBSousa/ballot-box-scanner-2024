@@ -35,7 +35,7 @@ function initializeCharts() {
         .getContext("2d");
     window.chartInstanceVereadores = new Chart(
         ctxVereadores,
-        createBarChartConfig("Vereadores")
+        createBarChartConfig("Vereadores", )
     );
 
     const ctxBairros = document
@@ -229,6 +229,7 @@ function createBarChartConfig(label) {
             scales: {
                 x: {
                     beginAtZero: true,
+                    offset: true,
                 },
             },
             plugins: {
@@ -244,13 +245,7 @@ function createBarChartConfig(label) {
                 },
                 datalabels: {
                     color: "#000", // Branco para contraste com as barras
-                    formatter: (value, context) => {
-                        const totalVotes =
-                            context.chart.data.datasets[0].data.reduce(
-                                (a, b) => a + b,
-                                0
-                            );
-                        const percentage = ((value / totalVotes) * 100).toFixed(1);
+                    formatter: (value) => {
                         return `${value}`;
                     },
                     font: {
@@ -260,7 +255,7 @@ function createBarChartConfig(label) {
                     anchor: "end", // Posiciona o texto no final da barra
                     align: "end", // Alinha o texto dentro da barra
                     clip: true, // Permite que o texto ultrapasse a borda da barra
-                    padding: 5, // Remove o padding para centralizar o texto dentro da barra
+                    padding: 0, // Remove o padding para centralizar o texto dentro da barra
                 },
             },
         },
@@ -487,10 +482,8 @@ function hideAllSubfilters() {
     // Oculta os containers dos subfiltros
     document.getElementById("subfilter-container").style.display = "none";
     document.getElementById("school-filter-container").style.display = "none";
-    document.getElementById("regiao-subfilter-container").style.display =
-        "none";
-    document.getElementById("partido-subfilter-container").style.display =
-        "none";
+    document.getElementById("regiao-subfilter-container").style.display = "none";
+    document.getElementById("partido-subfilter-container").style.display = "none";
 }
 
 function handleBairroSubfilterChange(event) {

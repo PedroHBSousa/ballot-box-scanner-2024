@@ -461,6 +461,7 @@ footer {
     justify-content: center;
     align-items: center;
     position: relative;
+    margin-top: 30px;
 }
 
 .search {
@@ -471,6 +472,7 @@ footer {
     margin-bottom: 50px;
     display: flex;
     flex-direction: column;
+    margin-top: 15px;
     /* Alinha os itens em coluna */
     /* align-items: center; */
     justify-content: center;
