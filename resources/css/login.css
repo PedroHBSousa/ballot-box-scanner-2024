@@ -7,6 +7,8 @@
 
 /* Estilos do corpo */
 body {
+    display: flex;
+    flex-direction: column;
     font-family: "Poppins", sans-serif;
     background: linear-gradient(
         -45deg,
@@ -35,6 +37,28 @@ body {
         background-position: 0% 50%;
     }
 }
+.container-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    position: relative;
+}
+#reinaldinho {
+    width: 180px;
+    position: absolute;
+}
+#reis {
+    width: 160px;
+    position: absolute;
+    left: 150px;
+}
+#felipe {
+    width: 250px;
+    position: absolute;
+    top: -110px;
+    left: -50px;
+}
 
 /* Estilos do formulário */
 form {
@@ -45,6 +69,7 @@ form {
     width: 100%;
     max-width: 400px;
     text-align: center;
+    z-index: 1;
 }
 
 /* Estilo da label */
