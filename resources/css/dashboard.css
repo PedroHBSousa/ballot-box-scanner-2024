@@ -461,6 +461,7 @@ footer {
     justify-content: center;
     align-items: center;
     position: relative;
+    margin-top: 30px;
 }
 
 .search {
