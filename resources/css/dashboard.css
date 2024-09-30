@@ -289,15 +289,16 @@ footer {
 
 /* -------------------------- FIM DO PAINEL -------------------------- */
 
-.legend {
+.legend { 
     column-count: 2;
     flex-wrap: wrap;
-    padding-left: 100px;
+    padding-left: 70px;
 }
 .legend-2 {
     column-count: 2;
-    padding-left: 100px;
+    padding-left: 70px;
 }
+
 
 .legend p {
     display: flex;
@@ -343,14 +344,15 @@ footer {
 }
 
 .chart {
-    width: 700px;
-    height: 760px;
+    width: 600px;
+    height: 660px;
     padding: 2rem;
     border: 1px solid #aaa9a9;
     border-radius: 1rem;
     box-shadow: 0 0 16px rgba(0, 0, 0, 0);
-    margin-top: 20px;
+    margin-top: 100px;
 }
+
 
 .charts-container {
     display: flex;
