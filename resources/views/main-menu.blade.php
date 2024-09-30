@@ -32,10 +32,10 @@
     <main>
         <div class="menu-container">
             <a href="{{ route('dashboard') }}" target="_blank">
-                <button>Dashboard</button>
+                <button>Gráficos</button>
             </a>
             <a href="{{ route('insert') }}" target="_blank">
-                <button>Insert</button>
+                <button>Inserção</button>
             </a>
             <a href="{{ route('qrcodescanner') }}" target="_blank">
                 <button>QR Code</button>

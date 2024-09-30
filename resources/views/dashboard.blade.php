@@ -82,11 +82,11 @@
                 <canvas id="piechart-prefeitos-geral" width="400" height="400"></canvas>
                 <div class="legend">
                     <p><span class="square" style="background-color: rgba(30,144,255);"></span> Reinadinho</p>
-                    <p><span class="square" style="background-color: rgba(204,0,255);"></span> Prof. Gleivison</p>
-                    <p><span class="square" style="background-color: rgba(255,0,0);"></span> Dr Juan Garcia</p>
-                    <p><span class="square" style="background-color: rgba(7,207,0);"></span> Dr NilL</p>
-                    <p><span class="square" style="background-color: rgba(252, 186, 3);"></span> Vinicius PCB</p>
-                    <p><span class="square" style="background-color: rgba(255, 159, 67);"></span> Abstenção</p>
+                    <p><span class="square" style="background-color: rgba(245, 69, 242);"></span> Prof. Gleivison</p>
+                    <p><span class="square" style="background-color: rgba(255, 136, 0);"></span> Dr Juan Garcia</p>
+                    <p><span class="square" style="background-color: rgba(1, 110, 17);"></span> Dr NilL</p>
+                    <p><span class="square" style="background-color: rgba(252, 3, 3);"></span> Vinicius PCB</p>
+                    <p><span class="square" style="background-color: rgba(143, 62, 0);"></span> Abstenção</p>
                     <p><span class="square" style="background-color: rgba(220, 220, 220);"></span> Votos Brancos</p>
                     <p><span class="square" style="background-color: rgba(128, 128, 128);"></span> Votos Nulos</p>
                 </div>
@@ -100,9 +100,9 @@
                 <div class="legend-2">
                     <p><span class="square" style="background-color:rgba(30,144,255);"></span> Reinadinho</p>
                     <p><span class="square" style="background-color: rgba(204,0,255);"></span> Prof. Gleivison</p>
-                    <p><span class="square" style="background-color: rgba(255,0,0);"></span> Dr Juan Garcia</p>
-                    <p><span class="square" style="background-color: rgba(7,207,0);"></span> Dr NilL</p>
-                    <p><span class="square" style="background-color: rgba(252, 186, 3);"></span> Vinicius PCB</p>
+                    <p><span class="square" style="background-color: rgba(255, 136, 0);"></span> Dr Juan Garcia</p>
+                    <p><span class="square" style="background-color: rgba(1, 110, 17);"></span> Dr NilL</p>
+                    <p><span class="square" style="background-color: rgba(252,3,3);"></span> Vinicius PCB</p>
                 </div>
             </div>
 

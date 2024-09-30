@@ -165,11 +165,11 @@ function createPieChartConfig() {
                     data: [],
                     backgroundColor: [
                         "rgba(30,144,255)", // Reinaldinho
-                        "rgba(255,0,0)", // Dr Ruan
-                        "rgba(7,207,0)", // Dr Nill
-                        "rgba(204,0,255)", // Gleivison
-                        "rgba(252, 186, 3)", // Vinicius
-                        "rgba(255, 159, 67)", // Abstenções
+                        "rgba(255, 136, 0)", // Dr Ruan
+                        "rgba(1, 110, 17)", // Dr Nill
+                        "rgba(245, 69, 242)", // Gleivison
+                        "rgba(252, 3, 3)", // Vinicius
+                        "rgba(143, 62, 0)", // Abstenções
                         "rgba(220, 220, 220)", // Votos Brancos
                         "rgba(128, 128, 128)", // Votos Nulos
                     ],
