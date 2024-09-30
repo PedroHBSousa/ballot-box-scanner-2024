@@ -471,6 +471,7 @@ footer {
     margin-bottom: 50px;
     display: flex;
     flex-direction: column;
+    margin-top: 15px;
     /* Alinha os itens em coluna */
     /* align-items: center; */
     justify-content: center;
