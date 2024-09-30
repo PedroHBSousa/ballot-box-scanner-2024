@@ -212,9 +212,6 @@
                 </div>
                 <canvas id="barchart-vereadores" width="400" height="400"></canvas>
             </div>
-            <button id="button-download-chart-pdf" class="button-download-pdf" onclick="downloadPDFChart()"
-                style="display:none;">Download
-                PDF</button>
             <div class="chart">
                 <div class="bairros">
                     <h2>Bairros</h2>
@@ -241,6 +238,9 @@
                 <canvas id="barchart-regioes" width="400" height="400"></canvas>
             </div>
         </div>
+        <button id="button-download-chart-pdf" class="button-download-pdf" onclick="downloadPDFChart()"
+        style="display:none;">Download
+        PDF</button>
     </div>
     {{-- -------------------------------------------------- inicio do search
     ---------------------------------------------- --}}
