@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Secao;
 use App\Models\User;
+use Illuminate\Container\Attributes\Auth;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
             CargoSeeder::class,
             CandidatoSeeder::class,
             SecaoSeeder::class,
+            AuthSeeder::class,
         ]);
     }
 }

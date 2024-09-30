@@ -1,0 +1,148 @@
+/* Reset básico para consistência */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos do corpo */
+body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(
+        -45deg,
+        rgba(0, 129, 255, 0.989233193277311) 10%,
+        rgba(255, 218, 0, 1) 40%,
+        rgba(0, 129, 255, 0.989233193277311) 60%,
+        rgba(255, 218, 0, 1) 90%
+    );
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Estilos do formulário */
+form {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Estilo da label */
+label {
+    font-size: 14px;
+    color: #555;
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Estilo dos inputs */
+input[type="password"] {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+input[type="password"]:focus {
+    border-color: #6e8efb;
+}
+
+/* Estilo do botão de login */
+button {
+    width: 100%;
+    padding: 15px;
+    background: #6e8efb;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #5a76d4;
+}
+
+/* Estilo para mensagens de erro */
+.error-message {
+    color: #d9534f;
+    margin-top: 10px;
+    font-size: 14px;
+    background-color: #f9d6d5;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #d9534f;
+    animation: fadeIn 0.3s ease-in-out;
+    margin-bottom: 20px;
+}
+
+/* Animação suave para erro */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@media (max-width: 430px) {
+    body {
+        padding: 10px;
+    }
+
+    form {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    label {
+        font-size: 12px;
+    }
+
+    input[type="password"] {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .error-message {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
