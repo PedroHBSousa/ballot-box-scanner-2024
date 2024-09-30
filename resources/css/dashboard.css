@@ -289,7 +289,7 @@ footer {
 
 /* -------------------------- FIM DO PAINEL -------------------------- */
 
-.legend { 
+.legend {
     column-count: 2;
     flex-wrap: wrap;
     padding-left: 70px;
@@ -359,7 +359,6 @@ footer {
     align-items: center;
     gap: 2rem;
     flex-wrap: wrap;
-    padding-bottom: 50px;
     justify-content: center;
 }
 
@@ -680,6 +679,9 @@ table {
 
 .autocomplete-items div:hover {
     background-color: #ddd;
+}
+#button-download-chart-pdf {
+    margin-bottom: 20px;
 }
 
 /* -------------------------- FIM DO BUSQUE VEREADOR -------------------------- */
