@@ -250,9 +250,7 @@ function createBarChartConfig(label) {
                                 (a, b) => a + b,
                                 0
                             );
-                        const percentage = ((value / totalVotes) * 100).toFixed(
-                            1
-                        );
+                        const percentage = ((value / totalVotes) * 100).toFixed(1);
                         return `${value}`;
                     },
                     font: {
@@ -260,9 +258,9 @@ function createBarChartConfig(label) {
                         size: 12,
                     },
                     anchor: "end", // Posiciona o texto no final da barra
-                    align: "start", // Alinha o texto dentro da barra
+                    align: "end", // Alinha o texto dentro da barra
                     clip: true, // Permite que o texto ultrapasse a borda da barra
-                    padding: 0, // Remove o padding para centralizar o texto dentro da barra
+                    padding: 5, // Remove o padding para centralizar o texto dentro da barra
                 },
             },
         },

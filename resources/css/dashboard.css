@@ -350,7 +350,7 @@ footer {
     border: 1px solid #aaa9a9;
     border-radius: 1rem;
     box-shadow: 0 0 16px rgba(0, 0, 0, 0);
-    margin-top: 100px;
+    margin-top: 25px;
 }
 
 
@@ -362,6 +362,8 @@ footer {
     padding-bottom: 50px;
     justify-content: center;
 }
+
+
 
 #piechart-prefeitos {
     text-transform: capitalize;
@@ -427,6 +429,9 @@ option {
     text-align: center;
 }
 
+.chart h2 {
+    font-size: 20px;
+}
 /* -------------------------- FIM DO FILTRO PRINCIPAL -------------------------- */
 
 footer {
