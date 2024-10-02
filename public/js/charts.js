@@ -171,8 +171,8 @@ function createPieChartConfig() {
                         "rgba(1, 110, 17)", // Dr Nill
                         "rgba(245, 69, 242)", // Gleivison
                         "rgba(252, 3, 3)", // Vinicius
+                        "rgba(220,220, 220)", // Votos Brancos
                         "rgba(143, 62, 0)", // Abstenções
-                        "rgba(220, 220, 220)", // Votos Brancos
                         "rgba(128, 128, 128)", // Votos Nulos
                     ],
                     borderColor: [
@@ -282,8 +282,9 @@ function loadInitialData() {
                     window.chartInstancePrefeitosGeral,
                     {
                         prefeitos: data.prefeitos, // Dados dos prefeitos
-                        abstenções: data.abstencoes, // Abstenções
                         brancos: data.votos_brancos, // Votos brancos
+                        abstenções: data.abstencoes, // Abstenções
+                        
                         nulos: data.votos_nulos, // Votos nulos
                     },
                     "prefeitos-geral"
@@ -806,22 +807,22 @@ function updateChartInstance(chartInstance, data, filter, subfilterName = "") {
     ) {
         // Supondo que 'data' contém os campos 'prefeitos', 'abstencoes', 'brancos', e 'nulos'
         const candidatos = data.prefeitos || [];
-        const abstenções = parseInt(data.abstenções, 10) || 0;
         const brancos = data.brancos || 0;
+        const abstenções = parseInt(data.abstenções, 10) || 0;
         const nulos = data.nulos || 0;
 
         // Atualiza os rótulos e os dados do gráfico
         chartInstance.data.labels = [
             ...candidatos.map((item) => item.nome || "Indefinido"),
-            "Abstenções",
             "Votos Brancos",
+            "Abstenções",
             "Votos Nulos",
         ];
 
         chartInstance.data.datasets[0].data = [
             ...candidatos.map((item) => item.total || 0),
-            abstenções,
             brancos,
+            abstenções,
             nulos,
         ];
     } else if (!Array.isArray(data) || data.length === 0) {

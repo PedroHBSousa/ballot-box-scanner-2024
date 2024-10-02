@@ -276,8 +276,9 @@ class DataController extends Controller
                         'prefeitos' => $prefeitosData,
                         'vereadores' => $vereadoresData,
                         'votos_brancos' => $brancos,
-                        'votos_nulos' => $nulos,
                         'abstencoes' => $abstencoes,
+                        'votos_nulos' => $nulos,
+                        
                     ];
                     break;
 
