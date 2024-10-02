@@ -111,28 +111,27 @@
                 <div class="painel-container">
                     <div class="painel-header">
                         <h1 class="painel-header-title">SITUAÇÃO ATUAL DOS VOTOS</h1>
-                        <h2 class="last-update-time">Última entrada de dados:
-                            {{ $ultimaAtualizacao->format('H:i:s d/m/Y') }}
-                        </h2>
+                        <h2 class="last-update-time">Última entrada de
+                            dados:{{ $ultimaAtualizacao->format('H:i:s d/m/Y') }}</h2>
                     </div>
                     <div class="painel-body">
                         <div class="group-candidato">
                             <h1 class="group-title">PREFEITO</h1>
                             <div class="votos-container">
                                 <div class="voto">
-                                    <h1 class="voto-information">
+                                    <h1 class="voto-information" id="voto-information-nominal">
                                         <span>Nominal</span>{{ number_format($nominais, 0, '.', '.') }}
                                         ({{ number_format($porcentagemNominais, 2) }}%)
                                     </h1>
                                 </div>
                                 <div class="voto">
-                                    <h1 class="voto-information">
+                                    <h1 class="voto-information" id="voto-information-branco">
                                         <span>Branco</span>{{ number_format($brancos, 0, '.', '.') }}
                                         ({{ number_format($porcentagemBrancos, 2) }}%)
                                     </h1>
                                 </div>
                                 <div class="voto">
-                                    <h1 class="voto-information">
+                                    <h1 class="voto-information" id="voto-information-nulo">
                                         <span>Nulo</span> {{ number_format($nulos, 0, '.', '.') }}
                                         ({{ number_format($porcentagemNulos, 2) }}%)
                                     </h1>
@@ -143,19 +142,19 @@
                             <h1 class="group-title">VEREADORES</h1>
                             <div class="votos-container">
                                 <div class="voto">
-                                    <h1 class="voto-information">
+                                    <h1 class="voto-information" id="voto-information-nominal-vereador">
                                         <span>Nominal</span>{{ number_format($nominaisVereador, 0, '.', '.') }}
                                         ({{ number_format($porcentagemNominaisVereador, 2) }}%)
                                     </h1>
                                 </div>
                                 <div class="voto">
-                                    <h1 class="voto-information">
+                                    <h1 class="voto-information" id="voto-information-branco-vereador">
                                         <span>Branco</span>{{ number_format($brancosVereador, 0, '.', '.') }}
                                         ({{ number_format($porcentagemBrancosVereador, 2) }}%)
                                     </h1>
                                 </div>
                                 <div class="voto">
-                                    <h1 class="voto-information">
+                                    <h1 class="voto-information" id="voto-information-nulo-vereador">
                                         <span>Nulo</span> {{ number_format($nulosVereador, 0, '.', '.') }}
                                         ({{ number_format($porcentagemNulosVereador, 2) }}%)
                                     </h1>
@@ -239,8 +238,8 @@
             </div>
         </div>
         <button id="button-download-chart-pdf" class="button-download-pdf" onclick="downloadPDFChart()"
-        style="display:none;">Download
-        PDF</button>
+            style="display:none;">Download
+            PDF</button>
     </div>
     {{-- -------------------------------------------------- inicio do search
     ---------------------------------------------- --}}
@@ -263,7 +262,7 @@
 
     <script>
         // Evento de input para o campo de busca
-        document.getElementById('search').addEventListener('input', function () {
+        document.getElementById('search').addEventListener('input', function() {
             let search = this.value.trim(); // Remove espaços desnecessários
             let autocompleteList = document.getElementById('autocomplete-list');
 
@@ -281,7 +280,7 @@
         });
 
         // Adiciona o evento de submit para o formulário
-        document.getElementById('form-buscar-vereador').addEventListener('submit', function (event) {
+        document.getElementById('form-buscar-vereador').addEventListener('submit', function(event) {
             event.preventDefault(); // Impede o envio padrão do formulário
 
             let search = document.getElementById('search').value.trim(); // Captura o valor do campo de busca
@@ -347,7 +346,7 @@
                 }
             };
             // Usar setTimeout para garantir a renderização do conteúdo antes de gerar o PDF
-            setTimeout(function () {
+            setTimeout(function() {
                 html2pdf().set(opt).from(chartContainer).save();
             }, 300); // Atraso de 300ms para garantir a renderização
         }
@@ -400,7 +399,7 @@
             };
 
             // Usar setTimeout para garantir a renderização do conteúdo antes de gerar o PDF
-            setTimeout(function () {
+            setTimeout(function() {
                 html2pdf().set(opt).from(resultContainer).save().then(() => {
                     // Após gerar o PDF, você pode ocultar o conteúdo novamente, se necessário
                     resultContainer.style.display = 'none';
@@ -414,8 +413,8 @@
             let autocompleteList = document.getElementById('autocomplete-list');
 
             fetch(`/buscar-vereador?search=${search}`, {
-                method: 'GET',
-            })
+                    method: 'GET',
+                })
                 .then(response => response.json())
                 .then(data => {
                     autocompleteList.innerHTML = ''; // Limpa as sugestões anteriores
@@ -429,7 +428,7 @@
                                 item.innerHTML = `<strong>${vereador.nome}</strong> (${vereador.partido})`;
 
                                 // Quando o item da lista for clicado, busca os detalhes do vereador
-                                item.addEventListener('click', function () {
+                                item.addEventListener('click', function() {
                                     fetchVereadorDetails(vereador.id);
                                     autocompleteList.innerHTML = ''; // Limpa as sugestões ao selecionar
                                 });
@@ -450,8 +449,8 @@
             let buttonDownloadPDF = document.querySelector('button'); // Botão de download do PDF
 
             fetch(`/buscar-vereador?search=${search}`, {
-                method: 'GET',
-            })
+                    method: 'GET',
+                })
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
@@ -476,8 +475,8 @@
             let buttonDownloadPDF = document.getElementById('button-download-pdf');
 
             fetch(`/buscar-vereador?search=${vereadorId}`, {
-                method: 'GET',
-            })
+                    method: 'GET',
+                })
                 .then(response => response.json())
                 .then(data => {
                     if (data.vereador) {
@@ -536,6 +535,104 @@
                     console.error('Erro ao buscar detalhes do vereador:', error);
                 });
         }
+
+        function atualizarPainel() {
+            fetch('/atualizar-dados')
+                .then(response => response.json()) // Converte a resposta para JSON
+                .then(data => {
+                    // Função para formatar números com casas decimais e separadores
+                    function formatNumber(value, decimalPlaces = 0) {
+                        return Number(value).toFixed(decimalPlaces).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                    }
+
+                    // Atualizar o tempo da última atualização
+                    let updateTimeElement = document.querySelector('.last-update-time');
+                    if (updateTimeElement) {
+                        updateTimeElement.textContent = 'Última entrada de dados: ' + data.ultimaAtualizacao;
+                    }
+
+                    // Atualizar dados de Prefeito
+                    let nominalElement = document.querySelector('#voto-information-nominal span');
+                    if (nominalElement) {
+                        nominalElement.nextSibling.textContent = formatNumber(data.nominais, 0) + ' (' + formatNumber(
+                            data.porcentagemNominais, 2) + '%)';
+                    }
+
+                    let brancoElement = document.querySelector('#voto-information-branco span');
+                    if (brancoElement) {
+                        brancoElement.nextSibling.textContent = formatNumber(data.brancos, 0) + ' (' + formatNumber(data
+                            .porcentagemBrancos, 2) + '%)';
+                    }
+
+                    let nuloElement = document.querySelector('#voto-information-nulo span');
+                    if (nuloElement) {
+                        nuloElement.nextSibling.textContent = formatNumber(data.nulos, 0) + ' (' + formatNumber(data
+                            .porcentagemNulos, 2) + '%)';
+                    }
+
+                    // Atualizar dados de Vereadores
+                    let nominalVereadorElement = document.querySelector('#voto-information-nominal-vereador span');
+                    if (nominalVereadorElement) {
+                        nominalVereadorElement.nextSibling.textContent = formatNumber(data.nominaisVereador, 0) + ' (' +
+                            formatNumber(data.porcentagemNominaisVereador, 2) + '%)';
+                    }
+
+                    let brancoVereadorElement = document.querySelector('#voto-information-branco-vereador span');
+                    if (brancoVereadorElement) {
+                        brancoVereadorElement.nextSibling.textContent = formatNumber(data.brancosVereador, 0) + ' (' +
+                            formatNumber(data.porcentagemBrancosVereador, 2) + '%)';
+                    }
+
+                    let nuloVereadorElement = document.querySelector('#voto-information-nulo-vereador span');
+                    if (nuloVereadorElement) {
+                        nuloVereadorElement.nextSibling.textContent = formatNumber(data.nulosVereador, 0) + ' (' +
+                            formatNumber(data.porcentagemNulosVereador, 2) + '%)';
+                    }
+
+                    // Atualizar dados gerais
+                    let votoLegendaElement = document.querySelector('#voto-legenda span');
+                    if (votoLegendaElement) {
+                        votoLegendaElement.nextSibling.textContent = formatNumber(data.totalLegc, 0) + ' (' +
+                            formatNumber(data.percentLegc, 2) + '%)';
+                    }
+
+                    let eleitorFaltanteElement = document.querySelector('#eleitor-faltante span');
+                    if (eleitorFaltanteElement) {
+                        eleitorFaltanteElement.nextSibling.textContent = formatNumber(data.totalFaltantes, 0) + ' (' +
+                            formatNumber(data.percentFaltantes, 2) + '%)';
+                    }
+
+                    let naoApuradoElement = document.querySelector('#nao-apurado span');
+                    if (naoApuradoElement) {
+                        naoApuradoElement.nextSibling.textContent = formatNumber(data.restanteApurar, 0) + ' (' +
+                            formatNumber(data.percentRestante, 2) + '%)';
+                    }
+
+                    let secoesApuradasElement = document.querySelector('#secoes-apuradas span');
+                    if (secoesApuradasElement) {
+                        secoesApuradasElement.nextSibling.textContent = formatNumber(data.secoesApuradas, 0) +
+                            '/206 (' + formatNumber(data.percentSecoesApuradas, 2) + '%)';
+                    }
+
+                    let totalVotosApuradosElement = document.querySelector('#total-votos-apurados span');
+                    if (totalVotosApuradosElement) {
+                        totalVotosApuradosElement.nextSibling.textContent = formatNumber(data.totalApurados, 0) +
+                            '/64.437 (' + formatNumber(data.percentApurados, 2) + '%)';
+                    }
+                })
+                .catch(error => console.error('Erro ao atualizar o painel:', error));
+        }
+        // Limpa qualquer intervalo anterior se já houver um ativo
+        let painelRefreshInterval;
+        if (painelRefreshInterval) {
+            clearInterval(painelRefreshInterval);
+        }
+
+        // Define o intervalo para atualizar o painel de dados a cada 2 minutos (120000 ms)
+        painelRefreshInterval = setInterval(atualizarPainel, 120000);
+
+        // Chama a função atualizarPainel imediatamente ao carregar a página
+        atualizarPainel();
     </script>
     {{-- -------------------------------------------------- fim do search ----------------------------------------------
     --}}

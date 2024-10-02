@@ -115,6 +115,89 @@ class DataController extends Controller
         );
     }
 
+    public function atualizarDados()
+    {
+        $totalDeVotosPrevistos = 64437;
+
+        $nominais = DB::table('votos')
+            ->where('cargo_id', 11)
+            ->whereNotNull('candidato_id')
+            ->count();
+        $nulos = DB::table('votos')
+            ->where('cargo_id', 11)
+            ->where('nulo', 'sim')
+            ->count();
+        $brancos = DB::table('votos')
+            ->where('cargo_id', 11)
+            ->where('branco', 'sim')
+            ->count();
+
+        $nominaisVereador = DB::table('votos')
+            ->where('cargo_id', 13)
+            ->whereNotNull('candidato_id')
+            ->count();
+        $nulosVereador = DB::table('votos')
+            ->where('cargo_id', 13)
+            ->where('nulo', 'sim')
+            ->count();
+        $brancosVereador = DB::table('votos')
+            ->where('cargo_id', 13)
+            ->where('branco', 'sim')
+            ->count();
+
+        $totalSecoes = 206;
+        $secoesApuradas = DB::table('boletins')->count();
+        $percentSecoesApuradas = $secoesApuradas > 0 ? ($secoesApuradas / $totalSecoes) * 100 : 0;
+
+        $porcentagemNominais = $totalDeVotosPrevistos > 0 ? ($nominais / $totalDeVotosPrevistos) * 100 : 0;
+        $porcentagemNulos = $totalDeVotosPrevistos > 0 ? ($nulos / $totalDeVotosPrevistos) * 100 : 0;
+        $porcentagemBrancos = $totalDeVotosPrevistos > 0 ? ($brancos / $totalDeVotosPrevistos) * 100 : 0;
+
+        $porcentagemNominaisVereador = $totalDeVotosPrevistos > 0 ? ($nominaisVereador / $totalDeVotosPrevistos) * 100 : 0;
+        $porcentagemNulosVereador = $totalDeVotosPrevistos > 0 ? ($nulosVereador / $totalDeVotosPrevistos) * 100 : 0;
+        $porcentagemBrancosVereador = $totalDeVotosPrevistos > 0 ? ($brancosVereador / $totalDeVotosPrevistos) * 100 : 0;
+
+        $totalApurados = DB::table('boletins')->sum('comp');
+        $totalFaltantes = DB::table('boletins')->sum('falt');
+        $totalLegc = DB::table('boletins')->sum('legc');
+        $restanteApurar = $totalDeVotosPrevistos - ($totalApurados + $totalFaltantes);
+
+        $percentLegc = ($totalLegc / $totalDeVotosPrevistos) * 100;
+        $percentApurados = ($totalApurados / $totalDeVotosPrevistos) * 100;
+        $percentFaltantes = ($totalFaltantes / $totalDeVotosPrevistos) * 100;
+        $percentRestante = ($restanteApurar / $totalDeVotosPrevistos) * 100;
+
+        $ultimaAtualizacao = Voto::latest()->first()->updated_at ?? Carbon::now();
+
+        // Retorna os dados em formato JSON
+        return response()->json([
+            'nominais' => $nominais,
+            'brancos' => $brancos,
+            'nulos' => $nulos,
+            'porcentagemNominais' => number_format($porcentagemNominais, 2),
+            'porcentagemNulos' => number_format($porcentagemNulos, 2),
+            'porcentagemBrancos' => number_format($porcentagemBrancos, 2),
+            'ultimaAtualizacao' => $ultimaAtualizacao->format('H:i:s d/m/Y'),
+            'nominaisVereador' => $nominaisVereador,
+            'brancosVereador' => $brancosVereador,
+            'nulosVereador' => $nulosVereador,
+            'porcentagemNominaisVereador' => number_format($porcentagemNominaisVereador, 2),
+            'porcentagemNulosVereador' => number_format($porcentagemNulosVereador, 2),
+            'porcentagemBrancosVereador' => number_format($porcentagemBrancosVereador, 2),
+            'totalApurados' => $totalApurados,
+            'totalFaltantes' => $totalFaltantes,
+            'restanteApurar' => $restanteApurar,
+            'percentApurados' => number_format($percentApurados, 2),
+            'percentFaltantes' => number_format($percentFaltantes, 2),
+            'percentRestante' => number_format($percentRestante, 2),
+            'secoesApuradas' => $secoesApuradas,
+            'percentSecoesApuradas' => number_format($percentSecoesApuradas, 2),
+            'totalLegc' => $totalLegc,
+            'percentLegc' => number_format($percentLegc, 2)
+        ]);
+    }
+
+
     public function getData($filter)
     {
         try {

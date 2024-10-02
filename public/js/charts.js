@@ -1,3 +1,5 @@
+let refreshInterval; // Variável para armazenar o intervalo de atualização
+
 document.addEventListener("DOMContentLoaded", function () {
     // Inicializa os gráficos
     initializeCharts();
@@ -35,7 +37,7 @@ function initializeCharts() {
         .getContext("2d");
     window.chartInstanceVereadores = new Chart(
         ctxVereadores,
-        createBarChartConfig("Vereadores", )
+        createBarChartConfig("Vereadores")
     );
 
     const ctxBairros = document
@@ -203,7 +205,6 @@ function createPieChartConfig() {
     };
 }
 
-// Configuração do gráfico de barras
 function createBarChartConfig(label) {
     return {
         type: "bar",
@@ -263,40 +264,55 @@ function createBarChartConfig(label) {
 }
 
 function loadInitialData() {
-    axios
-        .get("/data/geral")
-        .then((response) => {
-            const data = response.data;
+    // Função para atualizar os gráficos com dados iniciais
+    const updateInitialData = () => {
+        axios
+            .get("/data/geral")
+            .then((response) => {
+                const data = response.data;
 
-            // Atualiza o gráfico de prefeitos
-            updateChartInstance(
-                window.chartInstancePrefeitos,
-                data.prefeitos,
-                "prefeitos"
-            );
+                // Atualiza o gráfico de prefeitos
+                updateChartInstance(
+                    window.chartInstancePrefeitos,
+                    data.prefeitos,
+                    "prefeitos"
+                );
 
-            updateChartInstance(
-                window.chartInstancePrefeitosGeral,
-                {
-                    prefeitos: data.prefeitos, // Dados dos prefeitos
-                    abstenções: data.abstencoes, // Abstenções
-                    brancos: data.votos_brancos, // Votos brancos
-                    nulos: data.votos_nulos, // Votos nulos
-                },
-                "prefeitos-geral"
-            );
+                updateChartInstance(
+                    window.chartInstancePrefeitosGeral,
+                    {
+                        prefeitos: data.prefeitos, // Dados dos prefeitos
+                        abstenções: data.abstencoes, // Abstenções
+                        brancos: data.votos_brancos, // Votos brancos
+                        nulos: data.votos_nulos, // Votos nulos
+                    },
+                    "prefeitos-geral"
+                );
 
-            // Atualiza o gráfico de vereadores
-            updateChartInstance(
-                window.chartInstanceVereadores,
-                data.vereadores,
-                "vereadores"
-            );
-        })
-        .catch((error) => {
-            console.error("Erro ao buscar dados iniciais:", error);
-        });
+                // Atualiza o gráfico de vereadores
+                updateChartInstance(
+                    window.chartInstanceVereadores,
+                    data.vereadores,
+                    "vereadores"
+                );
+            })
+            .catch((error) => {
+                console.error("Erro ao buscar dados iniciais:", error);
+            });
+    };
 
+    // Chama a função para carregar os dados iniciais imediatamente
+    updateInitialData();
+
+    // Limpa qualquer intervalo anterior se já houver um ativo
+    if (refreshInterval) {
+        clearInterval(refreshInterval);
+    }
+
+    // Define o intervalo para atualizar os dados iniciais a cada 10 segundos
+    refreshInterval = setInterval(updateInitialData, 120000);
+
+    // Esconde certos gráficos que não são exibidos inicialmente
     document.getElementById("barchart-bairros").parentElement.style.display =
         "none";
     document.getElementById("barchart-escolas").parentElement.style.display =
@@ -336,6 +352,7 @@ function loadBairrosSubfilters() {
             console.error("Erro ao buscar bairros:", error);
         });
 }
+
 function loadEscolasSubfilters() {
     axios
         .get("/get-localidades")
@@ -365,6 +382,7 @@ function loadEscolasSubfilters() {
             console.error("Erro ao buscar escolas:", error);
         });
 }
+
 function loadRegioesSubfilters() {
     axios
         .get("/get-regioes")
@@ -395,35 +413,47 @@ function loadRegioesSubfilters() {
             console.error("Erro ao buscar escolas:", error);
         });
 }
+
 function loadPartidosSubfilters() {
-    axios
-        .get("/get-partidos") // Ajuste a URL conforme necessário
-        .then((response) => {
-            const subfilterSelect = document.getElementById(
-                "partido-subfilter-select"
-            );
-            subfilterSelect.innerHTML =
-                '<option value="">Selecione o partido</option>';
+    const updateData = () => {
+        axios
+            .get("/get-partidos") // Ajuste a URL conforme necessário
+            .then((response) => {
+                const subfilterSelect = document.getElementById(
+                    "partido-subfilter-select"
+                );
+                subfilterSelect.innerHTML =
+                    '<option value="">Selecione o partido</option>';
 
-            response.data.forEach((partido) => {
-                const option = document.createElement("option");
-                option.value = partido;
-                option.textContent = partido;
-                subfilterSelect.appendChild(option);
+                response.data.forEach((partido) => {
+                    const option = document.createElement("option");
+                    option.value = partido;
+                    option.textContent = partido;
+                    subfilterSelect.appendChild(option);
+                });
+
+                document.getElementById(
+                    "partido-subfilter-container"
+                ).style.display = "block";
+
+                subfilterSelect.addEventListener(
+                    "change",
+                    handlePartidoSubfilterChange // Chame a função que irá lidar com a mudança do filtro
+                );
+            })
+            .catch((error) => {
+                console.error("Erro ao buscar partidos:", error);
             });
+    };
+    updateData();
 
-            document.getElementById(
-                "partido-subfilter-container"
-            ).style.display = "block";
+    // Limpa o intervalo anterior se já houver um ativo
+    if (refreshInterval) {
+        clearInterval(refreshInterval);
+    }
 
-            subfilterSelect.addEventListener(
-                "change",
-                handlePartidoSubfilterChange // Chame a função que irá lidar com a mudança do filtro
-            );
-        })
-        .catch((error) => {
-            console.error("Erro ao buscar partidos:", error);
-        });
+    // Define o intervalo para atualizar os dados a cada 10 segundos
+    refreshInterval = setInterval(updateData, 120000);
 }
 
 function handleFilterChange(event) {
@@ -482,8 +512,10 @@ function hideAllSubfilters() {
     // Oculta os containers dos subfiltros
     document.getElementById("subfilter-container").style.display = "none";
     document.getElementById("school-filter-container").style.display = "none";
-    document.getElementById("regiao-subfilter-container").style.display = "none";
-    document.getElementById("partido-subfilter-container").style.display = "none";
+    document.getElementById("regiao-subfilter-container").style.display =
+        "none";
+    document.getElementById("partido-subfilter-container").style.display =
+        "none";
 }
 
 function handleBairroSubfilterChange(event) {
@@ -492,133 +524,200 @@ function handleBairroSubfilterChange(event) {
         event.target.options[event.target.selectedIndex].text.trim();
 
     if (selectedBairroId) {
-        axios
-            .get(`/data/bairros/${selectedBairroId}`)
-            .then((response) => {
-                const data = response.data;
+        const updateData = () => {
+            axios
+                .get(`/data/bairros/${selectedBairroId}`)
+                .then((response) => {
+                    const data = response.data;
 
-                // Atualiza o gráfico de prefeitos
-                updateChartInstance(
-                    window.chartInstancePrefeitos,
-                    data.prefeitos,
-                    "prefeitos",
-                    selectedBairroName
-                );
+                    // Atualiza o gráfico de prefeitos
+                    updateChartInstance(
+                        window.chartInstancePrefeitos,
+                        data.prefeitos,
+                        "prefeitos",
+                        selectedBairroName
+                    );
 
-                // Atualiza o gráfico de vereadores
-                updateChartInstance(
-                    window.chartInstanceVereadores,
-                    data.vereadores,
-                    "vereadores",
-                    selectedBairroName
-                );
-            })
-            .catch((error) => {
-                console.error("Erro ao buscar dados para o bairro:", error);
-            });
+                    // Atualiza o gráfico de vereadores
+                    updateChartInstance(
+                        window.chartInstanceVereadores,
+                        data.vereadores,
+                        "vereadores",
+                        selectedBairroName
+                    );
+                })
+                .catch((error) => {
+                    console.error("Erro ao buscar dados para o bairro:", error);
+                });
+        };
+        // Chama a função de atualização imediatamente ao selecionar a escola
+        updateData();
+
+        // Limpa o intervalo anterior se já houver um ativo
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
+
+        // Define o intervalo para atualizar os dados a cada 10 segundos
+        refreshInterval = setInterval(updateData, 120000);
     } else {
         console.error("Nenhum bairro selecionado.");
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
     }
 }
+
 function handleEscolaSubfilterChange(event) {
     const selectedLocalidadeId = event.target.value;
     const selectedLocalidadeName =
         event.target.options[event.target.selectedIndex].text.trim();
 
     if (selectedLocalidadeId) {
-        axios
-            .get(`/data/localidades/${selectedLocalidadeId}`)
-            .then((response) => {
-                const data = response.data;
+        // Função responsável por buscar os dados e atualizar o gráfico
+        const updateData = () => {
+            axios
+                .get(`/data/localidades/${selectedLocalidadeId}`)
+                .then((response) => {
+                    const data = response.data;
 
-                // Atualiza o gráfico de prefeitos, passando o nome da escola como título
-                updateChartInstance(
-                    window.chartInstancePrefeitos,
-                    data.prefeitos,
-                    "prefeitos",
-                    selectedLocalidadeName
-                );
+                    // Atualiza o gráfico de prefeitos, passando o nome da escola como título
+                    updateChartInstance(
+                        window.chartInstancePrefeitos,
+                        data.prefeitos,
+                        "prefeitos",
+                        selectedLocalidadeName
+                    );
 
-                // Atualiza o gráfico de vereadores, passando o nome da escola como título
-                updateChartInstance(
-                    window.chartInstanceVereadores,
-                    data.vereadores,
-                    "vereadores",
-                    selectedLocalidadeName
-                );
-            })
-            .catch((error) => {
-                console.error("Erro ao buscar votos para a escola:", error);
-            });
+                    // Atualiza o gráfico de vereadores, passando o nome da escola como título
+                    updateChartInstance(
+                        window.chartInstanceVereadores,
+                        data.vereadores,
+                        "vereadores",
+                        selectedLocalidadeName
+                    );
+                })
+                .catch((error) => {
+                    console.error("Erro ao buscar votos para a escola:", error);
+                });
+        };
+
+        // Chama a função de atualização imediatamente ao selecionar a escola
+        updateData();
+
+        // Limpa o intervalo anterior se já houver um ativo
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
+
+        // Define o intervalo para atualizar os dados a cada 10 segundos
+        refreshInterval = setInterval(updateData, 120000);
     } else {
         console.error("Nenhuma escola selecionada.");
+        // Se não houver escola selecionada, para a atualização automática
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
     }
 }
+
 function handleRegioesSubfilterChange(event) {
     const selectedRegiao = event.target.value;
     const selectedRegiaoName =
         event.target.options[event.target.selectedIndex].text.trim();
 
     if (selectedRegiao) {
-        axios
-            .get(`/data/regioes/${selectedRegiao}`)
-            .then((response) => {
-                const data = response.data;
+        const updateData = () => {
+            axios
+                .get(`/data/regioes/${selectedRegiao}`)
+                .then((response) => {
+                    const data = response.data;
 
-                // Atualiza o gráfico de prefeitos
-                updateChartInstance(
-                    window.chartInstancePrefeitos,
-                    data.prefeitos,
-                    "prefeitos",
-                    selectedRegiaoName
-                );
+                    // Atualiza o gráfico de prefeitos
+                    updateChartInstance(
+                        window.chartInstancePrefeitos,
+                        data.prefeitos,
+                        "prefeitos",
+                        selectedRegiaoName
+                    );
 
-                // Atualiza o gráfico de vereadores
-                updateChartInstance(
-                    window.chartInstanceVereadores,
-                    data.vereadores,
-                    "vereadores",
-                    selectedRegiaoName
-                );
-            })
-            .catch((error) => {
-                console.error("Erro ao buscar votos para a região:", error);
-            });
+                    // Atualiza o gráfico de vereadores
+                    updateChartInstance(
+                        window.chartInstanceVereadores,
+                        data.vereadores,
+                        "vereadores",
+                        selectedRegiaoName
+                    );
+                })
+                .catch((error) => {
+                    console.error("Erro ao buscar votos para a região:", error);
+                });
+        };
+        // Chama a função de atualização imediatamente ao selecionar a escola
+        updateData();
+
+        // Limpa o intervalo anterior se já houver um ativo
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
+
+        // Define o intervalo para atualizar os dados a cada 10 segundos
+        refreshInterval = setInterval(updateData, 120000);
     } else {
         console.error("Nenhuma região selecionada.");
+        // Se não houver escola selecionada, para a atualização automática
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
     }
 }
+
 function handlePartidoSubfilterChange(event) {
     const selectedPartido = event.target.value;
     const selectedPartidoName =
         event.target.options[event.target.selectedIndex].text.trim();
 
     if (selectedPartido) {
-        const url = `/data/partidos/${encodeURIComponent(selectedPartido)}`;
+        const updateData = () => {
+            axios
+                .get(`/data/partidos/${encodeURIComponent(selectedPartido)}`)
+                .then((response) => {
+                    const data = response.data;
 
-        axios
-            .get(`/data/partidos/${encodeURIComponent(selectedPartido)}`)
-            .then((response) => {
-                const data = response.data;
+                    // Aqui você pode atualizar os gráficos ou fazer outras operações com os dados retornados
+                    updateChartInstance(
+                        window.chartInstanceVereadores,
+                        data.vereadores,
+                        "vereadores",
+                        selectedPartidoName
+                    );
+                })
+                .catch((error) => {
+                    console.error(
+                        "Erro ao buscar candidatos para o partido:",
+                        error
+                    );
+                });
+        };
+        // Chama a função de atualização imediatamente ao selecionar a escola
+        updateData();
 
-                // Aqui você pode atualizar os gráficos ou fazer outras operações com os dados retornados
-                updateChartInstance(
-                    window.chartInstanceVereadores,
-                    data.vereadores,
-                    "vereadores",
-                    selectedPartidoName
-                );
-            })
-            .catch((error) => {
-                console.error(
-                    "Erro ao buscar candidatos para o partido:",
-                    error
-                );
-            });
+        // Limpa o intervalo anterior se já houver um ativo
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
+
+        // Define o intervalo para atualizar os dados a cada 10 segundos
+        refreshInterval = setInterval(updateData, 120000);
+
         document.getElementById("button-download-chart-pdf").style.display =
             "block";
     } else {
         console.error("Nenhum partido selecionado.");
+        // Se não houver escola selecionada, para a atualização automática
+        if (refreshInterval) {
+            clearInterval(refreshInterval);
+        }
     }
 }
 
@@ -636,27 +735,7 @@ function updateChart(filter, data, chartInstance) {
 
     if (filter === "geral") {
         // Atualizar gráficos de prefeitos e vereadores separadamente
-        updateChartInstance(
-            window.chartInstancePrefeitos,
-            data.prefeitos,
-            "prefeitos"
-        );
-        updateChartInstance(
-            window.chartInstanceVereadores,
-            data.vereadores,
-            "vereadores"
-        );
-        updateChartInstance(
-            window.chartInstancePrefeitosGeral,
-            {
-                prefeitos: data.prefeitos, // Dados dos prefeitos
-                abstenções: data.abstencoes, // Abstenções
-                brancos: data.votos_brancos, // Votos brancos
-                nulos: data.votos_nulos, // Votos nulos
-            },
-            "prefeitos-geral"
-        );
-
+        loadInitialData();
         // Mostrar os gráficos de prefeitos e vereadores
         toggleChartVisibility(window.chartInstancePrefeitos.canvas.id, true);
         toggleChartVisibility(window.chartInstanceVereadores.canvas.id, true);
@@ -671,9 +750,7 @@ function updateChart(filter, data, chartInstance) {
         toggleChartVisibility("barchart-escolas", false);
         toggleChartVisibility("barchart-regioes", false);
     } else if (filter === "partidos") {
-        // Atualizar apenas o gráfico de partidos
         updateChartInstance(chartInstance, data, filter);
-
         // Mostrar apenas o gráfico de partidos
         toggleChartVisibility(chartInstance.canvas.id, true);
 
