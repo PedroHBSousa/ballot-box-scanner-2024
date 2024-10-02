@@ -91,13 +91,12 @@ function getChartOptions() {
         plugins: {
             title: {
                 display: true,
-                text: "Prefeito",
                 padding: {
                     top: isMobile ? 10 : 10,
                     bottom: isMobile ? 10 : 10,
                 },
                 font: {
-                    size: isMobile ? 12 : 22,
+                    size: isMobile ? 12 : 12,
                 },
             },
             legend: {
@@ -151,11 +150,6 @@ function resizeChart(chart) {
     chart.options = getChartOptions();
     chart.update();
 }
-
-// Listener para redimensionamento da janela
-window.addEventListener("resize", () =>
-    resizeChart(window.chartInstancePrefeitos)
-);
 
 function createPieChartConfig() {
     return {
