@@ -96,7 +96,7 @@ function getChartOptions() {
                     bottom: isMobile ? 10 : 10,
                 },
                 font: {
-                    size: isMobile ? 12 : 12,
+                    size: isMobile ? 12 : 22,
                 },
             },
             legend: {
