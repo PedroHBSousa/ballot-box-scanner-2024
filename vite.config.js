@@ -1,13 +1,9 @@
 import { defineConfig } from "vite";
 import laravel from "laravel-vite-plugin";
-import { VitePWA } from 'vite-plugin-pwa';
 
 
 export default defineConfig({
     plugins: [
-        VitePWA({
-              registerType: 'autoUpdate'
-          }),
         laravel({
             input: [
                 "resources/css/dashboard.css",
