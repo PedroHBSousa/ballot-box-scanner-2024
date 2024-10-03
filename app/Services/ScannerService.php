@@ -27,12 +27,17 @@ class ScannerService
         foreach ($qrCodeArray as $item) {
             if ($item[0] === 'ZONA') {
                 if ($item[1] != '132') {
-                    throw new \Exception("ZONA ELEITORAL INVÁLIDA");
+                    throw new \Exception("Zona eleitoral inválida");
                 }
             }
             if ($item[0] === 'MUNI') {
                 if ($item[1] != '71153') {
-                    throw new \Exception("MUNICÍPIO INVÁLIDO");
+                    throw new \Exception("Município inválido");
+                }
+            }
+            if ($item[0] === 'DTPL') {
+                if ($item[1] != '20241006') {
+                    throw new \Exception("Eleição inválida");
                 }
             }
             if ($item[0] === 'QRBU') {
@@ -43,7 +48,7 @@ class ScannerService
                 if (in_array($posicaoAtual, $this->qrCodesLidos)) {
                     throw new \Exception("O QR Code $posicaoAtual já foi lido.");
                 } elseif ($posicaoAtual != count($this->qrCodesLidos) + 1) {
-                    throw new \Exception("Você pulou o " . (count($this->qrCodesLidos) + 1) . "° QR Code. Escaneie novamente.");
+                    throw new \Exception("Você pulou 1 QR Code. Escanear o: " . (count($this->qrCodesLidos) + 1) . "° QR Code.");
                 }
 
                 // Adiciona o QR code lido ao array
