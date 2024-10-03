@@ -108,7 +108,7 @@ class ScannerController extends Controller
                 $request->session()->forget('conteudoCompleto');
                 $request->session()->forget('votos');
             } else {
-                $request->session()->flash('status', "{$status['qr_codes_lidos']}° QR Code salvo. Leia mais {$status['qr_codes_restantes']} para completar o boletim.");
+                $request->session()->flash('status', "{$status['qr_codes_lidos']}° QRCode salvado, restam {$status['qr_codes_restantes']}.");
             }
         } catch (QueryException $e) {
             // Captura erros relacionados ao banco de dados
