@@ -278,7 +278,7 @@ function loadInitialData() {
                         prefeitos: data.prefeitos, // Dados dos prefeitos
                         brancos: data.votos_brancos, // Votos brancos
                         abstenções: data.abstencoes, // Abstenções
-                        
+
                         nulos: data.votos_nulos, // Votos nulos
                     },
                     "prefeitos-geral"
@@ -680,11 +680,12 @@ function handlePartidoSubfilterChange(event) {
                     const data = response.data;
 
                     // Aqui você pode atualizar os gráficos ou fazer outras operações com os dados retornados
+                    const subtitle = `${selectedPartidoName} | Total de Votos: ${data.total_votos_partido}`;
                     updateChartInstance(
                         window.chartInstanceVereadores,
                         data.vereadores,
                         "vereadores",
-                        selectedPartidoName
+                        subtitle
                     );
                 })
                 .catch((error) => {

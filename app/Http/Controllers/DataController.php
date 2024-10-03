@@ -197,7 +197,6 @@ class DataController extends Controller
         ]);
     }
 
-
     public function getData($filter)
     {
         try {
@@ -278,7 +277,7 @@ class DataController extends Controller
                         'votos_brancos' => $brancos,
                         'abstencoes' => $abstencoes,
                         'votos_nulos' => $nulos,
-                        
+
                     ];
                     break;
 
@@ -489,6 +488,7 @@ class DataController extends Controller
     {
         try {
             $partido = urldecode($partido);
+
             // Verificar se o partido existe na tabela Candidatos
             $candidatosPartido = Candidato::where('partido', $partido)
                 ->where('cargo_id', 13) // Cargo para vereadores
@@ -504,12 +504,16 @@ class DataController extends Controller
                 ->whereIn('votos.candidato_id', $candidatosPartido) // Filtrar pelo partido selecionado
                 ->groupBy('candidatos.nome')
                 ->orderBy('total', 'desc')
-                ->limit(13) // Limitar aos 12 mais votados
+                ->limit(13)
                 ->get();
 
-            // Retornar os vereadores mais votados
+            // Calcular o total de votos para todos os candidatos do partido
+            $totalVotosPartido = Voto::whereIn('candidato_id', $candidatosPartido)->count();
+
+            // Retornar os vereadores mais votados e o total de votos do partido
             return response()->json([
-                'vereadores' => $dadosVereadores
+                'vereadores' => $dadosVereadores,
+                'total_votos_partido' => $totalVotosPartido
             ]);
         } catch (\Exception $e) {
             Log::error('Erro ao buscar vereadores por partido: ' . $e->getMessage());
