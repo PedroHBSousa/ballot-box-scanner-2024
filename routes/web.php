@@ -10,7 +10,7 @@ use App\Http\Middleware\CustomAuthMiddleware;
 
 Route::get('/qrcodescanner', [ScannerController::class, 'qrcodescanner'])->name('qrcodescanner');
 Route::post('/qrcodescanner/clear', [ScannerController::class, 'clearQRCodes'])->name('qrcodes.clear');
-Route::get('/', [DataController::class, 'dashboard'])->middleware(CustomAuthMiddleware::class)->name('dashboard');
+Route::get('/dashboard', [DataController::class, 'dashboard'])->middleware(CustomAuthMiddleware::class)->name('dashboard');
 Route::post('/store', [ScannerController::class, 'store'])->name('store');
 Route::get('/enter-manually', [InsertController::class, 'insert'])->name('insert');
 Route::get('/enter-manually/search', [InsertController::class, 'getSecao'])->name('getSecao');
