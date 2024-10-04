@@ -540,6 +540,8 @@ function handleBairroSubfilterChange(event) {
                         "vereadores",
                         selectedBairroName
                     );
+                    document.getElementById("button-download-chart-pdf").style.display =
+                    "block";
                 })
                 .catch((error) => {
                     console.error("Erro ao buscar dados para o bairro:", error);
