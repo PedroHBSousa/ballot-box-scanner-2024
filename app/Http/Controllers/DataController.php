@@ -552,7 +552,7 @@ class DataController extends Controller
             $vereador = Candidato::where('id', $search)->first();
 
             if (!$vereador) {
-                return response()->json(['error' => 'Vereador não encontrado.'], 404);
+                return response()->json(['error' => 'Candidato não encontrado.'], 404);
             }
 
             // Busca a quantidade de votos do vereador
@@ -583,7 +583,7 @@ class DataController extends Controller
             $vereadores = Candidato::where('nome', 'LIKE', '%' . $search . '%')->get();
 
             if ($vereadores->isEmpty()) {
-                return response()->json(['error' => 'Vereador não encontrado.'], 404);
+                return response()->json(['error' => 'Candidato não encontrado.'], 404);
             }
 
             return response()->json(['vereadores' => $vereadores]);
