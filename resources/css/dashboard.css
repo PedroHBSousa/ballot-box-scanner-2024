@@ -299,7 +299,6 @@ footer {
     padding-left: 70px;
 }
 
-
 .legend p {
     display: flex;
     align-items: center;
@@ -353,7 +352,6 @@ footer {
     margin-top: 25px;
 }
 
-
 .charts-container {
     display: flex;
     align-items: center;
@@ -361,8 +359,6 @@ footer {
     flex-wrap: wrap;
     justify-content: center;
 }
-
-
 
 #piechart-prefeitos {
     text-transform: capitalize;
@@ -687,7 +683,44 @@ table {
 }
 
 /* -------------------------- FIM DO BUSQUE VEREADOR -------------------------- */
+.alert {
+    background-color: #f8f9fa; /* Cor de fundo suave */
+    border-left: 4px solid #ff6f61; /* Barra lateral em destaque */
+    padding: 16px; /* Espaçamento interno */
+    border-radius: 8px; /* Bordas arredondadas */
+    font-family: "Arial", sans-serif; /* Fonte moderna e limpa */
+    font-size: 16px; /* Tamanho da fonte */
+    color: #333; /* Cor do texto */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    max-width: 600px; /* Largura máxima para centralizar */
+    margin: 0 auto; /* Centralização e espaçamento vertical */
+    margin-top: 10px;
+}
 
+.alert p {
+    margin: 0; /* Remover margens do parágrafo */
+    line-height: 1.5; /* Altura das linhas */
+}
+
+.alert strong {
+    color: #ff6f61; /* Cor do texto em negrito para combinar com a barra lateral */
+}
+/* Responsividade */
+@media (max-width: 768px) {
+    .alert {
+        padding: 12px; /* Reduz o espaçamento interno em telas menores */
+        font-size: 15px; /* Diminui o tamanho da fonte em dispositivos móveis */
+        max-width: 90%; /* Alarga a área ocupada para aproveitar melhor a tela */
+    }
+}
+
+@media (max-width: 480px) {
+    .alert {
+        padding: 10px; /* Reduz ainda mais o espaçamento interno */
+        font-size: 14px; /* Reduz o tamanho da fonte em dispositivos muito pequenos */
+        border-left-width: 3px; /* Diminui a espessura da barra lateral */
+    }
+}
 /* -------------------------- INICIO DA RESPONSIVIDADE MOBILE -------------------------- */
 @media (min-width: 320px) and (max-width: 450px) {
     #reis {

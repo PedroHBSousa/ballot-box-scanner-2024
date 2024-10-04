@@ -13,8 +13,8 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap"
         rel="stylesheet">
     @vite('resources/css/dashboard.css')
-    <script src="{{ asset('js/chartss.js') }}"></script>
-    <script src="{{ asset('js/html2canvas.minn.js') }}"></script>
+    <script src="{{ asset('js/charts.js') }}"></script>
+    <script src="{{ asset('js/html2canvas.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -38,6 +38,13 @@
             <img id="reinaldinho" src="{{ Vite::asset('resources/img/Reinaldinho.png') }}">
         </div>
     </header>
+
+    <div class="alert">
+        <p>
+            <strong>Atenção:</strong> todos os dados apresentados nesta página são atualizados automaticamente a cada 1
+            minuto.
+        </p>
+    </div>
 
     <div class="container">
         <div class="custom-select">
@@ -367,10 +374,25 @@
             // Forçar renderização antes de gerar o PDF
             window.scrollTo(0, 0);
 
+            // Função para gerar sufixo aleatório
+            function generateRandomSuffix(length) {
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                let result = '';
+                for (let i = 0; i < length; i++) {
+                    result += characters.charAt(Math.floor(Math.random() * characters.length));
+                }
+                return result;
+            }
+
+            // Definir o nome do arquivo com prefixo e sufixo aleatório
+            const prefix = 'votos-de-candidato-';
+            const suffix = generateRandomSuffix(8); // 8 caracteres aleatórios
+            const filename = `${prefix}${suffix}.pdf`;
+
             // Configurações para html2pdf
             let opt = {
                 margin: [0.5, 0.5, 0.5, 0.5], // Diminuir a margem para aproveitar mais espaço na página
-                filename: 'vereador-detalhes.pdf',
+                filename: filename,
                 image: {
                     type: 'jpeg',
                     quality: 0.98
@@ -407,6 +429,7 @@
                 });
             }, 500); // Atraso de 500ms para garantir a renderização
         }
+
 
         // Função para buscar por nome do vereador ou partido
         function searchPorNomeOuPartido(search) {
@@ -480,8 +503,11 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.vereador) {
+                        // Ordena as seções pelo campo 'votos_na_secao' em ordem decrescente
+                        let secoesOrdenadas = data.secoes.sort((a, b) => b.votos_na_secao - a.votos_na_secao);
+
                         // Gera a lista de seções onde o vereador recebeu votos
-                        let secoesList = data.secoes.map(secao => `
+                        let secoesList = secoesOrdenadas.map(secao => `
                     <tr>
                         <th scope="row">${secao.id}</th>
                         <td>${secao.localidade.nome}</td>
@@ -629,7 +655,7 @@
         }
 
         // Define o intervalo para atualizar o painel de dados a cada 2 minutos (120000 ms)
-        painelRefreshInterval = setInterval(atualizarPainel, 120000);
+        painelRefreshInterval = setInterval(atualizarPainel, 60000);
 
         // Chama a função atualizarPainel imediatamente ao carregar a página
         atualizarPainel();

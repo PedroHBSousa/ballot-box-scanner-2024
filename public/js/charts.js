@@ -305,7 +305,7 @@ function loadInitialData() {
     }
 
     // Define o intervalo para atualizar os dados iniciais a cada 10 segundos
-    refreshInterval = setInterval(updateInitialData, 120000);
+    refreshInterval = setInterval(updateInitialData, 60000);
 
     // Esconde certos gráficos que não são exibidos inicialmente
     document.getElementById("barchart-bairros").parentElement.style.display =
@@ -448,7 +448,7 @@ function loadPartidosSubfilters() {
     }
 
     // Define o intervalo para atualizar os dados a cada 10 segundos
-    refreshInterval = setInterval(updateData, 120000);
+    refreshInterval = setInterval(updateData, 60000);
 }
 
 function handleFilterChange(event) {
@@ -540,8 +540,9 @@ function handleBairroSubfilterChange(event) {
                         "vereadores",
                         selectedBairroName
                     );
-                    document.getElementById("button-download-chart-pdf").style.display =
-                    "block";
+                    document.getElementById(
+                        "button-download-chart-pdf"
+                    ).style.display = "block";
                 })
                 .catch((error) => {
                     console.error("Erro ao buscar dados para o bairro:", error);
@@ -556,7 +557,7 @@ function handleBairroSubfilterChange(event) {
         }
 
         // Define o intervalo para atualizar os dados a cada 10 segundos
-        refreshInterval = setInterval(updateData, 120000);
+        refreshInterval = setInterval(updateData, 60000);
     } else {
         console.error("Nenhum bairro selecionado.");
         if (refreshInterval) {
@@ -606,9 +607,9 @@ function handleEscolaSubfilterChange(event) {
         if (refreshInterval) {
             clearInterval(refreshInterval);
         }
-
+        30000;
         // Define o intervalo para atualizar os dados a cada 10 segundos
-        refreshInterval = setInterval(updateData, 120000);
+        refreshInterval = setInterval(updateData, 60000);
     } else {
         console.error("Nenhuma escola selecionada.");
         // Se não houver escola selecionada, para a atualização automática
@@ -659,7 +660,7 @@ function handleRegioesSubfilterChange(event) {
         }
 
         // Define o intervalo para atualizar os dados a cada 10 segundos
-        refreshInterval = setInterval(updateData, 120000);
+        refreshInterval = setInterval(updateData, 60000);
     } else {
         console.error("Nenhuma região selecionada.");
         // Se não houver escola selecionada, para a atualização automática
@@ -706,7 +707,7 @@ function handlePartidoSubfilterChange(event) {
         }
 
         // Define o intervalo para atualizar os dados a cada 10 segundos
-        refreshInterval = setInterval(updateData, 120000);
+        refreshInterval = setInterval(updateData, 60000);
 
         document.getElementById("button-download-chart-pdf").style.display =
             "block";
