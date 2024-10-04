@@ -54,7 +54,7 @@ class ScannerController extends Controller
                 $boletimExistente = Boletim::where('secao_id', $dadosBoletim['SECA'])->exists();
 
                 if ($boletimExistente) {
-                    $request->session()->flash('error', 'Boletim já cadastrado.');
+                    $request->session()->flash('error', 'Boletim já foi cadastrado.');
                 } else {
                     // Verificar se a seção existe
                     $secaoExistente = Secao::find($dadosBoletim['SECA']);
