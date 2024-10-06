@@ -145,7 +145,7 @@ class DataController extends Controller
             ->where('branco', 'sim')
             ->count();
 
-        $totalSecoes = 206;
+        $totalSecoes = 210;
         $secoesApuradas = DB::table('boletins')->count();
         $percentSecoesApuradas = $secoesApuradas > 0 ? ($secoesApuradas / $totalSecoes) * 100 : 0;
 
