@@ -25,6 +25,11 @@ class ScannerService
         $qrCodeArray = $this->parseQRCodeConteudo($qrCodeValue);
 
         foreach ($qrCodeArray as $item) {
+            if ($item[0] === 'UNFE') {
+                if ($item[1] != 'SP') {
+                    throw new \Exception("Eleição inválida");
+                }
+            }
             if ($item[0] === 'ZONA') {
                 if ($item[1] != '132') {
                     throw new \Exception("Zona eleitoral inválida");

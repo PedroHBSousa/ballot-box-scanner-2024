@@ -56,9 +56,9 @@
                     <div class="form-group-container">
                         <div class="form-group-eleitor">
                             <label class="eleitores-title">Aptos</label>
-                            <h1 class="qtd-eleitores">{{ $secao->aptos }}</h1>
-                            <input type="hidden" name="apto" id="apto" placeholder="Número de pessoas da seção"
-                                value="{{ $secao->aptos }}" required>
+                            {{-- <h1 class="qtd-eleitores">{{ $secao->aptos }}</h1> --}}
+                            <input class="input-aptos"type="number" name="apto" id="apto"
+                                placeholder="Número de pessoas da seção" required>
                         </div>
                         <div class="form-group-eleitor">
                             <label class="eleitores-title">Eleitores que compareceram</label>
@@ -344,10 +344,7 @@
 
         // Função para abrir o modal de confirmação
         function openConfirmationModal() {
-            if (calcularSomaVotos()) {
-                document.getElementById('confirmationModal').style.display = 'flex';
-            }
-
+            document.getElementById('confirmationModal').style.display = 'flex';
         }
 
         // Função para fechar o modal
@@ -364,16 +361,6 @@
             const comp = parseInt(document.getElementById('comp').value) || 0;
             const falt = parseInt(document.getElementById('falt').value) || 0;
             const aptos = parseInt(document.getElementById('apto').value) || 0;
-
-            // Verifica se a soma de "comp" e "falt" é maior que "aptos"
-            if ((comp + falt) > aptos) {
-                closeConfirmationModal();
-                // Exibe a mensagem de erro
-                showErrorMessage(
-                    'Erro: A soma de comparecimentos e faltas não pode ser maior que o número de eleitores aptos.'
-                );
-                return; // Impede o envio do formulário
-            }
 
 
             // Verifica se o formulário é válido

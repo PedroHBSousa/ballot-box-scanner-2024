@@ -39,6 +39,13 @@ header h1 {
     position: relative;
     top: 50px;
 }
+.input-aptos {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-family: inherit;
+    border: 1px solid #ccc;
+}
 
 #reinaldinho {
     width: 180px;

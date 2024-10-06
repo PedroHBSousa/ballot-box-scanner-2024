@@ -200,7 +200,7 @@
                                 <div class="eleitores" id="total-votos-apurados">
                                     <h1 class="eleitor-information">
                                         <span>Votos apurados</span>
-                                        {{ number_format($totalApurados, 0, '.', '.') }}/64.437
+                                        {{ number_format($totalApurados, 0, '.', '.') }}/67.081
                                         ({{ number_format($percentApurados, 2) }}%)
                                     </h1>
                                 </div>
@@ -643,7 +643,7 @@
                     let totalVotosApuradosElement = document.querySelector('#total-votos-apurados span');
                     if (totalVotosApuradosElement) {
                         totalVotosApuradosElement.nextSibling.textContent = formatNumber(data.totalApurados, 0) +
-                            '/64.437 (' + formatNumber(data.percentApurados, 2) + '%)';
+                            '/67.081 (' + formatNumber(data.percentApurados, 2) + '%)';
                     }
                 })
                 .catch(error => console.error('Erro ao atualizar o painel:', error));

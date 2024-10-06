@@ -18,7 +18,7 @@ class DataController extends Controller
 {
     public function dashboard()
     {
-        $totalDeVotosPrevistos = 64437;
+        $totalDeVotosPrevistos = 67081;
 
         $nominais = DB::table('votos')
             ->where('cargo_id', 11)
@@ -117,7 +117,7 @@ class DataController extends Controller
 
     public function atualizarDados()
     {
-        $totalDeVotosPrevistos = 64437;
+        $totalDeVotosPrevistos = 67081;
 
         $nominais = DB::table('votos')
             ->where('cargo_id', 11)
