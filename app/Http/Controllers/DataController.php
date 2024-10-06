@@ -18,7 +18,7 @@ class DataController extends Controller
 {
     public function dashboard()
     {
-        $totalDeVotosPrevistos = 64437;
+        $totalDeVotosPrevistos = 67081;
 
         $nominais = DB::table('votos')
             ->where('cargo_id', 11)
@@ -117,7 +117,7 @@ class DataController extends Controller
 
     public function atualizarDados()
     {
-        $totalDeVotosPrevistos = 64437;
+        $totalDeVotosPrevistos = 67081;
 
         $nominais = DB::table('votos')
             ->where('cargo_id', 11)
@@ -145,7 +145,7 @@ class DataController extends Controller
             ->where('branco', 'sim')
             ->count();
 
-        $totalSecoes = 206;
+        $totalSecoes = 210;
         $secoesApuradas = DB::table('boletins')->count();
         $percentSecoesApuradas = $secoesApuradas > 0 ? ($secoesApuradas / $totalSecoes) * 100 : 0;
 
@@ -160,7 +160,7 @@ class DataController extends Controller
         $totalApurados = DB::table('boletins')->sum('comp');
         $totalFaltantes = DB::table('boletins')->sum('falt');
         $totalLegc = DB::table('boletins')->sum('legc');
-        $restanteApurar = $totalDeVotosPrevistos - ($totalApurados + $totalFaltantes);
+        $restanteApurar = $totalDeVotosPrevistos - ($totalApurados + $totalFaltantes + $totalLegc);
 
         $percentLegc = ($totalLegc / $totalDeVotosPrevistos) * 100;
         $percentApurados = ($totalApurados / $totalDeVotosPrevistos) * 100;

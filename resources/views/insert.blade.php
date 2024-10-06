@@ -347,7 +347,6 @@
             if (calcularSomaVotos()) {
                 document.getElementById('confirmationModal').style.display = 'flex';
             }
-
         }
 
         // Função para fechar o modal
@@ -374,7 +373,6 @@
                 );
                 return; // Impede o envio do formulário
             }
-
 
             // Verifica se o formulário é válido
             if (form.reportValidity()) {
