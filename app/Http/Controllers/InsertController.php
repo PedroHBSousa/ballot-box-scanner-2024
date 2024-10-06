@@ -49,7 +49,7 @@ class InsertController extends Controller
 
     public function getSecoesRestantes()
     {
-        $totalSecoes = 206;
+        $totalSecoes = 210;
         // Obter IDs das seções que já estão na tabela boletins
         $secoesBoletim = Boletim::pluck('secao_id')->toArray();
 
