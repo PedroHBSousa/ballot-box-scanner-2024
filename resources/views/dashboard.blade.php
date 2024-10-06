@@ -193,7 +193,7 @@
                                 </div>
                                 <div class="eleitores" id="secoes-apuradas">
                                     <h1 class="eleitor-information">
-                                        <span>Seções apuradas</span> {{ number_format($secoesApuradas, 0) }}/206
+                                        <span>Seções apuradas</span> {{ number_format($secoesApuradas, 0) }}/210
                                         ({{ number_format($percentSecoesApuradas, 2) }}%)
                                     </h1>
                                 </div>
@@ -637,7 +637,7 @@
                     let secoesApuradasElement = document.querySelector('#secoes-apuradas span');
                     if (secoesApuradasElement) {
                         secoesApuradasElement.nextSibling.textContent = formatNumber(data.secoesApuradas, 0) +
-                            '/206 (' + formatNumber(data.percentSecoesApuradas, 2) + '%)';
+                            '/210 (' + formatNumber(data.percentSecoesApuradas, 2) + '%)';
                     }
 
                     let totalVotosApuradosElement = document.querySelector('#total-votos-apurados span');
