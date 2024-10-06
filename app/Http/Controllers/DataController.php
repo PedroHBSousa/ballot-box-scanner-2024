@@ -47,7 +47,7 @@ class DataController extends Controller
             ->count();
 
         // Total de seções previstas
-        $totalSecoes = 206;
+        $totalSecoes = 210;
 
         // Quantidade de boletins apurados (linhas na tabela 'boletins')
         $secoesApuradas = DB::table('boletins')->count();
@@ -76,7 +76,7 @@ class DataController extends Controller
             ->sum('legc');
 
 
-        $restanteApurar = $totalDeVotosPrevistos - ($totalApurados + $totalFaltantes);
+        $restanteApurar = $totalDeVotosPrevistos - ($totalApurados + $totalFaltantes + $totalLegc);
 
         $percentLegc = ($totalLegc / $totalDeVotosPrevistos) * 100;
         $percentApurados = ($totalApurados / $totalDeVotosPrevistos) * 100;
