@@ -15,7 +15,7 @@ class AuthSeeder extends Seeder
     public function run(): void
     {
         DB::table('auth_users')->insert([
-            'password' => Hash::make('@VITORIA#10'),
+            'password' => Hash::make('PREF10#2025'),
         ]);
     }
 }
