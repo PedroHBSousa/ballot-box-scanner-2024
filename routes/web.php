@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScannerController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RelatorioController;
 use App\Http\Middleware\CustomAuthMiddleware;
 
 Route::get('/qrcodescanner', [ScannerController::class, 'qrcodescanner'])->name('qrcodescanner');
@@ -32,3 +33,4 @@ Route::get('/buscar-por-partido', [DataController::class, 'buscarPartido'])->nam
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/atualizar-dados', [Datacontroller::class, 'atualizarDados']);
+Route::get('/relatorios', [RelatorioController::class, 'relatorio'])->name('relatorio');

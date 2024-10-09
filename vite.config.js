@@ -11,6 +11,7 @@ export default defineConfig({
                 "resources/css/insert.css",
                 "resources/css/main-menu.css",
                 "resources/css/login.css",
+                "resources/css/relatorios.css",
                 "resources/js/app.js",
             ],
             refresh: true,
