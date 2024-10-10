@@ -159,18 +159,10 @@ header span {
 }
 
 .councilor-information {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    /* Alinha os itens no topo, mantendo uma linha base */
-    justify-content: space-between;
+    justify-content: center;
     /* Centraliza os itens horizontalmente */
-    gap: 2rem;
-    /* Aumenta o espaço entre os itens */
     margin-bottom: 20px;
     /* Aumenta a margem inferior para mais espaçamento */
-    flex-wrap: wrap;
-    /* Ajusta os itens em várias linhas se necessário */
     padding: 10px;
     /* Adiciona espaçamento interno ao container */
 }
@@ -178,9 +170,6 @@ header span {
 .councilor-information-items {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    /* Alinha o conteúdo à esquerda dentro dos itens */
-    justify-content: center;
     background-color: #f5f5f5;
     /* Adiciona uma cor de fundo para destacar os itens */
     border-radius: 5px;
@@ -189,31 +178,44 @@ header span {
     /* Espaçamento interno para evitar que o conteúdo fique colado nas bordas */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     /* Adiciona uma leve sombra para destacar os itens */
-    width: 300px;
-    /* Define uma largura consistente para os itens */
-    min-width: 200px;
-    /* Define uma largura mínima */
+    margin-top: 10px;
 }
 
 .councilor-information-items-title {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 500;
 }
 
 .councilor-information-items-subtitle {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 500;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 100%;
-    /* Garante que o texto se ajuste ao tamanho do item */
+}
+
+.result {
+    padding: 10px;
+    margin: auto;
+    max-width: 1000px;
 }
 
 footer {
     display: flex;
     flex-direction: row;
 }
+
+.localidade {
+    display: flex;
+    justify-content: center; /* Centraliza o texto horizontalmente */
+    font-size: 16px; /* Define o tamanho do texto */
+    font-weight: 600; /* Define o texto com negrito moderado */
+    color: white; /* Cor do texto em branco */
+    background: linear-gradient(90deg, #6200ea 0%, #3700b3 100%); /* Aplica um gradiente roxo de 90 graus */
+    padding: 12px 20px; /* Adiciona espaço interno de 12px em cima e embaixo, e 20px nas laterais */
+    border-radius: 8px; /* Arredonda os cantos com um raio de 8px */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adiciona uma leve sombra ao redor */
+    letter-spacing: 1px; /* Aumenta o espaçamento entre as letras */
+    text-transform: capitalize; /* Transforma a primeira letra de cada palavra em maiúscula */
+}
+
 
 .footer-title {
     color: #001c3b;
@@ -300,42 +302,14 @@ table .highlight {
 
 }
 
-h2.title {
-
-    font-size: 20px;
-    /* Tamanho do texto */
-    font-weight: 600;
-    /* Negrito moderado */
-    color: #333;
-    /* Cor do texto, um cinza escuro para suavidade */
-    background: linear-gradient(90deg, #6200ea 0%, #3700b3 100%);
-    /* Gradiente roxo */
-    color: white;
-    /* Cor do texto branco sobre o gradiente */
-    padding: 12px 20px;
-    /* Espaçamento interno */
-    border-radius: 8px;
-    /* Bordas arredondadas */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    /* Sombra sutil */
-    text-align: center;
-    /* Centralização do texto */
-    text-transform: capitalize;
-    /* Primeira letra de cada palavra em maiúsculo */
-    letter-spacing: 1px;
-    /* Espaçamento entre letras */
-    margin-bottom: 20px;
-    /* Espaçamento abaixo do h2 */
-}
-
-h2.title::before {
+.localidade::before {
     content: "📍";
     /* Adiciona um ícone antes do texto */
     margin-right: 8px;
 }
 
 /* Efeito de animação ao passar o mouse */
-h2.title:hover {
+.localidade:hover {
     background: linear-gradient(90deg, #3700b3 0%, #6200ea 100%);
     /* Inverte o gradiente no hover */
     transform: scale(1.02);
@@ -445,6 +419,14 @@ button.no-print:focus {
         margin: 0;
         padding: 0;
         width: 100%;
+    }
+
+    .search {
+        display: none;
+    }
+
+    header {
+        display: none;
     }
 
     /* Otimiza a margem para impressão */
