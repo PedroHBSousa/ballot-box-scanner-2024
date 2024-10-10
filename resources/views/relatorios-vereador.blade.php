@@ -36,9 +36,16 @@
                 <div id="autocomplete-list" class="autocomplete-items"></div>
             </form>
             <div id="error-message" class="error-message" style="display:none;"></div>
-            <div id="result-container" class="items-buscar-vereador" style="display:none;">
-            </div>
         </div>
+    </div>
+    <div class="result">
+        <div id="result-container" class="items-buscar-vereador" style="display:none;">
+        </div>
+
+    </div>
+
+    <div class="button-container">
+        <button class="no-print" onclick="window.print()">Imprimir Tabela</button>
     </div>
 
     <script>
@@ -153,17 +160,50 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.vereador) {
-                        // Ordena as seções pelo campo 'votos_na_secao' em ordem decrescente
-                        let secoesOrdenadas = data.secoes.sort((a, b) => b.votos_na_secao - a.votos_na_secao);
+                        // Ordena as localidades pelo total de votos do vereador em ordem decrescente
+                        let localidadesOrdenadas = Object.values(data.localidades).sort((a, b) => b.votosVereador - a.votosVereador);
 
-                        // Gera a lista de seções onde o vereador recebeu votos
-                        let secoesList = secoesOrdenadas.map(secao => `
-                    <tr>
-                        <th scope="row">${secao.id}</th>
-                        <td>${secao.localidade.nome}</td>
-                        <td>${secao.votos_na_secao}</td>
-                    </tr>
-                `).join('');
+                        // Gera a lista de localidades e seções onde o vereador recebeu votos
+                        let localidadesList = localidadesOrdenadas.map(localidade => {
+                            // Filtra as seções para incluir apenas as que têm votos para o vereador
+                            let secoesComVotos = localidade.secoes.filter(secao => {
+                                return secao.votos.some(voto => voto.candidato_id === data.vereador.id);
+                            });
+
+                            // Se não houver seções com votos, pula essa localidade
+                            if (secoesComVotos.length === 0) {
+                                return '';
+                            }
+
+                            // Gera a lista de seções dentro da localidade com votos do vereador
+                            let secoesList = secoesComVotos.map(secao => {
+                                let votosVereadorNaSecao = secao.votos.filter(voto => voto.candidato_id === data.vereador.id).length;
+
+                                return `
+                            <tr>
+                                <td scope="row">${secao.id}</td>
+                                <td>${votosVereadorNaSecao}</td>
+                            </tr>
+                        `;
+                            }).join('');
+
+                            return `
+                        <div class="title-localidade">
+                            <h5 class="localidade">${localidade.nome} - ${localidade.regiao} | Total: ${localidade.votosLocalidade}</h5>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Seção</th>
+                                    <th scope="col">Votos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${secoesList}
+                            </tbody>
+                        </table>
+                    `;
+                        }).join('');
 
                         // Exibe os detalhes do vereador selecionado
                         resultContainer.innerHTML = `
@@ -185,19 +225,8 @@
                             <h5 class="councilor-information-items-subtitle">${data.vereador.quantidade_votos}</h5>
                         </div>
                     </div>
-                    <div class="section-table">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Seção</th>
-                                    <th scope="col">Escola</th>
-                                    <th scope="col">Votos</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${secoesList}
-                            </tbody>
-                        </table>
+                    <div class="localidades-section">
+                        ${localidadesList || '<p>O vereador não recebeu votos em nenhuma escola.</p>'}
                     </div>
                 `;
 
@@ -210,6 +239,10 @@
                 .catch(error => {
                     console.error('Erro ao buscar detalhes do vereador:', error);
                 });
+        }
+
+        function printPage() {
+            window.print();
         }
     </script>
 

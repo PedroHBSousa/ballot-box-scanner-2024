@@ -70,30 +70,54 @@ class RelatorioController extends Controller
                 return response()->json(['error' => 'Candidato não encontrado.'], 404);
             }
 
-            // Busca a quantidade de votos do vereador
-            $quantidadeVotos = DB::table('votos')->where('candidato_id', $vereador->id)->count();
-
-            // Busca as seções onde o vereador recebeu votos
-            $secoes = Secao::whereHas('votos', function ($query) use ($vereador) {
+            // Busca todas as seções onde o vereador recebeu votos
+            $resultados = Secao::with(['localidade', 'votos' => function ($query) use ($vereador) {
                 $query->where('candidato_id', $vereador->id);
-            })
-                ->with('localidade')
-                ->withCount(['votos as votos_na_secao' => function ($query) use ($vereador) {
-                    $query->where('candidato_id', $vereador->id);
-                }])
-                ->get();
+            }, 'boletins'])
+                ->get()
+                ->groupBy('localidade_id');
+
+            // Estrutura para armazenar o total de votos por localidade
+            $localidades = [];
+
+            foreach ($resultados as $localidadeId => $secoes) {
+                $totalVotosVereador = 0;
+                $totalVotos = 0;
+
+                foreach ($secoes as $secao) {
+                    $boletim = $secao->boletins->first();
+                    $totalVotos += $boletim ? $boletim->comp : 0;
+
+                    // Contabiliza os votos para o vereador na seção
+                    $totalVotosVereador += $secao->votos->where('candidato_id', $vereador->id)->count();
+                }
+
+                // Calcula o total de votos do vereador por localidade (escola)
+                $votosLocalidade = $secoes->sum(function ($secao) use ($vereador) {
+                    return $secao->votos->where('candidato_id', $vereador->id)->count();
+                });
+
+
+                $localidades[$localidadeId] = [
+                    'nome' => $secoes->first()->localidade->nome,
+                    'regiao' => $secoes->first()->localidade->regiao,
+                    'totalVotos' => $totalVotos,
+                    'votosVereador' => $totalVotosVereador,
+                    'votosLocalidade' => $votosLocalidade,
+                    'secoes' => $secoes
+                ];
+            }
 
             return response()->json([
                 'vereador' => [
                     'nome' => $vereador->nome,
                     'id' => $vereador->id,
                     'partido' => $vereador->partido,
-                    'quantidade_votos' => $quantidadeVotos
+                    'quantidade_votos' => array_sum(array_column($localidades, 'votosVereador')),
                 ],
-                'secoes' => $secoes
+                'localidades' => $localidades
             ]);
         } else {
-
             // Busca pelo nome do vereador
             $vereadores = Candidato::where('nome', 'LIKE', '%' . $search . '%')->get();
 
