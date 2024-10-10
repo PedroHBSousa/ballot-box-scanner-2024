@@ -38,15 +38,16 @@
             <div id="error-message" class="error-message" style="display:none;"></div>
         </div>
     </div>
+    <div class="button-container">
+        <button class="no-print" onclick="window.print()">Imprimir Tabela</button>
+    </div>
     <div class="result">
         <div id="result-container" class="items-buscar-vereador" style="display:none;">
         </div>
 
     </div>
 
-    <div class="button-container">
-        <button class="no-print" onclick="window.print()">Imprimir Tabela</button>
-    </div>
+
 
     <script>
         // Evento de input para o campo de busca
@@ -161,7 +162,8 @@
                 .then(data => {
                     if (data.vereador) {
                         // Ordena as localidades pelo total de votos do vereador em ordem decrescente
-                        let localidadesOrdenadas = Object.values(data.localidades).sort((a, b) => b.votosVereador - a.votosVereador);
+                        let localidadesOrdenadas = Object.values(data.localidades).sort((a, b) => b.votosVereador - a
+                            .votosVereador);
 
                         // Gera a lista de localidades e seções onde o vereador recebeu votos
                         let localidadesList = localidadesOrdenadas.map(localidade => {
@@ -177,7 +179,8 @@
 
                             // Gera a lista de seções dentro da localidade com votos do vereador
                             let secoesList = secoesComVotos.map(secao => {
-                                let votosVereadorNaSecao = secao.votos.filter(voto => voto.candidato_id === data.vereador.id).length;
+                                let votosVereadorNaSecao = secao.votos.filter(voto => voto
+                                    .candidato_id === data.vereador.id).length;
 
                                 return `
                             <tr>
