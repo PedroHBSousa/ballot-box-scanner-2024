@@ -7,13 +7,11 @@
 }
 
 header {
-    background: linear-gradient(
-        -45deg,
-        rgba(0, 129, 255, 0.989233193277311) 10%,
-        rgba(255, 218, 0, 1) 40%,
-        rgba(0, 129, 255, 0.989233193277311) 60%,
-        rgba(255, 218, 0, 1) 90%
-    );
+    background: linear-gradient(-45deg,
+            rgba(0, 129, 255, 0.989233193277311) 10%,
+            rgba(255, 218, 0, 1) 40%,
+            rgba(0, 129, 255, 0.989233193277311) 60%,
+            rgba(255, 218, 0, 1) 90%);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
     width: 100%;
@@ -71,6 +69,95 @@ header span {
     left: -50px;
 }
 
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 30px;
+}
+
+.search {
+    width: 700px;
+    background-color: #f3f3f3;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    /* Alinha os itens em coluna */
+    /* align-items: center; */
+    justify-content: center;
+    /* Centraliza verticalmente, se necessário */
+}
+
+.search-container h2 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form label {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.input-search-vereador {
+    height: 45px;
+    width: 100%;
+    border-radius: 5px;
+    background: #ffffff;
+    margin-bottom: 15px;
+    border: none;
+    padding: 0 20px;
+    font-weight: 400;
+    font-size: 16px;
+    color: #4b4b4b;
+}
+
+.button-submit-vereador:hover,
+.input-search-vereador:hover {
+    transform: scale(1.009);
+    box-shadow: 0px 0px 3px 0px #212529;
+}
+
+.button-submit-vereador {
+    width: 100%;
+    height: 45px;
+    font-size: 14px;
+    color: white;
+    background: rgb(97, 185, 85);
+    border-radius: 5px;
+    border: none;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.autocomplete-items {
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.autocomplete-items div:hover {
+    background-color: #ddd;
+}
+
 footer {
     display: flex;
     flex-direction: row;
@@ -96,11 +183,13 @@ footer {
         background-position: 0% 50%;
     }
 }
+
 .table-container {
     padding: 20px;
     margin: auto;
     max-width: 1200px;
 }
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -144,109 +233,163 @@ table .highlight {
 }
 
 
-.body-title{
+.body-title {
     text-align: center;
 }
+
 .button-container {
-    display: flex; /* Utiliza Flexbox para o alinhamento */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
+    display: flex;
+    /* Utiliza Flexbox para o alinhamento */
+    justify-content: center;
+    /* Centraliza horizontalmente */
+    align-items: center;
+    /* Centraliza verticalmente */
     margin-top: 20px;
 
-  }
-  h2.title {
-
-    font-size: 20px; /* Tamanho do texto */
-    font-weight: 600; /* Negrito moderado */
-    color: #333; /* Cor do texto, um cinza escuro para suavidade */
-    background: linear-gradient(90deg, #6200ea 0%, #3700b3 100%); /* Gradiente roxo */
-    color: white; /* Cor do texto branco sobre o gradiente */
-    padding: 12px 20px; /* Espaçamento interno */
-    border-radius: 8px; /* Bordas arredondadas */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-    text-align: center; /* Centralização do texto */
-    text-transform: capitalize; /* Primeira letra de cada palavra em maiúsculo */
-    letter-spacing: 1px; /* Espaçamento entre letras */
-    margin-bottom: 20px; /* Espaçamento abaixo do h2 */
-  }
-
-  h2.title::before {
-    content: "📍"; /* Adiciona um ícone antes do texto */
-    margin-right: 8px;
-  }
-
-  /* Efeito de animação ao passar o mouse */
-  h2.title:hover {
-    background: linear-gradient(90deg, #3700b3 0%, #6200ea 100%); /* Inverte o gradiente no hover */
-    transform: scale(1.02); /* Leve aumento no tamanho */
-    transition: background 0.3s ease, transform 0.3s ease; /* Transição suave */
-  }
-  .percentagem {
-    font-weight: bold;               /* Deixa a fonte em negrito */
-    color: #fff;                     /* Cor do texto */
-    background-color: #007bff;      /* Cor de fundo azul */
-    border-radius: 5px;             /* Bordas arredondadas */
-    padding: 3px 6px;               /* Espaçamento interno */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Sombra do texto para destaque */
-    font-size: 0.9em;                /* Tamanho da fonte ligeiramente menor */
 }
+
+h2.title {
+
+    font-size: 20px;
+    /* Tamanho do texto */
+    font-weight: 600;
+    /* Negrito moderado */
+    color: #333;
+    /* Cor do texto, um cinza escuro para suavidade */
+    background: linear-gradient(90deg, #6200ea 0%, #3700b3 100%);
+    /* Gradiente roxo */
+    color: white;
+    /* Cor do texto branco sobre o gradiente */
+    padding: 12px 20px;
+    /* Espaçamento interno */
+    border-radius: 8px;
+    /* Bordas arredondadas */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Sombra sutil */
+    text-align: center;
+    /* Centralização do texto */
+    text-transform: capitalize;
+    /* Primeira letra de cada palavra em maiúsculo */
+    letter-spacing: 1px;
+    /* Espaçamento entre letras */
+    margin-bottom: 20px;
+    /* Espaçamento abaixo do h2 */
+}
+
+h2.title::before {
+    content: "📍";
+    /* Adiciona um ícone antes do texto */
+    margin-right: 8px;
+}
+
+/* Efeito de animação ao passar o mouse */
+h2.title:hover {
+    background: linear-gradient(90deg, #3700b3 0%, #6200ea 100%);
+    /* Inverte o gradiente no hover */
+    transform: scale(1.02);
+    /* Leve aumento no tamanho */
+    transition: background 0.3s ease, transform 0.3s ease;
+    /* Transição suave */
+}
+
+.percentagem {
+    font-weight: bold;
+    /* Deixa a fonte em negrito */
+    color: #fff;
+    /* Cor do texto */
+    background-color: #007bff;
+    /* Cor de fundo azul */
+    border-radius: 5px;
+    /* Bordas arredondadas */
+    padding: 3px 6px;
+    /* Espaçamento interno */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    /* Sombra do texto para destaque */
+    font-size: 0.9em;
+    /* Tamanho da fonte ligeiramente menor */
+}
+
 button.no-print {
-    background-color: #6200ea; /* Cor de fundo roxa vibrante */
-    color: white; /* Cor do texto branca */
-    padding: 12px 24px; /* Espaçamento interno */
-    font-size: 16px; /* Tamanho do texto */
-    font-weight: bold; /* Negrito */
-    border: none; /* Sem borda */
-    border-radius: 8px; /* Borda arredondada */
-    cursor: pointer; /* Mudança de cursor ao passar o mouse */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Transição suave */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-  }
+    background-color: #6200ea;
+    /* Cor de fundo roxa vibrante */
+    color: white;
+    /* Cor do texto branca */
+    padding: 12px 24px;
+    /* Espaçamento interno */
+    font-size: 16px;
+    /* Tamanho do texto */
+    font-weight: bold;
+    /* Negrito */
+    border: none;
+    /* Sem borda */
+    border-radius: 8px;
+    /* Borda arredondada */
+    cursor: pointer;
+    /* Mudança de cursor ao passar o mouse */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    /* Transição suave */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Sombra sutil */
+}
 
-  button.no-print:hover {
-    background-color: #3700b3; /* Cor mais escura ao passar o mouse */
-    transform: translateY(-2px); /* Efeito de elevação */
-  }
+button.no-print:hover {
+    background-color: #3700b3;
+    /* Cor mais escura ao passar o mouse */
+    transform: translateY(-2px);
+    /* Efeito de elevação */
+}
 
-  button.no-print:active {
-    background-color: #6200ea; /* Manter a cor original ao clicar */
-    transform: translateY(0); /* Voltar ao nível normal */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra mais suave ao clicar */
-  }
+button.no-print:active {
+    background-color: #6200ea;
+    /* Manter a cor original ao clicar */
+    transform: translateY(0);
+    /* Voltar ao nível normal */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    /* Sombra mais suave ao clicar */
+}
 
-  button.no-print:focus {
-    outline: none; /* Remover borda de foco */
-    box-shadow: 0 0 0 4px rgba(98, 0, 234, 0.4); /* Borda de foco com cor personalizada */
-  }
+button.no-print:focus {
+    outline: none;
+    /* Remover borda de foco */
+    box-shadow: 0 0 0 4px rgba(98, 0, 234, 0.4);
+    /* Borda de foco com cor personalizada */
+}
 
 @media print {
     .no-print {
         display: none;
     }
+
     /* Garante que as cores sejam impressas */
     body {
-        -webkit-print-color-adjust: exact; /* Para garantir que as cores apareçam na impressão */
-        color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+        /* Para garantir que as cores apareçam na impressão */
+        print-color-adjust: exact;
     }
 
     /* Ajusta o layout para impressão */
     table,
     th,
     td {
-        border: 1px solid black; /* Bordas da tabela para impressão */
+        border: 1px solid black;
+        /* Bordas da tabela para impressão */
     }
 
     th {
-        background-color: #f2f2f2; /* Cor de fundo para os cabeçalhos */
-        color: black; /* Cor do texto dos cabeçalhos */
+        background-color: #f2f2f2;
+        /* Cor de fundo para os cabeçalhos */
+        color: black;
+        /* Cor do texto dos cabeçalhos */
     }
 
     /* Ajusta o tamanho da fonte para uma melhor visualização na impressão */
     body {
         font-size: 12px;
     }
-      /* Remove margens e preenchimentos para ocupar 100% do espaço */
-      body, html {
+
+    /* Remove margens e preenchimentos para ocupar 100% do espaço */
+    body,
+    html {
         margin: 0;
         padding: 0;
         width: 100%;
@@ -257,6 +400,7 @@ button.no-print {
         margin: 0mm;
     }
 }
+
 @media (min-width: 320px) and (max-width: 450px) {
     #reis {
         left: 120px;
