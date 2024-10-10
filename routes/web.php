@@ -34,3 +34,4 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/atualizar-dados', [Datacontroller::class, 'atualizarDados']);
 Route::get('/relatorios', [RelatorioController::class, 'relatorio'])->name('relatorio');
+Route::get('/relatorio-vereador', [RelatorioController::class, 'relatorioVereador'])->name('relatorioVereador');

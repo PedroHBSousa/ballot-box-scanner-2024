@@ -18,4 +18,9 @@ class RelatorioController extends Controller
 
         return view('relatorios', compact('resultados'));
     }
+
+    public function relatorioVereador()
+    {
+        return view('relatorios-vereador');
+    }
 }
