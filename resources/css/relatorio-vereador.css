@@ -158,6 +158,58 @@ header span {
     background-color: #ddd;
 }
 
+.councilor-information {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    /* Alinha os itens no topo, mantendo uma linha base */
+    justify-content: space-between;
+    /* Centraliza os itens horizontalmente */
+    gap: 2rem;
+    /* Aumenta o espaço entre os itens */
+    margin-bottom: 20px;
+    /* Aumenta a margem inferior para mais espaçamento */
+    flex-wrap: wrap;
+    /* Ajusta os itens em várias linhas se necessário */
+    padding: 10px;
+    /* Adiciona espaçamento interno ao container */
+}
+
+.councilor-information-items {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Alinha o conteúdo à esquerda dentro dos itens */
+    justify-content: center;
+    background-color: #f5f5f5;
+    /* Adiciona uma cor de fundo para destacar os itens */
+    border-radius: 5px;
+    /* Bordas arredondadas para um visual mais suave */
+    padding: 15px;
+    /* Espaçamento interno para evitar que o conteúdo fique colado nas bordas */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Adiciona uma leve sombra para destacar os itens */
+    width: 300px;
+    /* Define uma largura consistente para os itens */
+    min-width: 200px;
+    /* Define uma largura mínima */
+}
+
+.councilor-information-items-title {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.councilor-information-items-subtitle {
+    font-size: 15px;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    /* Garante que o texto se ajuste ao tamanho do item */
+}
+
 footer {
     display: flex;
     flex-direction: row;

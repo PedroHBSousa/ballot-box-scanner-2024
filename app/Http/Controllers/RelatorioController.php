@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Candidato;
 use App\Models\Secao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class RelatorioController extends Controller
 {
@@ -48,5 +51,57 @@ class RelatorioController extends Controller
     public function relatorioVereador()
     {
         return view('relatorios-vereador');
+    }
+
+    public function getVereador(Request $request)
+    {
+        $search = $request->query('search');
+
+        if (!$search) {
+            return response()->json(['error' => 'Por favor, insira o nome ou número do vereador.'], 400);
+        }
+
+        // Verifica se a busca é um número (ID do vereador)
+        if (is_numeric($search)) {
+            // Busca o vereador pelo ID
+            $vereador = Candidato::where('id', $search)->first();
+
+            if (!$vereador) {
+                return response()->json(['error' => 'Candidato não encontrado.'], 404);
+            }
+
+            // Busca a quantidade de votos do vereador
+            $quantidadeVotos = DB::table('votos')->where('candidato_id', $vereador->id)->count();
+
+            // Busca as seções onde o vereador recebeu votos
+            $secoes = Secao::whereHas('votos', function ($query) use ($vereador) {
+                $query->where('candidato_id', $vereador->id);
+            })
+                ->with('localidade')
+                ->withCount(['votos as votos_na_secao' => function ($query) use ($vereador) {
+                    $query->where('candidato_id', $vereador->id);
+                }])
+                ->get();
+
+            return response()->json([
+                'vereador' => [
+                    'nome' => $vereador->nome,
+                    'id' => $vereador->id,
+                    'partido' => $vereador->partido,
+                    'quantidade_votos' => $quantidadeVotos
+                ],
+                'secoes' => $secoes
+            ]);
+        } else {
+
+            // Busca pelo nome do vereador
+            $vereadores = Candidato::where('nome', 'LIKE', '%' . $search . '%')->get();
+
+            if ($vereadores->isEmpty()) {
+                return response()->json(['error' => 'Candidato não encontrado.'], 404);
+            }
+
+            return response()->json(['vereadores' => $vereadores]);
+        }
     }
 }

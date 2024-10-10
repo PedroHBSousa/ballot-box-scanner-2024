@@ -33,7 +33,7 @@
                 <input class="input-search-vereador" type="text" id="search" name="search"
                     placeholder="Digite o nome ou número do candidato">
                 <button class="button-submit-vereador" type="submit">Buscar</button>
-                <div id="autocomplete-list" class="autocomplete-items"></div> <!-- Lista de sugestões -->
+                <div id="autocomplete-list" class="autocomplete-items"></div>
             </form>
             <div id="error-message" class="error-message" style="display:none;"></div>
             <div id="result-container" class="items-buscar-vereador" style="display:none;">
@@ -85,7 +85,7 @@
         function searchPorNomeOuPartido(search) {
             let autocompleteList = document.getElementById('autocomplete-list');
 
-            fetch(`/buscar-vereador?search=${search}`, {
+            fetch(`/relatorio-busca?search=${search}`, {
                     method: 'GET',
                 })
                 .then(response => response.json())
@@ -121,7 +121,7 @@
             let resultContainer = document.getElementById('result-container'); // Para mostrar os detalhes do vereador
             let buttonDownloadPDF = document.querySelector('button'); // Botão de download do PDF
 
-            fetch(`/buscar-vereador?search=${search}`, {
+            fetch(`/relatorio-busca?search=${search}`, {
                     method: 'GET',
                 })
                 .then(response => response.json())
@@ -147,7 +147,7 @@
             let resultContainer = document.getElementById('result-container');
             let buttonDownloadPDF = document.getElementById('button-download-pdf');
 
-            fetch(`/buscar-vereador?search=${vereadorId}`, {
+            fetch(`/relatorio-busca?search=${vereadorId}`, {
                     method: 'GET',
                 })
                 .then(response => response.json())
