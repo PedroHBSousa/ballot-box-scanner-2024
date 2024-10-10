@@ -12,6 +12,7 @@ export default defineConfig({
                 "resources/css/main-menu.css",
                 "resources/css/login.css",
                 "resources/css/relatorios.css",
+                "resources/css/relatorio-vereador.css",
                 "resources/js/app.js",
             ],
             refresh: true,
