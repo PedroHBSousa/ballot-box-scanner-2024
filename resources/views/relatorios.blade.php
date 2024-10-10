@@ -48,8 +48,8 @@
                     @foreach($dados['secoes'] as $secao)
                         @php
                             // Pegando o primeiro boletim, se existir
-                            $boletim = $secao->boletins->first(); // Assume que cada secao tem pelo menos um boletim
-                            $totalVotosSecao = $boletim ? $boletim->comp : 0; // Verifica se o boletim existe
+                            $boletim = $secao->boletins->first();
+                            $totalVotosSecao = $boletim ? $boletim->comp : 0;
 
                             // Votos dos candidatos na seção
                             $votosReinaldinhoSecao = $secao->votos->where('candidato_id', 10)->count();
@@ -76,8 +76,8 @@
             <table border="1" cellpadding="10" style="margin-top: 20px;">
                 <thead>
                     <tr>
-                        <th>Candidato</th>
-                        <th>Total de Votos</th>
+                        <th>Informação</th>
+                        <th>Total</th>
                         <th>Percentual</th>
                     </tr>
                 </thead>
@@ -86,6 +86,7 @@
                         $totalVotosLocalidade = $dados['totalVotos'];
                         $votosReinaldinhoLocalidade = $dados['votosReinaldinho'];
                         $votosGleivisonLocalidade = $dados['votosGleivison'];
+                        $totalEleitores = $dados['secoes']->first()->localidade->eleitores; // Total de eleitores
 
                         // Cálculo dos percentuais por localidade
                         $percentualReinaldinhoLocalidade = $totalVotosLocalidade > 0 ? ($votosReinaldinhoLocalidade / $totalVotosLocalidade) * 100 : 0;
@@ -94,12 +95,17 @@
                     <tr>
                         <td>Reinaldinho</td>
                         <td>{{ $votosReinaldinhoLocalidade }}</td>
-                        <td><span class="percentagem">{{ number_format($percentualReinaldinhoLocalidade, 2) }}%</span></td>
+                        <td><span class="percentagem"> {{ number_format($percentualReinaldinhoLocalidade, 2) }}%</span></td>
                     </tr>
                     <tr>
                         <td>Gleivison</td>
                         <td>{{ $votosGleivisonLocalidade }}</td>
                         <td><span class="percentagem">{{ number_format($percentualGleivisonLocalidade, 2) }}%</span></td>
+                    </tr>
+                    <tr>
+                        <td>Total de Aptos</td>
+                        <td>{{ $totalEleitores }}</td>
+                        <td><span class="percentagem">100%</span></td>
                     </tr>
                 </tbody>
             </table>

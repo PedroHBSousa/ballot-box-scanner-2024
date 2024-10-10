@@ -76,7 +76,7 @@ class DataController extends Controller
             ->sum('legc');
 
 
-        $restanteApurar = $totalDeVotosPrevistos - ($totalApurados + $totalFaltantes);
+        $restanteApurar = 0;
 
         $percentLegc = ($totalLegc / $totalDeVotosPrevistos) * 100;
         $percentApurados = ($totalApurados / $totalDeVotosPrevistos) * 100;
@@ -160,7 +160,7 @@ class DataController extends Controller
         $totalApurados = DB::table('boletins')->sum('comp');
         $totalFaltantes = DB::table('boletins')->sum('falt');
         $totalLegc = DB::table('boletins')->sum('legc');
-        $restanteApurar = $totalDeVotosPrevistos - ($totalApurados + $totalFaltantes + $totalLegc);
+        $restanteApurar = 0;
 
         $percentLegc = ($totalLegc / $totalDeVotosPrevistos) * 100;
         $percentApurados = ($totalApurados / $totalDeVotosPrevistos) * 100;
